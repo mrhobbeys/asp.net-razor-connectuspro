@@ -1,0 +1,39 @@
+﻿@using SiteBlue.Areas.PriceBook.Models
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(function () {
+            $.getJSON("./Franchises", function (data) {
+                var items = data.length > 1 ? "<option selected>Select a franchise...</option>" : "";
+                $.each(data, function (i, item) {
+                    items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                });
+                $("#ddlFranchises").html(items);
+
+                if (data.length == 1) {
+                    $("#ddlFranchises").val(data[0].Value);
+                    setTimeout(function () { $("#ddlFranchises").change() }, 250)
+                }
+
+            });
+        });
+    });
+</script>
+<div style="background-color: Black; height: 30px; width: 100%">
+    <div style="float: left; padding-right: 30px; padding-left: 10px;">
+    @if (!(bool)ViewBag.SwapBranding){
+        <img src='@Url.Content("~/Images/ConnectusPro logo CMYK 2.png")' height="95%" width="150px" alt="Image not found" />
+        }
+      else
+      {
+        <img src='@Url.Content("~/Images/800plumber_CMYK_NO tag.png")' height="95%" width="150px" alt="Image not found" />
+      }
+
+            
+    </div>
+    <div style="padding-left: 30px; padding-top: 5px">
+        <select id="ddlFranchises">
+        </select>
+        <span style="color: #ffffff">@DateTime.Now.AddHours(0).ToString("HH:mm:ss tt")</span>
+    </div>
+</div>

@@ -1,0 +1,134 @@
+﻿@model List<Plumber.Models.TerritoryOwner>
+@{
+    ViewBag.Title = "Franchise";
+}
+@section Meta{
+    <title>Territory Owners of 1800-PLUMBER</title>
+    @*<meta name="description" content="" />
+    <meta name="keywords" content="" />*@
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+                <div class="rowtitle">
+                    Three Ways 1-800-PLUMBER is Transforming the Industry<br /></div>
+            <div class="shadeinnerpage">
+                <div class="maincontent">
+                    <p>
+                        1-800-PLUMBER&reg; partners with plumbing and HVAC business owners who desire to
+                        grow to record profitability or investors seeking a unique, consistent business
+                        model. The model is built specifically to initiate quantum growth for existing companies
+                        with 3-25 trucks. We work diligently with you to make these visions become reality.
+                    </p>
+                </div>
+                @foreach (var item in Model)
+                    {
+                    <div class="maincontent">
+                        @Html.ActionLink(item.Title, "Details", "TerritoryOwners", new { id = item.TerritoryOwnerId}, null)
+                    </div>
+                    }
+                    <br />
+            </div>
+            @*<div class="shadeinnerpage">
+                <div class="maincontent">
+                    <p>1-800-PLUMBER&reg; partners with plumbing and HVAC business
+                        owners who desire to grow to record profitability or investors seeking a unique,
+                        consistent business model. The model is built specifically to initiate quantum growth
+                        for existing companies with 3-25 trucks. We work diligently with you to make these
+                        visions become reality. </p>
+                    <p>
+                        Here are just a few ways we are transforming the industry:</p>
+                    <p>
+                        The 1-800-PLUMBER&reg; Brand - It is the most valuable brand in the industry. You
+                        can spend hundreds of thousands of dollars in marketing and advertising to get your
+                        customer to remember your brand... and they still have to look up your phone number.
+                        With 1-800-PLUMBER&reg; the name is the number. What could be easier?</p>
+                    <p>
+                        The Service Center - You have heard of a &ldquo;call center&rdquo;, &ldquo;dispatch
+                        center&rdquo; or answering service. We have transformed the industry with a Service
+                        Center that has combined all of these in addition to doing many other activities:</p>
+                    <ul>
+                        <li>"Happy Calls" - every customer receives a short call post-visit to offer you insight
+                            on how your technicians performed in the home</li>
+                        <li>Technician performance tracking to know exactly where your technicians excel and
+                            where they need assistance</li>
+                        <li>Tracking exactly where customers find you; the key to determining your marketing
+                            strategy</li>
+                        <li>GPS tracking to save on fuel and decrease windshield time</li>
+                        <li>"Outbound calling to better serve your customers and you" - our Service Center works
+                            to fill your calendar with profitable calls</li>
+                        <li>24-hour, 7 day a week professional call taking</li>
+                        <li>24-hour, 7 day a week job dispatch directly to the appropriate technician via the
+                            @Html.ActionLink("t-Tab", "TTab", "TerritoryOwners", null, new { @class = "bluelinks" })</li>
+                    </ul>
+                    <p>
+                        It's more than just a brand you will now own . . . from finding, training and retaining
+                        the best technicians in your market to how to most profitably handle inventory,
+                        our model will position you to reach your highest and best potential.</p>
+                    <p>
+                        To find out if your market is available, you can contact us by:</p>
+                    <table width="700" border="0" align="left" cellpadding="5" cellspacing="0">
+                        <tr>
+                            <td align="left" valign="top" style="width:50%;text-align:center">
+                                <img src="@Url.Content("~/Content/images/email.gif")" alt="email" width="100" height="93" border="0" />
+                            </td>
+                            <td align="left" valign="top" style="width:50%; text-align:center">
+                                <img src="@Url.Content("~/Content/images/phone.gif")" alt="Phone" width="116" height="93" border="0" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top">
+                                <strong class="maincontent">Email:</strong> <a href="mailto:franchiseinfo@1800plumber.com"
+                                    class="bluelinks">franchiseinfo@1800plumber.com</a>
+                            </td>
+                            <td align="left" valign="top" class="maincontent">
+                                <strong>Phone:</strong> 1-800-PLUMBER (1-800-758-6237)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>*@
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+        <td width="260" align="right" valign="top">
+            <div class="col-right">
+                @Html.Partial("NearestLocation")
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/to.jpg")" alt="Services" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations"><span class="menu_ar">
+                    Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span class="menu_ar">
+                    Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

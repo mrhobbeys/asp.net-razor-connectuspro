@@ -1,0 +1,64 @@
+﻿@model Plumber.Models.Management
+@{
+    ViewBag.Title = "Details";
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="shade-common">
+                <table width="100%" border="0" cellpadding="5" cellspacing="0">
+                    <tr>
+                        <td align="center" valign="top">
+                            <div class="ceo">
+                                <img src="@Url.Content(Model.ImageUrl != "" ? Model.ImageUrl : "~/Images/no-image.jpg")" alt="@Model.AlternativeText" height="150" width="150" border="0" />
+                            </div>
+                            <div class="bluelinks">
+                                <font size="2" face="Arial,Helvetica,Geneva,Swiss,SunSans-Regular"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="emaillink">Return to Team Listing</span></a></font>
+                            </div>
+                        </td>
+                        <td align="left" valign="top">
+                            <div class="rowtitle">
+                                @Html.Raw(Model.FirstName + " " + Model.LastName) - @Html.Raw(Model.Title)</div>
+                            <div class="privacy">
+                                @Html.Raw(Model.Description)
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/services-banner.jpg")" alt="Services" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li class="highlight"><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

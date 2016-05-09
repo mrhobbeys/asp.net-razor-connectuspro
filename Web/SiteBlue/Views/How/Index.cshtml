@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+@section Title{
+    <h2>
+        How we do it.</h2>
+}
+@section Comments{
+    <div id="comments">
+        “ConnectusPro gives owners the time to get out in the community and build their
+        business, rather than being swamped with paperwork in the office” <span class="comment-by">
+            M.B.</span>
+    </div>
+}
+<div class="content">
+    <p class="psecond">
+        Simple. One fully-integrated, cost effective, turn-key solution, consisting of 3
+        components.
+    </p>
+    <div class="howdiv">
+        <ul id="how">
+            <li><a href="@Url.Content("~/VGM")">
+                <img src="@Url.Content("~/Content/Images/new/small-virtualgeneralmanager.png")" alt="" id="vgm" /></a>
+            </li>
+            <li class="line">
+                <img src="@Url.Content("~/Content/Images/new/small-vline.png")" id="line1" alt="" /></li>
+            <li><a href="@Url.Content("~/tTab")">
+                <img src="@Url.Content("~/Content/Images/new/small-ttab.png")" alt="" id="tTab" /></a></li>
+            <li class="line">
+                <img src="@Url.Content("~/Content/Images/new/small-vline.png")" id="line2" alt="" /></li>
+            <li><a href="@Url.Content("~/Pulse")">
+                <img src="@Url.Content("~/Content/Images/new/small-pulse.png")" alt="" id="pulse" /></a></li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var height = screen.height;
+
+    if (height > 800) {
+        $("#main").css("height", 520);
+        $("#pulse").attr('src', '@Url.Content("~/Content/Images/new/pulse.png")');
+        $("#tTab").attr('src', '@Url.Content("~/Content/Images/new/ttab.png")');
+        $("#vgm").attr('src', '@Url.Content("~/Content/Images/new/virtualgeneralmanager.png")');
+        $("#pulse").attr('width', 300);
+        $("#tTab").attr('width', 300);
+        $("#vgm").attr('width', 300);
+        $("#line1").attr('src', '@Url.Content("~/Content/Images/new/vline.png")');
+        $("#line2").attr('src', '@Url.Content("~/Content/Images/new/vline.png")');
+        $("#pulse").mouseover(function () {
+            $("#pulse").attr('src', '@Url.Content("~/Content/Images/new/pulse-selected.png")');
+        });
+        $("#pulse").mouseout(function () {
+            $("#pulse").attr('src', '@Url.Content("~/Content/Images/new/pulse.png")');
+        });
+
+        $("#tTab").mouseover(function () {
+            $("#tTab").attr('src', '@Url.Content("~/Content/Images/new/ttab-selected.png")');
+        });
+        $("#tTab").mouseout(function () {
+            $("#tTab").attr('src', '@Url.Content("~/Content/Images/new/ttab.png")');
+        });
+
+        $("#vgm").mouseover(function () {
+            $("#vgm").attr('src', '@Url.Content("~/Content/Images/new/virtualgeneralmanager-selected.png")');
+        });
+        $("#vgm").mouseout(function () {
+            $("#vgm").attr('src', '@Url.Content("~/Content/Images/new/virtualgeneralmanager.png")');
+        });
+    } else {
+        $("#main").css("height", 455);
+        $("#pulse").mouseover(function () {
+            $("#pulse").attr('src', '@Url.Content("~/Content/Images/new/small-pulse-selected.png")');
+        });
+        $("#pulse").mouseout(function () {
+            $("#pulse").attr('src', '@Url.Content("~/Content/Images/new/small-pulse.png")');
+        });
+
+        $("#tTab").mouseover(function () {
+            $("#tTab").attr('src', '@Url.Content("~/Content/Images/new/small-ttab-selected.png")');
+        });
+        $("#tTab").mouseout(function () {
+            $("#tTab").attr('src', '@Url.Content("~/Content/Images/new/small-ttab.png")');
+        });
+
+        $("#vgm").mouseover(function () {
+            $("#vgm").attr('src', '@Url.Content("~/Content/Images/new/small-virtualgeneralmanager-selected.png")');
+        });
+        $("#vgm").mouseout(function () {
+            $("#vgm").attr('src', '@Url.Content("~/Content/Images/new/small-virtualgeneralmanager.png")');
+        });
+    }
+</script>

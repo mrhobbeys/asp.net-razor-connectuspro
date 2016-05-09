@@ -1,0 +1,35 @@
+﻿<html>
+    <head>
+    <link href="@Url.Content("~/Areas/CallCenter/Content/MapWeather.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/base/scriptonator.css")" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+@model yMapWeather.Models.WeatherInfo
+@if (Model.IsObjectFilled())
+{
+    <div id="weather">
+    <div class="img-temp-text">
+        <div class="img-temp"><img src="@Model.ForcastImg" /></div>
+        <div>@Model.Text</div>
+        <div class="text">@Model.Tempr</div>
+    </div>
+    <div style="clear:both;"></div>
+    <ul>
+        <li>Feels Like<div>@Model.Tempr</div></li>
+        <li>Barometer<div>@Model.Berometer</div></li>
+        <li>Humidity<div>@Model.Humidity</div></li>
+        <li>Visibility<div>@Model.Visibility</div></li>
+        <li>Sunrise<div>@Model.SunRise</div></li>
+        <li>Sunset<div>@Model.SunSet</div></li>
+    </ul>
+    
+    </div>
+}
+else 
+{ 
+    <div>
+        yahoo weather api returned no weather information for this location.
+    </div>
+}
+</body>
+</html>

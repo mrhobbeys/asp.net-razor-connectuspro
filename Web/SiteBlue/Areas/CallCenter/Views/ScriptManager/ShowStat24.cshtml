@@ -1,0 +1,72 @@
+﻿@model SiteBlue.Areas.CallCenter.Controllers.ScriptManagerController.Stat24Model
+@{
+    ViewBag.Title = "ShowStat24";
+}
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxgrid.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/codebase/skins/dhtmlxgrid_dhx_skyblue.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/codebase/dhtmlxcalendar.css")"></link>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/codebase/skins/dhtmlxcalendar_dhx_skyblue.css")"></link>
+    <link href="@Url.Content("~/codebase/dhtmlxchart.css")" rel="stylesheet" type="text/css" /> 
+    <link href="@Url.Content("~/codebase/dhtmlxlayout.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery-1.6.1.min.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxcontainer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxdataprocessor.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"> </script>  
+    <script src="@Url.Content("~/codebase/dhtmlxlayout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgrid.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxgridcell.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/common/dhtmlxgrid_excell_link.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxcalendar.js")" type ="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxchart.js")" type ="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+@{
+    var jsonData = Model.UserStat24.Select(item => new {id = item.TrackId.ToString(), data = new[] {item.StartDate.ToString(), item.CalledNumber, item.DialedNumber, "-1"}}).ToList();
+}
+
+<script>
+    var grid;
+    var dp;
+    var d = @Html.Raw(Json.Encode(Model.AllPossibleOptions)); 
+    var griddata = @Html.Raw(Json.Encode(new {rows = jsonData})); 
+    $('document').ready(function() {
+        mygrid = new dhtmlXGridObject('gridbox');
+        mygrid.setImagePath("../../../../codebase/imgs/");
+        mygrid.setSkin("dhx_skyblue");
+        mygrid.setHeader("Date,CalledNumber,DialedNumber,Option");
+        mygrid.setColumnIds("date,called,dialed,optionId");
+        mygrid.setInitWidths("200,200,200,200");
+        mygrid.setColAlign("center,center,center,center");
+        mygrid.setColTypes("ro,ro,ro,coro");
+        mygrid.setColSorting("txt,txt,txt,txt");
+        mygrid.enableEditEvents(true, false, false);
+        var i, max=d.length;
+        for (i=0; i<max; i+=1) {
+            mygrid.getCombo(3).put(d[i].OptionId, d[i].OptionName);
+        }
+        mygrid.init();
+        mygrid.parse(griddata, "json");
+
+        dp = new dataProcessor("../../../callcenter/scriptmanager/SaveChangesTracks24");
+        dp.setUpdateMode("off");
+        dp.enableDataNames(true);
+        dp.setTransactionMode("POST");
+        dp.init(mygrid);
+        dp.attachEvent("onAfterUpdate", function(sid, action, tid, tag) {
+            if (action == "updated") {
+                mygrid.lockRow(sid, true);
+                 mygrid.setRowHidden(sid, true);
+            }
+        });
+    });
+</script>
+
+    <div>
+        <div>Statistic from @Model.StartDate.ToString() to @Model.EndDate.ToString()</div>
+    </div>
+    <div id="gridbox" style="width: 800px; height: 400px;"></div>
+    <button onclick="dp.sendData()">Save</button>

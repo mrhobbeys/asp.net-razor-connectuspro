@@ -1,0 +1,57 @@
+﻿@using SiteBlue.Models
+<article>
+    <a href="@Url.Action("Index", "ContactUs")" class="banner">
+        <img src="@Url.Content("~/Content/images/banner.jpg")" alt=""></a>
+
+        @if ((PageType)ViewData["PageType"] != PageType.ServiceCenter)
+        {
+            <div class="fleft colum">
+                <a href="@Url.Action("Index", "thePulse")">
+                    <img src="@Url.Content("~/Content/images/ttl-ico1.gif")" alt="" class="img-indent">
+                    <div class="extra-wrap">
+                        <h3>
+                            The PULSE</h3></div>
+                </a>
+                <p class="f13">
+                    Who answers the phone when you are out of the office? Are you missing calls and
+                    missing business? Do you have time to follow up on estimates? Who schedules your
+                    technicians? Is your office staff getting paid even when you are not?</p>
+            </div>  
+        }
+        
+        @if ((PageType)ViewData["PageType"] != PageType.Technology)
+        {
+            <div class="fleft colum">
+                <a href="@Url.Action("Index", "Technology")">
+                    <img src="@Url.Content("~/Content/images/ttl-ico1.gif")" alt="" class="img-indent">
+                    <div class="extra-wrap">
+                        <h3>
+                            Technology Advantage</h3></div>
+                </a>
+                <p class="f13">
+                    Tired of the paperwork shuffle? Do you have more people in the office than on the
+                    road? Wish your invoices could just magically end up in your accounting system?
+                    Have you ever worried about what would happen to your business if your office computer
+                    crashed?</p>
+                
+            </div>
+        }
+
+        @if ((PageType)ViewData["PageType"] != PageType.BusinessCenter)
+        {
+            <div class="fleft colum">
+                <a href="@Url.Action("Index", "BusinessCenter")">
+                    <img src="@Url.Content("~/Content/images/ttl-ico2.gif")" alt="" class="img-indent">
+                    <div class="extra-wrap">
+                        <h3>
+                            Business Systems</h3></div>
+                </a>
+                <p class="f13">
+                    Have you ever thought, 'With the right systems, this business would take off'? Wish
+                    you had a better system for tracking, payroll, accounting, pricing, inventory or
+                    sales? Are you using multiple systems to manage each job?</p>
+            </div> 
+        }
+    
+    
+</article>

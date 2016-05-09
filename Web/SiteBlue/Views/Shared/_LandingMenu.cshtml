@@ -1,0 +1,34 @@
+﻿@{
+    var swap = ViewBag.SwapBranding ?? false;
+}
+<div id="menuContainer">
+    <div class="centerContainer">
+        <ul id="nav" class="fl">
+            <li>@Html.ActionLink("Home", "Dashboard", "LandingPage", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Change Password", "ChangePassword", "SGAccount", new { area = "" }, null)</li>
+            @if (!swap)
+            {
+            <li>@Html.ActionLink("Contact Us", "Index", "Contact", new { area = "" }, null)</li>
+            }
+        </ul>
+        <ul id="navLogin" class="fr">
+            <li><a href="#" title="Customer Account">
+                <img src="@Url.Content("~/Content/images/landing/account-icon.png")" alt="Account" width="16" height="16" /></a></li>
+            <li><a href="#" title="Customer Notifications">
+                <img src="@Url.Content("~/Content/images/landing/notification-icon.png")" alt="Notifications" width="16" height="16" /></a></li>
+            <li>
+                @if(Request.IsAuthenticated) {
+                    SecurityGuard.Interfaces.IMembershipService membershipService = new SecurityGuard.Services.MembershipService(Membership.Provider);
+                    var memberShipUser = membershipService.GetUser(User.Identity.Name);
+                    string userName = memberShipUser.Email;
+                    if (string.IsNullOrEmpty(userName)) { userName = User.Identity.Name; }
+                    @Html.ActionLink(userName, "LogOff", "SGAccount", new { area = "" }, null)
+                }
+                else {
+                    @Html.ActionLink("Log On", "LogOn", "SGAccount", new { area = "" }, null)
+                }            
+            </li>
+        </ul>
+    </div>
+    <!-- end centerContainer -->
+</div>

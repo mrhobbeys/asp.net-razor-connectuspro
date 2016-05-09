@@ -1,0 +1,58 @@
+﻿@using SiteBlue.Models;
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/SecondaryLayout.cshtml";
+}
+<article>
+    <section class="col-1">
+        <h2>
+            Business Systems Made Simple</h2>
+        <p>
+            Have you ever thought, 'With the right systems, this business would take off'? Wish
+            you had a better system for tracking, payroll, accounting, pricing, inventory or
+            sales?</p>
+        <img src="@Url.Content("~/Content/images/businesscenter1.jpg")" class="p2" alt="" />
+        <p class="p3">
+            With the ConnectusPro t-Tab app price book, your technicians can give complete in-house
+            estimates, making getting the job quicker and easier. The ConnectusPro t-Tab app
+            even provides a way to capture customer equipment history, including make and model
+            giving you the added benefit of future marketing opportunities. The t-Tab technology
+            is available on iPad and various other tablets.</p>
+    </section>
+    <section class="col-2">
+        <h2>
+            ConnectusPro Business Solutions</h2>
+        <p>
+            <strong class="yellow">ConnectusPro provides a complete set of business systems to manage
+                the day to day and provide insight for growth. </strong>
+        </p>
+        <p>
+            ConnectusPro combines best in class business practices with years of industry and
+            management experience to provide you an advantage over your competitors and a clear
+            path to success.</p>
+        <dl class="img-box">
+            <dd>
+                <ul id="listmrk">
+                    <li>KPI reports (Key Performance Indicators) to help your technicians improve their
+                        close rates, average tickets</li>
+                    <li>Marketing referrals tracked so you know which campaigns work best</li>
+                    <li>Pricing models for the best way to make more money and grow profits</li>
+                    <li>Real time inventory reports to keep you informed</li>
+                    <li>Commission calculations</li>
+                    <li>Revenue and direct cost reporting</li>
+                    <li>Add-on sales opportunities with Clean Pro and HomeGuard Service Plans</li>
+                </ul>
+                <br class="clear">
+            </dd>
+        </dl>
+        <p>
+            <strong class="yellow">Are you ready to put the ConnectusPro Business Systems in place?</strong></p>
+                <center class="yellow"><u>@Html.ActionLink("Just Click Here", "Index", "ContactUs")</u></center><br /><p><strong class="yellow">One of our consultants
+                will be happy to give you all the details</strong>
+        </p>
+        @Html.ActionLink("Contact Us Now", "Index", "ContactUs", null, new { @class = "button" })<br />
+          
+    </section>
+</article>
+@{ViewData["PageType"] = PageType.BusinessCenter;}
+@Html.Partial("Banner", null, ViewData)

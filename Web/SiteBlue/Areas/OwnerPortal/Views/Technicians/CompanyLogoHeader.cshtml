@@ -1,0 +1,10 @@
+﻿@using SiteBlue.Areas.OwnerPortal.Models
+<div style="background-color: #2C2D31; height: 30px; width: 100%">
+    <div style="float: left;padding-right:30px;padding-left:10px;">
+        <img src="../../Images/ConnectusPro logo CMYK 2.png" height="95%" width="150px"
+            alt="Image not found" />
+    </div>
+    <div style="padding-left:30px;padding-top:5px">
+        @Html.DropDownList("ddlFrenchise", new SelectList((List<SiteBlue.Areas.PriceBook.Models.Franchise>)ViewBag.frenchise, "FranchiseID", "FranchiseNUmber"), (int)ViewBag.FrenchiseID)
+    </div>
+</div>

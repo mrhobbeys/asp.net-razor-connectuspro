@@ -1,0 +1,519 @@
+﻿@using SiteBlue.Areas.OwnerPortal.Models
+@model SiteBlue.Areas.OwnerPortal.Models.DisplayKPI
+@{
+    ViewBag.Title = "Display List";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+    const string moneyFormatter = "C0";
+}
+@section Styles {
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/dhtmlxcalendar.css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../Content/Report.css" />
+    <link rel="icon" type="image/x-icon" href="../../../../../../common/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../common/favicon.ico" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlx_custom.css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/dhtmlxlayout.css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxlayout_dhx_black.css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxlayout_dhx_blue.css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxlayout_dhx_skyblue.css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxlayout_dhx_web.css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" />
+    <style type="text/css">
+        html {height:100%}
+        body {height:100%;margin:0;padding:0;}
+        #wrapper_inner {height:100%;margin:0 auto;}
+        #content {height:92%;margin:0 auto;}
+        .innerpage {height:100%;margin:0 auto;}
+        #layoutContainer{position:relative;height:100%;}
+    </style>
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxlayout.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/json2.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/content/jquery.dateFormat-1.0.js")" type="text/javascript" language="javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+
+        var expanded = true;
+
+        $(document).ready(function () {
+            $('div #divhide').hide();
+            SiteBlue.renderMenu(true);
+
+            document.getElementById("franchiseId").value = SiteBlue.franchiseId;
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) {
+                $("#franchiseId").val(SiteBlue.franchiseId);
+                $("form").submit();
+            });
+
+            doOnLoad();
+
+            $("#btn").click(function () {
+                var x = $("#txtStartDate").val();
+                var y = $("#txtEndDate").val();
+
+                if (x == "" || y == "") {
+                    if (x == "") alert('Please select a start date');
+                    if (y == "") alert('Please select an end date');
+                    return false;
+                }
+            });
+
+            $("#technicians-table td.arrow").html('+');
+        });
+
+        function toggleDetail(techId, strflag) {
+
+            var row = $("#detailRow" + techId)
+            var summaryRow = $("#summaryRow" + techId)
+            var arrow = summaryRow.find("td:first-child");
+            var grid = $("#grd" + techId);
+
+            dhxLayout.cells("b").progressOn();
+
+            if (arrow.html() == "-")
+            {
+                
+                grid.fadeOut('slow', function() {row.hide();dhxLayout.cells("b").progressOff();});
+                arrow.html("+");
+            }
+            else
+            {
+                var params = JSON.stringify({employeeId: techId, 
+                                             franchiseId: SiteBlue.franchiseId, 
+                                             strStartDate: $("#txtStartDate").val(), 
+                                             strEndDate: $("#txtEndDate").val()});
+                var action = null;
+                var hdrString = "Job Amt.,Invoice No.,Bill To,Job Location,Status,Completed Date,Closed Date,Estimate Date,Tech,Balance,Job Type,Comments";
+                switch (strflag)
+                {
+                    case "All" : 
+                    {
+                        action = "@Url.Action("DisplayAllDetails")";
+                    }
+                    break;
+                    case "Actual" :
+                    {
+                        action =  "@Url.Action("DisplayDetails")";
+                    }
+                    break;
+                    case "Estimate" :
+                    {
+                        action= "@Url.Action("DisplayEstimateSales")";
+                    }
+                    break;
+                    case "OutstandingEstimate" :
+                    {
+                        action= "@Url.Action("DisplayOutstandingEstimateSales")";
+                    }
+                    break;
+                    case "Upsales" :
+                    {
+                        action= "@Url.Action("DisplayUpsales")";
+                        hdrString = "Addon Amt.,Invoice No.,Bill To,Job Location,Status,Completed Date,Closed Date,Estimate Date,Tech,Balance,Job Type,Comments"
+                    }
+                    break;
+                    case "Discount" :
+                    {
+                        action= "@Url.Action("DisplayDiscount")";
+                        hdrString = "Total Discount,Invoice No.,Bill To,Job Location,Status,Completed Date,Closed Date,Estimate Date,Tech,Balance,Job Type,Comments";
+                    }
+                    break;
+                    case "Recall" :
+                    {
+                        action= "@Url.Action("DisplayRecall")";
+                    }
+                    break;
+                }
+
+                if (action != null)
+                {
+                    var jsondata = $.ajax({
+                                url: action,
+                                data: params,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (result) {
+                                                    var mygrid = new dhtmlXGridObject("grd" + techId);
+                                                    mygrid.setImagePath("../../codebase/imgs/");
+                                                    mygrid.setHeader(hdrString, null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", ]);
+                                                    mygrid.setColAlign("right,center,left,left,center,left,left,left,left,right,center,center");
+                                                    mygrid.setColTypes("ron,link,ro,ro,ro,ro,ro,ro,ro,ron,ro,ro");
+                                                    mygrid.setNumberFormat("$0,000.00", 0);
+                                                    mygrid.setNumberFormat("$0,000.00", 8);
+                                                    mygrid.init();
+                                                    mygrid.setSkin("dhx_skyblue");
+                                                    mygrid.clearAll();
+                                                    row.show();
+                                                    mygrid.loadXMLString(getXmlForDetailGrid(result), function() {row.show();grid.fadeIn(1000, function() {dhxLayout.cells("b").progressOff();});});
+                                                    mygrid.setSizes();
+
+                                                    arrow.html("-");
+                                                },
+                                type: "POST",
+                                dataType: "json",
+                                error: function (e) {
+                                    alert('Error loading details: ' + e);
+                                    dhxLayout.cells("b").progressOff();
+                                }
+                            });
+                }
+            }
+        }
+
+        function getXmlForDetailGrid(jobList)
+        {
+            var xmlstring = "<rows>";
+            $.each(jobList, function (index, job) {
+
+                if (job.BillTo == null) job.BillTo = "";
+                if (job.JobLocation == null) job.JobLocation = "";
+                if (job.Status == null) job.Status = "";
+                if (job.Tech == null) job.Tech = "";
+                if (job.JobType == null) job.JobType = "";
+                if (job.Comments == null) job.Comments = "";
+
+                xmlstring += "<row id='" + index + "'>";
+                xmlstring += "<cell><![CDATA[" + job.JobAmt + "]]></cell>";
+                xmlstring += "<cell><![CDATA[" + job.JobId + "^@Url.Action("InvoiceDetails", "Invoice")?JobId=" + job.JobId + "]]></cell>";
+                xmlstring += "<cell><![CDATA[" + job.BillTo + "]]></cell>";
+                xmlstring += "<cell><![CDATA[" + job.JobLocation + "]]></cell>";
+                xmlstring += "<cell><![CDATA[" + job.Status + "]]></cell>";
+
+                if (job.CompletedDate != null) {
+                    xmlstring += "<cell><![CDATA[" + $.format.date(new Date(parseInt(job.CompletedDate.substr(6))), "MM/dd/yyyy") + "]]></cell>";
+                } else {
+                    xmlstring += "<cell></cell>";
+                }
+
+                if (job.ClosedDate != null) {
+                    xmlstring += "<cell><![CDATA[" + $.format.date(new Date(parseInt(job.ClosedDate.substr(6))), "MM/dd/yyyy") + "]]></cell>";
+                } else {
+                    xmlstring += "<cell></cell>";
+                }
+
+                if (job.EstimateDate != null) {
+                    xmlstring += "<cell><![CDATA[" + $.format.date(new Date(parseInt(job.EstimateDate.substr(6))), "MM/dd/yyyy") + "]]></cell>";
+                } else {
+                    xmlstring += "<cell></cell>";
+                }
+
+                xmlstring += "<cell><![CDATA[" + job.Tech + "]]></cell>";
+                xmlstring += "<cell><![CDATA[" + job.Balance + "]]></cell>";
+                xmlstring += "<cell><![CDATA[" + job.JobType + "]]></cell>";
+                xmlstring += "<cell><![CDATA[" + (job.Comments == null ? "" : job.Comments) + "]]></cell>";
+                xmlstring += "</row>";
+            });
+
+            return xmlstring + "</rows>"
+        }
+
+        var myCalendar;
+        var dhxLayout;
+        var activeSkin = "dhx_skyblue";
+
+        function doOnLoad() {
+            myCalendar = new dhtmlXCalendarObject(["txtStartDate", "txtEndDate"]);
+            myCalendar.setWeekStartDay(7);
+
+            if (dhxLayout)
+                dhxLayout.unload();
+
+            dhxLayout = new dhtmlXLayoutObject("layoutContainer", "3I", activeSkin);
+
+            dhxLayout.cells("a").setText("");
+            dhxLayout.setCollapsedText("a", "Filter Criteria");
+            dhxLayout.cells("a").attachObject("divheader");
+            dhxLayout.cells("a").setHeight(90);
+
+            dhxLayout.setCollapsedText("b", "KPI Summary");
+            dhxLayout.cells("b").setText("");
+            dhxLayout.cells("b").attachObject("tblKPI");
+            dhxLayout.cells("b").vs["def"].dhxcont.mainCont["def"].style.overflowY = "scroll";
+
+            dhxLayout.setCollapsedText("c", "Charts");
+            dhxLayout.cells("c").setText("");
+            dhxLayout.cells("c").attachObject("charts");
+            dhxLayout.cells("c").vs["def"].dhxcont.mainCont["def"].style.overflowY = "scroll";
+            dhxLayout.cells("c").collapse();
+
+            dhxLayout.setSizes();
+            dhxLayout.attachEvent("onCollapse", doCollapse);
+            dhxLayout.attachEvent("onExpand", doExpand);
+        }
+
+        function doCollapse(id)
+        {
+            if (id == "b") dhxLayout.cells("c").expand();
+            if (id == "c") dhxLayout.cells("b").expand();
+            dhxLayout.cells("a").setHeight(90);
+        }
+
+        function doExpand(id)
+        {
+            if (id == "b") dhxLayout.cells("c").collapse();
+            if (id == "c") dhxLayout.cells("b").collapse();
+            dhxLayout.cells("a").setHeight(90);
+        }
+    </script>
+}
+    <div id="layoutContainer"></div>
+    <div id="divheader" style="padding-top: 10px;">
+    @{Html.BeginForm("Index", "Kpi");}
+        @Html.Label("lblstartdate", "Start Date:")
+        @Html.TextBox("txtStartDate", Model.StartDate.ToShortDateString(), new { @class = "calendar" })
+        @Html.Hidden("franchiseId", "")
+        @Html.Label("lblEnddate", "End Date:")
+        @Html.TextBox("txtEndDate", Model.EndDate.ToShortDateString(), new { @class = "calendar" })
+        @Html.Label("lblShowAll", "Show All Techs")
+        @Html.CheckBox("cbAllTechs", Model.ShowAllTechs)
+        <input id="btn" type="submit" value="Refresh" />
+        @{Html.EndForm();}
+    </div>
+    <div id="tblKPI" style="padding-top:10px;">
+    <table id="technicians-table" style="width: 1005px; margin: 0 auto;">
+            <col style="width: 10px;" />
+            <col id="technician-column" style="width: 150px"/>
+            <colgroup id="sales-columns" span="3" style="width:195px;">
+                <col id="actual-column" style="width:65px;" />
+                <col id="estimat-column" style="width:65px;" />
+                <col id="outestimat-column" style="width:65px;" />
+                <col id="average-column" style="width:65px;" />
+            </colgroup>
+            <colgroup id="discounts-columns" span="2" style="width:130px;">
+                <col style="width: 65px" />
+                <col id="dis$-column" style="width: 65px" />
+            </colgroup>
+            <colgroup id="jobs-columns" style="width: 260px;">
+                <col style="width: 65px" />
+                <col id="estimate-column" style="width: 65px" />
+                <col id="outestimate-column" style="width: 65px" />
+                <col id="recall-column" style="width: 65px" />
+                <col id="closing-column" style="width: 65px" />
+            </colgroup>
+            <colgroup id="upsales-columns" span="4" style="width: 260px">
+                <col style="width: 65px" />
+                <col  style="width: 65px" />
+                <col  style="width: 65px" />
+                <col  style="width: 65px" />
+            </colgroup>
+            <thead>
+                <tr style="position: relative; top: expression(this.offsetParent.scrollTop-2);">
+                    <th style="background-color: #E9EAEC">
+                    </th>
+                    <th>
+                    </th>
+                    <th style="border:0px solid red" colspan="4">
+                        Sales
+                    </th>
+                    <th colspan="2">
+                        Discounts
+                    </th>
+                    <th colspan="5" style="background-color: #C7D9F1">
+                        Jobs
+                    </th>
+                    <th colspan="4">
+                        Add-On Sales
+                    </th>
+                </tr>
+                <tr style="position: relative; top: expression(this.offsetParent.scrollTop-2);">
+                    <th style="background-color: #E9EAEC">
+                    </th>
+                    <th>
+                        Technician
+                    </th>
+                    <th>
+                        Actual
+                    </th>
+                    <th>
+                        Estimate
+                    </th>
+                    <th>
+                        Outstanding Estimates
+                    </th>
+                    <th>
+                        Average Ticket
+                    </th>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        $
+                    </th>
+                    <th>
+                        Comp.
+                    </th>
+                    <th>
+                        Est.#
+                    </th>
+                    <th>
+                        Out. Est.#
+                    </th>
+                    <th>
+                        Recall
+                    </th>
+                    <th>
+                        Closing %
+                    </th>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        $
+                    </th>
+                    <th>
+                        #Membership
+                    </th>
+                    <th>
+                        #SPIFFs
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="summary-row" style="position: relative; top: expression(this.offsetParent.scrollTop-2);">
+                    <td style="background-color: #E9EAEC">
+                    </td>
+                    <td class="name">
+                        <div><strong>@Model.FranchiseName Total</strong></div>
+                    </td>
+                    <td class="dollar">
+                        <div>@Model.Total_SalesActual.ToString(moneyFormatter)</div>
+                    </td>
+                    <td class="dollar">
+                        <div>$@Model.Total_SalesEstimates.ToString(moneyFormatter).Replace("$", null)</div>
+                    </td>
+                    <td class="dollar">
+                        <div>$@Model.Total_SalesOutstandingEstimates.ToString(moneyFormatter).Replace("$", null)</div>
+                    </td>
+                    <td class="dollar">
+                        $@Model.Total_JobsAVG.ToString(moneyFormatter).Replace("$", null)
+                    </td>
+                    <td style="text-align:center">@Model.Total_DiscountsNumber
+                    </td>
+                    <td class="dollar" >
+                        <div>$@Model.Total_DiscountsCost.ToString(moneyFormatter).Replace("$", null)</div>
+                    </td>
+                    <td style="text-align:center">
+                        @Model.Total_JobsComplete
+                    </td >
+                    <td style="text-align:center">
+                        @Model.Total_JobsEstimate
+                    </td>
+                    <td style="text-align:center">
+                        @Model.Total_JobsOutstandingEstimate
+                    </td>
+                    <td style="text-align:center">
+                        @Model.Total_JobsRecall
+                    </td>
+                    <td style="text-align:center">
+                        @Model.Total_ClosingRate%
+                    </td >
+                    <td style="text-align:center">
+                        @Model.Total_UpSalesNumber
+                    </td>
+                    <td class="dollar">
+                        <div>$@Model.Total_UpSalesCost.ToString(moneyFormatter).Replace("$", null)</div>
+                    </td>
+                    <td style="text-align:center">
+                        @Model.Total_UpSalesHG
+                    </td>
+                    <td style="text-align:center">
+                        @Model.Total_UpSalesBio
+                    </td>
+                </tr>
+                
+                @foreach (var technician in Model.TechnicianList)
+                {
+                    <tr id="summaryRow@(technician.EmployeeId)">
+                        <td class="arrow" onclick="toggleDetail('@technician.EmployeeId','All');" style="cursor: pointer;background-color: #E9EAEC">
+                        </td>
+                        <td class="name">
+                            <div onclick="toggleDetail('@technician.EmployeeId','Actual');" style="cursor: pointer;">
+                                @technician.Name
+                            </div>
+                        </td>
+                        <td class="dollar">
+                            <div onclick="toggleDetail('@technician.EmployeeId','Actual');" style="cursor: pointer;">
+                                @technician.SalesActual.ToString(moneyFormatter)
+                            </div>
+                        </td>
+                        <td class="dollar">
+                            <div onclick="toggleDetail('@technician.EmployeeId','Estimate');" style="cursor: pointer;">
+                                @technician.SalesEstimates.ToString(moneyFormatter)
+                            </div>
+                        </td>
+                        <td class="dollar">
+                            <div onclick="toggleDetail('@technician.EmployeeId','OutstandingEstimate');" style="cursor: pointer;">
+                                @technician.OutstandingEstimateSales.ToString(moneyFormatter)
+                            </div>
+                        </td>
+                        <td class="dollar">
+                            @technician.JobsAVG.ToString(moneyFormatter)
+                        </td>
+                        <td style="text-align:center">
+                            @technician.DiscountsNumber
+                        </td>
+                        <td class="dollar">
+                            <div onclick="toggleDetail('@technician.EmployeeId','Discount');" style="cursor: pointer;">
+                                @technician.DiscountsCost.ToString(moneyFormatter)
+                            </div>
+                        </td>
+                        <td style="text-align:center;cursor:pointer" onclick="toggleDetail('@technician.EmployeeId','Actual');">
+                            @technician.JobsComplete
+                        </td>
+                        <td style="text-align:center">
+                            <div onclick="toggleDetail('@technician.EmployeeId','Estimate');" style="cursor: pointer;">
+                            @technician.JobsEstimate
+                            </div>
+                        </td>
+                        <td style="text-align:center">
+                            <div onclick="toggleDetail('@technician.EmployeeId','OutstandingEstimate');" style="cursor: pointer;">
+                            @technician.JobsOutstandingEstimate
+                            </div>
+                        </td>
+                        <td style="text-align:center">
+                            <div onclick="toggleDetail('@technician.EmployeeId','Recall');" style="cursor: pointer;">
+                                @technician.JobsRecall
+                            </div>
+                        </td>
+                        <td style="text-align:center">
+                            @technician.ClosingRate%
+                        </td>
+                        <td style="text-align:center">
+                            @technician.UpSalesNumber
+                        </td>
+                        <td class="dollar">
+                            <div onclick="toggleDetail('@technician.EmployeeId','Upsales');" style="cursor: pointer;">
+                                @technician.UpSalesCost.ToString(moneyFormatter)
+                            </div>
+                        </td>
+                        <td style="text-align:center">
+                            @technician.UpSalesHG
+                        </td>
+                        <td style="text-align:center">
+                            @technician.UpSalesBio
+                        </td>
+                    </tr>
+                    <tr id='detailRow@(technician.EmployeeId)' style="display:none">
+                        <td colspan="17">
+                                <div id="grd@(technician.EmployeeId)" style="height:230px; background-color:white;">
+                                </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    <div id="charts">
+        <img width="500px" src="@Url.Action("TechniciansSalesAndDiscountChart", "Kpi", new { franchiseId = Model.FranchiseId, startDate = Model.StartDate, endDate = Model.EndDate })" alt="Technicians Sales and Discount" style="float:left;padding-left:50px;padding-top:20px;" />
+        <img width="500px" src="@Url.Action("JobClosingRateChart", "Kpi", new { franchiseId = Model.FranchiseId, startDate = Model.StartDate, endDate = Model.EndDate })" alt="Job Closing Rate" style="float:right;padding-right:50px;padding-top:20px;" />
+    </div>
+

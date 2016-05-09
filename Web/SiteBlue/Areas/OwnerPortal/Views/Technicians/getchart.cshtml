@@ -1,0 +1,52 @@
+﻿ @using SiteBlue.Areas.OwnerPortal.Models 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>  
+ <title>Details Block</title>
+    <link href="../../../../codebase/dhtmlxchart.css" rel="stylesheet" type="text/css" /> 
+    <script src="../../../../codebase/dhtmlxchart.js" type ="text/javascript"></script>
+	<script type ="text/javascript">
+
+	         var section=[@{  
+	         int i; 
+	         i= 0;        
+
+	         foreach (Coupon item in Model)
+	         {     
+	         <text>      
+	                  
+	          {sales: '@(item.CouponID)', year: '@(item.MarketingMedium)'}@(i < Model.Count - 1 ? "," : "") 
+	                                     
+	         </text>  
+	           i++;
+	       }
+	    }]
+
+	    window.onload = function () {
+	        var pieChart = new dhtmlXChart({
+	            view: "pie",
+	            container: "chart1",
+	            value: "#sales#",
+	            pieInnerText: "#sales#",
+	            gradient: true,
+	            tooltip: {
+	                template: "#sales#"
+	            },
+	            legend: {
+	                width: 260,
+	                align: "right",
+	                valign: "middle",
+	                template: "#year#"
+	            }
+	        });
+	        //pieChart.load();
+	        pieChart.parse(section, "json");
+
+	    }
+	</script>
+</head>
+<body>
+	<div id="chart1" style="width:500px;height:300px;overflow:auto;overflow-y:scroll;overflow-x:hidden"></div>
+		
+    </body>
+</html>

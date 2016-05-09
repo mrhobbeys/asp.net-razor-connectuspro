@@ -1,0 +1,144 @@
+﻿@model List<SiteBlue.Questionnaire.Data.Address>
+@using SiteBlue.Questionnaire.Data;
+
+<div class="form" id="addressForm">
+    <div class="formComponent formComponentAddress">
+        <input type="hidden" id="uiAddressId" name="uiAddressId" />
+        <label for="BusinessAddress" class="formComponentLabel">
+            Address<span class="labelRequiredStar"> *</span></label>
+        <div class="addressDiv">
+            <label for="uiAddressType">Type</label>
+            @{
+                QuestionnaireContext qdb = new QuestionnaireContext();
+                var addressTypes = new SelectList(qdb.AddressType.ToList(), "AddressTypeId", "AddressTypeName");
+                var states = new SelectList(qdb.State.ToList(), "StateId", "StateName");
+            }
+            @Html.DropDownList("uiAddressType", addressTypes)
+        </div>
+        <div class="addressDiv">
+            <label for="uiAddressOne">Address 1</label>
+            <input type="text" id="uiAddressOne" name="uiAddressOne" class="large singleLineText" />
+            <label for="uiAddressOne">Address 2</label>
+            <input type="text" id="uiAddressTwo" name="uiAddressTwo" class="large singleLineText" />
+        </div>
+        <div class="cityDiv">
+            <label for="uiCity">City</label>
+            <input type="text" id="uiCity" name="uiCity" class="city" />
+        </div>
+        <div class="stateDiv">
+            <label for="uiState">State</label>
+            @Html.DropDownList("uiState", states, new { @class = "state" })
+        </div>
+        <div class="zipDiv">
+            <label for="uiZip">ZIP</label>
+            <input type="text" id="uiZip" name="uiZip" class="zip" />
+        </div>
+    </div>
+    <div class="buttons">
+        <ul class="jquerycontrol">
+            <li><a onclick="saveAddress()" class="formbutton" id="save">Add New Address</a></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+<div class="formComponent formComponentSingleLineText" id="zoneAddresses">
+    @Html.Partial("Partial/AddressesTable", Model)
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(function ($) {
+            // apply masks
+            $("#uiZip").mask("99999");
+        });
+    });
+
+    var _address = -1;
+
+    function saveAddress() {
+        $("#uiAddressType").parents('.formComponent').removeClass('formComponentHighlight');
+        $("#uiAddressType").parents('.formComponent').removeClass('formComponentValidationFailed');
+        var addressTypeId = $("#uiAddressType").val();
+        var addressOne = $("#uiAddressOne").val();
+        var addressTwo = $("#uiAddressTwo").val();
+        var city = $("#uiCity").val();
+        var stateId = $("#uiState").val();
+        var zipCode = $("#uiZip").val();
+        var bid = $("#uiBusinessInformationId").val();
+        var id = $("#uiAddressId").val();
+
+        if ((addressTypeId == "") || (addressOne == "") || (city == "") || (stateId == "") || (zipCode == "")) {
+            $("#uiAddressType").parents('.formComponent').addClass('formComponentHighlight');
+            $("#uiAddressType").parents('.formComponent').addClass('formComponentValidationFailed');
+            $("#error-div").html("Some fields are required!");
+            $("#error-div").fadeIn("fast");
+            $("#uiAddressOne").parents('.formComponent').addClass('formComponentValidationFailed');
+            $("#error-div").fadeOut(5000);
+            return false;
+        } else {
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/SaveAddress")',
+                type: 'POST',
+                data: { bid: bid, id: id, addressTypeId: addressTypeId, addressOne: addressOne, addressTwo: addressTwo, city: city, stateId: stateId, zipCode: zipCode },
+                success: function (r) {
+                    $("#zoneAddresses").html(r.data);
+                    $("#message-div").html("item saved with success!");
+                    $("#message-div").fadeIn("fast");
+                    $("#uiAddressId").val("");
+                    $("#uiAddressType").val("1");
+                    $("#uiAddressOne").val("");
+                    $("#uiAddressTwo").val("");
+                    $("#uiCity").val("");
+                    $("#uiState").val("1");
+                    $("#uiZip").val("");
+                    $("#uiAddressType").parents('.formComponent').removeClass('formComponentHighlight');
+                    $("#uiAddressType").parents('.formComponent').removeClass('formComponentValidationFailed');
+                    $("#message-div").fadeOut(4000);
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to save the selected item, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#uiAddressOne").parents('.formComponent').addClass('formComponentValidationFailed');
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+    }
+
+    function deleteAddress() {
+        $("#message-div").html("item deleted with success!");
+        $("#message-div").fadeIn("fast");
+        $("#message-div").fadeOut(4000);
+    }
+
+    function selectAddress(itemId) {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Content("~/Questionnaire/GetAddress")',
+            type: 'POST',
+            data: { id: itemId },
+            success: function (data) {
+                $("#uiAddressId").val(data.addressId);
+                $("#uiAddressType").val(data.addressTypeId);
+                $("#uiAddressOne").val(data.addressOne);
+                $("#uiAddressTwo").val(data.addressTwo);
+                $("#uiCity").val(data.city);
+                $("#uiState option[value='" + data.stateId + "']").attr("selected", "selected");
+                $("#uiZip").val(data.zipCode);
+            },
+            error: function () {
+                $("#error-div").html("An error occured while trying to load the selected item, try again!");
+                $("#error-div").fadeIn("fast");
+                $("#error-div").fadeOut(5000);
+            }
+        });
+    }
+
+    function beginAddress(name) {
+        _address = $("#" + name).attr("itemid");
+        selectAddress(_address);
+    }
+</script>

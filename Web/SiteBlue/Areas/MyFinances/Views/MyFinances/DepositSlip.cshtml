@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Deposit Slip";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxwindows.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../../../../common/css/style.css" type="text/css"
+        media="screen" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/dhtmlxtabbar.css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .link
+        {
+            text-decoration: none;
+            color: Black;
+            cursor: hand;
+            cursor: pointer;
+        }
+    </style>
+}
+@section ScriptIncludes {
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    @* filter.js script required in order to show checkbox in the header*@
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+    <script src="../../../../codebase/json2.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) {
+                LoadData();
+            });
+
+            $('#ajaxindicator').ajaxStart(function () { $(this).show(); });
+            $('#ajaxindicator').ajaxStop(function () { $(this).hide(); });
+
+            InitGrid();
+            LoadData();
+        });
+
+        function InitGrid() {
+            depositGrid = new dhtmlXGridObject('gridbox');
+            depositGrid.setImagePath("../../../../codebase/imgs/");
+            depositGrid.setHeader("Deposit ID,Deposit Date, Deposit Amount,Check Amount, Credit Amount, Other Amount, Cash Amount, Deposit Number,Deposit Notes", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+            depositGrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");
+            depositGrid.setColAlign("center,center,right,right,right,right,right,right,center");
+            depositGrid.setColTypes("link,txt,txt,txt,txt,txt,txt,txt,txt");
+            depositGrid.setColSorting("str,date,str,str,str,str,str,str,str");
+            depositGrid.enablePaging(true, 20, 3, "pager", false);
+            depositGrid.setPagingSkin("bricks");
+            depositGrid.init();
+            depositGrid.setSkin("dhx_skyblue");
+            depositGrid.clearAll();
+        }
+
+        function LoadData() {
+            var payLoad = { franchiseID: SiteBlue.franchiseId };
+            $.ajax({
+                type: "POST",
+                url: "/MyFinances/MyFinances/GetDeposits/",
+                data: JSON.stringify(payLoad),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.Success) {
+                        depositGrid.clearAll();
+                        depositGrid.loadXMLString(result.ResultData);
+                        depositGrid.sortRows(1, "date", "des");
+                    }
+                    else {
+                        alert(result.Message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        }
+
+        function ExportToExcel() {
+            depositGrid.toExcel("../MyFinances/DownloadMyFinances");
+        }
+    </script>
+}
+<div style="width: 100%; float: left; background-color: #D5F1FF;">    
+    <div class="div">
+        <label style="font-size: larger; font-weight: bold; margin-left: 2%;">All Deposits</label>
+        <div class="div" id="ajaxindicator" align="center">
+            <img src="../../../../Images/ajax-loader.gif" alt="Please wait..." />
+        </div>
+        <div id="gridbox" style="float: left; height: 300px; width: 96%; margin-top: 5px;
+            margin-left: 2%; margin-right: 2%">
+        </div>
+        <div id="pager" style="width: 96%; margin-left: 2%; margin-right: 2%"">
+        </div>
+    </div>
+    <div style="width: 98%; float: left; font-family: Verdana; font-weight: bold; margin-left: 2%; height: 25px;">        
+        @*@Html.ActionLink("Back", "Index", "MyFinances") *@        
+        <a href="@Url.Content("~/MyFinances/MyFinances/")" title="Go Back">Go Back</a>
+        <div style="float: right; margin-right: 2%;">
+            <input id="ExportButton" type="button" onclick="ExportToExcel()" value="Export to Excel" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+﻿@model Plumber.Models.LocationCoupon
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Confirm delete</h2>
+
+<h3>Are you sure you want to delete the coupon @Model.Offer.Title for the location @Model.Location.LocationName?</h3>
+
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index", new { id = Model.LocationId })
+    </p>
+}

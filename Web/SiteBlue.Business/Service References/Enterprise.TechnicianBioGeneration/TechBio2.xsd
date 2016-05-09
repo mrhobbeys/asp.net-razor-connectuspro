@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:52445/TechBio.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.TechBios" />
+  <xs:import schemaLocation="http://localhost:52445/TechBio.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" />
+  <xs:element name="RenderBadge">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.TechBios" minOccurs="0" name="bio" nillable="true" type="q1:Bio" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenderBadgeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" minOccurs="0" name="RenderBadgeResult" nillable="true" type="q2:RenderResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenderBio">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.TechBios" minOccurs="0" name="bio" nillable="true" type="q3:Bio" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenderBioResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" minOccurs="0" name="RenderBioResult" nillable="true" type="q4:RenderResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenderBioHtml">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.TechBios" minOccurs="0" name="bio" nillable="true" type="q5:Bio" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenderBioHtmlResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" minOccurs="0" name="RenderBioHtmlResult" nillable="true" type="q6:RenderResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenderBioCustom">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.TechBios" minOccurs="0" name="bio" nillable="true" type="q7:Bio" />
+        <xs:element minOccurs="0" name="templatePath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenderBioCustomResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" minOccurs="0" name="RenderBioCustomResult" nillable="true" type="q8:RenderResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenderBioHtmlCustom">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.TechBios" minOccurs="0" name="bio" nillable="true" type="q9:Bio" />
+        <xs:element minOccurs="0" name="templatePath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RenderBioHtmlCustomResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" minOccurs="0" name="RenderBioHtmlCustomResult" nillable="true" type="q10:RenderResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

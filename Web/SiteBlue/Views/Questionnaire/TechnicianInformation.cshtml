@@ -1,0 +1,51 @@
+﻿@model SiteBlue.Questionnaire.Data.Questionnaire
+@{
+    ViewBag.Title = "Technician Information";
+    Layout = "~/Views/Shared/QuestionnaireLayout.cshtml";
+}
+<h2>
+    Questionnaire</h2>
+<div class="wizard-steps">
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>1</span> Welcome</a></div>
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire/OwnerInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>2</span> Owner Information</a></div>
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire/BusinessInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>3</span> Business Information</a></div>
+    <div class="active-step">
+        <a href="@Url.Content("~/Questionnaire/TechnicianInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>4</span> Technician Information</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/AccountingInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>5</span> Accounting Information</a></div>
+    <div>
+        <a href="#"><span>1</span> Complete</a></div>
+</div>
+<div class="content">
+    <div class="fields" id="technicianList">
+        @Html.Partial("Technicians", ((Model.TechnicianInformations != null) && (Model.TechnicianInformations.Count > 0)) ? Model.TechnicianInformations : new List<SiteBlue.Questionnaire.Data.TechnicianInformation>())
+    </div>
+</div>
+<div id="but" style="height: 60px; width: 100%; display: block">
+    <ul class="control">
+        <li><a  class="formbutton" href="@Url.Content("~/Questionnaire/AccountingInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            Next ></a></li>
+        <li></li>
+    </ul>
+</div>
+@section navigation
+{
+    <nav>
+        <ul>
+             <li>@Html.ActionLink("Owner Portal", "Dashboard", "LandingPage", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}

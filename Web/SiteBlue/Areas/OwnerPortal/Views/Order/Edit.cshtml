@@ -1,0 +1,177 @@
+﻿@model SiteBlue.OwnerPortal.Data.Order
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Order</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OrderNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OrderNumber)
+            @Html.ValidationMessageFor(model => model.OrderNumber)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UserId)
+            @Html.ValidationMessageFor(model => model.UserId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TaxAmount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TaxAmount)
+            @Html.ValidationMessageFor(model => model.TaxAmount)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShippingAmount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShippingAmount)
+            @Html.ValidationMessageFor(model => model.ShippingAmount)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DiscountAmount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DiscountAmount)
+            @Html.ValidationMessageFor(model => model.DiscountAmount)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DiscountReason)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DiscountReason)
+            @Html.ValidationMessageFor(model => model.DiscountReason)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateShipped)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateShipped)
+            @Html.ValidationMessageFor(model => model.DateShipped)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TrackingNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TrackingNumber)
+            @Html.ValidationMessageFor(model => model.TrackingNumber)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EstimatedDelivery)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.EstimatedDelivery)
+            @Html.ValidationMessageFor(model => model.EstimatedDelivery)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SubTotal)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SubTotal)
+            @Html.ValidationMessageFor(model => model.SubTotal)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OrderStatusId, "OrderStatus")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("OrderStatusId", String.Empty)
+            @Html.ValidationMessageFor(model => model.OrderStatusId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CreatedOn)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CreatedOn)
+            @Html.ValidationMessageFor(model => model.CreatedOn)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ExecutedOn)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ExecutedOn)
+            @Html.ValidationMessageFor(model => model.ExecutedOn)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ModifiedOn)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ModifiedOn)
+            @Html.ValidationMessageFor(model => model.ModifiedOn)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BillingToQuestionnaireAddress)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BillingToQuestionnaireAddress)
+            @Html.ValidationMessageFor(model => model.BillingToQuestionnaireAddress)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BillingAddressID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BillingAddressID)
+            @Html.ValidationMessageFor(model => model.BillingAddressID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShippingToQuestionnaireAddress)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShippingToQuestionnaireAddress)
+            @Html.ValidationMessageFor(model => model.ShippingToQuestionnaireAddress)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShippingAddressID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShippingAddressID)
+            @Html.ValidationMessageFor(model => model.ShippingAddressID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ShippingMethodID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ShippingMethodID)
+            @Html.ValidationMessageFor(model => model.ShippingMethodID)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

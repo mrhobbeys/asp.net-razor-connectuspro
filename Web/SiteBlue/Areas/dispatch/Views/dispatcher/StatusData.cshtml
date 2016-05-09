@@ -1,0 +1,14 @@
+﻿@{
+    Layout = null;
+    Response.ContentType = "text/xml";
+}
+
+@model IEnumerable<SiteBlue.Areas.Dispatch.Models.TechnicianStatus>
+<rows>
+@foreach (var status in Model)
+{
+<row id="@status.CurrentStatusID">
+<cell><![CDATA[@(status.CurrentStatus != null ? status.CurrentStatus : "")]]></cell>
+</row>
+}
+</rows>

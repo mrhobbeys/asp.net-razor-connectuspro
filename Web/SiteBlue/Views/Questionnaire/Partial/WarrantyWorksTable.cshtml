@@ -1,0 +1,54 @@
+﻿@model List<SiteBlue.Questionnaire.Data.WarrantyWork>
+
+    @if ((Model != null) && (Model.Count > 0))
+    {
+        <table cellpadding="0" cellspacing="0" class="data-table">
+            <thead>
+                <tr>
+                    <th class="actions edit">
+                        Edit
+                    </th>
+                    <th class="actions delete">
+                        Delete
+                    </th>
+                    <th>
+                        Warranty Provider
+                    </th>
+                    <th>
+                        Comment
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="actions edit">
+                            @Ajax.ImageActionLink("../../../Content/images/edit.png", "WarrantyWorksTable", new { id = item.WarrantyWorkId }, new AjaxOptions { UpdateTargetId = "warrantyWorkForm", OnBegin = "beginWarrantyWork(ww" + item.WarrantyWorkId + ")" }, new { itemid = item.WarrantyWorkId, id = "ww" + item.WarrantyWorkId })
+                        </td>
+                        <td class="actions delete">
+                            @Ajax.ImageActionLink("../../../Content/images/delete.png", "DeleteWarrantyWork", new { id = item.WarrantyWorkId }, new AjaxOptions { Confirm = "Delete Warranty work?", HttpMethod = "Delete", UpdateTargetId = "zoneWarrantyWorks", OnComplete = "deleteWarrantyWork" }, null)
+                        </td>
+                        <th>
+                            @Html.Encode(item.WarrantyWorkName)
+                        </th>
+                        <td class="comment">
+                            @Html.Encode(item.Comment)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table cellpadding="0" cellspacing="0" class="data-table">
+            <tbody>
+                <tr>
+                    <td colspan="4" style="height: 40px; width: 900px; vertical-align: middle">
+                        <span class="notification">No row returned</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }

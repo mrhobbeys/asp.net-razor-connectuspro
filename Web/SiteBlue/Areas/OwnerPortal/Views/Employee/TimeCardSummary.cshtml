@@ -1,0 +1,743 @@
+﻿@model SiteBlue.Areas.OwnerPortal.Models.TimeCardSummary
+@{
+    ViewBag.Title = "Time Card Summary";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+
+    var dow = DateTime.Today.DayOfWeek;
+    var date = DateTime.Today.ToShortDateString();
+    switch (dow)
+    {
+        case DayOfWeek.Sunday:
+            date = DateTime.Today.AddDays(6).ToShortDateString();
+            break;       
+        case DayOfWeek.Monday:
+            date = DateTime.Today.AddDays(5).ToShortDateString();
+            break;
+        case DayOfWeek.Tuesday:
+            date = DateTime.Today.AddDays(4).ToShortDateString();
+            break;
+        case DayOfWeek.Wednesday:
+            date = DateTime.Today.AddDays(3).ToShortDateString();
+            break;
+        case DayOfWeek.Thursday:
+            date = DateTime.Today.AddDays(2).ToShortDateString();
+            break;
+        case DayOfWeek.Friday:
+            date = DateTime.Today.AddDays(1).ToShortDateString();
+            break;
+        case DayOfWeek.Saturday:
+            date = DateTime.Today.ToShortDateString();
+            break;
+        default:
+            break;            
+    }
+    
+}
+@section Styles {
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxwindows.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../../../../common/css/style.css" type="text/css"
+        media="screen" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/dhtmlxtabbar.css" />
+    <style type="text/css">
+        .link
+        {
+            text-decoration: none;
+            color: Black;
+            cursor: hand;
+            cursor: pointer;
+        }
+    </style>
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        dhtmlx.skin = "dhx_skyblue";
+    </script>    
+}
+@section InlineScript {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SiteBlue.renderMenu(true);
+            $(SiteBlue).bind("FranchiseChanged", function () {
+                doOnLoad('Saturday');
+            });
+            createCalendar();
+            doOnLoad('Saturday');
+
+            $('#ajaxindicator').ajaxStart(function () { $(this).show(); });
+            $('#ajaxindicator').ajaxStop(function () { $(this).hide(); });            
+        });
+
+        function createCalendar() {
+            var myCalendar = new dhtmlXCalendarObject(["txtEndingDate"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+            myCalendar.attachEvent("onClick", function (date) {
+                var day = document.getElementById("DayDetails").innerHTML;
+                var dayArray = day.split(" ");
+                doTimeSheetLoad();
+                doOnDataLoad(dayArray[0]);
+            })
+        }
+
+        function doOnLoad(day) {
+
+            var fid = { FranchiseeId: SiteBlue.franchiseId };
+
+            var jsondata1 = $.ajax({
+                url: "/OwnerPortal/Employee/TimeCardSummaryEmployeeData",
+                data: JSON.stringify(fid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    $("#ddlEmployeeList").html(msg);
+                    doTimeSheetLoad();
+                    doOnDataLoad(day);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (xhr, status, error) {
+                    alert(error);
+                    //$('#output').innerHtml(e);
+                }
+            });
+
+//            var jsondata1 = $.ajax({
+//                url: "/OwnerPortal/Employee/TimeCardSummaryEmployeeSelected",
+//                data: JSON.stringify(fid),
+//                contentType: "application/json; charset=utf-8",
+//                success: function (msg) {
+//                    if(msg && msg.length > 0)
+//                        document.getElementById("ddlEmployeeList").value = msg[0].EmployeeID;                    
+//                },
+//                type: "POST",
+//                dataType: "json",
+//                error: function (xhr, status, error) {
+//                    alert(error);
+//                    //$('#output').innerHtml(e);
+//                }
+//            });            
+        }
+
+        function changeDay(day) {
+            if (document.getElementById("txtEndingDate").value != "") {
+                if (document.getElementById("ddlEmployeeList").value != "") {
+                    doOnDataLoad(day);
+                }
+                else {
+                    alert("Select Employee");
+                }
+            }
+            else {
+                alert("Select Week Ending Date");
+            }
+        }
+
+        function dropdownChange() {
+            if (document.getElementById("txtEndingDate").value != "") {
+                var day = document.getElementById("DayDetails").innerHTML;
+                var dayArray = day.split(" ");
+                doOnDataLoad(dayArray[0]);
+                doTimeSheetLoad();
+            }
+            else {
+                alert("Select Week Ending Date");
+            }
+        }
+
+        // Loads the right grid TimeCardDetail per day
+        function doOnDataLoad(day) {            
+            var Empid = document.getElementById("ddlEmployeeList").value;        
+            var date = document.getElementById("txtEndingDate").value;            
+            document.getElementById("DayDetails").innerHTML = day + ' Details';
+            var xmlstringDetailDate = "";
+            var empid = { Empid: Empid, DetailDay: day, date: date, FranchiseeId: SiteBlue.franchiseId };            
+            var jsondata = $.ajax({
+                url: "/OwnerPortal/Employee/TimeCardDetailDayData",
+                data: JSON.stringify(empid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    gridEmpList = new dhtmlXGridObject("DetailDayGrid");
+                    gridEmpList.setHeader("Status,Time,Comments", null, ["text-align:center", "text-align:center", "text-align:center"]);
+                    gridEmpList.setColAlign("center,center,center");
+                    gridEmpList.setColTypes("ro,ro,ro");
+                    gridEmpList.enablePaging(true, 10, 3, "gridpgn", false);
+                    gridEmpList.setPagingSkin("bricks");
+                    gridEmpList.init();
+                    gridEmpList.setSkin("dhx_skyblue");
+                    var AdForHomePages = msg;
+                    xmlstringDetailDate = xmlstringDetailDate + "<rows>";
+                    $.each(AdForHomePages, function (index, PayrollTimeClock) {
+                        var parsedDate = new Date(parseInt(PayrollTimeClock.DateTimeStatusChanged.substr(6)));
+                        var newDate = new Date(parsedDate);
+                        var getHour = newDate.getHours();
+                        var getMinute = newDate.getMinutes();
+                        var hourString = getHour.toString();
+                        var MinuteString = getMinute.toString();
+                        if (hourString.length == 1) {
+                            getHour = "0" + hourString;
+                        }
+                        if (MinuteString.length == 1) {
+                            getMinute = "0" + MinuteString;
+                        }
+                        if (getHour > 11) {
+                            var dateId = "PM";
+                        } else {
+                            var dateId = "AM";
+                        }
+                        xmlstringDetailDate = xmlstringDetailDate + "<row id='" + PayrollTimeClock.TimeClockID + "'>";
+                        xmlstringDetailDate = xmlstringDetailDate + "<cell><![CDATA[" + PayrollTimeClock.TimeClockStatusDesc + "]]></cell>";
+                        if (PayrollTimeClock.DateTimeStatusChanged != "") {
+                            xmlstringDetailDate = xmlstringDetailDate + "<cell><![CDATA[" + getHour + ":" + getMinute + ":00" + " " + dateId + "]]></cell>";
+                        }
+                        else {
+                            xmlstringDetailDate = xmlstringDetailDate + "<cell><![CDATA[" + '' + "]]></cell>";
+                        }
+                        xmlstringDetailDate = xmlstringDetailDate + "<cell><![CDATA[" + PayrollTimeClock.Comments + "]]></cell>";
+                        xmlstringDetailDate = xmlstringDetailDate + "</row>";
+                    });
+                    xmlstringDetailDate = xmlstringDetailDate + "</rows>";
+                    gridEmpList.loadXMLString(xmlstringDetailDate);                    
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (xhr, status, error) {
+                    alert(error);
+                    //$('#output').innerHtml(e);
+
+                }
+            });
+        }
+
+        function CommaFormatted(amount) {
+            try {
+
+                amount = String(Math.round(amount * 100) / 100);
+                var delimiter = ","; // replace comma if desired  
+                var a = String(amount).split('.', 2)
+                var d = '00';
+                if (a[1] != null) {
+                    d = a[1];
+                }
+
+                var i = parseInt(a[0]);
+                if (isNaN(i)) { return '0.00'; }
+                var minus = '';
+                if (i < 0) { minus = '-'; }
+                i = Math.abs(i);
+                var n = new String(i);
+                var a = [];
+                while (n.length > 3) {
+                    var nn = n.substr(n.length - 3);
+                    a.unshift(nn);
+                    n = n.substr(0, n.length - 3);
+                }
+                if (n.length > 0) { a.unshift(n); }
+                n = a.join(delimiter);
+                if (d.length < 1) { amount = n; }
+                else { amount = n + '.' + d; }
+                amount = minus + amount;
+                return amount;
+            } catch (e) {
+                return "0.00";
+            }
+        }
+
+        // Load left TimeSheet section
+        // ASSUME that the employee drop down has been populated already so I can get the Employee ID
+        function doTimeSheetLoad() {
+            var Empid = document.getElementById("ddlEmployeeList").value;
+            var date = document.getElementById("txtEndingDate").value;
+
+            var getEmployeeTimeSheetInputData = { EmployeeIDString: Empid, DateTimeWeekOfString: date};
+            var jsondata = $.ajax({
+                url: "/OwnerPortal/Employee/GetEmployeeTimeSheet",
+                data: JSON.stringify(getEmployeeTimeSheetInputData),
+                contentType: "application/json; charset=utf-8",
+                success: function (timeCardSummaryData) {
+                    // Load the TimeSheet Data
+                    $("#SundayHours").val(timeCardSummaryData.TimeSheetSundayHours);
+                    $("#MondayHours").val(timeCardSummaryData.TimeSheetMondayHours);
+                    $("#TuesdayHours").val(timeCardSummaryData.TimeSheetTuesdayHours);
+                    $("#WednesdayHours").val(timeCardSummaryData.TimeSheetWednesdayHours);
+                    $("#ThursdayHours").val(timeCardSummaryData.TimeSheetThursdayHours);
+                    $("#FridayHours").val(timeCardSummaryData.TimeSheetFridayHours);
+                    $("#SaturdayHours").val(timeCardSummaryData.TimeSheetSaturdayHours);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (xhr, status, error) {
+                    alert(error);
+                    //$('#output').innerHtml(e);
+
+                }
+            });
+
+        }
+
+        function Edit_TimeSheetDetails() {
+            TimeSheetDetails_ChangeMode("EDIT");
+        }
+
+        function Save_TimeSheetDetails() {
+            // Do AJAX jquery call to initiate action.
+            var employeeID = $("#ddlEmployeeList").val();
+            var dateTimeWeekOf = $("#txtEndingDate").val();
+
+            var sunhr = $("#SundayHours").val();
+            var monhr = $("#MondayHours").val();
+            var tuehr = $("#TuesdayHours").val();
+            var wedhr = $("#WednesdayHours").val();
+            var thuhr = $("#ThursdayHours").val();
+            var frihr = $("#FridayHours").val();
+            var sathr = $("#SaturdayHours").val();
+
+            if (sunhr != "") {
+                if (isNaN(sunhr)) {
+                    alert("Please Input SundayHour Number Correctly!");
+                    $("#SundayHours").focus();
+                    return;
+                }
+            } else {
+                sunhr = 0;
+                $("#SundayHours").val(0);
+            }
+
+            if (monhr != "") {
+                if (isNaN(monhr)) {
+                    alert("Please Input MondayHour Number Correctly!");
+                    $("#MondayHours").focus();
+                    return;
+                }
+            } else {
+                monhr = 0;
+                $("#MondayHours").val(0);
+            }
+
+            if (tuehr != "") {
+                if (isNaN(tuehr)) {
+                    alert("Please Input TuesdayHour Number Correctly!");
+                    $("#TuesdayHours").focus();
+                    return;
+                }
+            } else {
+                tuehr = 0;
+                $("#TuesdayHours").val(0);
+            }
+
+            if (wedhr != "") {
+                if (isNaN(wedhr)) {
+                    alert("Please Input WednesdayHour Number Correctly!");
+                    $("#WednesdayHours").focus();
+                    return;
+                }
+            } else {
+                wedhr = 0;
+                $("#WednesdayHours").val(0);
+            }
+
+            if (thuhr != "") {
+                if (isNaN(thuhr)) {
+                    alert("Please Input ThursdayHour Number Correctly!");
+                    $("#ThursdayHours").focus();
+                    return;
+                }
+            } else {
+                thuhr = 0;
+                $("#ThursdayHours").val(0);
+            }
+
+            if (frihr != "") {
+                if (isNaN(frihr)) {
+                    alert("Please Input FridayHour Number Correctly!");
+                    $("#FridayHours").focus();
+                    return;
+                }
+            } else {
+                frihr = 0;
+                $("#FridayHours").val(0);
+            }
+
+            if (sathr != "") {
+                if (isNaN(sathr)) {
+                    alert("Please Input SaturdayHour Number Correctly!");
+                    $("#SaturdayHours").focus();
+                    return;
+                }
+            } else {
+                sathr = 0;
+                $("#SaturdayHours").val(0);
+            }
+
+            var saveTimesheetData = {
+                EmployeeID: employeeID
+                , DateTimeWeekOf: dateTimeWeekOf
+                , SundayHoursString: sunhr
+                , MondayHoursString: monhr
+                , TuesdayHoursString: tuehr
+                , WednesdayHoursString: wedhr
+                , ThursdayHoursString: thuhr
+                , FridayHoursString: frihr
+                , SaturdayHoursString: sathr
+            };
+
+            var jsondata1 = $.ajax({
+                url: "/OwnerPortal/Employee/SaveEmployeeTimeSheet",
+                data: JSON.stringify(saveTimesheetData),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    if (msg === "SUCCESS")
+                        alert("Time Sheet saved successfully");
+                    else
+                        alert("Error: " + msg);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+
+            //  At same time, show modal    
+
+            TimeSheetDetails_ChangeMode("NORMAL")
+        }
+
+        function Cancel_TimeSheetDetails() {
+            TimeSheetDetails_ChangeMode("NORMAL")
+            doTimeSheetLoad();
+        }
+
+        function TimeSheetDetails_ChangeMode(mode) {
+            if (mode === "EDIT") {
+                // enable all of the timesheet textboxes
+                $("#SundayHours").removeAttr("disabled");
+                $("#SundayHours").removeAttr("readonly");
+                $("#MondayHours").removeAttr("disabled");
+                $("#MondayHours").removeAttr("readonly");
+                $("#TuesdayHours").removeAttr("disabled");
+                $("#TuesdayHours").removeAttr("readonly");
+                $("#WednesdayHours").removeAttr("disabled");
+                $("#WednesdayHours").removeAttr("readonly");
+                $("#ThursdayHours").removeAttr("disabled");
+                $("#ThursdayHours").removeAttr("readonly");
+                $("#FridayHours").removeAttr("disabled");
+                $("#FridayHours").removeAttr("readonly");
+                $("#SaturdayHours").removeAttr("disabled");
+                $("#SaturdayHours").removeAttr("readonly");
+
+                // Hide the edit button and show the save and cancel buttons
+                $("#TimeSheet_Edit").css("display", "none");
+                $("#TimeSheet_Save").css("display", "inline");
+                $("#TimeSheet_Cancel").css("display", "inline");
+
+            }
+            if (mode === "NORMAL") {
+                // enable all of the timesheet textboxes
+                $("#SundayHours").attr("disabled", "disabled");
+                $("#SundayHours").attr("readonly", "readonly"); 
+                $("#MondayHours").attr("disabled", "disabled");
+                $("#MondayHours").attr("readonly", "readonly");
+                $("#TuesdayHours").attr("disabled", "disabled");
+                $("#TuesdayHours").attr("readonly", "readonly");
+                $("#WednesdayHours").attr("disabled", "disabled");
+                $("#WednesdayHours").attr("readonly", "readonly");
+                $("#ThursdayHours").attr("disabled", "disabled");
+                $("#ThursdayHours").attr("readonly", "readonly");
+                $("#FridayHours").attr("disabled", "disabled");
+                $("#FridayHours").attr("readonly", "readonly");
+                $("#SaturdayHours").attr("disabled", "disabled");
+                $("#SaturdayHours").attr("readonly", "readonly");
+
+                // Hide the edit button and show the save and cancel buttons
+                $("#TimeSheet_Edit").css("display", "inline");
+                $("#TimeSheet_Save").css("display", "none");
+                $("#TimeSheet_Cancel").css("display", "none");
+            }
+        }
+
+    </script>
+}
+<div style="height: 650px; margin-top: 10px;" class=" dhx_tabbar_zone_top">
+    <div class="dhx_tabbar_zone dhx_tabbar_zone_dhx_skyblue">
+        <div class="dhx_tablist_zone" style="height: 24px; top: 0px;">
+            <div class="dhx_tabbar_row" style="height: 26px; top: 0px; z-index: 10;">
+                <div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="height: 26px;
+                    background-color: white; z-index: 7; top: 0px; left: 5px; width: 150px;">
+                    <span><a class="link" href="../Employee/EmployeeList">Employee List</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="height: 26px;
+                    background-color: white; z-index: 5; top: 0px; left: 154px; width: 150px;">
+                    <span><a class="link" href="../PayrollHistory/PayrollSetup">Payroll Setup</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_active dhx_tab_hover" style="width: 150px;
+                    height: 26px; top: 0px; left: 303px; background-color: white; z-index: 11;">
+                    <span>Time Card Summary</span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 150px; height: 26px;
+                    top: 0px; left: 452px;">
+                    <span><a class="link" href="../PayrollHistory/PayrollProcessing">Payroll Processing</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="height: 26px; top: 0px;
+                    left: 601px; width: 150px;">
+                    <span><a class="link" href="../PayrollHistory/GetPayrollHistroy">Payroll History</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 750px;">
+                    <span><a class="link" href="../Employee/hr_form">Forms</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 849px;">
+                    <span><a class="link" href="../Employee/HR_ReviewForm">Reviews</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 948px;">
+                    <span><a class="link" href="../Employee/EmployeeReminders">Reminders</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tablist_line" style="top: 22px; z-index: 8; width: 1332px;">
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabcontent_zone" style="background-color: white; height: 621px; width: 99.9%;
+            top: 27px;">
+            <div style="overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px;
+                width: 99.9%; height: 621px;">
+                <div id="dhxMainCont" style="position: relative; left: 0px; top: 0px; overflow: hidden;
+                    width: 100%; height: 800px;">
+                    <fieldset style="vertical-align: bottom; padding: 5px 0px 5px 0px; width: 100%; margin: 0px;">
+                        <div style="margin-right: 50px; float: left; margin-left: 5px;">
+                            <label style="font-size: larger; font-weight: bold;">
+                                Time Card Summary</label>
+                        </div>
+                        <div id='ajaxindicator' style="display: none; float:right; margin-right: 15px;">
+                            <img src="../../../../Images/ajax-loader.gif" alt="processing..." />
+                        </div>
+                        <div style="float: right; margin-right: 2px;">
+                            <label style="margin-right: 5px; margin-left: 15px;">
+                                Week Ending Date</label>
+                            @Html.TextBox("txtEndingDate", @date, new { @readonly = "readonly" })
+                            @*onselect = "checkEmail()"*@
+                            <label style="margin-left: 10px; margin-right: 5px;">
+                                Employee</label>
+                            @Html.DropDownList("ddlEmployeeList", new SelectList(""), "", new { onchange = "dropdownChange()" })
+                        </div>
+                    </fieldset>
+                    <!--TimeSheet and TimeCard section-->
+                    <table style="width:100%;" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td style="width:50%; vertical-align:top;">
+                                <!--Timesheet entry section-->                    
+                                <table id="tableTimeSheet" style="width:100%;">
+                                    <tr>
+                                        <td>
+                                            <label style="font-size: larger; font-weight: bold;">
+                                                Time Sheet Details
+                                            </label>
+                                        </td>
+                                        <td style=" text-align:right;">
+                                            <a id="TimeSheet_Edit" href="javascript:Edit_TimeSheetDetails()" style="">Edit</a>
+                                            <a id="TimeSheet_Save" href="javascript:Save_TimeSheetDetails()" style="display:none; margin-right:5px;">Save</a>
+                                            <a id="TimeSheet_Cancel" href="javascript:Cancel_TimeSheetDetails()" style="display:none;">Cancel</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 30%">
+                                            @*@Html.ActionLink("Sunday", "")*@ <a href="javascript:changeDay(@ViewBag.EmpId,'Sunday',@ViewBag.payrollId)">
+                                                Sunday</a>
+                                        </td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.TimeSheetSundayHours, new { style = "width:50px;", @readonly = "readonly", @disabled = "disabled", id = "SundayHours" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*@Html.ActionLink("Monday", "")*@ <a href="javascript:changeDay(@ViewBag.EmpId,'Monday',@ViewBag.payrollId)">
+                                                Monday</a>
+                                        </td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.TimeSheetMondayHours, new { style = "width:50px;", @readonly = "readonly", @disabled = "disabled", id = "MondayHours" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*@Html.ActionLink("Tuesday", "")*@ <a href="javascript:changeDay(@ViewBag.EmpId,'Tuesday',@ViewBag.payrollId)">
+                                                Tuesday</a>
+                                        </td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.TimeSheetTuesdayHours, new { style = "width:50px;", @readonly = "readonly", @disabled = "disabled", id = "TuesdayHours" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*@Html.ActionLink("Wednesday", "")*@ <a href="javascript:changeDay(@ViewBag.EmpId,'Wednesday',@ViewBag.payrollId)">
+                                                Wednesday</a>
+                                        </td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.TimeSheetWednesdayHours, new { style = "width:50px;", @readonly = "readonly", @disabled = "disabled", id = "WednesdayHours" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*@Html.ActionLink("Thursday", "")*@ <a href="javascript:changeDay(@ViewBag.EmpId,'Thursday',@ViewBag.payrollId)">
+                                                Thursday</a>
+                                        </td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.TimeSheetThursdayHours, new { style = "width:50px;", @readonly = "readonly", @disabled = "disabled", id = "ThursdayHours" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*@Html.ActionLink("Friday", "")*@ <a href="javascript:changeDay(@ViewBag.EmpId,'Friday',@ViewBag.payrollId)">
+                                                Friday</a>
+                                        </td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.TimeSheetFridayHours, new { style = "width:50px;", @readonly = "readonly", @disabled = "disabled", id = "FridayHours" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*@Html.ActionLink("Saturday", "")*@ <a href="javascript:changeDay(@ViewBag.EmpId,'Saturday',@ViewBag.payrollId)">
+                                                Saturday</a>
+                                        </td>
+                                        <td colspan="2">
+                                            @Html.TextBoxFor(model => model.TimeSheetSaturdayHours, new { style = "width:50px;", @readonly = "readonly", @disabled = "disabled", id = "SaturdayHours" })
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width:50%;">
+                                <!--TimeCard entry section-->                    
+                                <table id="tableTimeCardEntryList" style="width:100%;">
+                                    <tr style="background-color: #ffffff;">
+                                        <td>
+                                            <label id="DayDetails" style="font-size: larger; font-weight: bold;">
+                                                Saturday Details</label>
+                                        </td>
+                                        <td align="right">
+                                            <a href="javascript:changeDay('Sunday')" style="margin-left: 10px;">Sunday</a> <a
+                                                href="javascript:changeDay('Monday')" style="margin-left: 10px;">Monday</a>
+                                            <a href="javascript:changeDay('Tuesday')" style="margin-left: 10px;">Tuesday</a>
+                                            <a href="javascript:changeDay('Wednesday')" style="margin-left: 10px;">Wednesday</a>
+                                            <a href="javascript:changeDay('Thursday')" style="margin-left: 10px;">Thursday</a>
+                                            <a href="javascript:changeDay('Friday')" style="margin-left: 10px;">Friday</a> <a
+                                                href="javascript:changeDay('Saturday')" style="margin-left: 10px;">Saturday</a>
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color: #ffffff;">
+                                        <td colspan="2">
+                                            <div id="DetailDayGrid" style="height: 416px">
+                                            </div>
+                                            <div id="gridpgn">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabbar_lineA" style="top: 24px; width: 100%;">
+        </div>
+        <div class="dhx_tabbar_lineB" style="top: 24px; width: 100%;">
+        </div>
+        <div class="dhx_tabbar_lineC" style="height: 21px;">
+        </div>
+        <div class="dhx_tabbar_lineD">
+        </div>
+    </div>
+</div>

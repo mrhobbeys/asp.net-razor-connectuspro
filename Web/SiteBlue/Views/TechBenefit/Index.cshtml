@@ -1,0 +1,65 @@
+﻿@using SiteBlue.Models
+@{
+    ViewBag.Title = "Technician Benefit";
+    Layout = "~/Views/Shared/SecondaryLayout.cshtml";
+}
+<article>
+    <section class="col-1">
+        <h2>
+            Technician Benefit</h2>
+        <p>
+            Are your technicians projecting the professional image you want for your business?
+            Is their close rate better than 95%? How well do they take advantage of opportunity
+            sales? Do they lose invoices or turn them in late?</p>
+        <img src="@Url.Content("~/Content/images/service.jpg")" class="p2" alt="" />
+        <p class="p3">
+            The ConnectusPro approach makes your technicians better at the things that drive
+            your business. Our simple yet powerful touchscreen technology lets your technicians
+            focus on servicing the customer, because everything else is handled by our t-Tab
+            application.</p>
+    </section>
+    <section class="col-2">
+        <h2>
+            The ConnectusPro Advantage</h2>
+        <p>
+            <strong class="yellow">More than just a piece of software, our approach to maximizing
+                your technician's time and efficiency translates directly into jobs managed the
+                right way, every time.</strong>
+        </p>
+        <p>
+            By going beyond the industry norms, ConnectusPro turns your technicians into engines
+            of growth and customer service, allowing each technician to spend less time managing
+            invoices and more time focusing on serving your customers. With ConnectusPro, your
+            Technicians gain many advantages over the competition, such as:</p>
+        <dl class="img-box">
+            <dd>
+                <ul id="listmrk">
+                    <li>Simple, intuitive touchscreen technology for ease of use</li>
+                    <li>Customized digital price book leads to simple on-site pricing</a></li>
+                    <li>Electronic Job Handling, no need to write down addresses, phone numbers or directions</a></li>
+                    <li>No hand written invoices - Invoices emailed from customer's site </a></li>
+                    <li>Jobs closed out onsite by your technicians</a></li>
+                    <li>Training plan for each technician to learn our technology</a></li>
+                    <li>Increased sales with Homeguard and Clean Bio</a></li>
+                    <li>Show product videos to customers in their homes</a></li>
+                    <li>Accept credit cards on site from customers</a></li>
+                </ul>
+                <br class="clear">
+            </dd>
+        </dl>
+        <p>
+            <strong class="yellow">With ConnectusPro your technicians not only recieve advanced
+                technology, they also get the training they need to take advantage of it via the
+                industry leading <a href="@Url.Action("Index", "Technology")"><u>t-Tab system</u></a> and our professional
+                training staff. </strong>
+        </p>
+        <p>
+            Find out how ConnectusPro can accelerate your business by clicking the button below!</p>
+        <p>
+        </p>
+        @Html.ActionLink("Contact Us Now", "Index", "ContactUs", null, new { @class = "button" })<br class="clear">
+    </section>
+</article>
+
+@{ ViewData["PageType"] = PageType.ServiceCenter; }
+@Html.Partial("Banner", null, ViewData)

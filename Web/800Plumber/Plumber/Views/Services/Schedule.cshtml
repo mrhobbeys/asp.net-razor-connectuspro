@@ -1,0 +1,254 @@
+﻿@model Plumber.Models.Appointment
+@{
+    ViewBag.Title = "Schedule";
+}
+@section Meta{
+    <title>Schedule an Appointment with 1-800-PLUMBER</title>
+    <meta name="description" content="Schedule an appointment with 1-800-PLUMBER" />
+    <meta name="keywords" content="Appointment with 1-800-PLUMBER" />
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                SCHEDULE AN APPOINTMENT
+            </div>
+            <div class="shade-common">
+                <div class="maincontent">
+                    <p>
+                        To request a service call, please fill out the form below and we will contact you
+                        as soon as we can to schedule an appointment. You may also schedule an appointment
+                        by calling us at <span class="bluelinks">1-800-758-6237</span></p>
+                </div>
+                <div class="maincontent">
+                    <table width="100%" border="0" cellpadding="15" cellspacing="0">
+                        <tr>
+                            <td align="left" valign="top">
+                                &nbsp;
+                            </td>
+                            <td align="center" valign="top">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="480" align="left" valign="top">
+                                <table width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="form"
+                                    style="margin: auto;" cellpading="0">
+                                    @using (Html.BeginForm())
+                                    {
+                                    <tr class="required">
+                                        <th width="31%" height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="ZipCode">ZIP OR POSTAL</label>&nbsp;*
+                                        </th>
+                                        <td width="69%" height="30" align="left" valign="middle">
+                                            @Html.TextBoxFor(model => model.PostalCode, new { @class = "formtext" })
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <th height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="uiName">
+                                                Name</label>
+                                        </th>
+                                        <td height="30" align="left" valign="middle">
+                                            @Html.TextBoxFor(model => model.Name, new { @class = "formtext" })
+                                        </td>
+                                    </tr>
+                                        <!-- -->
+                                    <tr class="required">
+                                        <th height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="uiName">
+                                                Address</label>
+                                        </th>
+                                        <td height="30" align="left" valign="middle">
+                                            @Html.TextAreaFor(model => model.Address, new { @class = "formtextarea" })
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <th height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="uiName">
+                                                City</label>
+                                        </th>
+                                        <td height="30" align="left" valign="middle">
+                                            @Html.TextBoxFor(model => model.City, new { @class = "formtext" })
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <th height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="uiName">
+                                                State</label>
+                                        </th>
+                                        <td height="30" align="left" valign="middle">
+                                            @Html.DropDownListFor(model => model.State, new SelectList(ViewBag.States, "ID", "Name"), new { @class = "formtext" })
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <th height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="uiEmail">Email</label>
+                                        </th>
+                                        <td height="30" align="left" valign="middle">
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "formtext" })
+                                            @Html.ValidationMessageFor(model => model.Email)
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <th height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="uiPhone">Phone</label>
+                                        </th>
+                                        <td height="30" align="left" valign="middle">
+                                            @Html.TextBoxFor(model => model.Phone, new { @class = "formtext" })
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <th height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="uiPreferredMonth">Preferred Date</label>
+                                        </th>
+                                        <td height="30" align="left" valign="middle">
+                                            @Html.TextBoxFor(model => model.PreferredDate, new { @class = "formtext" })
+                                            @*<input type="date" id="uiPreferredDate" name="uiPreferredDate" class="forminfo" />*@
+                                            @*<select id="uiPreferredMonth" name="uiPreferradMonth">
+                                                <option >Nov</option>
+                                                <option>Dec</option>
+                                            </select>
+                                            <select id="uiPreferredDay" name="uiPreferredDay">
+                                                <option >17</option>
+                                                <option>18</option>
+                                            </select>
+                                            <select id="uiPreferredYear" name="uiPreferredYear">
+                                                <option >2011</option>
+                                                <option>2012</option>
+                                            </select>
+                                            <a href="#">
+                                                <img src="@Url.Content("~/Content/images/cal-icon.png")" alt="cal" width="16" height="14" border="0" /></a>*@
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <th height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="uiPreferredTime">
+                                                Preferred Time:</label>
+                                        </th>
+                                        <td height="30" align="left" valign="middle">
+                                            <select id="PreferredTime" name="PreferredTime" class="formtext">
+                                                <option>Early morning</option>
+                                                <option>Late Morning</option>
+                                                <option>Early Afternoon</option>
+                                                <option>Late Afternoon</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <th height="30" align="left" valign="middle" class="forminfo">
+                                            <label for="uiTypeOfService">
+                                                Type of Service:</label>
+                                        </th>
+                                        <td height="30" align="left" valign="middle">
+                                            <select id="TypeOfService" name="TypeOfService" class="formtext">
+                                                @*<option>General</option>*@
+                                                <option>Plumbing</option>
+                                                <option>Cooling</option>
+                                                <option>Heating</option>
+                                                <option>Electrical</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <th align="left" valign="middle" class="forminfo">
+                                            <label for="uiComment">Comment:</label>
+                                        </th>
+                                        <td align="left" valign="middle">
+                                            @Html.TextAreaFor(model => model.Comment, new { @class = "formtextarea" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" valign="middle" class="forminfo">
+                                        </td>
+                                        <td height="30" align="left" valign="middle">
+                                            <input class="btn_primary" name="submit" type="submit" value="Submit" />
+                                        </td>
+                                    </tr>
+                                    }
+                                </table>
+                            </td>
+                            <td align="center" valign="top">
+                                <div id="calendar" style="position:relative;height:250px;width:200px">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+    </tr>
+</table>
+
+
+
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/services-banner.jpg")" alt="Services" width="1004" height="187" /></div>
+}
+@section HeadDeclaration{
+    <link rel="stylesheet" media="all" type="text/css" href="@Url.Content("~/Content/menu_style.css")" />
+    <link rel="stylesheet" media="all" type="text/css" href="@Url.Content("~/Content/calender.css")" />
+    <link rel="stylesheet" media="all" type="text/css" href="@Url.Content("~/Content/exp_css.css")" />
+    <link rel="stylesheet" media="all" type="text/css" href="@Url.Content("~/Content/jquery-ui.css")" />
+    <script src="@Url.Content("~/Scripts/jquery.ui.core.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.ui.datepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput-1.3.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/dhtmlx/dhtmlxcalendar.js")" type="text/javascript"></script>
+    <link rel="stylesheet" media="all" type="text/css" href="@Url.Content("~/Content/dhtmlx/calendar/dhtmlxcalendar.css")" />
+    <link rel="stylesheet" media="all" type="text/css" href="@Url.Content("~/Content/dhtmlx/calendar/skins/dhtmlxcalendar_dhx_skyblue.css")" />
+}
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        $(function ($) {
+            // apply masks
+            $("#PreferredDate").mask("99/99/9999");
+            $("#PostalCode").mask("99999");
+            $("#Phone").mask("999-999-9999");
+        });
+        $('#PreferredDate').datepicker({ showOn: "focus", changeYear: true, yearRange: '-100:+0' });
+        $('#PreferredDate').val("@DateTime.Now.ToShortDateString()");
+        myCalendar = new dhtmlXCalendarObject("calendar");
+        myCalendar.setWeekStartDay(7);
+        myCalendar.show();
+    });
+
+</script>

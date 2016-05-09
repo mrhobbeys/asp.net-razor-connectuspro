@@ -1,0 +1,70 @@
+﻿<html>
+<head>
+    <script type="text/javascript">
+
+        $(function () {
+            $('#ajaxindicator').ajaxStart(function () { $(this).show(); });
+            $('#ajaxindicator').ajaxStop(function () { $(this).hide(); });
+            //initCustomerHistoryGrid();
+        });
+
+        function initCustomerHistoryGrid() {
+            customergrid = new dhtmlXGridObject('customerhistorygrid');
+
+            customergrid.setImagePath("../../codebase/imgs/");
+            customergrid.setHeader("Field Name,Table,Type Of Change,Date,Time,On Tablet?,Changed By,From,To");
+            //customergrid.setInitWidths("180,160,160,120,120,150,180,150,150");
+            customergrid.setColAlign("left,left,left,left,left,left,left,left,left");
+            customergrid.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro");
+            customergrid.init();
+            customergrid.setSkin("dhx_skyblue");
+        }
+
+        function BindCustomerHistory(customerid) {
+            var payload = { customerID: customerid };
+
+            $.ajax({
+                url: "/AllCustomers/CustomerHistoryList",
+                data: JSON.stringify(payload),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    var xmlstring = "<rows>";
+                    $.each(result, function (index, item) {
+
+                        xmlstring += "<row id='" + index + "'>";
+                        xmlstring += "<cell><![CDATA[" + item.FieldName + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.TableName + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.ChangeType + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.Date + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.Time + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.isTablet + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.ChangedBy + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.From + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.To + "]]></cell>";
+                        xmlstring += "</row>";
+
+                    });
+                    xmlstring += "</rows>";
+
+                    customergrid.clearAll();
+                    customergrid.loadXMLString(xmlstring);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div style="text-align: center;">
+        <img id="ajaxindicator" src="../../../../Images/ajax-loader.gif" alt="processing..." style="display: none;" />
+    </div>
+
+    <div id="customerhistorygrid" style="height: 900px; background-color: white;">
+    </div>
+</body>
+</html>

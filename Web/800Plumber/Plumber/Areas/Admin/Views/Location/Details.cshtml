@@ -1,0 +1,63 @@
+﻿@model Plumber.Models.Location
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LocationId }) |
+    @Html.ActionLink("Manage services", "Index", "ManagedServices", new { area = "Admin", id = Model.LocationId }, null) |
+    @*@Html.ActionLink("Manage services / Nearest locations", "Index", "ServiceCategory", new { area = "Admin", id = Model.LocationId }, null) |*@
+    @Html.ActionLink("Manage cities", "Index", "Cities", new { area = "Admin", id = Model.LocationId }, null) |
+    @Html.ActionLink("Manage coupons", "Index", "ManagedCoupons", new { area = "Admin", id = Model.LocationId }, null) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<div>
+    <span class="blue-title">@Html.Raw(Model.Title) </span><br /><span
+        class="greytitle">Local Phone Number: </span>
+    <br />
+    <a class="greytitle"><strong>@Html.Raw(Model.LocalPhoneNumber)</strong></a>
+    <div class="memebership">
+        <br />
+        <span class="blue-title">Territory:</span><br />
+        @Html.Raw(Model.LocationName), @Html.Raw(Model.State)
+        <p>
+            <span class="blue-title">Cities Served:</span><br />
+            @foreach (var item in Model.Cities)
+            {
+                @item.City<text>, </text>
+            }</p>
+        <p>
+            <span class="blue-title">Address:</span><br />
+            @Html.Raw(Model.Address)<br />
+            @Html.Raw(Model.City), @Html.Raw(Model.State) @Html.Raw(Model.ZipCode)</p>
+        <p>
+            <span class="blue-title">Description:</span><br />
+                @Html.Raw(Model.Description)</p>
+        @if ((Model.LicenseInformation != null) && (Model.LicenseInformation != "")){
+            <p>
+            <span class="blue-title">License Information:</span><br />
+                @Html.Raw(Model.LicenseInformation)</p>
+        }
+        <hr />
+        @if ((Model.MetaTitle != null) && (Model.MetaTitle != ""))
+        {
+            <p>
+            <span class="blue-title">Meta tag: Title</span><br />
+                @Html.Raw(Model.MetaTitle)</p>
+        }
+        @if ((Model.MetaDescription != null) && (Model.MetaDescription != ""))
+        {
+            <p>
+            <span class="blue-title">Meta tag: Description</span><br />
+                @Html.Raw(Model.MetaDescription)</p>
+        }
+        @if ((Model.MetaKeywords != null) && (Model.MetaKeywords != ""))
+        {
+            <p>
+            <span class="blue-title">Meta tag: Keywords</span><br />
+                @Html.Raw(Model.MetaDescription)</p>
+        }
+        <p class="memebership">
+            &nbsp;</p>
+    </div>
+</div>

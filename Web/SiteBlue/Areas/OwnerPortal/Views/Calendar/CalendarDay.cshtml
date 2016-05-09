@@ -1,0 +1,16 @@
+﻿@*@model PaintUntilYouFaint.Models.OrderViewModel*@
+		  @{Html.RenderPartial("CalendarDayEmpty");}
+			<div class="fb-like" data-href="http://paintuntilyoufaint.com/Party/Details/@Model.PartyId" data-send="false" data-layout="button_count" data-width="10" data-show-faces="true" data-font="lucida grande"></div>
+		  @if (!Model.Party.Painting.Landscape)
+		  {
+		  <a href="@Url.Action("Details", "Party", new { id = Model.Party.PartyId })"><img style="padding-top:5px;padding-left:5px" width="110px"  alt="@Model.Party.Title" src="@Model.Party.Painting.PaintingTNUrl" title="@Model.Party.Title" /></a>
+		  }
+		  else 
+		  { 
+			  <a href="@Url.Action("Details", "Party", new { id = Model.Party.PartyId })"><img style="padding-top:5px;padding-left:5px" height="110px"  alt="@Model.Party.Title" src="@Model.Party.Painting.PaintingTNUrl" title="@Model.Party.Title" /></a>
+		  }
+			<div class="caltime"  >
+				@Model.Party.DateStart.ToString("h tt") - @Model.Party.DateEnd.ToString("h tt")
+				
+			</div>
+

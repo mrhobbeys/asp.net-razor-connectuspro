@@ -1,0 +1,358 @@
+﻿@{
+    ViewBag.Title = "Application";
+}
+@section Meta{
+    <title>Territory Owners of 1800-PLUMBER</title>
+    @*<meta name="description" content="" />
+    <meta name="keywords" content="" />*@
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="center" valign="top">
+            <div class="rowtitle">
+                1-800-PLUMBER Discovery Document
+            </div>
+            <div class="shade-common">
+                <div style="margin: 10px; text-align: center;">
+                    <p>
+                        Please complete our online form and one of our Franchise Development Representatives<br />
+                        will contact you shortly to discuss this exciting opportunity with 1-800-PLUMBER.</p>
+                    <div id="message-area" class="message-area-" style="display: none;">
+                    </div>
+                    <p>
+                        <font size="1">Please fill out complete form. All fields are required</font>
+                    </p>
+                    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/global.css")" media="screen" />
+                    <style type="text/css">
+                        .message-area-error
+                        {
+                            text-align: left;
+                        }
+                    </style>
+                    @using (Html.BeginForm()) { @*<form action="800_application.htm" method="post">*@
+                    <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0" class="form"
+                        style="margin: auto;" cellpading="0">
+                        <tr class="required">
+                            <th width="47%" align="right" valign="middle" class="bluelinks">
+                                <label for="FullName">
+                                    First and last name</label>
+                            </th>
+                            <td width="53%" align="left" valign="middle">
+                                <input type="text" id="FullName" name="FullName" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="BusinessName">
+                                    Business name</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="BusinessName" name="BusinessName" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="BusinessOwner">
+                                    Business owner(s)</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="BusinessOwner" name="BusinessOwner" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="YearsInBusiness">
+                                    Years in business</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="YearsInBusiness" name="YearsInBusiness" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="TotalRevenue">
+                                    Total annual revenue</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="TotalRevenue" name="TotalRevenue" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="TotalTrucks">
+                                    Total number of trucks</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="TotalTrucks" name="TotalTrucks" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="TotalServiceOnlyTrucks">
+                                    Total number of service only trucks</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="TotalServiceOnlyTrucks" name="TotalServiceOnlyTrucks" value=""
+                                    class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="OfferedServiceTypeId">
+                                    What type of service do you offer</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <select id="OfferedServiceTypeId" name="OfferedServiceTypeId" class="lg">
+                                    <option value="">Please Choose</option>
+                                    <option>Residential</option>
+                                    <option>Commercial</option>
+                                    <option>Industrial</option>
+                                    <option>Remodeling</option>
+                                    <option>New Construction</option>
+                                    <option>Check All</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="BusinessAddress">
+                                    Business address</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="BusinessAddress" name="BusinessAddress" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="City">
+                                    City</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="City" name="City" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="State">
+                                    State</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <select id="State" name="State" class="lg">
+                                    <option value="">Please Choose</option>
+                                    <option>Alabama</option>
+                                    <option>Alaska</option>
+                                    <option>American Samoa</option>
+                                    <option>Arizona</option>
+                                    <option>Arkansas</option>
+                                    <option>California</option>
+                                    <option>Colorado</option>
+                                    <option>Connecticut</option>
+                                    <option>Delaware</option>
+                                    <option>District of Columbia</option>
+                                    <option>Florida</option>
+                                    <option>Georgia</option>
+                                    <option>Guam</option>
+                                    <option>Hawaii</option>
+                                    <option>Idaho</option>
+                                    <option>Illinois</option>
+                                    <option>Indiana</option>
+                                    <option>Iowa</option>
+                                    <option>Kansas</option>
+                                    <option>Kentucky</option>
+                                    <option>Louisiana</option>
+                                    <option>Maine</option>
+                                    <option>Maryland</option>
+                                    <option>Massachusetts</option>
+                                    <option>Michigan</option>
+                                    <option>Minnesota</option>
+                                    <option>Mississippi</option>
+                                    <option>Missouri</option>
+                                    <option>Montana</option>
+                                    <option>Nebraska</option>
+                                    <option>Nevada</option>
+                                    <option>New Hampshire</option>
+                                    <option>New Jersey</option>
+                                    <option>New Mexico</option>
+                                    <option>New York</option>
+                                    <option>North Carolina</option>
+                                    <option>North Dakota</option>
+                                    <option>Northern Mariana Islands</option>
+                                    <option>Ohio</option>
+                                    <option>Oklahoma</option>
+                                    <option>Oregon</option>
+                                    <option>Pennsylvania</option>
+                                    <option>Puerto Rico</option>
+                                    <option>Rhode Island and Providence Plantations</option>
+                                    <option>South Carolina</option>
+                                    <option>South Dakota</option>
+                                    <option>Tennessee</option>
+                                    <option>Texas</option>
+                                    <option>Utah</option>
+                                    <option>Vermont</option>
+                                    <option>Virgin Islands</option>
+                                    <option>Virginia</option>
+                                    <option>Washington</option>
+                                    <option>West Virginia</option>
+                                    <option>Wisconsin</option>
+                                    <option>Wyoming</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="ZipCode">
+                                    Zip</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="ZipCode" name="ZipCode" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="CellPhone">
+                                    Cell phone</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="CellPhone" name="CellPhone" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="OfficePhone">
+                                    Office phone</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="OfficePhone" name="OfficePhone" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="EmailAddress">
+                                    Email</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="EmailAddress" name="EmailAddress" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="Fax">
+                                    Fax</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="Fax" name="Fax" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="ContactTypeId">
+                                    Best to contact me</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="radio" id="ContactTypeId" name="ContactTypeId" value="Email" />
+                                Email&nbsp;&nbsp;
+                                <input type="radio" id="ContactTypeId" name="ContactTypeId" value="Cell" />
+                                Cell&nbsp;&nbsp;
+                                <input type="radio" id="ContactTypeId" name="ContactTypeId" value="Office" />
+                                Office&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="ContactTime">
+                                    Best time to contact</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="text" id="ContactTime" name="ContactTime" value="" class="lg" />
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="MoreInformation">
+                                    Would you like more information?</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <input type="radio" id="MoreInformation" name="MoreInformation" value="Yes" />
+                                Yes&nbsp;&nbsp;
+                                <input type="radio" id="MoreInformation" name="MoreInformation" value="No" />
+                                No&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="WhyInvest">
+                                    Why are you considering investing in a Franchise?</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <textarea id="WhyInvest" name="WhyInvest" class="lg"></textarea>
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="HearedAboutUs">
+                                    How did you hear about us?</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <textarea id="HearedAboutUs" name="HearedAboutUs" class="lg"></textarea>
+                            </td>
+                        </tr>
+                        <tr class="required">
+                            <th align="right" valign="middle" class="bluelinks">
+                                <label for="ZipsInterested">
+                                    Describe the zip codes you are interested in</label>
+                            </th>
+                            <td align="left" valign="middle">
+                                <textarea id="ZipsInterested" name="ZipsInterested" class="lg"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle">
+                            </td>
+                            <td align="left" valign="middle">
+                                <input style="background-color: #1A2E8C; border: 0px; color: #FFFFFF; padding: 4px;"
+                                    class="btn_primary" name="submit" type="submit" value="Submit" />
+                            </td>
+                        </tr>
+                    </table>
+                    @*</form>*@ }
+                </div>
+            </div>
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/services-banner.jpg")" alt="Services" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

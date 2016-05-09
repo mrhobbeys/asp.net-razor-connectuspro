@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rows>
+	<row id="1">
+    <cell>15950</cell>
+    <cell>4,205.52</cell>
+    <cell>4,170.52</cell>
+    <cell>35.00</cell>
+	</row>
+	<row id="2">
+    <cell>15957</cell>
+    <cell>1,608.04</cell>
+    <cell>1,491.37</cell>
+    <cell>116.67</cell>
+
+
+  </row>
+	<row id="3" >
+    <cell>16283</cell>
+    <cell>3,664.22</cell>
+    <cell>3,594.22</cell>
+    <cell>70.00</cell>
+
+  </row>
+	
+</rows>

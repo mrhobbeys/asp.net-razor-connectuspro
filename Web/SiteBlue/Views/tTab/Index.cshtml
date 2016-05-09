@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+@section Title{
+    <h2>The t-Tab®</h2>
+}
+@section Comments{
+    <div id="comments">
+        “I’ve researched all of the major technology providers for service companies, and
+        ConnectusPro blows them out of the water because ConnectusPro is so much more than
+        just technology. It’s a complete system to run the business.” <span class="comment-by">
+            J.M.</span>
+    </div>
+}
+<div id="transition">
+    <a href="@Url.Content("~/Contact")">
+        <img src="@Url.Content("~/Content/images/new/small-t-Tabimage3.png")" id="image3" alt="" height="430" /></a>
+    <a href="@Url.Content("~/Contact")">
+        <img src="@Url.Content("~/Content/images/new/small-t-Tabimage2.png")" id="image2" alt="" height="430" /></a>
+    <a href="@Url.Content("~/Contact")">
+        <img src="@Url.Content("~/Content/images/new/small-t-Tabimage1.png")" id="image1" alt="" height="430" /></a>
+</div>
+<script type="text/javascript">
+
+    var height = screen.height;
+
+    if (height > 800) {
+        $("#image1").attr("src", '@Url.Content("~/Content/images/new/t-Tabimage1.png")');
+        $("#image1").attr("height", 630);
+
+        $("#image2").attr("src", '@Url.Content("~/Content/images/new/t-Tabimage2.png")');
+        $("#image2").attr("height", 630);
+
+        $("#image3").attr("src", '@Url.Content("~/Content/images/new/t-Tabimage3.png")');
+        $("#image3").attr("height", 630);
+
+        $("#transition").css("height", 630);
+        $("#main").css("height", 655);
+    } else {
+        $("#transition").css("height", 430);
+        $("#main").css("height", 455);
+    }
+
+    $(document).ready(function () {
+        $("#transition")
+        .after('<div id="selector">')
+        .cycle({
+            fx: "fade",
+            timeout: 14000,
+            speed: 2000,
+            pager: '#selector'
+        });
+    });
+</script>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cycle.all.2.74.js")"></script>
+}

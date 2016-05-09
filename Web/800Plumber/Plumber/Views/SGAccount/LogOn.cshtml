@@ -1,0 +1,110 @@
+@model SecurityGuard.ViewModels.LogOnViewModel
+@{
+    ViewBag.Title = "LogOn";
+}
+
+@section Meta{
+    <title>Log On to 1800-PLUMBER</title>
+    <meta name="description" content="Please enter your user name and password. Register if you don't have an account." />
+    @*<meta name="keywords" content="" />*@
+}
+<script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/SecurityGuard/scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                Log On</div>
+            <div class="shadecenter">
+                <p>
+                    Please enter your user name and password. @Html.ActionLink("Register", "Register")
+                    if you don't have an account.
+                </p>
+                <div class="searchbox">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td align="left" valign="top" class="s1">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            @using (Html.BeginForm())
+                            {
+                                @Html.ValidationSummary(true)
+                                <td align="left" valign="top" class="s2">
+                                    <div class="spacer">
+                                        <div>
+                                            User name <span class="condition">*</span></div>
+                                        @Html.TextBoxFor(model => model.UserName, new { @class = "formtext" })
+                                        @Html.ValidationMessageFor(model => model.UserName)
+                                        <div>
+                                            Password <span class="condition">*</span></div>
+                                        @Html.PasswordFor(model => model.Password, new { @class = "formtext" })
+                                        @Html.ValidationMessageFor(model => model.Password)
+                                        <div>
+                                            @Html.EditorFor(model => model.RememberMe) Remember me
+                                        </div>
+                                        <div class="search-btn">
+                                            <input type="submit" name="LogOn" value="Log on" style="background-image: url(@Url.Content("~/Content/images/submit.png"));
+                                            width: 100px; height: 24px; background-color: #FFFFFF; color: #FFFFFF; border: 0px;
+                                            background-repeat: no-repeat" />
+                                        </div>
+                                        @if (Model.EnablePasswordReset)
+                                        {
+                                            <p>@Html.ActionLink("Forgot Password?", "ForgotPassword")</p>
+                                        }
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top" class="s3">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/search-new.jpg")" alt="Locations" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations"><span class="menu_ar">
+                    Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $("#UserName").focus();
+    });
+</script>

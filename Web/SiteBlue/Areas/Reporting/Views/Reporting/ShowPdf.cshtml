@@ -1,0 +1,206 @@
+﻿@model SiteBlue.Areas.Reporting.Models.CustmerInformationViewModel
+
+@{
+    ViewBag.Title = "CustomerLedgerReport";
+    //Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+
+
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxwindows.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxtabbar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Reporting/Reporting.css" rel="stylesheet" type="text/css" />
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+       <script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+
+
+
+<script type="text/javascript" language="javascript">
+    //Document Loading function
+    $(document).ready(function () {
+        //maxLimitExceeded = false;
+        Gridint();
+        getUrlVars();
+        LoadSearchReportResult();
+         getCustomerDetails();
+       
+        });
+
+        function getCustomerDetails()
+        {
+            var id = $('#custId').val();
+         
+         var params = { CustomerId: id };
+            $.ajax({
+            url: '@Url.Action("getCustomerDetails")',
+            data: JSON.stringify(params),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+            $('#custName').text(result.data);
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (xhr, status, error) {
+            alert(error);
+            }
+                });
+        }
+
+        function getUrlVars()
+        {
+       
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+         if(i==0)
+        {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+        $('#custId').val(vars[hash[0]]);
+        }
+        if(i==1)
+        {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+        $('#lblInvoices').val(vars[hash[0]]);
+        }
+        if(i==2)
+        {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+        $('#lblPayments').val(vars[hash[0]]);
+        }
+        if(i==3)
+        {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+        $('#lblBalances').val(vars[hash[0]]);
+        }
+}
+$('#lblInvoices').attr("disabled", "disabled");
+$('#lblPayments').attr("disabled", "disabled");
+$('#lblBalances').attr("disabled", "disabled");
+        //return vars;
+        }
+
+
+
+
+    
+
+    //grid preinit function
+    function Gridint() {
+        gridList = new dhtmlXGridObject('divgridbox');
+        gridList.setImagePath("../../codebase/imgs/");
+        gridList.setHeader("Reference Id,Type,Amount,Actual Balance,Store Balance,Recorded Date,IsOutstanding,Running Balance");
+        gridList.setColTypes("txt,txt,txt,txt,txt,txt,txt,txt");
+        gridList.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");
+        gridList.setInitWidths("150,150,150,150,200,200,200,200");
+        gridList.setColAlign("left,left,left,left,left,left,left,left");
+        gridList.setSkin("dhx_skyblue");
+        gridList.setColSorting("str,str,str,str,str,str,str,str");
+        gridList.enablePaging(true, 20, 3, "divPaging", false);
+        gridList.setPagingSkin("bricks");
+        gridList.init();
+    }
+
+
+    //Load grid datat from db
+    //Load grid datat from db
+    function LoadSearchReportResult() {
+    
+    var id=$('#custId').val();
+ 
+   
+    var params = { CustmerId:id };
+
+            $.ajax({
+                url: '@Url.Action("getLedgerDetails")',
+            data: JSON.stringify(params),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+            gridList.clearAll();
+            gridList.loadXMLString(result.data);
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (xhr, status, error) {
+                //$("#divloading").hide();
+                alert(error);
+            }
+        });
+
+    }
+
+    function downloadToExcel() {
+
+     gridList.toExcel("../Reporting/DownloadCustomerLedgerSummaryExcel");
+        
+    }
+
+   
+
+
+ </script>
+
+
+
+<div style="background-color: #2C2D31; height: 30px; width: 100%">
+    <div style="float: left; padding-right: 30px; padding-left: 10px; height: 30px;">
+        <a href="../../../LandingPage/Dashboard" style="border: none">
+            <img style="border: none" src="../../../../Images/ConnectusPro logo CMYK 2.png" width="150px" alt="Connectus Pro" height="30px" />
+        </a>
+    </div>
+</div>
+        
+<h3>Customer Ledger Details</h3>
+<b>Customer Name: </b> <b><label id="custName"></label></b><br /><br />
+
+
+@* -- Grid & Paging DIVs -- *@
+<div id="divgridbox" style=" padding-left:5px; width:100%; height:370px; overflow:hidden;"></div>
+<div id="divPaging"></div>
+ <div id="divexportpanel" class="exportpanel">
+                    <input id="btnExportExcel" type="button" onclick="downloadToExcel()" value="Export to Excel" />
+                </div>
+
+<div style=" float:right; width:350px;">
+
+<b>Invoices : </b>
+<span style=" padding-left:85px;"> <input type="text" id="lblInvoices"  /></span><br /><br />
+
+<b>Payments : </b>
+<span style=" padding-left:75px;"> <input type="text" id="lblPayments" /></span><br /><br />
+<b>Outstanding Balances : </b> 
+<input type="text" id="lblBalances" />
+
+<label id="custId" style="display:none;"></label>
+
+</div>
+                

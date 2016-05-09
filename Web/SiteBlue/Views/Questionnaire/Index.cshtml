@@ -1,0 +1,63 @@
+﻿@model SiteBlue.Questionnaire.Data.Questionnaire
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/QuestionnaireLayout.cshtml";
+}
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Owner Portal", "Dashboard", "LandingPage", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+
+        </ul>
+    </nav>
+}
+<h2>
+    Questionnaire</h2>
+<div class="wizard-steps">
+    <div class="active-step">
+        <a href="@Url.Content("~/Questionnaire" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>1</span> Welcome</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/OwnerInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>2</span> Owner Information</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/BusinessInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>3</span> Business Information</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/TechnicianInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>4</span> Technician Information</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/AccountingInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>5</span> Accounting Information</a></div>
+    <div>
+        <a href="#"><span>1</span> Complete</a></div>
+</div>
+<div class="content">
+    @using (Html.BeginForm("Index", "Questionnaire", FormMethod.Post, new { id = "form", @class = "form" }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="formSection" id="welcome-section">
+            <div style="min-height: 200px;">
+                <div class="formComponent formComponentName">
+                    <label class="formComponentLabel">
+                        To start your questionnaire click the start button</label>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div id="but" style="height: 60px; width: 100%; display: block; text-align: right">
+    <ul class="control">
+        <li><a href="javascript:document.getElementById('form').submit()" class="formbutton"
+            id="start">Start</a></li><li></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(".formSection:first").fadeIn();
+</script> 

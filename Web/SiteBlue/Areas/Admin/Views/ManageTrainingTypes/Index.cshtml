@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SiteBlue.Data.EightHundred.TrainingType>
+
+@{
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+<br />
+<h2>Manage training types</h2>
+
+<p>
+    @Html.ActionLink("Add a new training type", "Create")
+</p>
+<table class="data-table">
+    <tr>
+        <th colspan="2">
+            <strong>Type</strong>
+        </th>
+        <th>
+            <strong>Description</strong>
+        </th>
+        <th>
+            <strong>Link Text</strong>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td style="width:5%">
+            @if (item.Icon != null)
+            {
+                <img src="@Url.Content(item.Icon)" alt="" title="@item.TrainingTypeName" width="20" />   
+            }
+        </td>
+        <td style="width:15%">
+            @Html.DisplayFor(modelItem => item.TrainingTypeName)
+        </td>
+        <td style="width:50%">
+            @Html.Raw(item.Description)
+        </td>
+        <td style="width:15%">
+            @Html.DisplayFor(modelItem => item.ViewText)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.TrainingTypeId }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.TrainingTypeId }) |*@
+            @Html.ActionLink("Delete", "Delete", new { id = item.TrainingTypeId })
+        </td>
+    </tr>
+}
+</table>

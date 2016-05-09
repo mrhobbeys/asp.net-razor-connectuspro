@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SiteBlue.Data.EightHundred.Training>
+
+@{
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+<br />
+<h2>Manage training courses</h2>
+
+<p>
+    @Html.ActionLink("Add a new course", "Create") | @Html.ActionLink("Manage training types", "Index", "ManageTrainingTypes", new { area = "Admin" }, null)
+</p>
+<table class="data-table">
+    <tr>
+        <th>
+            <strong>Site</strong>
+        </th>
+        <th colspan="2">
+            <strong>Title</strong>
+        </th>
+        <th>
+            <strong>Description</strong>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Site.SiteName)
+        </td>
+        <td style="text-align:right; width:5%">
+            @if (item.TrainingType.Icon != "")
+            {
+                <img src="@Url.Content(item.TrainingType.Icon)" title="@item.TrainingType.TrainingTypeName" width="20" alt="" />
+            }
+        </td>
+        <td>
+            <strong>@Html.DisplayFor(modelItem => item.Title)</strong>
+        </td>
+        <td>
+            @Html.Raw(item.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.TrainingId }) |
+            @*@Html.ActionLink("Details", "Details", new { id = item.TrainingId }) |*@
+            @Html.ActionLink("Delete", "Delete", new { id = item.TrainingId })
+        </td>
+    </tr>
+}
+
+</table>

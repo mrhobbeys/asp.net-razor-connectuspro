@@ -1,0 +1,185 @@
+﻿html, body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    overflow: hidden;
+    font-family: sans-serif;
+    font-size:14px;
+}
+
+div, h1, form, fieldset, input, textarea
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+}
+
+.contactBtn
+{
+    border: 1px solid #496373;
+    margin-top: 5px;
+}
+
+div#top_left
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    color: #fff;
+    width: 100%;
+    height: 93px;
+    float: left;
+    background: #2d2d2d;
+    border: 1px solid #605F5F;
+    -moz-box-shadow: 0px 0px 8px #444;
+    -webkit-box-shadow: 0px 0px 8px #444;
+}
+
+div#weather
+{
+    margin-top: 2px;
+    width: 240px;
+    height: 200px;
+    margin-left: 10px;
+    overflow: hidden;
+    position: relative;
+    float: left;
+}
+
+#weatheriframe
+{
+    position: absolute;
+    top: -530px;
+    left: -180px;
+    width: 1280px;
+    height: 1200px;
+}
+
+.textfield
+{
+    height: 20px;
+}
+
+.integrated-input
+{
+    width: 40.5%;
+    height: 20px;
+    clear:left;
+    float:none;
+    border: solid 1px #6e95ad;
+    margin:5px;
+}
+select
+{
+    border: solid 1px #6e95ad;
+    width: 99%;
+}
+textarea
+{
+    border: solid 1px #6e95ad;
+    font-family: sans-serif;
+    font-size: 10pt;
+    width: 99%;
+}
+
+.link
+{
+    width: 100%;
+    text-align: center;
+}
+
+.link a
+{
+    display: inline-block;
+    width: 49%;
+    height: 35px;
+    text-align: center;
+    padding-top: 10px;
+    font-weight: bold;
+    background-color: #6e95ad;
+    color: #fff;
+    text-decoration: none;
+}
+
+.link a.small
+{
+    display: inline-block;
+    width: 32%;
+    height: 25px;
+    padding-top: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 10pt;
+    background-color: #6e95ad;
+    color: #fff;
+    text-decoration: none;
+}
+
+.button
+{
+    height: 25px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #6e95ad;
+    color: #fff;
+    text-decoration: none;
+}
+
+#date h1
+{
+    color: #728eaa;
+}
+
+#links
+{
+    width: 100%;
+    text-align: center;
+}
+
+#links a
+{
+    color: #728eaa;
+    text-decoration: none;
+}
+
+#links a:hover
+{
+    text-decoration: underline;
+}
+
+.red-link a
+{
+    color: #FF0000;
+    text-decoration: none;
+}
+
+.red-link a:hover
+{
+    text-decoration: underline;
+}
+
+.textfield, select, textarea
+{
+    float:left;
+    border: solid 1px #6e95ad;
+    width:96%;
+    margin:5px;
+}
+
+#customerTab
+{
+    clear:left;
+}
+
+#informationLabel p
+{
+    margin:0px;
+}
+
+input[type=checkbox]
+{
+    width:20px;
+}

@@ -1,0 +1,356 @@
+﻿@{
+    ViewBag.Title = "Employee List";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxwindows.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../../../../common/css/style.css" type="text/css"
+        media="screen" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/dhtmlxtabbar.css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../../../../common/css/style.css" type="text/css"
+        media="screen" />
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .link
+        {
+            text-decoration: none;
+            color: Black;
+            cursor: hand;
+            cursor: pointer;
+        }
+    </style>
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        dhtmlx.skin = "dhx_skyblue";
+    </script>
+    <script type="text/javascript">
+        $('document').ready(function () {
+            SiteBlue.renderMenu(true);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnDataLoad(); });
+
+            doOnDataLoad();
+            $("#btnAdd").click(function () {
+
+                window.location = "../Employee/EmployeeInformation?id=0&frid=" + SiteBlue.franchiseId;
+            });
+
+        });
+
+        function RowClick(rId, cInd) {
+            var cellObj = gridEmpList.cellById(rId, 0);
+
+            window.location.href = "../Employee/EmployeeInformation?id=" + cellObj.getValue() + "&frid=" + SiteBlue.franchiseId;
+        }
+        function doOnDataLoad() {
+
+            document.getElementById("gifId").style.display = "block";
+            var status = document.getElementById("showInactive").checked;
+            var xmlstringEmpList = "";
+            var empid = { checkStatus: status, frenchiseeID: SiteBlue.franchiseId };
+            var jsondata = $.ajax({
+                url: "/Employee/EmployeeData",
+                data: JSON.stringify(empid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    gridEmpList = new dhtmlXGridObject("gridEmployee");
+                    gridEmpList.setInitWidths("0,220,200,220,220,200,200");
+                    gridEmpList.setHeader("Employee Id,Employee,Primary Phone,Address,City,State,Postal");
+                    gridEmpList.setColTypes("txt,txt,txt,txt,txt,txt,txt");
+                    gridEmpList.enablePaging(true, 25, 3, "gridpgn", false);
+                    gridEmpList.setPagingSkin("bricks");
+                    //                gridEmpList.attachEvent("onRowDblClicked", "RowDblClick");
+                    gridEmpList.attachEvent("onRowSelect", "RowClick");
+                    gridEmpList.init();
+                    gridEmpList.setColumnHidden(0, true);
+                    gridEmpList.setSkin("dhx_skyblue");
+
+                    var AdForHomePages = msg;
+                    xmlstringEmpList = xmlstringEmpList + "<rows>";
+                    $.each(AdForHomePages, function (index, Emplist) {
+
+                        xmlstringEmpList = xmlstringEmpList + "<row id='" + index + "'>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpId + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpName + "]]></cell>";
+                        if (Emplist.EmpPrimaryPhone != null) {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpPrimaryPhone + "]]></cell>";
+                        }
+                        else {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        }
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpAddress + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpCity + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpState + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpPostal + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "</row>";
+                    });
+                    xmlstringEmpList = xmlstringEmpList + "</rows>";
+                    //mygrid.clearAll();
+
+                    gridEmpList.loadXMLString(xmlstringEmpList);
+                    document.getElementById("gifId").style.display = "none";
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+
+                }
+            });
+        }
+
+        function doOnDataLoad1() {
+            document.getElementById("gifId").style.display = "block";
+            var status = document.getElementById("showInactive").checked;
+            var xmlstringEmpList = "";
+            var empid = { checkStatus: status, frenchiseeID: SiteBlue.franchiseId };
+            var jsondata = $.ajax({
+                url: "/Employee/EmployeeData",
+                data: JSON.stringify(empid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    gridEmpList = new dhtmlXGridObject("gridEmployee");
+                    gridEmpList.setInitWidths("0,220,220,220,220,220,220");
+                    gridEmpList.setHeader("Employee Id,Employee,Primary Phone,Address,City,State,Postal");
+                    gridEmpList.setColTypes("txt,txt,txt,txt,txt,txt,txt");
+                    gridEmpList.enablePaging(true, 25, 3, "gridpgn", false);
+                    gridEmpList.setPagingSkin("bricks");
+                    gridEmpList.attachEvent("onRowDblClicked", "RowDblClick");
+                    gridEmpList.attachEvent("onRowSelect", "RowClick");
+                    gridEmpList.init();
+                    gridEmpList.setColumnHidden(0, true);
+                    gridEmpList.setSkin("dhx_skyblue");
+
+                    var AdForHomePages = msg;
+                    xmlstringEmpList = xmlstringEmpList + "<rows>";
+                    $.each(AdForHomePages, function (index, Emplist) {
+
+                        xmlstringEmpList = xmlstringEmpList + "<row id='" + index + "'>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpId + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpName + "]]></cell>";
+                        if (Emplist.EmpPrimaryPhone != null) {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpPrimaryPhone + "]]></cell>";
+                        }
+                        else {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        }
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpAddress + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpCity + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpState + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.EmpPostal + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "</row>";
+                    });
+                    xmlstringEmpList = xmlstringEmpList + "</rows>";
+                    //mygrid.clearAll();
+
+                    gridEmpList.loadXMLString(xmlstringEmpList);
+                    document.getElementById("gifId").style.display = "none";
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+
+                }
+            });
+        }
+
+        function downloadCustToExcel() {
+            gridEmpList.toExcel("/Employee/DownloadEmployeeList");
+        }
+
+        
+    </script>
+}
+@{Html.BeginForm("EmployeeList", "Employee");}
+<div style="height: 650px; margin-top: 10px;" class=" dhx_tabbar_zone_top">
+    <div class="dhx_tabbar_zone dhx_tabbar_zone_dhx_skyblue">
+        <div class="dhx_tablist_zone" style="height: 24px; top: 0px;">
+            <div class="dhx_tabbar_row" style="height: 26px; top: 0px; z-index: 10;">
+                <div class="dhx_tab_element dhx_tab_element_active dhx_tab_hover" style="height: 26px;
+                    top: 0px; left: 5px; width: 150px; background-color: white; z-index: 3;">
+                    <span>Employee List</span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+ @*               <div class="dhx_tab_element dhx_tab_element_inactive" style="height: 26px; background-color: white;
+                    z-index: 5; top: 0px; left: 154px; width: 150px;">
+                    <span><a class="link" href="../PayrollHistory/PayrollSetup">Payroll Setup</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 150px; height: 26px;
+                    top: 0px; left: 303px;">
+                    <span><a class="link" href="TimeCardSummary">Time Card Summary</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 150px; height: 26px;
+                    top: 0px; left: 452px;">
+                    <span><a class="link" href="../PayrollHistory/PayrollProcessing">Payroll Processing</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="height: 26px; background-color: white;
+                    z-index: 7; top: 0px; left: 601px; width: 150px;">
+                    <span><a class="link" href="../PayrollHistory/GetPayrollHistroy">Payroll History</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>*@
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 750px;">
+                    <span><a class="link" href="HR_Form">Forms</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 849px;">
+                    <span><a class="link" href="../Employee/HR_ReviewForm">Reviews</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 948px;">
+                    <span><a class="link" href="../Employee/EmployeeReminders">Reminders</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tablist_line" style="top: 22px; z-index: 8; width: 1332px;">
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabcontent_zone" style="background-color: white; height: 621px; width: 99.9%;
+            top: 27px;">
+            <div style="overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px;
+                width: 99.9%; height: 621px;">
+                <div id="dhxMainCont" style="position: relative; left: 0px; top: 0px; overflow: hidden;
+                    width: 100%; height: 800px;">
+                    <div id="divEmployeeList" style="width: 100%; height: 650px; background-color: white;
+                        overflow: hidden;">
+                        <fieldset style="vertical-align: bottom; padding: 5px 0px 5px 0px; width: 99%; margin: 5px;">
+                            <div style="margin-right: 50px; float: left; margin-left: 5px;">
+                                <label style="font-size: larger; font-weight: bold;">
+                                    Employee List</label>
+                            </div>                            
+                            <div style="float: right; margin-right: 2px;">
+                            <input id="btnCTExcel" type="button" onclick="downloadCustToExcel()" value="Export" />&nbsp;
+                                <input type="button" name="btnAdd" id="btnAdd" value="Add" />
+                                @Html.CheckBox("showInactive", (bool)Session["showInactive"], new { onchange = "doOnDataLoad()", style = "margin-left:10px;" })
+                                @Html.Label("Active")
+                            </div>
+                        </fieldset>
+                        <div align="center" id='gifId'>
+                            <img src="../../../../Images/ajax-loader.gif" alt="processing..." />
+                        </div>
+                        <div id="gridEmployee" style="width: 100%; height: 530px; background-color: white;
+                            overflow: hidden;">
+                        </div>
+                        <div id="gridpgn">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabbar_lineA" style="top: 24px; width: 100%;">
+        </div>
+        <div class="dhx_tabbar_lineB" style="top: 24px; width: 100%;">
+        </div>
+        <div class="dhx_tabbar_lineC" style="height: 21px;">
+        </div>
+        <div class="dhx_tabbar_lineD">
+        </div>
+    </div>
+</div>
+@{Html.EndForm();}

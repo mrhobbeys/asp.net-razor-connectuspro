@@ -1,0 +1,37 @@
+﻿@model IEnumerable<SiteBlue.Areas.PriceBook.Models.SubSection>
+
+@foreach (var subsection in Model)
+{       
+    <ul id="@Html.DisplayFor(t => subsection.SectionID)">
+        <li id="@Html.DisplayFor(subSectionItem => subsection.SubsectionID)" title="@Url.Action("TreeTasks", new { id = subsection.SubsectionID })" class="hasChildren taskli">
+            <span class="subsection">
+                @Html.CheckBoxFor(sectionItem => subsection.ActiveYN, new { id = subsection.SubsectionID, @class = "ActiveYNSubSection", href = Url.Action("ActivateSubSection", new { id = subsection.SubsectionID }) }) 
+                <span class="sectiontext">@Ajax.ActionLink(subsection.SubSectionName, "TaskList", new { id = subsection.SubsectionID }, new AjaxOptions { UpdateTargetId = "taskgrid" }, new { @class = "subsectionlink" })</span>
+                <img src="/Areas/PriceBook/images/edittreenode.jpg" id="@Html.DisplayFor(subsectionItem => subsection.SubsectionID)" title="@Url.Action("UpdateSubSection", new { id = subsection.SubsectionID })" class="EditSection" />
+                <img src="/Areas/PriceBook/images/add.jpg" id="@Html.DisplayFor(subsectionItem => subsection.SubsectionID)" title="Add Task" class="AddTask" />
+                <img src="/Areas/PriceBook/images/delete.jpg" id="@Html.DisplayFor(subsectionItem => subsection.SubsectionID)" title="Delete SubSection" class="DeleteSubSection" url="@Url.Action("DeleteSubSection", new { id = subsection.SubsectionID })" />
+                <img src="/Areas/PriceBook/images/copy.jpg" id="@Html.DisplayFor(subsectionItem => subsection.SubsectionID)" title="Copy SubSection" class="CopySubSection" url="@Url.Action("CopySubSection", new { id = subsection.SubsectionID })" />
+                <img src="/Areas/PriceBook/images/calc.jpg" id="@Html.DisplayFor(subsectionItem => subsection.SubsectionID)" title="Calc SubSection" class="LaborSubSection" url="@Url.Action("LaborSubSection", new { id = subsection.SubsectionID })" />
+            </span>
+
+            @if (subsection.Tasks.Count > 0)
+            {
+                <ul id="@Html.DisplayFor(subSectionItem => subsection.SectionID)Tasks">
+				    @foreach (var task in subsection.Tasks.OrderBy(s => s.JobCodeDescription).ToList())
+                    {
+	                    <li>
+                            <span class="task">
+                                @Html.CheckBoxFor(sectionItem => task.ActiveYN, new { id = task.JobCodeID, @class = "ActiveYNTask", href = Url.Action("ActivateTask", new { id = task.JobCodeID }) }) 
+                                <span class="sectiontext" jobcode="@Html.DisplayFor(taskItem => task.JobCode)">@Ajax.ActionLink(task.JobCode + " " + task.JobCodeDescription, "TaskDetail", new { id = task.JobCodeID }, new AjaxOptions { UpdateTargetId = "taskgrid" }, new { @class = "tasklink", @taskattr = task.JobCodeID, @url = Url.Action("SingleTask", new { id = task.JobCodeID }) })</span>
+                                <img src="/Areas/PriceBook/images/edittreenode.jpg" id="@Html.DisplayFor(taskItem => task.JobCodeID)" title="@Url.Action("UpdateTask", new { id = task.JobCodeID })" class="EditTask" />
+                                <img src="/Areas/PriceBook/images/delete.jpg" id="@Html.DisplayFor(taskItem => task.JobCodeID)" title="Delete Task" class="DeleteTask" url="@Url.Action("DeleteTask", new { id = task.JobCodeID })" />
+                                <img src="/Areas/PriceBook/images/copy.jpg" id="@Html.DisplayFor(taskItem => task.JobCodeID)" title="Copy Task" class="CopyTask" url="@Url.Action("CopyTask", new { id = task.JobCodeID })" />
+                                <img src="/Areas/PriceBook/images/calc.jpg" id="@Html.DisplayFor(taskItem => task.JobCodeID)" title="Calc Task" class="LaborTask" url="@Url.Action("LaborTask", new { id = task.JobCodeID })" />
+                            </span>
+                        </li>
+                    }
+			    </ul>
+            }
+        </li>
+    </ul>
+}

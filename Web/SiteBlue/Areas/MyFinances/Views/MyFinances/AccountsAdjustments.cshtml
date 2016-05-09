@@ -1,0 +1,459 @@
+﻿@model SiteBlue.Areas.MyFinances.Models.AccountAdjustmentViewModel
+@{
+    ViewBag.Title = "Accounting Calendar";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxcombo.css")" rel="STYLESHEET" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="STYLESHEET" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxwindows.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxtabbar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../../../common/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="../../../../../../common/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <style type="text/css">
+        .link
+        {
+            text-decoration: none;
+            color: Black;
+            cursor: hand;
+            cursor: pointer;
+        }
+    </style>
+}
+@section ScriptIncludes {
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    @* filter.js script required in order to show checkbox in the header*@
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+    <script src="../../../../codebase/json2.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) {
+                $('#hdnSelectedBalance').val('false');
+                ResetForm();
+                doOnLoad();
+            });
+
+            // Allow only numeric in certain text boxe(s).
+            $(".numeric").keydown(function (event) {
+                // Allow only backspace,Tab and delete
+                if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9) {
+                    // let it happen, don't do anything
+                }
+                else {
+                    // Ensure that it is a number and stop the keypress
+                    if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                        event.preventDefault();
+                    }
+                }
+            });
+
+            // Allow only numeric in certain text boxe(s).
+            $(".decimal").keydown(function (event) {
+                // Allow only backspace,Tab and delete
+                if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 190 || event.keyCode == 110 || event.keyCode == 9) {
+                    // let it happen, don't do anything
+                }
+                else {
+                    // Ensure that it is a number and stop the keypress
+                    if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                        event.preventDefault();
+                    }
+                }
+            });
+
+            $('#ddlAdjustmentType').bind('change', function () {                
+                var selectedTypeText = $(this).find(":selected").text();
+                if (selectedTypeText == 'NSF') {
+                    $("#checknumbercontainer").show();
+                }
+                else {
+                    $("#checkNumber").val('');
+                    $("#checknumbercontainer").hide();
+                }
+            });
+
+            $('#hdnSelectedBalance').val('false');
+            ResetForm();
+            doOnLoad();
+        });
+        
+        dhtmlx.skin = "dhx_skyblue";
+
+        function ResetForm() {
+            $("#invoice").val("");
+            $("#adjustmentAmount").val("");
+            $("#ddlAdjustmentType").val(0);
+            $("#adjustmentComments").val("");
+            $("#balance").val("");
+            $("#checkNumber").val("");
+            $("#checknumbercontainer").hide();
+        }
+
+        function downloadAdjustToExcel() {
+            mygrid.toExcel("../MyFinances/DownloadMyFinances");
+        }        
+
+        function ApplyAdjustmentNew() {
+            var invoiceID = $("#invoice").val();
+            var adjustmentAmount = $("#adjustmentAmount").val();
+            var ddlAdjustmentType = $("#ddlAdjustmentType").val();
+            var comments = $("#adjustmentComments").val();
+            var franchiseID = SiteBlue.franchiseId;
+
+            if (invoiceID == "" || adjustmentAmount == 0 || adjustmentAmount == "" || ddlAdjustmentType == 0) {
+                alert("Please complete all the field(s) before applying adjustment.");
+                return;
+            }
+            else {
+                var selectedAdjustmentType = $('#ddlAdjustmentType').find(":selected").text();
+                
+                // If PaymentType/AdjustmentType is 'Discount'.
+                if (selectedAdjustmentType == 'Discount') {
+                    var isNegative = $('#hdnSelectedBalance').val();                    
+                    if (isNegative == 'true') {
+                        alert("Could not process 'Discount' adjustment due to an existing credit balance.");
+                        return;
+                    }
+                }
+
+                // If PaymentType/AdjustmentType is 'NSF'.
+                var checkNumber = "";               
+                if (selectedAdjustmentType == 'NSF') {
+                    checkNumber = $("#checkNumber").val();
+                    if (checkNumber == "") {
+                        alert("Please complete all the field(s) before applying adjustment.");
+                        return;
+                    }
+
+                    var isNegative = $('#hdnSelectedBalance').val();
+                    if (isNegative == 'true') {
+                        alert("Could not process 'NSF' adjustment due to an existing credit balance.");
+                        return;
+                    }
+                }
+
+                var payload = { franchiseID: franchiseID, invoiceID: invoiceID, adjustmentAmount: adjustmentAmount, adjustmentTypeID: ddlAdjustmentType, adjustmentType: selectedAdjustmentType, checkNumber: checkNumber, comments: comments };
+                $("#loader").show();
+                $.ajax({
+                    url: "/MyFinances/MyFinances/ApplyAdjustmentNew",
+                    data: JSON.stringify(payload),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        if (result.Success) {
+                            ResetForm(); // Resets the form
+                            $("#hrefapply").hide();
+                            $("#loader").hide();
+                            $("#balance").val("");
+                            alert(result.Message);
+                            doOnLoad();
+                        }
+                        else {
+                            $("#loader").hide();
+                            alert(result.Message);
+                        }
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (xhr, status, error) {
+                        $("#loader").hide();
+                        alert(error);
+                    }
+                });
+            }
+        }
+        
+//        function ApplyAdjustment() {
+//            var ddlAdjustmentType = $("ddlAdjustmentType");
+//            //  alert(ddlAdjustmentType.options[ddlAdjustmentType.selectedIndex].text);
+//            if (document.getElementById("invoice").value == "" || document.getElementById("adjustmentAmount").value == 0 || ddlAdjustmentType.selectedIndex == 0 || document.getElementById("adjustmentComments").value == "") {
+
+//                alert("Please complete all fields befor applying adjustment.");
+//            } else {
+
+//                var jobid = $("#invoice").val();
+//                var amt = $("#adjustmentAmount").val();
+//                var acct = $("#ddlAdjustmentType").val();
+//                var cmt = $("#adjustmentComments").val();
+//                var fid = SiteBlue.franchiseId;
+
+//                var PaymentParameter = { franchiseid: fid, invoiceid: jobid, amount: amt, accountid: acct, comments: cmt };
+//                $("#loader").show();    // = "block";
+//                var jsata = $.ajax({
+//                    url: "/MyFinances/MyFinances/ApplyAdjustment",
+//                    data: JSON.stringify(PaymentParameter),
+//                    contentType: "application/json; charset=utf-8",
+//                    success: function (msg) {
+//                        $("#invoice").val("");
+//                        $("#adjustmentAmount").val("");
+//                        $("#ddlAdjustmentType").val(0);
+//                        $("#adjustmentComments").val("");
+//                        $("#hrefapply").hide();  //.style.display = "none";
+//                        alert(msg);
+//                        doOnLoad();
+//                    },
+//                    type: "POST",
+//                    dataType: "json",
+//                    error: function (e) {
+//                        $('#output').innerHtml(e);
+//                    }
+//                });
+//            }
+//        }
+
+        function doOnRowselect(rId, cInd) {
+            document.getElementById("hrefapply").style.display = 'block';
+            document.getElementById("invoice").value = mygrid.getSelectedId();
+
+            //alert(mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").substr(0, mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").indexOf("^")));
+            //document.getElementById("adjustmentAmount").value = mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "");
+            if (mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").indexOf("(") != -1) {
+
+                document.getElementById("adjustmentAmount").value = "-" + mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").substr(0, mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").indexOf("^")).replace("(", "").replace(")", "");
+            }
+            else {
+                document.getElementById("adjustmentAmount").value = mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").substr(0, mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").indexOf("^"));
+            }
+        }
+        
+        function doOnLoad() {
+            var param = { FranchiseeId: SiteBlue.franchiseId };
+            document.getElementById("loader").style.display = "block";
+            var jsondata = $.ajax({
+                url: "/MyFinances/MyFinances/BindOpenBalances/",
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    mygrid = new dhtmlXGridObject('gridbox');
+                    mygrid.setImagePath("../../../../codebase/imgs/");
+                    mygrid.setHeader("Select,Invoice#,Bill To,Job Location,Age,Closed Date,Tech,Job Amt,Balance,Phone", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+                    mygrid.setColAlign("center,right,left,left,center,center,left,right,right,left");
+                    mygrid.setColTypes("ra,link,link,txt,txt,txt,link,txt,link,txt");
+                    mygrid.setColSorting("str,str,str,str,str,date,str,str,str,str");
+                    mygrid.setInitWidths("60,80,200,180,80,90,200,100,100,100");
+                    mygrid.enableEditEvents(false, false, false, false, false, false, false, false, false, false);
+                    //mygrid.attachEvent("onRowSelect", doOnRowselect);
+                    mygrid.init();
+                    mygrid.setSkin("dhx_skyblue");
+                    mygrid.clearAll();
+                    mygrid.loadXMLString(msg.strxml);
+                    document.getElementById("loader").style.display = "none";
+                    //                    dhtmlXGridObject.prototype._in_header_master_checkbox = function (a, b, c) {
+                    //                        a.innerHTML = c[0] + "<input type='checkbox' />" + c[1];
+                    //                        var d = this;
+                    //                        a.getElementsByTagName("input")[0].onclick = function (a) {
+                    //                            d._build_m_order();
+                    //                            var c = d._m_order ? d._m_order[b] : b, g = this.checked ? 1 : 0;
+                    //                            d.forEachRowA(function (a) {
+                    //                                var b = this.cells(a, c);
+                    //                                if (b.isCheckbox()) b.setValue(g), b.cell.wasChanged = !0; this.callEvent("onEditCell", [1, a, c, g])
+                    //                                var cell = mygrid.cellById(a, 7);
+                    //                                var CellVal = cell.getValue();
+                    //                                var ArrAmount = CellVal.split("^");
+                    //                                var Amount = ArrAmount[0];
+                    //                                Amount = Amount.replace("$", "").replace(",", "").replace("(", "").replace(")", "");
+                    //                                var totalamount = $("#balance").val();
+                    //                                if (g) {
+                    //                                    totalamount = (parseFloat(totalamount) + parseFloat(Amount));
+                    //                                    $('#balance').val(roundNumber(totalamount, 2));
+                    //                                }
+                    //                                else {
+                    //                                    $('#balance').val(0);
+                    //                                }
+                    //                            });
+                    //                            (a || event).cancelBubble = !0
+                    //                        }
+                    //                    }
+
+                    mygrid.attachEvent("onCheck", function (rId, cInd, state) {
+                        mygrid.selectRowById(rId);
+                        doOnRowselect(rId, cInd);
+
+                        var cell = mygrid.cellById(rId, 7);
+                        var CellVal = cell.getValue();
+                        var ArrAmount = CellVal.split("^");
+                        var Amount = ArrAmount[0];
+                        Amount = Amount.replace("$", "").replace(",", "").replace("(", "").replace(")", "");
+
+                        $("#balance").val(roundNumber(parseFloat(Amount), 2));
+
+                        var balance = mygrid.cellById(rId, 8);
+                        var isNegativeBalance = balance.getValue().split("^")[0].indexOf("(") == 0;
+                        $('#hdnSelectedBalance').val(isNegativeBalance);
+
+                        //                        if ($("#balance").val() == "") {
+                        //                            var totalamount = 0;
+                        //                        }
+                        //                        else {
+                        //                            var totalamount = $('#balance').val();
+                        //                        }
+
+                        //                        if (state) {
+                        //                            totalamount = parseFloat(totalamount) + parseFloat(Amount);
+                        //                            $("#balance").val(roundNumber(totalamount, 2));
+                        //                        }
+                        //                        else {
+                        //                            totalamount = parseFloat(totalamount) - parseFloat(Amount)
+                        //                            $("#balance").val(roundNumber(totalamount, 2));
+                        //                        }
+                    });
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    alert("Error occured.");
+                }
+            });
+        }
+
+        function roundNumber(num, dec) {
+            var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+            return result;
+        }
+    </script>
+}
+<input type="hidden" id="hdnSelectedBalance" value="false" />
+<div style="height: 730px; margin-top: 10px;" class=" dhx_tabbar_zone_top">
+    <div class="dhx_tabbar_zone dhx_tabbar_zone_dhx_skyblue">
+        <div class="dhx_tablist_zone" style="height: 24px; top: 0px;">
+            <div class="dhx_tabbar_row" style="height: 26px; top: 0px; z-index: 10;">
+                <div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="height: 26px;
+                    background-color: white; z-index: 7; top: 0px; left: 5px; width: 150px;">
+                    <span><a class="link" href="PaymentMethod2">Open Balances</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_active dhx_tab_hover" style="height: 26px;
+                    top: 0px; left: 154px; width: 150px; background-color: white; z-index: 15;">
+                    <span><a class="link" href="AccountsAdjustments">Accounts Adjustments</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+                @*<div class="dhx_tab_element dhx_tab_element_inactive" style="width: 150px; height: 26px;
+                    top: 0px; left: 303px;">
+                    <span><a class="link" href="WriteOffDownFunction">Write Off Function</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>*@
+                <div class="dhx_tablist_line" style="top: 22px; z-index: 8; width: 1332px;">
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabcontent_zone" style="background-color: white; height: 700px; width: 99.9%;
+            top: 27px;">
+            <div style="overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px;
+                width: 99.9%; height: 700px;">
+                <div id="dhxMainCont" style="background-color: #D5F1FF; position: relative; left: 0px;
+                    top: 0px; overflow: hidden; width: 100%; height: 800px;">
+                    <div style="width: 100%; float: left; font-size: 14px; font-family: Verdana; margin-top: 10px;">
+                        <span style="font-weight: bold; margin-left: 2%">All A/R</span> &nbsp;&nbsp;<input
+                            id="btnRTExcel" type="button" onclick="downloadAdjustToExcel()" value="Export to Excel" /><br />
+                    </div>
+                    <div style="width: 100%; float: left; background-color: #D5F1FF;">
+                        <div class="div">
+                            <div class="div" id="loader" align="center">
+                                <img src="../../../../Images/ajax-loader.gif" alt="Processing........." /></div>
+                            <div id="gridbox" style="float: left; height: 200px; width: 96%; margin-top: 5px;
+                                margin-left: 2%; margin-right: 2%">
+                            </div>
+                        </div>
+                        <div style="width: 98%; float: left; margin-top: 10px; margin-left: 2%;">
+                            <div style="width: 50%; float: left;">
+                                <span style="width: 100%; float: left; margin-top: 10px;"><span style="width: 25%;
+                                    font-weight: bold; float: left; text-align: right;">Invoice#:</span> <span style="width: 73%;
+                                        margin-left: 2%; float: left;">
+                                        <input id="invoice" type="text" readonly="readonly" /></span> </span><span style="width: 100%;
+                                            float: left; margin-top: 10px;"><span style="width: 25%; font-weight: bold; float: left;
+                                                text-align: right;">Adjustment Amount:</span> <span style="width: 73%; margin-left: 2%;
+                                                    float: left;">
+                                                    <input id="adjustmentAmount" class="decimal" type="text" /></span> </span><span style="width: 100%;
+                                                        float: left; margin-top: 10px;"><span style="width: 25%; font-weight: bold; float: left;
+                                                            text-align: right;">Adjustment Type:</span> <span style="width: 73%; margin-left: 2%;
+                                                                float: left;">
+
+                                                                @Html.DropDownList("ddlAdjustmentType", Model.AdjustmentTypeList)
+
+                                                                @*@Html.DropDownList("ddlaccounts", new SelectList(ViewBag.AdjustmentAccount))*@
+                                                                </span></span>
+                                                                
+                                                                <span id="checknumbercontainer" style="width: 100%;
+                                            float: left; margin-top: 10px; display: none;"><span style="width: 25%; font-weight: bold; float: left;
+                                                text-align: right;">Check Number:</span> <span style="width: 73%; margin-left: 2%;
+                                                    float: left;">
+                                                    <input id="checkNumber" type="text" /></span> </span>
+
+                                                                <span style="width: 100%; float: left; margin-top: 10px;">
+    <span style="width: 25%; font-weight: bold; float: left; text-align: right;">Adjustment
+        Comments:</span> <span style="width: 73%; margin-left: 2%; float: left;">
+            <textarea id="adjustmentComments" cols="45" rows="5">
+</textarea>
+            <a href="javascript:ApplyAdjustmentNew();" id="hrefapply" style="color: Red; font-weight: bold;
+                text-decoration: underline; display: none;">Apply Adjustment NOW!</a></span>
+</span>
+                            </div>
+                            <div style="width: 47%; float: left; text-align: right; margin-right: 3%; margin-top: 150px;">
+                                <span style="width: 100%; float: left; margin-top: 10px; text-align: right;"><span
+                                    style="width: 20%; font-weight: bold;">Amount $:</span> <span style="width: 80%;
+                                        text-align: right;">
+                                        <input id="balance" type="text" readonly="readonly" value="0" /></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div style="width: 98%; float: left; font-family: Verdana; font-weight: bold; margin-left: 2%;
+                            height: 25px; margin-top: 20px;">
+                            <a href="@Url.Content("~/MasterData/LandingPage/MyFinances")" title="Back to Dashboard">
+                                Back to Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

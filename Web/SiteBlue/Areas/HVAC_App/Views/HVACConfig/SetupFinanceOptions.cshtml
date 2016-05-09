@@ -1,0 +1,22 @@
+﻿@model      SiteBlue.Areas.HVAC_App.Models.SetupModels.PackageModel[]
+<script>
+    var tabbarFOptions;
+    $(document).ready(function() {
+        tabbarFOptions = new dhtmlXTabBar("tabFOptions", "top");
+        tabbarFOptions.setSkin('dhx_skyblue');
+        tabbarFOptions.setImagePath("../../../../codebase/imgs/");
+        tabbarFOptions.setHrefMode("ajax-html");
+        @{
+            for (int i = 0; i < Model.Length; ++i)
+            {
+                <text>
+                    tabbarFOptions.addTab("a" + @i, "@Model[i].PackageName Finance Options", "120px");      
+                    tabbarFOptions.setContentHref("a" + @i, "@Url.Action("GetFinanceOptions", Model[i])".replace("&amp;","&"));
+                </text>
+            }
+        }
+        tabbarFOptions.setTabActive("a0");
+    });
+</script>       
+
+<div id="tabFOptions" style="width: 100%; height: 100%;"></div>

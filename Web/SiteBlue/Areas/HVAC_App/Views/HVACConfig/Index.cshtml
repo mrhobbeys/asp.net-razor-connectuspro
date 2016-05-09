@@ -1,0 +1,237 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+    //Layout = "../Shared/_FakeFranchiseSelectionLayout.cshtml";
+}    
+
+@section Styles
+{
+    <link href="@Url.Content("~/Styles/companyheader.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxgrid.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxgrid_skins.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxgrid_pgn_bricks.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxtabbar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxlayout.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/skins/dhtmlxgrid_dhx_blue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxdataview.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/skins/dhtmlxform_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/HVAC_App/Content/SetupPages.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/HVAC_App/Content/dhtmlx_custom.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/HVAC_App/Content/site.css")" rel="stylesheet" type="text/css" />    
+    <link href="../../../../codebase/dhtmlxwindows.css" rel="stylesheet" type="text/css" />           
+    <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet"type="text/css" />     
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxlayout_dhx_skyblue.css" />
+    <style type="text/css">
+    	.wrapper_inner {
+    		position: absolute;
+    		width: 100%;
+    	}
+    	
+    	textarea {
+    	    min-height:initial;
+    	}
+    </style>
+}
+@section ScriptIncludes
+{
+    <script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery-1.6.1.min.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/companyheader.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/MicrosoftAjax.js")" type="text/javascript" > </script>
+    <script src="@Url.Content("~/Scripts/MicrosoftMvcAjax.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/modernizr-1.7.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxdataprocessor.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxlayout.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxcontainer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgrid.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgridcell.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgrid_form.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgrid_excell_link.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxtabbar.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxtabbar_start.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxdataview.js")" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+}
+
+ @section InlineScript
+ {       
+     <script type="text/javascript">
+         var grid_acc;
+         var dhxLayout;
+         var tabbar;
+         var menuView;
+         var dp;
+
+         (function() {
+             var toString = Object.prototype.toString,
+                 strArray = Array.toString(),
+                 jscript = /*cc_on _jscript_version */ +0;
+
+             // jscript will be 0 for browsers other than IE
+             if (!jscript) {
+                 Array.isArray = Array.isArray || function(obj) {
+                     return toString.call(obj) == "[object Array]";
+                 };
+             } else {
+                 Array.isArray = function(obj) {
+                     return "constructor" in obj && String(obj.constructor) == strArray;
+                 };
+             }
+         })();
+
+         $(document).ready(function() {      
+             if(!Array.indexOf) {
+                 Array.prototype.indexOf = function(obj) {
+                     for (var i = 0; i < this.length; i++) {
+                         if (this[i] === obj) {
+                             return i;
+                         }
+                     }
+                     return -1;
+                 };
+             }
+             $("#bodyLayout").height($(window).height()-35);
+             SiteBlue.renderMenu(false);
+             var loader = dhtmlxAjax.postSync("../../hvac_app/Account/isLogged");
+             $(SiteBlue).bind("FranchiseChanged",
+                 function(e, data) {
+                     location.href = location.href.replace('#','');
+                 });
+             loadTabbars();
+         }
+         );
+         var menuItems = [];
+         function loadTabbars() {
+             menuItems = [{
+                 "id": "a2",
+                 "MenuItem": "Setup Logo Picture",
+                 "HrefUrl": "../../hvac_app/hvacconfig/setuplogo"
+             }, {
+                 "id": "a3",
+                 "MenuItem": "Setup Packages",
+                 "HrefUrl": "../../hvac_app/hvacconfig/SetupPackages"
+             }, {
+                 "id": "a1",
+                 "MenuItem": "Setup Accessories Packages",
+                 "HrefUrl": "../../hvac_app/hvacconfig/setupAccessoriesGrid"
+             }, {
+                 "id": "a4",
+                 "MenuItem": "Setup Who We Are screen",
+                 "HrefUrl": "../../hvac_app/hvacconfig/SetupWhoWeAreScreen"
+             }, {
+                 "id": "a5",
+                 "MenuItem": "Setup Videos",
+                 "HrefUrl": "../../hvac_app/hvacconfig/setupVideos"
+             }, {
+                 "id": "a7",
+                 "MenuItem": "Setup Reliable Installations Video",
+                 "HrefUrl": "../../hvac_app/hvacconfig/SetupReliableInstallations"
+             }, {
+                 "id": "a8",
+                 "MenuItem": "Setup Questions List",
+                 "HrefUrl": "../../hvac_app/hvacconfig/SetupQuestionsList"
+             }, {
+                 "id": "a6",
+                 "MenuItem": "Setup Guarantee Texts",
+                 "HrefUrl": "../../hvac_app/hvacconfig/SetupGuaranteeTexts"
+             }, {
+                 "id": "a9",
+                 "MenuItem": "Setup Finance Options",
+                 "HrefUrl": "../../hvac_app/hvacconfig/SetupFinanceOptions"
+             }, {
+                 "id": "a0",
+                 "MenuItem": "Setup Validation",
+                 "HrefUrl": "../../hvac_app/hvacconfig/VerificationHvacPage"
+             }];
+
+             dhxLayout = new dhtmlXLayoutObject("bodyLayout", "2U");
+             dhxLayout.setSkin('dhx_skyblue');
+             dhxLayout.setImagePath("@Url.Content("~/codebase/imgs/")");
+             dhxLayout.cells("a").hideHeader();
+             dhxLayout.cells('a').attachObject("menulist");
+             dhxLayout.cells("a").setWidth(230);
+             dhxLayout.cells('b').attachObject("tabLayout");
+             dhxLayout.cells("b").hideHeader();
+
+             dhxLayout.setEffect("resize", true);
+             dhxLayout.setSizes();
+             
+             tabbar = new dhtmlXTabBar("tabLayout", "top");
+             //tabbar.setSkin('dhx_skyblue');
+             tabbar.setImagePath("@Url.Content("~/codebase/imgs/")");
+             tabbar.setHrefMode("ajax-html");
+             for (i in menuItems) {
+                 tabbar.addTab(menuItems[i].id, menuItems[i].MenuItem, "200px");
+                 tabbar.setContentHref(menuItems[i].id, menuItems[i].HrefUrl);
+                 tabbar.hideTab(menuItems[i].id);
+             }
+             tabbar.setTabActive(menuItems[0].id);
+             tabbar.enableAutoReSize(true);
+
+             hideHeader();
+            
+
+             menuView = new dhtmlXDataView({
+                 container: "menulist",
+                 height: "auto",
+                 width: "auto",
+                 type: {
+                     template: "<div>#MenuItem#</div>",
+                     height: 20
+                 }
+             });
+             menuView.parse(menuItems, "json");
+             menuView.select(menuView.first());
+             
+             menuView.attachEvent("onSelectChange", function (sel_arr) {
+                 tabbar.removeTab(sel_arr["0"]);
+                 var item = getbyId(sel_arr["0"]);
+                 tabbar.addTab(item.id, item.MenuItem, "200px");
+                 tabbar.setContentHref(item.id, item.HrefUrl);
+                 tabbar.hideTab(item.id);
+                 tabbar.setTabActive(sel_arr["0"]);
+                 hideHeader();
+                 tabbar.showInnerScroll();        
+                 dhxLayout.setSizes();
+             });
+         }
+         
+         function getbyId(id) {
+             for (i in menuItems) {
+                 if (menuItems[i].id==id)
+                     return menuItems[i];
+             }
+         }
+
+         function SaveSelection() {
+             dp.sendData();
+         }
+
+         function hideHeader() {
+             tabbar._tabZone.style.display = "none";
+             var ch = document.getElementById("tabLayout").firstChild.childNodes;
+             for (var i = 0; i < ch.length; i++)
+                 ch[i].style.top = "0px";
+         }
+         
+         $(window).resize(function() {
+             
+             tabbar._tabZone.style.display = "none";
+             var ch = document.getElementById("tabLayout").firstChild.childNodes;
+             for (var i = 0; i < ch.length; i++)
+                 ch[i].style.top = "0px";
+            //dhxLayout.setSizes();
+        });
+     </script>
+ }
+@*</head>
+
+<body>*@
+    <div style="width: 35px;"></div>
+        <div id="bodyLayout" style="width:100%;height: 445px; position: absolute; top: 35px; overflow: auto;"></div>
+        <div id="menulist" style="width:100%;height:100%; min-height: 410px; ">Menu Items</div>
+        <div id="tabLayout" style="width:100%;height:100%;"></div>
+    
+@*</body>
+</html>*@

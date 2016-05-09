@@ -1,0 +1,55 @@
+﻿@using SiteBlue
+@using SiteBlue.Data.EightHundred
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    @RenderSection("MetaTags", false)
+    <title>@ViewBag.Title</title>
+    <link href="/Content/SecurityGuard/securityguard.css" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Styles/companyheader.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/companyheader.js")" type="text/javascript"></script>
+
+    @RenderSection("ScriptIncludes", false)
+    @RenderSection("InlineScript", false)
+    @RenderSection("Styles", false)
+    
+</head>
+<body class="inner_body">
+    <div id="wrapper_inner" class='wrapper_inner'>
+        <div id="header">
+
+            <div id="franchiseMenu" class="menu" isCorp="true" isPlumber="false">
+                <ul>
+                    <li id="imgItem"><a href="@Url.Action(string.Empty, "Dashboard", new { Area = "LandingPage" })">
+                                         <img src='@Url.Content("~/Images/ConnectusPro logo CMYK 2.png")' alt="Image not found" style="border:none" />
+                                     </a></li>
+                    @if (1 > 0)
+                    {
+                        <li id="current" class="current" style="margin-left: 15px;"><a fid="123">fr 123</a></li>
+                        <li class="dropDownItem">
+                            <!-- Do not add any class for links with dropdown -->
+                            <a href="#">More<span class="arrow"></span></a>
+                            <!-- Drop Down 
+                                Items -->
+                            <ul id="menuItemContainer">
+                                <li><a fid="1">fr-1</a></li>
+                                <li><a fid="2">fr-2</a></li>
+                                <li><a fid="3">fr-3</a></li>
+                                <li><a fid="4">fr-4</a></li>
+                            </ul>
+                        </li>
+                    }
+                    <li style="float: right; color: White; margin-top: 2px; margin-right: 10px;">Welcome
+                        <strong>test user</strong> </li>
+                </ul>
+            </div>
+        </div>
+        <div id="content">
+            <div class="innerpage">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>

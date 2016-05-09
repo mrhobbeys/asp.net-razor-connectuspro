@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rows>
+  <row id="1">
+    <cell></cell>
+    <cell>13380</cell>
+    <cell>Robert Smith</cell>
+    <cell>16000 Prairie Grade</cell>
+    <cell>Closed</cell>
+    <cell>1/6/2012</cell>
+    <cell>1/7/2012</cell>
+    <cell>Jasen Shre..</cell>
+    <cell>$9,088.60</cell>
+    <cell>$0.00</cell>
+  </row>
+  <row id="2">
+    <cell></cell>
+    <cell>13963</cell>
+    <cell>AHS-Amarillo-AHS-..</cell>
+    <cell>6806Zapata Ln</cell>
+    <cell>Closed</cell>
+    <cell>1/10/2012</cell>
+    <cell>1/7/2012</cell>
+    <cell>JR Rick</cell>
+    <cell>$548.19</cell>
+    <cell>$488.19</cell>
+
+  </row>
+  <row id="3" >
+    <cell></cell>
+    <cell>14926</cell>
+    <cell>Royal Brantly</cell>
+    <cell>7707 Pineridge dr</cell>
+    <cell>Closed</cell>
+    <cell>1/4/2012</cell>
+    <cell>1/7/2012</cell>
+    <cell>Tim Lawre</cell>
+    <cell>$178.00</cell>
+    <cell>$0.00</cell>
+
+
+  </row>
+  <row id="4">
+    <cell></cell>
+    <cell>15080</cell>
+    <cell>First American Home..</cell>
+    <cell>4206 S Borham St</cell>
+    <cell>Closed</cell>
+    <cell>1/6/2012</cell>
+    <cell>1/7/2012</cell>
+    <cell>Enis Cerim</cell>
+    <cell>$178.00</cell>
+    <cell>$118.00</cell>
+
+  </row>
+  <row id="5">
+    <cell></cell>
+    <cell>15094</cell>
+    <cell>Maricella Delosreyes</cell>
+    <cell>2209 E 22nd</cell>
+    <cell>Closed</cell>
+    <cell>1/6/2012</cell>
+    <cell>1/7/2012</cell>
+    <cell>Fabian Apo..</cell>
+    <cell>$876.00</cell>
+    <cell>$876.00</cell>
+  </row>
+
+
+
+</rows>

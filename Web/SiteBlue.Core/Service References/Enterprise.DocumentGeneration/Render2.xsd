@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://www.1800plumber.com/DocumentGeneration/Render.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" />
+  <xs:element name="PDFFromHtml">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="html" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PDFFromHtmlResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" minOccurs="0" name="PDFFromHtmlResult" nillable="true" type="q1:RenderResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PDFFromUrl">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="url" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PDFFromUrlResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" minOccurs="0" name="PDFFromUrlResult" nillable="true" type="q2:RenderResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

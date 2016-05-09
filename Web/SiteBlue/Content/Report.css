@@ -1,0 +1,75 @@
+﻿.gradient {
+    background: #ffffff; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjY2NjY2MiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(left,  #ffffff 0%, #cccccc 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  #ffffff 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  #ffffff 0%,#cccccc 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  #ffffff 0%,#cccccc 100%); /* IE10+ */
+    background: linear-gradient(left,  #ffffff 0%,#cccccc 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#cccccc',GradientType=1 ); /* IE6-8 */
+}
+
+table#technicians-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 0px;
+}
+
+#technicians-table td, th  {
+    border: 1px solid white; 
+    padding: 5px; 
+    /*text-align: center;*/
+    font-family: Calibri, sans-serif;
+}
+
+#technicians-table td.name { text-align: left; }
+#technicians-table td.dollar {padding: 12; text-align: right; }
+#technicians-table th.headColor {  background-color:#C7D9F1;border: 1px solid white; }
+
+#technician-column { background-color: #E9EAEC; }
+
+#sales-columns { background-color: #E9EAEC; }
+
+#upsales-columns { background-color: #DADEE7; }
+
+#discounts-columns { background-color: #E55B42;  }
+
+#sales-avg { background-color: #C7D9F1; }
+
+#jobs-columns { background-color:#6A8455; }
+
+#estimate-column { background-color: #E55B42;  }
+
+#recall-column { background-color: #E55B42;  }
+
+#closing-column { background-color: #C7D9F1; }
+
+
+
+#technician-tech-column { background-color: #E9EAEC; }
+
+#sales-tech-columns { background-color: #E9EAEC; }
+
+#upsales-tech-columns { background-color: #DADEE7; }
+
+#discounts-tech-columns { background-color: #E55B42;  }
+
+#sales-tech-avg { background-color: #C7D9F1; }
+
+#jobs-tech-columns { background-color:#6A8455; }
+
+#estimate-tech-column { background-color: #E55B42;  }
+
+#recall-tech-column { background-color: #E55B42;  }
+
+#closing-tech-column { background-color: #C7D9F1; }
+
+#summary-row { font-weight: bold; }
+
+div.dollar { float: left; text-align: left; }
+
+div.amount { float: right; text-align: right; }
+
+td.arrow { width: 25px; height: 35px; cursor: default; }

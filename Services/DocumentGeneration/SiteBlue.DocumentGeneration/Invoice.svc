@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="SiteBlue.DocumentGeneration.Invoice" CodeBehind="Invoice.svc.cs" %>

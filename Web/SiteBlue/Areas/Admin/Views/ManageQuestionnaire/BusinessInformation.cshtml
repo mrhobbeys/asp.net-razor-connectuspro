@@ -1,0 +1,311 @@
+﻿@model SiteBlue.Questionnaire.Data.BusinessInformation
+@{
+    ViewBag.Title = "BusinessInformation";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<h1>
+    Questionnaire Details: Business Information</h1>
+<p>
+</p>
+<div style="float: left; width: 45%">
+    <h3>
+        Contact Information</h3>
+    <p>
+        <strong>Office Phone:</strong> @Html.DisplayFor(model => model.OfficePhone)<br />
+        <strong>Cell Phone:</strong> @Html.DisplayFor(model => model.CellPhone)<br />
+        <strong>Website:</strong> @Html.DisplayFor(model => model.Website)
+    </p>
+    <h3>
+        Operations Information</h3>
+    <p>
+        <h2>
+            Trucks Number</h2>
+        <strong>Service:</strong> @Html.DisplayFor(model => model.TrucksService)<br />
+        <strong>Commercial:</strong> @Html.DisplayFor(model => model.TrucksCommercial)<br />
+        <strong>Installation:</strong> @Html.DisplayFor(model => model.TrucksInstallation)<br />
+        <strong>Sales:</strong> @Html.DisplayFor(model => model.TrucksSales)
+    </p>
+    <p>
+        <h2>
+            Technicians Number</h2>
+        <strong>Service:</strong> @Html.DisplayFor(model => model.TechniciansService)<br />
+        <strong>Commercial:</strong> @Html.DisplayFor(model => model.TechniciansCommercial)<br />
+        <strong>Installation:</strong> @Html.DisplayFor(model => model.TechniciansInstallation)<br />
+        <strong>Sales:</strong> @Html.DisplayFor(model => model.TechniciansSales)
+    </p>
+    @if ((Model.Addresses != null) && (Model.Addresses.Count > 0))
+    {
+        <h2>
+            Address</h2>
+        <table class="data-table" style="width: 450px">
+            <tr>
+                <th>
+                    <strong>Type</strong>
+                </th>
+                <th>
+                    <strong>Address</strong>
+                </th>
+                <th>
+                    <strong>City</strong>
+                </th>
+                <th>
+                    <strong>State</strong>
+                </th>
+            </tr>
+            @foreach (var address in Model.Addresses)
+            {
+                <tr>
+                    <th>
+                        <strong>@Html.DisplayFor(model => address.AddressType.AddressTypeName)</strong>
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => address.Address1)
+                        @(((address.Address2 != null) && (address.Address2 != "")) ? "<br />" + address.Address2 : "")
+                        <br />@Html.DisplayFor(model => address.ZipCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => address.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => address.State.StateName)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    @if ((Model.OfficePersonnels != null) && (Model.OfficePersonnels.Count > 0))
+    {
+        <table class="data-table" style="width: 450px">
+            <tr>
+                <th>
+                    <strong>Name</strong>
+                </th>
+                <th>
+                    <strong>Title</strong>
+                </th>
+                <th>
+                    <strong>Cell Phone</strong>
+                </th>
+                <th>
+                    <strong>Office Phone</strong>
+                </th>
+            </tr>
+            @foreach (var officePersonnels in Model.OfficePersonnels)
+            {
+                <tr>
+                    <th>
+                        <strong>@Html.DisplayFor(model => officePersonnels.FirstName) @Html.DisplayFor(model => officePersonnels.LastName)</strong>
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => officePersonnels.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => officePersonnels.CellPhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => officePersonnels.OfficePhone)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    <h3>License Number</h3>
+    @if ((Model.LicenseNumbers != null) && (Model.LicenseNumbers.Count > 0))
+    {
+        <table class="data-table" style="width: 450px">
+            <tr>
+                <th>
+                    <strong>License Number</strong>
+                </th>
+                <th>
+                    <strong>Issuing Agency</strong>
+                </th>
+                <th>
+                    <strong>Invoice Requirement</strong>
+                </th>
+            </tr>
+            @foreach (var licenseNumbers in Model.LicenseNumbers)
+            {
+                <tr>
+                    <th>
+                        <strong>@Html.DisplayFor(model => licenseNumbers.LicenseNumberName)</strong>
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => licenseNumbers.Comment)
+                    </td>
+                    <td>
+                        @(licenseNumbers.InvoicesRequired == true ? "Yes" : "No")
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    <h3>
+        GPS System</h3>
+    <p>
+        <strong>Do You have GPS?</strong>
+        @if (Model.GPS == true)
+        {
+            <label>
+                Yes</label><br />
+            <strong>GPS System:</strong> @Html.DisplayFor(model => model.GPSSystem.GPSSystemName)@Html.DisplayFor(model => model.OtherGPSSystem)
+            <br />
+            <strong>GPS Expiration Date:</strong> @Html.DisplayFor(model => model.GPSExpirationDate)
+        }
+        else
+        {
+            <label>
+                No</label>
+        }
+    </p>
+    <p>
+        <strong>Estimators:</strong> @Html.DisplayFor(model => model.Estimators)
+    </p>
+    <h3>
+        Hours Of Operations</h3>
+    <p>
+        <h2>
+            Monday - Friday</h2>
+        <strong>Start Hour:</strong> @Html.DisplayFor(model => model.MondayFridayST)<br />
+        <strong>End Hour:</strong> @Html.DisplayFor(model => model.MondayFridayET)<br />
+    </p>
+    <p>
+        <h2>
+            Saturday</h2>
+        <strong>Start Hour:</strong> @Html.DisplayFor(model => model.SaturdayST)<br />
+        <strong>End Hour:</strong> @Html.DisplayFor(model => model.SaturdayET)<br />
+    </p>
+    <p>
+        <h2>
+            Sunday</h2>
+        <strong>Start Hour:</strong> @Html.DisplayFor(model => model.SundayST)<br />
+        <strong>End Hour:</strong> @Html.DisplayFor(model => model.SundayET)<br />
+    </p>
+    <h3>
+        Service Trip Fees</h3>
+    <p>
+        <strong>Do You charge service Trip fees:</strong>
+        @if (Model.ServiceTripFees == true)
+        {
+            <label>
+                Yes,</label>@Html.DisplayFor(model => model.ServiceTripFeesDescription)
+        }
+        else
+        { <label>No</label>}
+    </p>
+    <p>
+        <strong>Technicians Availability:</strong>
+        @(Model.TechniciansAvailabilityNights == true ? "Night" : ""), @(Model.TechniciansAvailabilityWeekend == true ? "Weekend" : "")
+        and @(Model.TechniciansAvailabilityHolidays == true ? "Holidays" : "")
+        <br />
+        <strong>Additional Details:</strong> @Html.DisplayFor(model => model.AdditionalDetails)<br />
+        @if (Model.AfterHoursHolidaysFees == true)
+        {
+            <h2>
+                Extra charges for service afterhours o holidays</h2>
+            <strong>Description:</strong>@Html.DisplayFor(model => model.AfterHoursHolidaysFeesDescription)
+        }
+    </p>
+    
+    @if ((Model.MarketingTypes != null) && (Model.MarketingTypes.Count > 0))
+    {
+        <h3>Marketing Types</h3>
+        <table class="data-table" style="width: 450px">
+            <tr>
+                <th>
+                    <strong>Marketing Type</strong>
+                </th>
+                <th>
+                    <strong>Associated Referral/Tracking Code</strong>
+                </th>
+                <th>
+                    <strong>Comment</strong>
+                </th>
+            </tr>
+            @foreach (var marketingTypes in Model.MarketingTypes)
+            {
+                <tr>
+                    <th>
+                        <strong>@Html.DisplayFor(model => marketingTypes.MarketingTypeName)</strong>
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => marketingTypes.ReferralCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => marketingTypes.Comment)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    <p>
+        <strong>Phone Answer:</strong> @Html.DisplayFor(model => model.ServiceCenterAgentsAnswer)
+    </p>
+</div>
+<div style="float: right; width: 50%">
+    <p>
+        <strong>Do You bill flate Rate?</strong> @(Model.FlateRate == true ? "Yes" : "No")<br />
+        <strong>Do You bill Time and Material?</strong> @(Model.TimeAndMaterial == true ? "Yes" : "No")
+    </p>
+    <h3>
+        Warranty Work</h3>
+    <p>
+        <strong>Do you do warranty work?</strong> @(Model.DoWarrantyWork == true ? "Yes" : "No")
+    </p>
+    @if ((Model.WarrantyWorks != null) && (Model.WarrantyWorks.Count > 0))
+    {
+        <!-- add Warranty work list -->
+        <table class="data-table" style="width: 450px">
+            <tr>
+                <th>
+                    <strong>Warranty provider</strong>
+                </th>
+                <th>
+                    <strong>Comment</strong>
+                </th>
+            </tr>
+            @foreach (var warrantyWork in Model.WarrantyWorks)
+            {
+                <tr>
+                    <th>
+                        <strong>@Html.DisplayFor(model => warrantyWork.WarrantyWorkName)</strong>
+                    </th>
+                    <td>
+                        @Html.DisplayFor(model => warrantyWork.Comment)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    <h3>
+        Service Plan</h3>
+    <p>
+        <strong>Do you offer service plans?</strong>
+        @if (Model.ServicePlansOffer == true)
+        {
+            <label>
+                Yes</label><br />
+            <strong>Service Plan Name:</strong> @Html.DisplayFor(model => model.ServicePlanName)<br />
+            <strong>Description:</strong> @Html.DisplayFor(model => model.ServicePlanComment)<br />
+            <strong>Discount:</strong> @Html.DisplayFor(model => model.ServicePlanMembersDiscount)<br />
+            <strong>Receives Maintenance:</strong> @(Model.ServicePlanMembersMaintenance == true ? "Yes, " + Model.ServicePlanMembersTime : "No")<br />
+            <strong>Pay trip charges: </strong> @(Model.ServicePlanPayTrip == true ? "Yes" : "No")
+        }
+        else
+        {
+            <label>
+                No</label>
+        }
+    </p>
+</div>
+<div style="float: left; width: 100%">
+    <p>
+        @Html.ActionLink("Owner Information", "OwnerInformation", "ManageQuestionnaire", new { area = "Admin", questionnaire = Model.QuestionnaireId }, null)
+        |
+        @*@Html.ActionLink("Technician Information", "TechnicianInformation", "ManageQuestionnaire", new { area = "Admin", questionnaire = Model.QuestionnaireId }, null)
+        |*@
+        @Html.ActionLink("Accounting Information", "AccountingInformation", "ManageQuestionnaire", new { area = "Admin", questionnaire = Model.QuestionnaireId }, null)
+        |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

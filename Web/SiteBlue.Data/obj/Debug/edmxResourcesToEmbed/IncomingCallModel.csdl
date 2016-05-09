@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IncomingCallsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="IncomingCallsQAEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="LookupScripts" EntityType="IncomingCallsModel.LookupScript" />
+    <FunctionImport Name="CallAnsweringScript" ReturnType="Collection(IncomingCallsModel.CallAnsweringScripts)" />
+    <EntitySet Name="EndCallOptions" EntityType="IncomingCallsModel.EndCallOption" />
+    <EntitySet Name="StatisticTracks" EntityType="IncomingCallsModel.StatisticTrack" />
+    <AssociationSet Name="FK_StasticTracks_EndCallOptions" Association="IncomingCallsModel.FK_StasticTracks_EndCallOptions">
+      <End Role="EndCallOption" EntitySet="EndCallOptions" />
+      <End Role="StatisticTrack" EntitySet="StatisticTracks" />
+    </AssociationSet>
+    <EntitySet Name="Tbl_scriptToFranchiseID" EntityType="IncomingCallsModel.Tbl_scriptToFranchiseID" />
+    <AssociationSet Name="FK_Tbl_scriptToFranchiseID_LookupScript" Association="IncomingCallsModel.FK_Tbl_scriptToFranchiseID_LookupScript">
+      <End Role="LookupScript" EntitySet="LookupScripts" />
+      <End Role="Tbl_scriptToFranchiseID" EntitySet="Tbl_scriptToFranchiseID" />
+    </AssociationSet>
+    <EntitySet Name="VADM_CallStats" EntityType="IncomingCallsModel.VADM_CallStats" />
+  </EntityContainer>
+  <EntityType Name="LookupScript">
+    <Key>
+      <PropertyRef Name="LookupId" />
+    </Key>
+    <Property Name="LookupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LookupPhoneNr" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="ConnectusCode" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="CallScript" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="XMLCode" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Tbl_scriptToFranchiseID" Relationship="IncomingCallsModel.FK_Tbl_scriptToFranchiseID_LookupScript" FromRole="LookupScript" ToRole="Tbl_scriptToFranchiseID" />
+    <Property Type="Boolean" Name="VirtualPhoneNumber" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="CallAnsweringScripts">
+    <Property Type="Int32" Name="FranchiseTypeId" Nullable="false" />
+    <Property Type="Int32" Name="FranchiseId" Nullable="false" />
+    <Property Type="String" Name="ConnectUsCode" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="CallScript" Nullable="false" />
+    <Property Type="String" Name="FranchiseNumber" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <EntityType Name="EndCallOption">
+    <Key>
+      <PropertyRef Name="OptionId" />
+    </Key>
+    <Property Type="Int32" Name="OptionId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="OptionName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="StatisticTracks" Relationship="IncomingCallsModel.FK_StasticTracks_EndCallOptions" FromRole="EndCallOption" ToRole="StatisticTrack" />
+  </EntityType>
+  <EntityType Name="StatisticTrack">
+    <Key>
+      <PropertyRef Name="TrackId" />
+    </Key>
+    <Property Type="Int32" Name="TrackId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Guid" Name="UserId" Nullable="false" />
+    <Property Type="DateTime" Name="StartDate" Nullable="false" />
+    <Property Type="String" Name="CalledNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="DialedNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Time" Name="Duration" />
+    <Property Type="Int32" Name="OptionId" />
+    <NavigationProperty Name="EndCallOption" Relationship="IncomingCallsModel.FK_StasticTracks_EndCallOptions" FromRole="StatisticTrack" ToRole="EndCallOption" />
+    <Property Type="Int32" Name="Jobid" />
+  </EntityType>
+  <Association Name="FK_StasticTracks_EndCallOptions">
+    <End Type="IncomingCallsModel.EndCallOption" Role="EndCallOption" Multiplicity="0..1" />
+    <End Type="IncomingCallsModel.StatisticTrack" Role="StatisticTrack" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EndCallOption">
+        <PropertyRef Name="OptionId" />
+      </Principal>
+      <Dependent Role="StatisticTrack">
+        <PropertyRef Name="OptionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Tbl_scriptToFranchiseID">
+    <Key>
+      <PropertyRef Name="FranchiseScriptID" />
+    </Key>
+    <Property Type="Int32" Name="FranchiseScriptID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ScriptID" Nullable="false" />
+    <Property Type="Int32" Name="FranchiseID" Nullable="false" />
+    <NavigationProperty Name="LookupScript" Relationship="IncomingCallsModel.FK_Tbl_scriptToFranchiseID_LookupScript" FromRole="Tbl_scriptToFranchiseID" ToRole="LookupScript" />
+  </EntityType>
+  <Association Name="FK_Tbl_scriptToFranchiseID_LookupScript">
+    <End Type="IncomingCallsModel.LookupScript" Role="LookupScript" Multiplicity="1" />
+    <End Type="IncomingCallsModel.Tbl_scriptToFranchiseID" Role="Tbl_scriptToFranchiseID" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LookupScript">
+        <PropertyRef Name="LookupId" />
+      </Principal>
+      <Dependent Role="Tbl_scriptToFranchiseID">
+        <PropertyRef Name="ScriptID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="VADM_CallStats">
+    <Key>
+      <PropertyRef Name="seqnr" />
+      <PropertyRef Name="calltime" />
+      <PropertyRef Name="CalledNumber" />
+      <PropertyRef Name="callerid" />
+    </Key>
+    <Property Type="Int32" Name="seqnr" Nullable="false" />
+    <Property Type="DateTime" Name="calltime" Nullable="false" />
+    <Property Type="String" Name="CalledNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="CalledDescription" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="callerid" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Time" Name="Duration" />
+    <Property Type="Int32" Name="Jobid" />
+    <Property Type="String" Name="UserName" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="OptionName" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

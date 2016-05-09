@@ -1,0 +1,89 @@
+﻿@model IEnumerable<SiteBlue.Views.VW_Questionnaire>
+@{
+    Layout = null;
+    Response.ContentType = "text/xml";
+}
+<rows>
+    @foreach (var item in Model)
+    {
+        <row id="@item.QuestionnaireId">
+            <cell><![CDATA[@item.UserName]]></cell>
+            <cell><![CDATA[@item.Email]]></cell>
+            <!-- Owner Information -->
+            <cell><![CDATA[@(item.FirstName + " " + item.LastName)]]></cell><!-- add link to owner information view -->
+            <cell><![CDATA[@item.BusinessName]]></cell>
+            <cell><![CDATA[@item.OIHomeAddress]]></cell>
+            <cell><![CDATA[@item.OICity]]></cell>
+            <cell><![CDATA[@item.OIState]]></cell>
+            <cell><![CDATA[@item.OIZipCode]]></cell>
+            <cell><![CDATA[@item.OICellPhone]]></cell>
+            <cell><![CDATA[@item.OIHomePhone]]></cell>
+            <cell><![CDATA[@item.OIEmail]]></cell>
+            <!-- Business Information -->
+            <cell><![CDATA[@item.OfficePhone]]></cell><!-- add link to business information view -->
+            <cell><![CDATA[@item.CellPhone]]></cell>
+            <cell><![CDATA[@item.Website]]></cell>
+            <cell><![CDATA[@item.BusinessInformationId]]></cell><!-- add a link to list all the addresses used in business information -->
+            <cell><![CDATA[@item.TrucksService]]></cell>
+            <cell><![CDATA[@item.TrucksCommercial]]></cell>
+            <cell><![CDATA[@item.TrucksInstallation]]></cell>
+            <cell><![CDATA[@item.TrucksSales]]></cell>
+            <cell><![CDATA[@item.TechniciansService]]></cell>
+            <cell><![CDATA[@item.TechniciansCommercial]]></cell>
+            <cell><![CDATA[@item.TechniciansInstallation]]></cell>
+            <cell><![CDATA[@item.TechniciansSales]]></cell>
+            <cell><![CDATA[@item.GPSSystemId]]></cell><!-- Add relation and update view -->
+            <cell><![CDATA[@item.GPSExpirationDate]]></cell>
+            <cell><![CDATA[@item.Estimators]]></cell>
+            <cell><![CDATA[@item.MondayFridayST]]></cell>
+            <cell><![CDATA[@item.MondayFridayET]]></cell>
+            <cell><![CDATA[@item.SaturdayST]]></cell>
+            <cell><![CDATA[@item.SaturdayET]]></cell>
+            <cell><![CDATA[@item.SundayST]]></cell>
+            <cell><![CDATA[@item.SundayET]]></cell>
+            <cell><![CDATA[@item.ServiceTripFeesDescription]]></cell>
+            <cell><![CDATA[@item.TechniciansAvailabilityNights]]></cell>
+            <cell><![CDATA[@item.TechniciansAvailabilityWeekend]]></cell>
+            <cell><![CDATA[@item.TechniciansAvailabilityHolidays]]></cell>
+            <cell><![CDATA[@item.AdditionalDetails]]></cell>
+            <cell><![CDATA[@item.AfterHoursHolidaysFeesDescription]]></cell>
+            <cell><![CDATA[@item.ServiceCenterAgentsAnswer]]></cell>
+            <cell><![CDATA[@item.FlateRate]]></cell><!-- image -->
+            <cell><![CDATA[@item.TimeAndMaterial]]></cell><!-- image -->
+            <cell><![CDATA[@item.DoWarrantyWork]]></cell><!-- image -->
+            <cell><![CDATA[@item.ServicePlansOffer]]></cell><!-- image -->
+            <cell><![CDATA[@item.ServicePlanMembersTime]]></cell>
+            <cell><![CDATA[@item.ServicePlanMembersMaintenance]]></cell><!-- image -->
+            <cell><![CDATA[@item.ServicePlanMembersTime]]></cell>
+            @*<cell><![CDATA[@(item.KeyOfficeFirstName + " " + item.KeyOfficeLastName)]]></cell>
+            <cell><![CDATA[@item.KeyOfficeTitle]]></cell>*@
+            <cell><![CDATA[@item.ServicePlanName]]></cell>
+            <cell><![CDATA[@item.ServicePlanComment]]></cell>
+            <!-- Accounting information -->
+            <cell><![CDATA[@item.AccountingInformationId]]></cell>
+            <cell><![CDATA[@item.CurrentAccountingSoftware]]></cell>
+            <cell><![CDATA[@item.CurrentAccountingSoftwareUsingTime]]></cell>
+            <cell><![CDATA[@item.LastCompletedDate]]></cell>
+            <cell><![CDATA[@item.ChargeSalesTax]]></cell><!-- image -->
+            <cell><![CDATA[@item.SalesTaxCharge]]></cell>
+            <cell><![CDATA[@item.TaxId]]></cell>
+            <cell><![CDATA[@item.RegistredMunicipality]]></cell>
+            <cell><![CDATA[@item.UseQuickBooks]]></cell><!-- image -->
+            <cell><![CDATA[@item.FiscalYearEnd]]></cell>
+            <cell><![CDATA[@item.CalendarType]]></cell>
+            <cell><![CDATA[@item.OtherCalendarType]]></cell>
+            <cell><![CDATA[@item.ReconciledBankDate]]></cell>
+            <cell><![CDATA[@item.ReconsiledClosedMonthEnd]]></cell>
+            <cell><![CDATA[@item.QuickBooksTransitionName]]></cell>
+            <cell><![CDATA[@item.QuickBooksTransitionPhone]]></cell>
+            <cell><![CDATA[@item.AccountingKnowledgeRate]]></cell>
+            <cell><![CDATA[@item.FinancialTransactionRecord]]></cell>
+            <cell><![CDATA[@item.OtherFinancialTransactionRecord]]></cell>
+            <cell><![CDATA[@item.AccountsChart]]></cell>
+            <cell><![CDATA[@item.GeneralJourneyEntries]]></cell>
+            <cell><![CDATA[@item.AccountingSystemAddons]]></cell>
+            <cell><![CDATA[@item.AccountingSystemAddonsList]]></cell>
+            <cell><![CDATA[@item.AchWithdrawls]]></cell>
+        </row>
+    }
+</rows>

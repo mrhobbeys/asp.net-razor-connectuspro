@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Popup Payment Method 2";
+    Layout = "~/Areas/MyFinances/Views/Shared/_SecurityGuardLayoutPage.cshtml";
+}
+@section ScriptIncludes {
+ 
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+     <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+     <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+
+}
+<script type="text/javascript">
+
+//    function downloadPopupToExcel() {
+//        mygrid.toExcel("../MyFinances/DownloadMyFinances");
+//    }
+
+    $('document').ready(function () {
+
+        var companycode = "@ViewBag.code"
+        if (companycode != null && companycode != "") {
+            $.post('@Url.Action("PopupPayMethod2")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        }
+
+        $('#test1 > li > a').click(function (index) {
+            var companycode = $(this).text();
+
+            $.post('@Url.Action("PopupPayMethod2")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                    $('#current > a').text(companycode);
+                    $('li a')[1].click();
+                });
+
+
+        });
+
+        $('#current > a').click(function (index) {
+            var companycode = $(this).text();
+            $.post('@Url.Action("PopupPayMethod2")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        });
+    });
+
+</script>
+
+<div id="target" >
+
+</div>

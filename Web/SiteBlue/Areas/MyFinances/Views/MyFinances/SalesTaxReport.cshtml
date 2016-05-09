@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Sales Tax Report";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {  
+     <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+     <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />   
+     <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+     <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+}
+@section ScriptIncludes {
+   <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+         <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+
+    
+ 
+}
+@section InlineScript {
+<script type="text/javascript">
+    $('document').ready(function () {
+        SiteBlue.renderMenu(false);
+        $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnLoad(); });
+        doOnLoad();
+    });
+    function doOnLoad() {
+
+        var param = { FranchiseeId: SiteBlue.franchiseId };
+
+        document.getElementById("loader").style.display = "block";
+        var jsondata = $.ajax({
+            url: "/MyFinances/MyFinances/SaleTaxRevenueReport/",
+            data: JSON.stringify(param),
+            contentType: "application/json; charset=utf-8",
+            success: function (msg) {
+
+                mygrid = new dhtmlXGridObject('gridbox');
+                mygrid.setImagePath("../../../../codebase/imgs/");
+                mygrid.setHeader("City, Taxable Sales, Non-Taxable Sales, TOTAL ", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+                mygrid.setColAlign("left,right,right,right");
+                mygrid.setColTypes("txt,txt,txt,txt");
+//                mygrid.setColSorting("str,str,str,str");
+                mygrid.enableEditEvents(false, false, false, false);
+                mygrid.init();
+                mygrid.setSkin("dhx_skyblue");
+                mygrid.clearAll();
+               
+                mygrid.loadXMLString(msg);
+                document.getElementById("loader").style.display = "none";
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (e) {
+                alert("Error occured.");
+            }
+        });
+
+
+
+    }
+
+    function downloadTaxLiabilityToExcel() {
+        mygrid.toExcel("../MyFinances/DownloadMyFinances");
+    }  
+</script>
+}
+
+<h2>Sales Tax Report</h2>
+<div style="width:100%; float:left;background-color:#D5F1FF;">
+
+<div class="div">
+<div class="div" id="loader" align="center" ><img src="../../../../Images/ajax-loader.gif" alt="Processing........." /></div>
+ &nbsp;&nbsp;&nbsp;&nbsp; <input id="btnRTExcel" type="button" onclick="downloadTaxLiabilityToExcel()"  value="Export to Excel" />
+ <div id="gridbox" style="float: left; height: 500px; width: 98%; margin-top: 5px; margin-left:2%"></div>
+</div>
+
+</div>

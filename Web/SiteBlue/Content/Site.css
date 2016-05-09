@@ -1,0 +1,296 @@
+﻿body
+{
+    font-size: .85em;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset 
+{
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+    
+}
+
+legend 
+{
+    font-size:1.2em;
+    font-weight: bold;
+}
+
+textarea 
+{
+    min-height: 75px;
+}
+
+.editor-label 
+{
+    margin: 1em 0 0 0;
+}
+
+.editor-field 
+{
+    margin:0.5em 0 0 0;
+}
+.myClass
+{
+    background-color:#F2F2F2;
+      font-weight:bold;
+    color:Blue;
+   
+}
+.Current
+{
+    background-color:White;
+    color:Blue;
+    font-weight:bold;
+}
+/*Menu*/
+
+#top-row {
+	position:relative;
+	z-index:50;
+}
+#top {
+}
+#top-menu1 {
+	position:relative;
+	height:55px;
+	
+	text-transform:uppercase;
+	width:100%;
+	z-index:3000;
+	background:url(../images/menubg.png) repeat-x;
+}
+#top-menu1 ul.menu1 {
+	margin:0 auto;
+	width:980px;
+	
+}
+#top-menu1 ul.menu1 li {
+	float:left;
+	padding:0;
+	display:block;
+	list-style-type:none;
+	
+}
+#top-menu1 ul.menu1 li a {
+	display:block;
+	_float:left;
+	height:20px;
+	line-height:20px;
+	font-size:14px;
+	color:Blue;
+	padding:0 25px;
+	text-decoration:none;
+	margin-top:10px;
+}
+
+#top-menu1 .current22
+{
+    background-color:Scrollbar!important;
+}
+
+
+.top-menu1 .current22
+{
+    background-color:Scrollbar!important;
+}
+
+/*By Ashish*/
+/*#top-menu ul.menu li a:hover, #top-menu ul.menu li.current a, #top-menu ul.menu li.active a, #top-menu ul.menu li.actives > a {*/
+#top-menu1 ul.menu1 li a:hover, #top-menu1 ul.menu1 li.actives > a {
+	background-color:#F2F2F2 !important;
+	color:Blue;
+	border:0px;  
+}
+
+#top-menu1 ul.menu1 > li.even > a {
+	background:none;
+}
+#top-menu1 ul.menu1 > li.odd > a {
+	background:none;
+}
+#top-menu1 ul.menu1 > li.first {
+	padding-left:0;
+}
+#top-menu1 ul.menu1 > li.last {
+	padding-right:0;
+}
+#top-menu1 ul.menu1 ul {
+	display:none;
+	top:55px;
+	position:absolute;
+	padding:0;
+	background-color:Gray;
+	
+	width:600px;
+}
+#top-menu1 ul.menu1 ul li a:hover {
+	background-color:#f55112;
+}
+#top-menu1 ul.menu1 li a:hover {
+	background-color:#f55112;
+}
+#top-menu1 ul.menu1 li ul li {
+	width:240px;
+}
+#top-menu1 ul.menu1 li ul li > a:hover, #top-menu ul.menu1 li ul li.active > a, #top-menu1 ul.menu1 li ul li.actives > a, #top-menu1 ul.menu1 li ul li.current > a {
+	background:#f55112;
+}
+#top-menu1 ul.menu1 li ul li a {
+	display:block;
+	float:none;
+	line-height:38px;
+	height:38px;
+	padding: 0 15px;
+	color:ButtonFace;
+	font-weight:normal;
+	text-decoration:none;
+}
+#top-menu1 ul.menu1 li ul li ul.item-3011 {
+	margin-left:240px;
+	top:342px;
+}
+#top-menu1 ul.menu1 li ul li ul.item-4011 {
+	margin-left:240px;
+	top:114px;
+}
+/*new added for ie*/
+.current {
+	background:#f55112;
+}
+#top-menu1 ul.menu1 ul li a:hover {
+	background-color:#f55112;
+}
+#top-menu1 ul.menu1 li a:hover {
+	background-color:#f55112;
+}
+#top-menu1 ul.menu1 li ul {
+ *margin-left:-190px;
+}
+#top-menu1 ul.menu1 ul.drop03 {
+ *margin-left:-110px;
+}
+#top-menu1 ul.menu1 ul.drop04 {
+ *margin-left:-110px;
+}
+#top-menu1 ul.menu1 ul.drop05 {
+ *margin-left:-110px;
+}
+#top-menu1 ul.menu1 ul.drop06 {
+ *margin-left:-110px;
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+/*styles for Employee Grid
+------------------------------------------------*/
+
+.webgrid
+{
+width: 100%;
+border: 0px;
+border-collapse: collapse;
+}
+
+.webgrid a
+{
+color: #000;
+}
+
+.webgrid-header
+{
+padding: 6px 5px;
+
+text-align: left;
+background-color: #e8eef4;
+border-bottom: 2px solid #3966A2;
+height: 40px;
+border-top: 2px solid #D6E8FF;
+border-left: 2px solid #D6E8FF;
+border-right: 2px solid #D6E8FF;
+}
+
+.webgrid-footer
+{
+padding: 6px 5px;
+text-align: left;
+background-color: #e8eef4;
+border-top: 2px solid #3966A2;
+height: 30px;
+border-bottom: 2px solid #D6E8FF;
+border-left: 2px solid #D6E8FF;
+border-right: 2px solid #D6E8FF;
+}
+
+.webgrid-alternating-row
+{
+height: 30px;
+background-color: #f2f2f2;
+border-bottom: 1px solid #d2d2d2;
+border-left: 2px solid #D6E8FF;
+border-right: 2px solid #D6E8FF;
+text-align: left;
+}
+
+.webgrid-row-style
+{
+height: 30px;
+border-bottom: 1px solid #d2d2d2;
+border-left: 2px solid #D6E8FF;
+border-right: 2px solid #D6E8FF;
+text-align: left;
+}
+
+.webgrid-selected-row
+{
+font-weight: bold;
+}
+
+.calendar
+{
+    background-image:url('images/CalBG.png');
+    background-repeat:no-repeat;
+    width:120px;
+    padding-right:18px;
+    height:22px;
+    }

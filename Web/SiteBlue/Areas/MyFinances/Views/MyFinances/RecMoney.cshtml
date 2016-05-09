@@ -1,0 +1,529 @@
+﻿
+@model int
+@if (Model != 0)
+{
+    <html>
+    <head>
+     <title>Receive Money</title>
+     <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <script src="../../../../Scripts/jquery-1.5.1.js" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" />
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css"  />  
+
+         <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+  <script src="../../../../codebase/ext/dhtmlxgrid_filter.js" type="text/javascript"></script>
+        <style type="text/css">
+            .div
+            {
+                width: 100%;
+                float: left;
+            }
+            .span
+            {
+                width: 100%;
+                float: left;
+                margin-top: 10px;
+            }
+            .sapn1
+            {
+                width: 20%;
+                float: left;
+                font-weight: bold;
+            }
+            .sapn2
+            {
+                width: 80%;
+                text-align: right;
+            }
+        </style>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                
+                
+                $("#PaymentType").prepend($('<option selected="selected"></option>').val(0).html(""));
+                DoOnLoad();
+            });
+            
+            var myCalendar = new dhtmlXCalendarObject(["paymentDate"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+
+            $("#paymentAmt").blur(function () {
+
+                var flag = false;
+                if ($("#PaymentType option:selected").text() == 'Check' && $("#paymentAmt").val() != "")
+                    $("#CheckNo").removeAttr("disabled");
+                if ($("#PaymentType option:selected").text() != '' && $("#paymentAmt").val() != "")
+                    $("#InvoiceNo").removeAttr("disabled");
+                var disable = $('#CheckNo').prop("disabled") ? 'true' : 'false';
+                if ($("#paymentAmt").val() != "" && $("#PaymentType option:selected").text() != "") {
+                    var checkno = $("#CheckNo").val();
+                    if (disable == 'false' && checkno != '') {
+                        alert("Changing this amount will cause any payments waiting to be applied to be cancelled.");
+                        flag = true;
+                        document.getElementById('amountApplied').innerHTML = '0';
+                        var temp = $("#paymentAmt").val();
+                        document.getElementById('amounttobeApplied').innerHTML = temp;
+                        $("#hdnamounttobeApplied").val(temp);
+                        
+
+                    }
+                    if (disable == 'true') {
+
+                        alert("Changing this amount will cause any payments waiting to be applied to be cancelled.");
+                        flag = true;
+                        document.getElementById('amountApplied').innerHTML = '0';
+                        var temp = $("#paymentAmt").val();
+                        document.getElementById('amounttobeApplied').innerHTML = temp;
+                        $("#hdnamounttobeApplied").val(temp);
+                        
+                    }
+
+                    if (flag) {
+
+                        var xmlstring1 = "";
+                        var invioceno = $("#hdnInvoiceNo").val();
+                        var invno1 = { InvoiceNo: invioceno };
+
+                        var jsondata = $.ajax({
+                            url: "../myfinances/LoadReceivePaymentData", //
+                            data: JSON.stringify(invno1),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg) {
+
+                                var custName = "@ViewBag.OBCustomer"
+
+                                mygird1 = new dhtmlXGridObject('gridbox');
+                                mygird1.setImagePath("../../codebase/imgs/");
+                                mygird1.setHeader("Invoice#,Job Location,Age,Closed Date,Job Amt,Balance,Amount Applied"); //
+
+                                mygird1.setColTypes("txt,txt,txt,txt,txt,txt,txt"); //
+
+                                mygird1.enableEditEvents(false, false, false);
+                                mygird1.attachEvent("onRowSelect", "RowClick");
+                                mygird1.init();
+                                mygird1.setSkin("dhx_skyblue"); //
+
+                                var AdForHomePages = msg.objJobDetails;
+
+                                $("#OBCustomer").val(msg.customerName);
+
+                                xmlstring1 = xmlstring1 + "<rows>";
+
+                                $.each(AdForHomePages, function (index, JobDetail) {
+
+                                    xmlstring1 = xmlstring1 + "<row id='" + index + "'>";
+
+                                    xmlstring1 = xmlstring1 + "<cell><![CDATA[" + JobDetail.InvoiceNumber + "]]></cell>";
+
+                                    xmlstring1 = xmlstring1 + "<cell><![CDATA[" + JobDetail.Address + "]]></cell>";
+
+                                    xmlstring1 = xmlstring1 + "<cell><![CDATA[" + JobDetail.Age + "]]></cell>";
+
+                                    xmlstring1 = xmlstring1 + "<cell><![CDATA[" + new Date(parseInt(JobDetail.InvoicedDate.substr(6))) + "]]></cell>";
+
+                                    xmlstring1 = xmlstring1 + "<cell><![CDATA[$" + CommaFormatted(JobDetail.TotalSales) + "]]></cell>";
+
+                                    xmlstring1 = xmlstring1 + "<cell><![CDATA[$" + CommaFormatted(JobDetail.Balance) + "]]></cell>";
+
+                                    xmlstring1 = xmlstring1 + "<cell><![CDATA[$" + CommaFormatted(0) + "]]></cell>";
+
+                                    xmlstring1 = xmlstring1 + "</row>";
+
+                                });
+                                xmlstring1 = xmlstring1 + "</rows>";
+
+                                mygird1.clearAll();
+
+                                mygird1.loadXMLString(xmlstring1);
+
+
+                            },
+                            type: "POST",
+                            dataType: "json",
+                            error: function (e) {
+                                $('#output').innerHtml(e);
+                            }
+                        });
+                    }
+                }
+
+            });
+            $("#PaymentType").change(function () {
+                var selected = $("#PaymentType option:selected").text();
+                if ($("#paymentAmt").val() != "") {
+                    $("#InvoiceNo").removeAttr("disabled");
+                }
+                if (selected == 'Check')
+                    $("#CheckNo").removeAttr("disabled");
+                else
+                    $("#CheckNo").attr("disabled", "disabled");
+                
+                
+            });
+        </script>
+        <script type="text/javascript">
+          
+            function RowClick(rId, cInd) {
+                var disable = $('#CheckNo').prop("disabled") ? 'true' : 'false';
+                var flag = false;
+                
+                if (disable == 'false' && checkno != '') {
+                    
+                flag = true; }
+                if (disable == 'true') { flag = true; }
+                if ($("#paymentAmt").val() == "")
+                    flag = false;
+                
+                
+                if(flag == true){
+             var user_AmoutToBeApplied = $("#paymentAmt").val();
+                var grd_inviceno = mygrid.cellById(rId, 0).getValue();
+                
+                var appliedamt = mygrid.cellById(rId, 6).getValue();
+                
+                var balance = mygrid.cellById(rId, 5).getValue();
+                
+                var amountApplied = $("#amountApplied").val();
+                
+                var amounttobeApplied = $("#amounttobeApplied").val();
+
+
+//              $("#hdnInvoiceNo").val(grd_inviceno);
+                var xmlstring = "";
+                var invno = { InvoiceNo: grd_inviceno };
+                
+
+                var PassData = {User_AmoutToBeApplied:user_AmoutToBeApplied, GridInvoiceNo: grd_inviceno.replace('$',''), Grd_AppliedAmt: appliedamt.replace('$',''), Balance: balance.replace('$',''), AmountApplied: amountApplied, AmountToBeApplied: amounttobeApplied };
+                var xmlstring1 = "";
+                var jsondata1 = $.ajax({
+                    url: "../myfinances/ApplyPayment", //
+                    data: JSON.stringify(PassData),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        document.getElementById('amountApplied').innerHTML = msg.amountApplied;
+                        
+                        $("#amounttobeApplied").val(msg.amountToBeApplied);
+
+                        $("#hdnamounttobeApplied").val(msg.amountToBeApplied);
+                        
+                        var Applied_amt = document.getElementById('amountApplied').innerHTML;
+
+
+                        var jsondata = $.ajax({
+                            url: "../myfinances/LoadReceivePaymentData", //
+                            data: JSON.stringify(invno),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg) {
+
+                                //                                var custName = "@ViewBag.OBCustomer"
+
+                                mygrid = new dhtmlXGridObject('gridbox');
+                                mygrid.setImagePath("../../codebase/imgs/");
+                                mygrid.setHeader("Invoice#,Job Location,Age,Closed Date,Job Amt,Balance,Amount Applied"); //
+                                mygrid.setColTypes("txt,txt,txt,txt,txt,txt,txt"); //
+                                mygrid.enableEditEvents(false, false, false);
+                                mygrid.attachEvent("onRowSelect", "RowClick");
+                                mygrid.init();
+                                mygrid.setSkin("dhx_skyblue"); //
+
+                                var AdForHomePages = msg.objJobDetails;
+
+                                //                                $("#OBCustomer").val(msg.customerName);
+
+                                xmlstring = xmlstring + "<rows>";
+                                $.each(AdForHomePages, function (index, JobDetail) {
+
+                                    xmlstring = xmlstring + "<row id='" + index + "'>";
+                                    xmlstring = xmlstring + "<cell><![CDATA[" + JobDetail.InvoiceNumber + "]]></cell>";
+                                    xmlstring = xmlstring + "<cell><![CDATA[" + JobDetail.Address + "]]></cell>";
+                                    xmlstring = xmlstring + "<cell><![CDATA[" + JobDetail.Age + "]]></cell>";
+                                    xmlstring = xmlstring + "<cell><![CDATA[" + new Date(parseInt(JobDetail.InvoicedDate.substr(6))) + "]]></cell>";
+                                    xmlstring = xmlstring + "<cell><![CDATA[$" + CommaFormatted(JobDetail.TotalSales) + "]]></cell>";
+
+                                    xmlstring = xmlstring + "<cell><![CDATA[$" + CommaFormatted(JobDetail.Balance) + "]]></cell>";
+                                    if (JobDetail.InvoiceNumber == grd_inviceno)
+                                        xmlstring = xmlstring + "<cell><![CDATA[$" + Applied_amt + "]]></cell>";
+                                    else
+                                        xmlstring = xmlstring + "<cell><![CDATA[$" + JobDetail.AppliedAmt + "]]></cell>";
+                                    xmlstring = xmlstring + "</row>";
+                                });
+                                xmlstring = xmlstring + "</rows>";
+
+                                mygrid.loadXMLString(xmlstring);
+                                mygrid.selectRow(rId);
+                            },
+                            type: "POST",
+                            dataType: "json",
+                            error: function (e) {
+                                $('#output').innerHtml(e);
+                            }
+                        });
+
+
+
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $('#output').innerHtml(e);
+                    }
+                });
+                }
+               
+            }
+            function DoOnLoad() {
+                
+                var invioceno = $("#hdnInvoiceNo").val();
+               
+                var xmlstring = "";
+                var invno = { InvoiceNo: invioceno };
+                var jsondata = $.ajax({
+                    url: "../myfinances/LoadReceivePaymentData", //
+                    data: JSON.stringify(invno),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+
+                        var custName = "@ViewBag.OBCustomer"
+
+                        mygrid = new dhtmlXGridObject('gridbox');
+                        mygrid.setImagePath("../../codebase/imgs/");
+                        mygrid.setHeader("Invoice#,Job Location,Age,Closed Date,Job Amt,Balance,Amount Applied"); //
+                        mygrid.setColTypes("txt,txt,txt,txt,txt,txt,txt"); //
+                        mygrid.enableEditEvents(false, false, false);
+                        mygrid.attachEvent("onRowSelect", "RowClick");
+                        mygrid.init();
+                        mygrid.setSkin("dhx_skyblue"); //
+
+                        var AdForHomePages = msg.objJobDetails;
+               
+                        $("#OBCustomer").val(msg.customerName);
+               
+                        xmlstring = xmlstring + "<rows>";
+                        $.each(AdForHomePages, function (index, JobDetail) {
+
+                            xmlstring = xmlstring + "<row id='" + index + "'>";
+                            xmlstring = xmlstring + "<cell><![CDATA[" + JobDetail.InvoiceNumber + "]]></cell>";
+                            xmlstring = xmlstring + "<cell><![CDATA[" + JobDetail.Address + "]]></cell>";
+                            xmlstring = xmlstring + "<cell><![CDATA[" + JobDetail.Age + "]]></cell>";
+                            xmlstring = xmlstring + "<cell><![CDATA[" + new Date(parseInt(JobDetail.InvoicedDate.substr(6))) + "]]></cell>";
+                            xmlstring = xmlstring + "<cell><![CDATA[$" + CommaFormatted(JobDetail.TotalSales) + "]]></cell>";
+                            xmlstring = xmlstring + "<cell><![CDATA[$" + CommaFormatted(JobDetail.Balance) + "]]></cell>";
+
+                            xmlstring = xmlstring + "<cell><![CDATA[$" + (JobDetail.AppliedAmt) + "]]></cell>";
+
+                            xmlstring = xmlstring + "</row>";
+                        });
+                        xmlstring = xmlstring + "</rows>";
+                        mygrid.loadXMLString(xmlstring);
+                        document.getElementById(gifId).style.display = "none";
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $('#output').innerHtml(e);
+                    }
+                });
+            
+            }
+             function ApplyNow(){
+                 
+               
+                 var selId = mygrid.getSelectedId();
+                
+                 var cellObj = mygrid.cellByIndex(selId, 6);
+                
+
+                 $("#hdnAppliedAmt").val(cellObj.getValue().replace('$',''));
+                
+                 
+//                 $("#amounttobeApplied").val()
+                 $("form").submit();
+            }
+            function SelectByInvoiceNo() {
+                var disabled = $("#InvoiceNo").is(":disabled")?'true':'false';
+                if (disabled == 'true') {
+                    alert("Please Enter Invoice#");
+                }
+                else if ($("#InvoiceNo").val() == "") {
+                    alert("Please Enter Invoice#");
+                }
+                else {
+                    var invioceno = $("#InvoiceNo").val();
+                    $("#hdnInvoiceNo").val(invioceno);
+                    DoOnLoad();
+                }
+            }
+            function CommaFormatted(amount) {
+                try {
+
+                    amount = String(Math.round(amount * 100) / 100);
+                    var delimiter = ","; // replace comma if desired
+                    var a = String(amount).split('.', 2);
+                    var d = a.length == 1 ? "00" : a[1];
+                    var i = parseInt(a[0]);
+                    if (isNaN(i)) { return '0.00'; }
+                    var minus = '';
+                    if (i < 0) { minus = '-'; }
+                    i = Math.abs(i);
+                    var n = new String(i);
+                    var a = [];
+                    while (n.length > 3) {
+                        var nn = n.substr(n.length - 3);
+                        a.unshift(nn);
+                        n = n.substr(0, n.length - 3);
+                    }
+                    if (n.length > 0) { a.unshift(n); }
+                    n = a.join(delimiter);
+                    if (d.length < 1) { amount = n; }
+                    else { amount = n + '.' + d; }
+                    amount = minus + amount;
+                    return amount;
+                } catch (e) {
+                    return "0.00";
+                }
+
+            }
+
+            </script>
+    </head>
+ 
+    <body>
+  
+      @{Html.BeginForm("ApplyNow","MyFinances");}
+      @Html.Hidden("hdnamounttobeApplied", "0");
+       @Html.Hidden("hdnAppliedAmt")
+       @Html.Hidden("hdnCode", (string)@ViewBag.Code)
+       @Html.Hidden("hdnInvoiceNo", (string)@ViewBag.InvoiceNo)
+       @Html.Hidden("hdnFranchiseId", Model)
+        <table>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <label>
+                                    Open Balance For Customer</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.TextBox("OBCustomer", (string)ViewBag.OBCustomer, new { style = "width: 100%;" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Double click on each row you would like to apply this pagment</label>
+                                <br />
+                                <label>
+                                    OR</label>
+                                <label>
+                                    Enter an invoice number to the right and double click on it</label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <label>
+                                    Payment Date</label>
+                            </td>
+                            <td>
+                                @Html.TextBox("paymentDate",(string) @ViewBag.Date)
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <div style="width: 100%; float: left; font-family: Verdana; margin-top: 10px;">
+            <div style="width: 48%; float: left; font-family: Verdana; margin-left: 2%;">
+                <div style="width: 98%; float: left; font-family: Verdana;">
+                    <span style="width: 100%; font-weight: bold; float: left;"></span>
+                </div>
+                <span style="width: 100%; margin-top: 10px; float: left; float: left;"></span>
+                <span style="width: 100%; margin-top: 10px; float: left; text-align: center;"></span>
+                <span style="width: 100%; margin-top: 10px; float: left; text-align: center;">Or</span>
+                <span style="width: 100%; margin-top: 10px; float: left; text-align: center;"></span>
+               <span><a href="javascript:ApplyNow()">ApplyNow</a></span>
+               
+                <span style="width: 50%; font-weight: bold; margin-top: 10px; float: left;"><a href="#">
+                    Select the Customer By Name</a></span>
+                <span style="width: 50%; font-weight: bold;
+                        margin-top: 10px; float: left;"><a href="javascript:SelectByInvoiceNo()">Select the Customer By Invoice#</a> </span>
+            </div>
+            
+            <div style="width: 48%; float: left; font-family: Verdana; margin-top: 10px; margin-right: 2%;
+                text-align: right;">
+                              <div style="width: 98%; float: left; font-family: Verdana;">
+                    <span style="width: 48%; font-weight: bold;">Payment amt</span> <span style="width: 52%;
+                        font-weight: bold; margin-top: 10px; margin-left: 2%;">
+                        <input type="text" id="paymentAmt" style="width: 50%;" /></span>
+                </div>
+                <div style="width: 98%; float: left; font-family: Verdana;">
+                    <span style="width: 48%; font-weight: bold;">Payment Type</span> <span style="width: 52%;
+                        font-weight: bold; margin-top: 10px; margin-left: 2%;">
+                        @Html.DropDownList("PaymentType", new SelectList((List<SiteBlue.Data.EightHundred.tbl_Payment_Types>)@ViewBag.PaymentType, "PaymentTypeId", "PaymentType"), new { style = "width:51%;" })
+                    </span>
+                </div>
+                <div style="width: 98%; float: left; font-family: Verdana;">
+                    <span style="width: 48%; font-weight: bold;">CheckNo</span> <span style="width: 52%;
+                        font-weight: bold; margin-top: 10px; margin-left: 2%;">
+                        <input type="text" id="CheckNo" style="width: 50%;" disabled="disabled" /></span>
+                </div>
+                <div style="width: 98%; float: left; font-family: Verdana;">
+                    <span style="width: 48%; font-weight: bold;">Invoice#</span> <span style="width: 52%;
+                        font-weight: bold; margin-top: 10px; margin-left: 2%;">
+                        <input type="text" id="InvoiceNo" style="width: 50%;" disabled="disabled" /></span>
+                </div>
+            </div>
+        </div>
+        <div style="width: 100%; float: left; background-color: #D5F1FF; margin-top: 10px;">
+            <div class="div">
+              
+                <div id="gridbox" style="float: left; height: 200px; width: 98%; margin-top: 5px;
+                    margin-left: 2%">
+                </div>
+            </div>
+            <div style="width: 98%; float: left; margin-top: 10px; margin-right: 2%;">
+                <span style="width: 100%; float: left; margin-top: 10px; text-align: right;"><span
+                    style="width: 20%; font-weight: bold;">Amount Applied</span> <span style="width: 80%;
+                        text-align: right;" id="">
+                        <label id="amountApplied">0</label>
+                        </span> </span>
+            </div>
+            <div style="width: 98%; float: left; margin-top: 10px; margin-right: 2%;">
+                <span style="width: 100%; float: left; margin-top: 10px; text-align: right;"><span
+                    style="width: 20%; font-weight: bold;">Amount To Be Applied</span> <span style="width: 80%;
+                        text-align: right;"> <label id="amounttobeApplied">0</label> </span> </span>
+            </div>
+            <div style="width: 98%; float: left; font-family: Verdana; font-weight: bold; margin-left: 2%;
+                height: 25px; margin-top: 20px;">
+                <a href="@Url.Content("~/MyFinances/MyFinances/AccountsReceivableFunction")" title="Back">
+                    Back to Dashboard</a>
+            </div>
+        </div>
+     @{Html.EndForm();}
+    </body>
+    </html>
+    
+}
+else
+{
+    @:<text>No information available</text>
+}

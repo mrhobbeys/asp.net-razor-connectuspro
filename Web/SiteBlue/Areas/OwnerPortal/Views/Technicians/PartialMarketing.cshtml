@@ -1,0 +1,579 @@
+﻿@model SiteBlue.Areas.OwnerPortal.Models.Marketingmodel
+@*<!DOCTYPE html>*@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<title></title>
+<link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxtabbar.css"/>
+<script  type="text/javascript" src="../../../../codebase/dhtmlxcommon.js"></script>
+<script type="text/javascript" src="../../../../codebase/dhtmlxtabbar.js"></script>
+<script src="../../../../Content/json2.js" type="text/javascript"></script>
+<link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+<link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" />
+<script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+<link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+<link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+<script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+<link href="../../../../codebase/dhtmlxchart.css" rel="stylesheet" type="text/css" />
+<script src="../../../../codebase/dhtmlxchart.js" type ="text/javascript"></script>
+
+<script type="text/javascript">
+    function add_r() {
+        mygridRCodes.addRow(mygridRCodes.uid(), ["", "0"], 0);
+        mygridRCodes.selectCell(0, 0);
+        mygridRCodes.editCell();
+    }
+
+    function SaveData() {
+        if (mygridRCodes.getRowsNum() == 0)
+            return;
+
+        var type = mygridRCodes.cellByIndex(0, 0).getValue();
+
+        if (type != '') {
+            json_call();
+        }
+    }
+
+    function json_call() {
+        /*var type = mygridRCodes.cellByIndex(0, 0).getValue();
+        var isactive = mygridRCodes.cellByIndex(0, 1).getValue();
+        var custid = { refType: type, refActive: isactive };
+        
+        var jsondataCoupon = $.ajax({
+            url: "/Technicians/GetReferralAdd",
+            data: JSON.stringify(custid),
+            contentType: "application/json; charset=utf-8",
+            success: function (msg) {
+                var AdForHomePages = msg;
+                $.each(AdForHomePages, function (index, tbl_Referral) {
+
+                });
+            },
+            type: "POST",
+            dataType: "json"
+        });*/
+
+        var arrrefid = new Array();
+        var arrreftype = new Array();
+        var arract = new Array();
+
+        var changedrows = mygridRCodes.getChangedRows(true);
+        
+        if (changedrows != "") {
+            var z = changedrows.split(",");
+
+            for (var i = 0; i < z.length; i++) {
+                var rindex = mygridRCodes.getRowIndex(z[i]);
+
+                var cellObj = mygridRCodes.cellByIndex(rindex, 2);
+                arrrefid[i] = cellObj.getValue();
+
+                cellObj = mygridRCodes.cellByIndex(rindex, 0);
+                arrreftype[i] = cellObj.getValue();
+                
+                cellObj = mygridRCodes.cellByIndex(rindex, 1);
+                arract[i] = cellObj.getValue();
+            }
+
+            var param = { refids: arrrefid, reftypes: arrreftype, acts: arract };
+            var jsondataCoupon = $.ajax({
+                url: "/Technicians/saveReferralCode",
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+
+                    mygridRCodes.clearAll();
+
+                    var AdForHomePages = msg;
+                    var xmlstring = "<rows>";
+
+                    $.each(AdForHomePages, function (index, tbl_DispatchReferral) {
+                        xmlstring = xmlstring + "<row id='" + index + "'>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + tbl_DispatchReferral.ReferralType + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + tbl_DispatchReferral.activeYN + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + tbl_DispatchReferral.DispatchReferralID + "]]></cell>";
+                        xmlstring = xmlstring + "</row>";
+                    });
+                    xmlstring = xmlstring + "</rows>";
+                    mygridRCodes.loadXMLString(xmlstring);
+
+                    //mygridRCodes.clearChangedState();
+
+                },
+                type: "POST",
+                dataType: "json"
+            });
+        }
+    }
+
+    function add_rCCode() {
+        mygridCCode.addRow(mygridCCode.uid(), ["", "", "", "", ""], 0);
+        mygridCCode.selectRow(0, 0);
+        mygridCCode.editCell();
+    }
+
+    function SaveDataCCode() {
+        if (mygridCCode.getRowsNum() == 0)
+            return;
+
+        var type = mygridCCode.cellByIndex(0, 0).getValue();
+
+        if (type != null || type != '') {
+            json_callCCode();
+        }
+    }
+
+    function json_callCCode() {
+
+        var code = mygridCCode.cellByIndex(0, 0).getValue();
+        var Medium = mygridCCode.cellByIndex(0, 1).getValue();
+        var exDate = mygridCCode.cellByIndex(0, 4).getValue();
+
+        var custid = { code: code, medium: Medium, exDate: exDate, frid: '56' };
+        var jsondataCoupon = $.ajax({
+            url: "/Technicians/GetCouponAdd",
+            data: JSON.stringify(custid),
+            contentType: "application/json; charset=utf-8",
+            success: function (msg) {
+                var AdForHomePages = msg;
+                $.each(AdForHomePages, function (index, tbl_Referral) {
+
+                });
+            },
+            type: "POST",
+            dataType: "json"
+        });
+
+    }
+
+    function doOnCheck(rowId, cellInd, state) {
+        var code = mygrid11.cellByIndex(rowId, 2).getValue();
+        var isactive = mygrid11.cellByIndex(rowId, 1).getValue();
+        
+        if (isactive == '1') {
+            var active = "true";
+        } else {
+            var active = "false";
+        }
+
+        if (code != null || code != '') {
+            var custid = { refType: code, refActive: active };
+            var jsondataCoupongrid = $.ajax({
+                url: "/Technicians/GetreffAdd",
+                data: JSON.stringify(custid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    var AdForHomePages = msg;
+                    $.each(AdForHomePages, function (index, tbl_Referral) {
+
+                    });
+                },
+                type: "POST",
+                dataType: "json"
+            });
+        }
+
+        protocolIt("User clicked on checkbox or radiobutton on row " + rowId + " and cell with index " + cellInd + ".State changed to " + state);
+        return true;
+    }
+
+    function add_rf() {
+        mygrid11.addRow(mygrid.uid(), [++codeno, "", "0"]);
+    }
+
+    function SubmitReferralTracking() {
+        var xmlgridtracking = "";
+        var index1 = "0";
+        var Txt = $("#calendarfirst").val();
+        var Specials = $("#CalendarSecond").val();
+
+        var custid = { calendarfirst: Txt, CalendarSecond: Specials };
+
+        $.ajax({
+            type: "POST",
+            url: "/Technicians/GetReferralTracking",
+            data: JSON.stringify(custid),
+            contentType: "application/json; charset=utf-8",
+            success: function (msg2) {
+                var AdForHomePages1 = msg2;
+
+                gridtracking.clearAll();
+                pieChart.clearAll();
+
+                xmlgridtracking = xmlgridtracking + "<rows>";
+                $.each(AdForHomePages1, function (index, getdata) {
+
+                    xmlgridtracking = xmlgridtracking + "<row id='" + index + "'>";
+                    xmlgridtracking = xmlgridtracking + "<cell><![CDATA[" + getdata.ReferralType + "]]></cell>";
+                    xmlgridtracking = xmlgridtracking + "<cell><![CDATA[" + getdata.jobCount + "]]></cell>";
+                    xmlgridtracking = xmlgridtracking + "<cell><![CDATA[" + getdata.SumSubTotal + "]]></cell>";
+                    xmlgridtracking = xmlgridtracking + "<cell><![CDATA[" + getdata.AvgSubTotal + "]]></cell>";
+                    xmlgridtracking = xmlgridtracking + "</row>";
+
+                });
+
+                xmlgridtracking = xmlgridtracking + "</rows>";
+                gridtracking.loadXMLString(xmlgridtracking);
+
+                pieChart.refresh();
+                pieChart.parse(gridtracking, "dhtmlxgrid");
+
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (e) {
+                $('#output').innerHtml(e);
+            }
+        });
+    }
+
+    function loadReferralCode() {
+        var xmlstring = "";
+        mygridRCodes = new dhtmlXGridObject('gridbox');
+        mygridRCodes.setImagePath("../../../../codebase/imgs/");
+
+        mygridRCodes.setHeader("Referral<br> (alpha numeric) , Active? <br> (Turn on or off), referralID", null, ["text-align:left", "text-align:center"]);
+        mygridRCodes.sortRows(0, "str", "des");
+        mygridRCodes.setColAlign("left,center");
+
+        mygridRCodes.setColSorting("str");
+        mygridRCodes.setInitWidths("247,251,1");
+        mygridRCodes.setColTypes("ed,ch,ro");
+        mygridRCodes.init();
+        mygridRCodes.setSkin("dhx_skyblue");
+
+        mygridRCodes.setColumnHidden(2, true);
+
+        var jsondata = $.ajax({
+            url: "/Technicians/GetReferral",
+            contentType: "application/json; charset=utf-8",
+            success: function (msg) {
+
+                var AdForHomePages = msg;
+                xmlstring = xmlstring + "<rows>";
+
+                $.each(AdForHomePages, function (index, tbl_DispatchReferral) {
+                    xmlstring = xmlstring + "<row id='" + index + "'>";
+                    xmlstring = xmlstring + "<cell><![CDATA[" + tbl_DispatchReferral.ReferralType + "]]></cell>";
+                    xmlstring = xmlstring + "<cell><![CDATA[" + tbl_DispatchReferral.activeYN + "]]></cell>";
+                    xmlstring = xmlstring + "<cell><![CDATA[" + tbl_DispatchReferral.DispatchReferralID + "]]></cell>";
+                    xmlstring = xmlstring + "</row>";
+                });
+                xmlstring = xmlstring + "</rows>";
+                mygridRCodes.loadXMLString(xmlstring);
+
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (e) {
+                $('#output').innerHtml(e);
+            }
+        });
+    }
+
+    function loadCouponCode() {
+        var xmlstring1 = "";
+        mygridCCode = new dhtmlXGridObject('grCoupon');
+        mygridCCode.setImagePath("../../../../codebase/imgs/");
+        mygridCCode.setHeader("Code <br> (alpha numeric 12 digit),Marketing Medium <br> (Postcards ads etc),Discount Amount <br>($),Percentage <br> (%),Expiration Date <br> (mm/dd/yy)");
+        mygridCCode.setNumberFormat("0,000.00", 0, ".", ",");
+        mygridCCode.setColTypes("ed,ed,price,ed,ed"); //ron
+        mygridCCode.setColSorting("str,str,int,int,date");
+
+        mygridCCode.init();
+        mygridCCode.setSkin("dhx_skyblue");
+
+        var jsondata1 = $.ajax({
+            url: "/Technicians/GetCoupon",
+            contentType: "application/json; charset=utf-8",
+            success: function (msg1) {
+                var AdForHomePages1 = msg1;
+                xmlstring1 = xmlstring1 + "<rows>";
+                $.each(AdForHomePages1, function (index, tbl_coupon) {
+
+                    //var d = eval(tbl_coupon.ExpirationDate.slice(1, -1))
+
+                    xmlstring1 = xmlstring1 + "<row id='" + index + "'>";
+                    xmlstring1 = xmlstring1 + "<cell><![CDATA[" + tbl_coupon.Code + "]]></cell>";
+                    xmlstring1 = xmlstring1 + "<cell><![CDATA[" + tbl_coupon.MarketingMedium + "]]></cell>";
+                    xmlstring1 = xmlstring1 + "<cell><![CDATA[" + "" + "]]></cell>";
+                    xmlstring1 = xmlstring1 + "<cell><![CDATA[" + "" + "]]></cell>";
+                    if (tbl_coupon.ExpirationDate != "") {
+                        xmlstring1 = xmlstring1 + "<cell><![CDATA[" + tbl_coupon.ExpirationDate + "]]></cell>";
+                    } else {
+                        xmlstring1 = xmlstring1 + "<cell><![CDATA[" + '' + "]]></cell>";
+                    }
+                    xmlstring1 = xmlstring1 + "</row>";
+
+                });
+                xmlstring1 = xmlstring1 + "</rows>";
+                mygridCCode.loadXMLString(xmlstring1);
+
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (e) {
+                $('#output').innerHtml(e);
+            }
+        });
+    }
+
+    function loadReferralTracking() {
+        pieChart = new dhtmlXChart({
+            view: "pie",
+            container: "chart1",
+            value: "#data1#",
+            pieInnerText: "#data1#",
+            gradient: true,
+            tooltip: {
+                template: "#data1#"
+            },
+            legend: {
+                width: 260,
+                align: "right",
+                valign: "middle",
+                template: "#data0#"
+            }
+        });
+
+        gridtracking = new dhtmlXGridObject('gridbox1');
+        gridtracking.setImagePath("../../../../codebase/imgs/");
+        gridtracking.setHeader("Referral Code , Job Count ,Sales,Avg Sale ", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+        gridtracking.setColTypes("ro,ro,ron,ron");
+        gridtracking.setColSorting("str,int,str,int");
+        //gridtracking.setNumberFormat("0.00",2); 
+        gridtracking.setNumberFormat("$0,000.00", 2);
+        gridtracking.setNumberFormat("$0,000.00", 3);
+        gridtracking.setColAlign("left,right,right,right");
+        gridtracking.setInitWidths("176,165,165,*");
+        gridtracking.init();
+        //mygrid.setColSorting("int,str,str,int,str,str,str,date")
+        gridtracking.setSkin("dhx_skyblue");
+
+        //Calendar
+        myCalendar = new dhtmlxCalendarObject(["calendarfirst", "CalendarSecond"]);
+        myCalendar.setWeekStartDay(7);
+        myCalendar.setDateFormat("%m/%d/%Y");
+    }
+
+    function loadCouponTracking() {
+        var xmlgrdcoupon = "";
+        mygridcoupon = new dhtmlXGridObject('gridCoupon');
+        mygridcoupon.setImagePath("../../../../codebase/imgs/");
+        mygridcoupon.setHeader("Code <br> (alpha numeric \\, 12 digit),Marketing Medium <br> (Postcards \\, ads etc),Discount Amount <br>($),Percentage <br> (%),Expiration Date <br> (mm/dd/yy)", null, ["text-align:left", "text-align:left", "text-align:center", "text-align:center", "text-align:center"]);
+        mygridcoupon.setNumberFormat("0,000.00", 0, ".", ",");
+        mygridcoupon.setInitWidths("141,127,100,90,100");
+        mygridcoupon.setColTypes("ed,ed,price,ed,ed"); //ron
+        mygridcoupon.setColSorting("str,str,int,int,date");
+        mygridcoupon.setColAlign("left,left,center,center,center");
+        mygridcoupon.init();
+        mygridcoupon.setSkin("dhx_skyblue");
+
+        // xmlstring1 = xmlstring1 + "<cell><![CDATA[" + Coupon.FranchiseID + "]]></cell>";
+        var jsondata1 = $.ajax({
+            url: "/Technicians/GetCouponTracking",
+            contentType: "application/json; charset=utf-8",
+            success: function (msg1) {
+                var AdForHomePages1 = msg1;
+                xmlgrdcoupon = xmlgrdcoupon + "<rows>";
+                $.each(AdForHomePages1, function (index, tbl_coupon) {
+
+                    // var d = eval(tbl_coupon.ExpirationDate.slice(1, -1))
+                    //d=d.substring(4,14);
+                    xmlgrdcoupon = xmlgrdcoupon + "<row id='" + index + "'>";
+                    xmlgrdcoupon = xmlgrdcoupon + "<cell><![CDATA[" + tbl_coupon.Code + "]]></cell>";
+                    xmlgrdcoupon = xmlgrdcoupon + "<cell><![CDATA[" + tbl_coupon.MarketingMedium + "]]></cell>";
+                    xmlgrdcoupon = xmlgrdcoupon + "<cell><![CDATA[" + "" + "]]></cell>";
+                    xmlgrdcoupon = xmlgrdcoupon + "<cell><![CDATA[" + "" + "]]></cell>";
+                    xmlgrdcoupon = xmlgrdcoupon + "<cell><![CDATA[" + tbl_coupon.ExpirationDate + "]]></cell>";
+                    xmlgrdcoupon = xmlgrdcoupon + "</row>";
+
+                });
+                xmlgrdcoupon = xmlgrdcoupon + "</rows>";
+                mygridcoupon.loadXMLString(xmlgrdcoupon);
+
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (e) {
+                $('#output').innerHtml(e);
+            }
+        });
+    }
+
+    doOnload();
+
+    function doOnload() {
+        loadReferralCode();
+        loadCouponCode();
+        loadReferralTracking();
+        loadCouponTracking();
+
+        tabbar = new dhtmlXTabBar("a_tabbar", "top");
+        tabbar.setSkin('dhx_skyblue');
+        tabbar.setImagePath("../../codebase/imgs/");
+        tabbar.addTab("a1", "Referral Codes");
+        tabbar.addTab("a2", "Coupon Codes");
+        tabbar.addTab("a3", "Referral Tracking");
+        tabbar.addTab("a4", "Coupon Tracking");
+        tabbar.setContent("a1", "html_1");
+        tabbar.setContent("a2", "html_2");
+        tabbar.setContent("a3", "html_3");
+        tabbar.setContent("a4", "html_4");
+        tabbar.setTabActive("a1");
+    }
+</script>
+</head>
+<body style="font-size:62.5%;">
+
+<div id="a_tabbar" style="width: 100%;height:780px;background-color:#D5F1FF;"/>
+<div id='html_1' style="background-color:#D5F1FF;height:780px">
+    <div id="gridbox" style="width: 100%;height:400px; background-color: white; overflow: hidden;">
+    </div>
+    <div style="padding-top: 20px;padding-bottom: 20px; float: left; width: 100%; padding-left: 20px;background-color:#D5F1FF;">
+        <div style="float: left">
+            <input id="btnSave" type="button" value="Save" onclick="SaveData();" />
+        </div>
+        <div style="float: left; margin-left: 10px">
+            <input id="btnadd" type="button" onclick="(arguments[0]||window.event).cancelBubble=true; add_r()" value="Add Row" />
+        </div>
+    </div>
+</div>
+
+<div id='html_2' style="background-color:#D5F1FF;height:780px">
+    <div id="grCoupon" style="width: 100%; height: 400px; background-color: white; overflow: hidden">
+    </div>
+    <div style="padding-top: 20px;padding-bottom: 20px; float: left; width: 100%; padding-left: 20px;background-color:#D5F1FF;">
+        <div style="float: left">
+            <input id="btnSaveCoupon" type="button" value="Save" onclick="SaveDataCCode();" />
+        </div>
+        <div style="float: left; padding-left: 20px">
+            <input id="btnaddCoupon" type="button" onclick="(arguments[0]||window.event).cancelBubble=true; add_rCCode()" value="Add Row" />
+        </div>
+    </div>
+</div>
+
+<div id='html_3' style="background-color:#D5F1FF;height:780px">
+    <div style="width:100%;float:left;background-color:#D5F1FF;">
+        <div style="width:50%;float:left">
+            <div id="gridbox1" style="width: 100%; height: 400px; background-color: #D5F1FF; overflow: hidden">
+            </div>
+        </div>
+        <div style="width: 40%; float: left">
+            <div style="width: 35%; float: left; margin-top: 1px;">
+                <div style="float: left;">
+                    <div style="position: relative; height: 27px; margin-left: 35px;">
+                        From
+                        <input type="text" id="calendarfirst" />
+                        To
+                        <input type="text" id="CalendarSecond" />
+                    </div>
+                    <div style="padding-right: 0px; padding-top: 0px; background-color: #d5f1ff; width: 569px; height: 375px; border: 1px solid #A4BED4;margin-left: 35px;">
+                        <div style="float: left; padding-left: 10px; width: 560px; background-color: #cce2ff; padding-top: 0px;">
+                            <span style="font-family: 14px; font-weight: bold;">Job Count</span>
+                        </div>
+                        <br />
+                        <div style="margin: 0px;" id="getref">
+                            <div id="chart1" style="width: 569px; height: 354px; overflow-y: scroll; overflow-x: hidden">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width:100%; float:left; background-color:#D5F1FF;">
+        <div style="padding-top: 20px;padding-bottom: 20px; float: left; width: 100%; padding-left: 20px;background-color:#D5F1FF;">
+            <div style="float: left">
+                <input id="btnrfSave" type="button" value="Submit" onclick="SubmitReferralTracking();" />
+            </div>
+        </div>
+    </div>
+    <div style="width:100%; float:left; background-color:#D5F1FF; height:200px; ">
+        <div id="gridref" style="width: 50%; height: 350px; overflow: hidden;margin-left:0px;">
+        </div>
+    </div>
+</div>
+
+<div id='html_4' style="background-color:#D5F1FF;height:780px">
+    <div style="width: 100%; float: left; background-color: #D5F1FF;">
+        <div style="width: 50%; float: left">
+            <div id="gridCoupon" style="width: 100%; height: 400px; background-color: #D5F1FF; overflow: hidden">
+            </div>
+        </div>
+        <div style="width: 40%; float: left">
+            <div style="width: 10%; float: left; margin-top: 0px;">
+                <div style="float: left;">
+                    <div style="position: relative; height: 27px; margin-left: 35px;">
+                        From @Html.TextBox("textField", (string)ViewBag.TextMessage) @* <input type="text" id="calendar">*@
+                        To
+                        @Html.TextBox("textfield1", (string)ViewBag.TextMessage) @* <input type="text" id="calendar3">*@
+                    </div>
+                    <script type="text/javascript">
+                        var myCalendar;
+                        myCalendar = new dhtmlXCalendarObject(["textField", "textfield1", "calendar3"]);
+                        myCalendar.setWeekStartDay(7);
+                        myCalendar.setDateFormat("%m/%d/%Y");
+                    </script>
+                    <div style="padding-right: 0px; padding-top: 0px; background-color: #d5f1ff; width: 509px;height: 375px; border: 1px solid #A4BED4; margin-left: 35px;">
+                        <div style="float: left; padding-left: 10px; width: 500px; background-color: #cce2ff; padding-top: 0px;">
+                            <span style="font-family: 14px; font-weight: bold;">Coupon No</span>
+                        </div>
+                        <br />
+                        <div style="margin: 0px;" id="getcht">
+                            <div id="chart2" style="width: 509px; height: 354px; overflow: auto;overflow-y: scroll; overflow-x: hidden "> 
+                            </div>
+                            @if (Model.couponList.Count - 1 > 0)
+                            {
+                            <script type="text/javascript">
+                                var sectiondata=[@{
+                                int j;
+                                j = 0;
+                                foreach (var item in Model.couponList)
+                                {
+                                <text>
+                                {sales: '@(item.CouponID)', year: '@(item.MarketingMedium)'}@(j < Model.couponList.Count - 1 ? "," : "")
+                                </text>
+                                j++;
+                                }
+                                }]
+                                {
+                                    var pieChart = new dhtmlXChart({
+                                        view: "pie",
+                                        container: "chart2",
+                                        value: "#sales#",
+                                        pieInnerText: "#sales#",
+                                        gradient: true,
+                                        tooltip: {
+                                            template: "#sales#"
+                                        },
+                                        legend: {
+                                            width: 260,
+                                            align: "right",
+                                            valign: "middle",
+                                            template: "#year#"
+                                        }
+                                    });
+                                    pieChart.parse(sectiondata, "json");
+                                }
+                            </script>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width:100%;float:left;background-color:#D5F1FF;">
+        <div style="padding-top: 20px;padding-bottom: 20px; float: left; width: 100%; padding-left: 20px;background-color:#D5F1FF;">
+            <div style="float: left">
+                <input id ="coupounsubmit" type ="submit" value="Submit" />
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

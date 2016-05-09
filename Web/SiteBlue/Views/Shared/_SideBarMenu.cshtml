@@ -1,0 +1,13 @@
+﻿<div id="SideBarMenu" class="fl">
+    <h2>
+        SIDEBAR MENU</h2>
+    <ul id="navSidebar">
+        <li class="selected">Shortcuts</li>
+        <li><a href="@Url.Content("~/OwnerPortal/Technicians/DailyBudget")" title="Daily Budget">Daily Budget</a></li>
+    	<li>@Html.ActionLink("Electronic Onboarding", "Index", "Questionnaire", new { area = "" }, new { @alt = "Electronic Onboarding" })</li>
+        @*<li><a href="https://connectuspro.webex.com/connectuspro/ldr.php?AT=pb&SP=MC&rID=102444302&rKey=5fad3ec5b09acf56" target="_blank" title="Training Pricebook">Training Pricebook</a></li>*@
+        @*<li>@Html.ActionLink("My Pricebook", "Index", "PriceBook", new { area = "PriceBook" }, new { @alt = "My Pricebook" })</li>*@
+        <li><a href="@Url.Content("~/PriceBook/PriceBook/Index")" title="My Pricebook">My Pricebook</a></li>
+        <li><a href="@Url.Content("~/OwnerPortal/OwnerAlerts")" title="Alerts">Alerts</a></li>
+    </ul>
+</div>

@@ -1,0 +1,1373 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>MyCompanyInfo</title>
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxwindows.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" />
+    <script src="../../../../codebase/dhtmlxcommon.js"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.5.1.min.js")" type="text/javascript"></script>
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/json2.js" type="text/javascript"></script>
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../../../../common/css/style.css" type="text/css"
+        media="screen" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlx_custom.css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css" />
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+
+        function SaveFile() {
+            //alert("save");
+        }
+        $("#States").change(function () {
+
+        });
+//        $("#AddDBA").click(function () {
+//            // alert("above");
+//            var Txt = $("#AddDBATxt").val();
+//            var custid = { txt_refCode: Txt };
+
+
+
+//            //alert(custid);
+//            if (Txt != '') {
+//                try {
+//                    $.ajax({
+
+//                        type: "POST",
+//                        url: "/OwnerPortal/CompanyInfo/Save_DBA_Data",
+//                        data: JSON.stringify(custid),
+//                        contentType: "application/json; charset=utf-8",
+//                        success: function (msg1) {
+//                            var AdForHomePages1 = msg1;
+
+//                            $("#AddDBATxt").val('');
+
+//                        }
+//                    });
+//                }
+//                catch (e) {
+//                    alert(e);
+//                }
+//            }
+//            else {
+//                alert("Please enter a DBA first, then click add...");
+//            }
+
+            $states = $('#States').empty();
+            var countrySelected = $(this).val();
+//            var frid = $("#ddlCompanyInfo").val();
+            $states.append('<option value="0">Select DBA</option>');
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: "/OwnerPortal/CompanyInfo/GetData",
+                    //data: JSON.stringify(FrenchiseId),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg1) {
+                        var AdForHomePages1 = msg1;
+                        $.each(AdForHomePages1, function (index, Dispatch_DBA) {
+
+                            $states.append('<option value="' + Dispatch_DBA.DBAID + '">' + Dispatch_DBA.DBAName + '</option>');
+
+                        });
+                    }
+                });
+            }
+            catch (e) {
+                alert(e);
+            }
+
+
+
+
+
+
+
+
+        });
+
+    </script>
+    <script type="text/javascript">
+        function CancelAdd() {
+            dhxWinsAdd.window("JobWindowAdd").close();
+        }
+        function SaveData() {
+
+            var phonetype = document.getElementById("ddlPhoneType").value;
+            var phonenumber = document.getElementById("txtPhoneNumber").value;
+            var contactName = document.getElementById("txtContactName").value;
+//            var franchiseId = document.getElementById("ddlCompanyInfo").value;
+            var custid = { Phonetype: phonetype, Phonenumber: phonenumber, Contactname: contactName};
+            var jsondataCoupon = $.ajax({
+                url: "/OwnerPortal/CompanyInfo/EmployeeContactAdd",
+                data: JSON.stringify(custid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    var AdForHomePages = msg;
+                    window.location.reload();
+                    $.each(AdForHomePages, function (index, tbl_Referral) {
+
+                    });
+                },
+                type: "POST",
+                dataType: "json"
+            });
+        }
+        function AddContactName_Click() {
+            document.getElementById("AddContactName").style.display = "block";
+
+            dhxWinsAdd = new dhtmlXWindows();
+            //dhxWinsAdd.enableAutoViewport(false);
+            //dhxWins.attachViewportTo("Content2");
+            dhxWinsAdd.setImagePath("../../codebase/imgs/");
+            JobWindowAdd = dhxWinsAdd.createWindow("JobWindowAdd", 350, 70, 480, 250);
+            dhxWinsAdd.window("JobWindowAdd").setModal(true);
+            dhxWinsAdd.attachEvent("onClose", function (win) {
+                dhxWinsAdd.window("JobWindowAdd").detachObject("AddContactName");
+                return true;
+            });
+
+            dhxWinsAdd.window("JobWindowAdd").attachObject("AddContactName");
+
+
+        }
+        function changeShippingAddress() {
+            if (document.getElementById("chkShippingAddress").checked == true) {
+
+                $("#SName").val($("#OName").val());
+                $("#SCompany").val($("#OCompany").val());
+                $("#SAddress").val($("#OAddress").val());
+                $("#SCity").val($("#OCity").val());
+                $("#SState").val($("#OState").val());
+                $("#SPostal").val($("#OPostal").val());
+
+                $("#SCountry").attr('selectedIndex', $("#OCountry").val() - 1); //ViewBag.SCountry
+            }
+            else {
+                //                $("#SName").val('');
+                //                $("#SName").val('');
+                //                $("#SCompany").val('');
+                //                $("#SAddress").val('');
+                //                $("#SCity").val('');
+                //                $("#SState").val('');
+                //                $("#SPostal").val('');
+                $("#SName").val('@ViewBag.SName');
+                $("#SCompany").val('@ViewBag.SCompany');
+                $("#SAddress").val('@ViewBag.SAddress');
+                $("#SCity").val('@ViewBag.SCity');
+                $("#SState").val('@ViewBag.SState');
+                $("#SPostal").val('@ViewBag.SPostal');
+
+            }
+
+        }
+        function changeMailingAddress() {
+        
+            if (document.getElementById("chkMailingAddress").checked == true) {
+                $("#MName ").val($("#SName").val());
+                $("#MCompany").val($("#SCompany").val());
+                $("#MAddress").val($("#SAddress").val());
+                $("#MCity").val($("#SCity").val());
+                $("#MState").val($("#SState").val());
+                $("#MPostal").val($("#SPostal").val());
+                $("#MCountry").attr('selectedIndex', $("#SCountry").val() - 1);
+            }
+
+            else {
+                //                $("#MName").val('');
+                //                $("#MName").val('');
+                //                $("#MCompany").val('');
+                //                $("#MAddress").val('');
+                //                $("#MCity").val('');
+                //                $("#MState").val('');
+                //                $("#MPostal").val('');
+                $("#MName ").val('@ViewBag.SName');
+                $("#MCompany").val('@ViewBag.SCompany');
+                $("#MAddress").val('@ViewBag.SAddress');
+                $("#MCity").val('@ViewBag.SCity');
+                $("#MState").val('@ViewBag.SState');
+                $("#MPostal").val('@ViewBag.SPostal');
+
+            }
+        }
+        function doOnRowSelected(rowID, celInd) {
+
+            alert("Selected row ID is " + mygrd.getSelectedId() + "\nUser clicked cell with index " + celInd);
+        }
+        function BindContactName() {
+
+//            var FranchiseeId = document.getElementById("ddlCompanyInfo").value;
+            myCalendar = new dhtmlXCalendarObject(["StartDate", "Renewal"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+
+            var xmlstringCompany = "";
+            var Comid = { };
+
+            var jsondata1 = $.ajax({
+                url: "/OwnerPortal/CompanyInfo/MyCompanyContact",
+                //url: "/AllCustomers/CustomerDetails",
+                data: JSON.stringify(Comid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    gridCompany = new dhtmlXGridObject('gridcontact');
+                    gridCompany.setHeader("Contact Name,Phone Type,Phone Number");
+                    //gridCompany.setInitWidths("100,100,100");
+                    gridCompany.setImagePath("../../codebase/imgs/");
+                    gridCompany.setColAlign("left,left,left");
+                    gridCompany.setColTypes("ro,ro,ro");
+                    gridCompany.init();
+                    gridCompany.setSkin("dhx_skyblue");
+                    var AdForHomePages = msg;
+                    xmlstringCompany = xmlstringCompany + "<rows>";
+                    $.each(AdForHomePages, function (index, Franchisee) {
+                        xmlstringCompany = xmlstringCompany + "<row id='" + Franchisee.FranchiseContactID + "'>";
+                        xmlstringCompany = xmlstringCompany + "<cell><![CDATA[" + Franchisee.ContactName + "]]></cell>";
+                        xmlstringCompany = xmlstringCompany + "<cell><![CDATA[" + Franchisee.PhoneType + "]]></cell>";
+                        xmlstringCompany = xmlstringCompany + "<cell><![CDATA[" + Franchisee.PhoneNumber + "]]></cell>";
+                        xmlstringCompany = xmlstringCompany + "</row>";
+                    });
+                    xmlstringCompany = xmlstringCompany + "</rows>";
+
+                    gridCompany.loadXMLString(xmlstringCompany);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+
+
+        }
+        function binddropdn() {
+
+            $states = $('#States').empty();
+            var countrySelected = $(this).val();
+//            var frid = $("#ddlCompanyInfo").val();
+            $states.append('<option value="0">Select DBA</option>');
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: "/OwnerPortal/CompanyInfo/GetData",
+                    //data: JSON.stringify(FrenchiseId),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg1) {
+                        var AdForHomePages1 = msg1;
+                        $.each(AdForHomePages1, function (index, Dispatch_DBA) {
+
+                            $states.append('<option value="' + Dispatch_DBA.DBAID + '">' + Dispatch_DBA.DBAName + '</option>');
+
+                        });
+                    }
+                });
+            }
+            catch (e) {
+                alert(e);
+            }
+
+
+
+
+        }
+
+        function BindDBA() {
+            
+            var xmlstring1 = "";
+            mygrd = new dhtmlXGridObject('grid1');
+            mygrd.setImagePath("../../../../codebase/imgs/");
+
+            mygrd.setHeader("DBA");
+            mygrd.setInitWidths("*");
+            mygrd.setColAlign("left");
+            mygrd.setColTypes("ed");
+            mygrd.setColSorting("txt");
+            //            mygrd.attachEvent("onRowSelect", doOnRowSelected);
+            mygrd.init();
+
+            mygrd.setSkin("dhx_skyblue");
+            mygrd.setDateFormat("%Y-%m-%d %H:%i");
+            var fid = {};
+            var jsondata = $.ajax
+                                            ({
+                                                url: '/OwnerPortal/CompanyInfo/DBAList',
+                                                data: JSON.stringify(fid),
+                                                contentType: "application/json; charset=utf-8",
+                                                success: function (msg) {
+                                                    //xmlstring = xmlstring + "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>";
+                                                    var AdForHomePages = msg;
+                                                    xmlstring1 = xmlstring1 + "<rows>";
+
+                                                    $.each(AdForHomePages, function (index, DBAList) {
+                                                        xmlstring1 = xmlstring1 + "<row id='" + DBAList.DBAID + "'>";
+
+                                                        xmlstring1 = xmlstring1 + "<cell><![CDATA[" + DBAList.DBAName + "]]></cell>";
+
+                                                        xmlstring1 = xmlstring1 + "</row>";
+                                                    });
+
+                                                    xmlstring1 = xmlstring1 + "</rows>";
+
+                                                    mygrd.loadXMLString(xmlstring1);
+
+                                                },
+                                                type: "POST",
+                                                dataType: "json",
+                                                error: function (e) {
+                                                    $('#output').innerHtml(e);
+                                                }
+                                            });
+        }
+//        function doOnLoad() {
+
+            $(document).ready(function () {
+                //  alert("ready");
+                $states = $('#States').empty();
+                var countrySelected = $(this).val();
+//                var frid = $("#ddlCompanyInfo").val();
+                //var FrenchiseId = { FrenchiseID: frid };
+
+                $states.append('<option value="0">Select DBA</option>');
+
+                try {
+                    $.ajax({
+                        type: "POST",
+                        url: "/OwnerPortal/CompanyInfo/GetData",
+                        //data: JSON.stringify(FrenchiseId),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (msg1) {
+                            var AdForHomePages1 = msg1;
+                            $.each(AdForHomePages1, function (index, Dispatch_DBA) {
+                                //    alert(Dispatch_DBA);
+                                $states.append('<option value="' + Dispatch_DBA.DBAID + '">' + Dispatch_DBA.DBAName + '</option>');
+
+                            });
+                        }
+                    });
+                }
+                catch (e) {
+                    alert(e);
+                }
+            });
+
+            //  if (document.getElementById("showInactive").checked == true) {
+            BindDBA();
+            $("#btnDeleteContactName").click(function () {
+
+                var ContactID = gridCompany.getSelectedId();
+                if (ContactID != null) {
+
+                    var custid = { Contactid: ContactID };
+                    try {
+                        $.ajax({
+                            type: "POST",
+                            url: "../CompanyInfo/DeleteContact",
+                            data: JSON.stringify(custid),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg1) {
+                                var AdForHomePages1 = msg1;
+                                BindContactName();
+                            }
+                        });
+                    }
+                    catch (e) {
+                        alert(e);
+                    }
+                }
+                else {
+                    alert("Please Select Contact Name To Delete");
+                }
+            });
+
+
+
+            $("#btnDbaDelete").click(function () {
+                var DBAID = mygrd.getSelectedId();
+
+                if (DBAID != null) {
+                    var custid = { DBA: DBAID };
+                    try {
+                        $.ajax({
+                            type: "POST",
+                            url: "../CompanyInfo/DeleteDBA",
+                            data: JSON.stringify(custid),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg1) {
+                                var AdForHomePages1 = msg1;
+                                BindDBA();
+                                binddropdn();
+                            }
+                        });
+                    }
+                    catch (e) {
+                        alert(e);
+                    }
+                }
+                else {
+                    alert("Please Select DBA To Delete");
+                }
+            });
+
+            $("#AddDBA").click(function () {
+
+
+                var Txt = $("#AddDBATxt").val();
+//                var frenchiseId = $("#ddlCompanyInfo").val();
+                var custid = { DBA: Txt};
+
+                if (Txt != '') {
+                    try {
+                        $.ajax({
+                            type: "POST",
+                            url: "/OwnerPortal/CompanyInfo/Save_DBA_Data",
+                            data: JSON.stringify(custid),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg1) {
+                                var AdForHomePages1 = msg1;
+
+                                $("#AddDBATxt").val('');
+                                BindDBA();
+                            }
+                        });
+                    }
+                    catch (e) {
+                        alert(e);
+                    }
+                }
+                else {
+                    alert("Please enter a DBA first, then click add...");
+                }
+
+                $states = $('#States').empty();
+                var countrySelected = $(this).val();
+//                var frid = $("#ddlCompanyInfo").val();
+
+                //alert('inside');
+                $states.append('<option value="0">Select DBA</option>');
+                try {
+                    $.ajax({
+                        type: "POST",
+                        url: "/OwnerPortal/CompanyInfo/GetData",
+                        //data: JSON.stringify(FrenchiseId),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (msg1) {
+                            var AdForHomePages1 = msg1;
+                            $.each(AdForHomePages1, function (index, Dispatch_DBA) {
+                                //alert(Dispatch_DBA);
+                                $states.append('<option value="' + Dispatch_DBA.DBAID + '">' + Dispatch_DBA.DBAName + '</option>');
+
+                            });
+                        }
+                    });
+                }
+                catch (e) {
+                    alert(e);
+                }
+
+
+                //            $.get('@Url.Action("GetData")',
+                //                { id: countrySelected }, function (data) {
+                //                    alert(data);
+                //                    $("#target").html(data);
+                //                });
+
+            });
+//            $("#editbutton").click(function () {
+//                document.getElementById("savebutton").style.display = 'block';
+//                document.getElementById("cancelbutton").style.display = 'block';
+//                document.getElementById("editbutton").style.display = 'none';
+
+//                $("#chkShippingAddress").removeAttr("disabled");
+//                $("#chkMailingAddress").removeAttr("disabled");
+
+//                //alert($("#SCountry").val());
+//                //                $("#SName").val('');
+//                //                $("#SName").val('');
+//                //                $("#SCompany").val('');
+//                //                $("#SAddress").val('');
+//                //                $("#SCity").val('');
+//                //                $("#SState").val('');
+//                //                $("#SPostal").val('');
+
+//                //                $("#MName ").val('');
+//                //                $("#MCompany").val('');
+//                //                $("#MAddress").val('');
+//                //                $("#MCity").val('');
+//                //                $("#MState").val('');
+//                //                $("#MPostal").val('');
+
+//                //                $("#OwnerName").removeAttr("readonly");
+//                //                $("#LegalName").removeAttr("readonly");
+//                //                $("#Address").removeAttr("readonly");
+//                //                $("#City").removeAttr("readonly");
+//                //                $("#State").removeAttr("readonly");
+//                //                $("#Postal").removeAttr("readonly");
+//                //                $("#Select").removeAttr("readonly");
+//                //                $("#Country").removeAttr("disabled");
+//                //                $("#TimeZone").removeAttr("readonly");
+
+//                $("#SName").removeAttr("readonly");
+//                $("#SCompany").removeAttr("readonly");
+//                $("#SAddress").removeAttr("readonly");
+//                $("#SCity").removeAttr("readonly");
+//                $("#SState").removeAttr("readonly");
+//                $("#SPostal").removeAttr("readonly");
+//                $("#SCountry").removeAttr("disabled");
+
+//                $("#MName").removeAttr("readonly");
+//                $("#MCompany").removeAttr("readonly");
+//                $("#MAddress").removeAttr("readonly");
+//                $("#MCity").removeAttr("readonly");
+//                $("#MState").removeAttr("readonly");
+//                $("#MPostal").removeAttr("readonly");
+//                $("#MCountry").removeAttr("disabled");
+
+//                $("#OName").removeAttr("readonly");
+//                $("#OCompany").removeAttr("readonly");
+//                $("#OAddress").removeAttr("readonly");
+//                $("#OCity").removeAttr("readonly");
+//                $("#OState").removeAttr("readonly");
+//                $("#OPostal").removeAttr("readonly");
+//                $("#OCountry").removeAttr("disabled");
+
+//                $("#Concept").removeAttr("disabled");
+//                $("#Status").removeAttr("disabled");
+//                $("#FranchiseeType").removeAttr("disabled");
+//                $("#SalesRep").removeAttr("readonly");
+//                $("#StartDate").removeAttr("disabled");
+//                $("#Renewal").removeAttr("disabled");
+//                $("#FBC").removeAttr("readonly");
+//                $("#Region").removeAttr("disabled");
+//                $("#WebSite").removeAttr("readonly");
+//                $("#Email").removeAttr("readonly");
+
+//            });
+            $("#btnSaveCompanyInfo").click(function () {
+                var dba = $('#States').val();
+                $("#hdnDbaId").val(dba);
+//                $("#hdnFranchiseid").val($("#ddlCompanyInfo").val());
+
+                return true;
+            });
+            $("#btnSaveCompanyInfo1").click(function () {
+
+                var dba = $('#States').val();
+                $("#hdnDbaId1").val(dba);
+//                $("#hdnFranchiseid1").val($("#ddlCompanyInfo").val());
+                return true;
+            });
+            $("#cancelbutton").click(function () {
+                
+//                $("#SName").attr("readonly", true);
+//                $("#SCompany").attr("readonly", true);
+//                $("#SAddress").attr("readonly", true);
+//                $("#SCity").attr("readonly", true);
+//                $("#SState").attr("readonly", true);
+//                $("#SPostal").attr("readonly", true);
+//                $("#SCountry").attr("disabled", true);
+
+//                $("#SName").attr("readonly", true);
+//                $("#SCompany").attr("readonly", true);
+//                $("#SAddress").attr("readonly", true);
+//                $("#SCity").attr("readonly", true);
+//                $("#SState").attr("readonly", true);
+//                $("#SPostal").attr("readonly", true);
+//                $("#SCountry").attr("disabled", true);
+
+//                $("#MName").attr("readonly", true);
+//                $("#MCompany").attr("readonly", true);
+//                $("#MAddress").attr("readonly", true);
+//                $("#MCity").attr("readonly", true);
+//                $("#MState").attr("readonly", true);
+//                $("#MPostal").attr("readonly", true);
+//                $("#MCountry").attr("disabled", true);
+
+//                $("#OName").attr("readonly", true);
+//                $("#OCompany").attr("readonly", true);
+//                $("#OAddress").attr("readonly", true);
+//                $("#OCity").attr("readonly", true);
+//                $("#OState").attr("readonly", true);
+//                $("#OPostal").attr("readonly", true);
+//                $("#OCountry").attr("disabled", true);
+
+
+//                document.getElementById("savebutton").style.display = 'none';
+//                document.getElementById("cancelbutton").style.display = 'none';
+//                document.getElementById("editbutton").style.display = 'block';
+
+
+
+                document.getElementById("OwnerName").setAttribute("readonly", "true");
+                document.getElementById("LegalName").setAttribute("readonly", "true");
+                document.getElementById("Address").setAttribute("readonly", "true");
+                document.getElementById("City").setAttribute("readonly", "true");
+                document.getElementById("State").setAttribute("readonly", "true");
+                document.getElementById("Postal").setAttribute("readonly", "true");
+                document.getElementById("Select").setAttribute("readonly", "true");
+                document.getElementById("Country").setAttribute("disabled", "true");
+                document.getElementById("TimeZone").setAttribute("readonly", "true");
+
+                //                document.getElementById("SName").setAttribute("readonly", "true");
+                //                document.getElementById("SCompany").setAttribute("readonly", "true");
+                //                document.getElementById("SAddress").setAttribute("readonly", "true");
+                //                document.getElementById("SCity").setAttribute("readonly", "true");
+                //                document.getElementById("SState").setAttribute("readonly", "true");
+                //                document.getElementById("SPostal").setAttribute("readonly", "true");
+                //                document.getElementById("SCountry").setAttribute("disabled", "true");
+
+
+
+
+                //                document.getElementById("MName").setAttribute("readonly", "true");
+                //                document.getElementById("MCompany").setAttribute("readonly", "true");
+                //                document.getElementById("MAddress").setAttribute("readonly", "true");
+                //                document.getElementById("MCity").setAttribute("readonly", "true");
+                //                document.getElementById("MState").setAttribute("readonly", "true");
+                //                document.getElementById("MPostal").setAttribute("readonly", "true");
+                //                document.getElementById("MCountry").setAttribute("disabled", "true");
+
+//                document.getElementById("OName").setAttribute("readonly", "true");
+//                document.getElementById("OCompany").setAttribute("readonly", "true");
+//                document.getElementById("OAddress").setAttribute("readonly", "true");
+//                document.getElementById("OCity").setAttribute("readonly", "true");
+//                document.getElementById("OState").setAttribute("readonly", "true");
+//                document.getElementById("OPostal").setAttribute("readonly", "true");
+//                document.getElementById("OCountry").setAttribute("disabled", "true");
+
+//                document.getElementById("Concept").setAttribute("disabled", "true");
+//                document.getElementById("Status").setAttribute("disabled", "true");
+//                document.getElementById("FranchiseeType").setAttribute("disabled", "true");
+//                document.getElementById("SalesRep").setAttribute("readonly", "true");
+//                document.getElementById("StartDate").setAttribute("readonly", "true");
+//                document.getElementById("StartDate").setAttribute("disabled", "true");
+//                document.getElementById("Renewal").setAttribute("readonly", "true");
+//                document.getElementById("Renewal").setAttribute("disabled", "true");
+//                document.getElementById("FBC").setAttribute("readonly", "true");
+//                document.getElementById("Region").setAttribute("disabled", "true");
+//                document.getElementById("WebSite").setAttribute("readonly", "true");
+//                document.getElementById("Email").setAttribute("readonly", "true");
+
+            });
+
+
+            //            var FranchiseeId = document.getElementById("ddlCompanyInfo").value;
+            //            myCalendar = new dhtmlXCalendarObject(["StartDate", "Renewal"]);
+            //            myCalendar.setWeekStartDay(7);
+            //            myCalendar.setDateFormat("%m/%d/%Y");
+
+            //            var xmlstringCompany = "";
+            //            var Comid = { id: FranchiseeId };
+
+            //            var jsondata1 = $.ajax({
+            //                url: "/OwnerPortal/CompanyInfo/MyCompanyContact",
+            //                //url: "/AllCustomers/CustomerDetails",
+            //                data: JSON.stringify(Comid),
+            //                contentType: "application/json; charset=utf-8",
+            //                success: function (msg) {
+            //                    gridCompany = new dhtmlXGridObject('gridcontact');
+            //                    gridCompany.setHeader("Contact Name,Phone Type,Phone Number");
+            //                    //gridCompany.setInitWidths("100,100,100");
+            //                    gridCompany.setImagePath("../../codebase/imgs/");
+            //                    gridCompany.setColAlign("left,left,left");
+            //                    gridCompany.setColTypes("ro,ro,ro");
+            //                    gridCompany.init();
+            //                    gridCompany.setSkin("dhx_skyblue");
+            //                    var AdForHomePages = msg;
+            //                    xmlstringCompany = xmlstringCompany + "<rows>";
+            //                    $.each(AdForHomePages, function (index, Franchisee) {
+            //                        xmlstringCompany = xmlstringCompany + "<row id='" + Franchisee.FranchiseContactID + "'>";
+            //                        xmlstringCompany = xmlstringCompany + "<cell><![CDATA[" + Franchisee.ContactName + "]]></cell>";
+            //                        xmlstringCompany = xmlstringCompany + "<cell><![CDATA[" + Franchisee.PhoneType + "]]></cell>";
+            //                        xmlstringCompany = xmlstringCompany + "<cell><![CDATA[" + Franchisee.PhoneNumber + "]]></cell>";
+            //                        xmlstringCompany = xmlstringCompany + "</row>";
+            //                    });
+            //                    xmlstringCompany = xmlstringCompany + "</rows>";
+
+            //                    gridCompany.loadXMLString(xmlstringCompany);
+            //                },
+            //                type: "POST",
+            //                dataType: "json",
+            //                error: function (e) {
+            //                    $('#output').innerHtml(e);
+            //                }
+            //            });
+            BindContactName();
+//        }
+    </script>
+    <script type="text/javascript">
+        function changeFranchise() {
+
+            document.forms["myform"].submit();
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#PartialMyCompanyInfo').submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        // The AJAX call succeeded and the server returned a JSON 
+                        // with a property "s" => we can use this property
+                        // and set the html of the target div                             
+
+
+                        var companycode = $('#current > a').text();
+                        if (companycode != null && companycode != "") {
+                            $.post('@Url.Action("PartialMyCompanyInfo")',
+                               { code: companycode }, function (data) {
+                                   $("#target").html(data);
+                                   doOnLoad();
+                               });
+                        }
+
+                        $('#ShowResultHere').html(result.s);
+                    }
+                });
+                // it is important to return false in order to 
+                // cancel the default submission of the form
+                // and perform the AJAX call
+                return false;
+            });
+        });
+
+
+        function getAverageTickets() {
+
+        }
+
+    </script>
+</head>
+<body>
+
+    @{Html.BeginForm("SaveMyCompanyInfo", "CompanyInfo", FormMethod.Post, new { enctype = "multipart/form-data" });}
+    <div id="AddContactName" style="display: none;">
+        <table style="margin-top: 50px; margin-left: 70px;">
+            <tr>
+                <td>
+                    <label>
+                        Contact Name</label>
+                </td>
+                <td>
+                    @Html.TextBox("txtContactName", "")
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30%">
+                    <label>
+                        Phone Type</label>
+                </td>
+                <td>
+                    @Html.DropDownList("ddlPhoneType", new SelectList(ViewBag.PhoneType, "PhoneTypeID", "PhoneType"))
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        Phone Number</label>
+                </td>
+                <td>
+                    @Html.TextBox("txtPhoneNumber", "")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="button" value="Save" onclick="SaveData()" />
+                    <input type="button" value="Cancel" style="margin-left: 10px;" onclick="CancelAdd();" />
+                </td>
+            </tr>
+        </table>
+        @* <input type="text" name="txtName" />
+        @Html.DropDownList("PhoneType", new SelectList(ViewBag.PhoneType, "PhoneTypeID", "PhoneType"))*@
+    </div>
+    <div style="height: 30px; width: 100%; margin-top: 3px;">
+        @*<input type="button" id="editbutton" name="editbutton" value="Edit" style="background-color: #add8e4;
+            float: right; margin-right: 5px; width: 58px;" />*@
+        <input type="button" id="cancelbutton" value="Cancel" style="background-color: #add8e4;
+            float: right; margin-right: 5px; width: 58px;" />
+        <input type="submit" id="savebutton" value="Save" style="background-color: #add8e4;
+            float: right; margin-right: 5px; width: 58px;" />
+    </div>
+    <table width="100%">
+        <tr>
+            <td style="width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+                
+                <table width="90%">
+                    <tr style="background-color: #dfedf3">
+                        <td>
+                            <label style="font-size: larger; font-weight: bold;">
+                                Legal Address</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" style="margin-top: 5px;">
+                                <tr>
+                                    <td style="width: 40%">
+                                        <label>
+                                            Owner Name</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("OwnerName", (string)ViewBag.OwnerName, new { style = "width:280px;",@disabled = "disabled" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Legal name</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("LegalName", (string)ViewBag.LegalName, new { style = "width:280px;",@disabled = "disabled" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Address</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("Address", (string)ViewBag.Address, new { style = "width:280px;",@disabled = "disabled" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            City</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("City", (string)ViewBag.City, new { style = "width:280px;",@disabled = "disabled" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            State, Postal</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("State", (string)ViewBag.State, new { style = "width:37px;",@disabled = "disabled" })
+                                        @Html.TextBox("Postal", (string)ViewBag.Postal, new { style = "width:77px;margin-left:10px;",@disabled = "disabled" })
+                                        @*@Html.TextBox("Select", (string)ViewBag.Select, new { style = "width:100px;margin-left:39px;",@disabled = "disabled" })*@
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Country, TimeZone</label>
+                                    </td>
+                                    <td>
+                                        @*@Html.TextBox("Country", (string)ViewBag.Country, new { style = "width:131px;float:left;",@disabled = "disabled" })*@
+                                        @Html.DropDownList("Country", new SelectList(ViewBag.ddlCountry, "CountryID", "Country", (int)ViewBag.Country), new { style = "width:131px;float:left;", @disabled = "disabled" })
+                                        @Html.TextBox("TimeZone", (string)ViewBag.TimeZone, new { style = "width:131px;margin-left:10px;",@disabled = "disabled" })
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+                <table width="100%">
+                    <tr style="background-color: #dfedf3">
+                        <td>
+                            <label style="font-size: larger; font-weight: bold;">
+                                Office Address</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" style="margin-top: 5px;">
+                                <tr>
+                                    <td style="width: 40%">
+                                        <label>
+                                            Name</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("OName", (string)ViewBag.OName, new { style = "width:280px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Company</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("OCompany", (string)ViewBag.OCompany, new { style = "width:280px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Address</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("OAddress", (string)ViewBag.OAddress, new { style = "width:280px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            City</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("OCity", (string)ViewBag.OCity, new { style = "width:250px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            State, Postal</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("OState", (string)ViewBag.OState, new { style = "width:37px;"})
+                                        @Html.TextBox("OPostal", (string)ViewBag.OPostal, new { style = "width:77px;margin-left:10px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Country</label>
+                                    </td>
+                                    <td>
+                                        @*@Html.TextBox("OCountry", (string)ViewBag.OCountry, new { style = "width:250px;",@disabled = "disabled" })*@
+                                        @Html.DropDownList("OCountry", new SelectList(ViewBag.ddlCountry, "CountryID", "Country", (int)ViewBag.OCountry), new { style = "width:250px;float:left;"})
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 300px; width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+                <table style="height: 280px" width="90%">
+                    <tr style="background-color: #dfedf3">
+                        <td>
+                            <label style="font-size: larger; font-weight: bold;">
+                                Contact Names</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%">
+                                <tr>
+                                    <td>
+                                        <div id="gridcontact" style="width: 100%; height: 200px; background-color: white;">
+                                        </div>
+                                        <input type="button" id="btnDeleteContactName" value="Delete" style="float: right" />
+                                        <input type="button" name="btnAddContactName" value="Add" style="float: right" onclick="AddContactName_Click()" />
+                                        
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="height: 300px; width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+                <table style="height: 280px" width="100%;">
+                    <tr style="background-color: #dfedf3">
+                        <td>
+                            <label style="font-size: larger; font-weight: bold;">
+                                Shipping Address</label>
+                            <abbr style="padding-left: 19px">
+                                @Html.CheckBox("chkShippingAddress", false, new { onclick = "changeShippingAddress()"})
+                                Same as Office Address
+                            </abbr>
+                        </td>
+                    </tr>
+                    <tr style="height: 250px; background-color: #dfedf3">
+                        <td>
+                            <table width="100%">
+                                <tr>
+                                    <td style="width: 40%">
+                                        <label>
+                                            Name</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("SName", (string)@ViewBag.SName, new { style = "width:280px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Company</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("SCompany", (string)@ViewBag.SCompany, new { style = "width:280px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Address</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("SAddress", (string)@ViewBag.SAddress, new { style = "width:280px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            City</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("SCity", (string)@ViewBag.SCity, new { style = "width:250px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            State, Postal</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("SState", (string)@ViewBag.SState, new { style = "width:37px;"})
+                                        @Html.TextBox("SPostal", (string)@ViewBag.SPostal, new { style = "width:77px;margin-left:10px;" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Country</label>
+                                    </td>
+                                    <td>
+                                        @*@Html.TextBox("SCountry", (string)ViewBag.SCountry, new { style = "width:250px;float:left;",@disabled = "disabled" })*@
+                                        @Html.DropDownList("SCountry", new SelectList(ViewBag.ddlCountry, "CountryID", "Country", (int)ViewBag.SCountry), new { style = "width:250px;float:left;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height: 19px">
+                                        &nbsp;
+                                    </td>
+                                    <td style="height: 19px">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+                <table width="90%" style="margin-top: 5px;">
+                    <tr style="background-color: #dfedf3">
+                        <td>
+                            <label style="font-size: larger; font-weight: bold;">
+                                DBA Info</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" style="margin-top: 5px;">
+                                <tr>
+                                    <td>
+                                        <div style="float: left; padding-right: 25px; padding-bottom: 15px;">
+                                            <input id="AddDBATxt" type="text" name="lname" style="width: 400px;" />
+                                            <a href="#" style="color: Green" id="AddDBA">Add DBA</a>
+                                        </div>
+                                        <div id="grid1" style="width: 100%; height: 200px; background-color: white;">
+                                        </div>
+                                        @*<input type="button" value="Delete" onclick="DeleteDBA()" />*@
+                                        
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                <td>
+                                <input type="button" value="Delete" style="float:right" id="btnDbaDelete" />
+                                </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+                <table width="100%;" style="margin-top: 5px;">
+                    <tr style="background-color: #dfedf3">
+                        <td>
+                            <label style="font-size: larger; font-weight: bold;">
+                                Mailing Address</label>
+                            <abbr style="padding-left: 19px">
+                                @Html.CheckBox("chkMailingAddress", false, new { onclick = "changeMailingAddress()"})
+                                Same as Shipping Address</abbr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style="height: 170px" width="100%" style="margin-top: 5px;">
+                                <tr>
+                                    <td style="width: 40%">
+                                        <label>
+                                            Name</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("MName", (string)ViewBag.MName, new { style = "width:280px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Company</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("MCompany", (string)ViewBag.MCompany, new { style = "width:280px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Address</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("MAddress", (string)ViewBag.MAddress, new { style = "width:280px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            City</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("MCity", (string)ViewBag.MCity, new { style = "width:250px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            State, Postal</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("MState", (string)ViewBag.MState, new { style = "width:37px;"})
+                                        @Html.TextBox("MPostal", (string)ViewBag.MPostal, new { style = "width:77px;margin-left:10px;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Country</label>
+                                    </td>
+                                    <td>
+                                        @*@Html.TextBox("MCountry", (string)ViewBag.MCountry, new { style = "width:250px;float:left;",@disabled = "disabled" })*@
+                                        @Html.DropDownList("MCountry", new SelectList(ViewBag.ddlCountry, "CountryID", "Country", (int)ViewBag.MCountry), new { style = "width:250px;float:left;"})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr style="background-color: #dfedf3">
+            <td colspan="2">
+                <label style="font-size: larger; font-weight: bold;">
+                    Invoice Header</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td>
+                            <div style="float: left; padding-right: 20px;">
+                                <div style="float: left; padding-right: 75px;">
+                                    <div style="color: Red;">
+                                        <p>
+                                            Pixels:600 Wide by 122 Tall
+                                            <br />
+                                            Anything larger will cropped
+                                            <br />
+                                            JPG File Only
+                                            <br />
+                                        </p>
+                                    </div>
+                                    <div style="clear: both; padding-top: 15px;">
+                                        <div style="float: left">
+                                            DBA
+                                            <select id="States">
+                                            </select>
+                                        </div>
+                                        @*<div style="float: left; clear: both; padding-top: 15px;">
+                                            <div>
+                                                <button type="button">
+                                                    Find Invoice Header File</button>
+                                            </div>
+                                            <div style="clear: both;">
+                                                <button type="button">
+                                                    Find Terms Conditions File</button>
+                                            </div>
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <div style="float: left;">
+                                    <div style="border: 2px  solid black; height: auto; width: 650px;">
+                                        <img src="../../../../Content/images/landing/logo2.png" alt="image" />
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                @*<table width="100%" style="margin-top: 5px;">
+                                <tr>
+                                    <td style="width: 20%">
+                                        <label>
+                                            Concept</label>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("Concept", new SelectList(ViewBag.ddlConcept, "ConceptID", "Concept", (int)ViewBag.Concept), new { style = "width:100px;float:left;", @disabled = "disabled" })
+                                    </td>
+                                    <td>
+                                        <label>
+                                            Status</label>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("Status", new SelectList(ViewBag.ddlStatus, "FranchiseStatusID", "FranchiseStatus", (int)ViewBag.Status), new { style = "width:100px;float:left;", @disabled = "disabled" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Client Type</label>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("FranchiseeType", new SelectList(ViewBag.ddlFranchiseeType, "FranchiseTypeID", "FranchiseType", (int)ViewBag.FranchiseeType), new { style = "width:100px;float:left;", @disabled = "disabled" })
+                                    </td>
+                                    <td>
+                                        <label>
+                                            Sales Rep</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("SalesRep", (string)ViewBag.SalesRep, new { style = "width:150px;",@disabled = "disabled" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Start Date</label>
+                                    </td>
+                                    <td>
+                                        @if (ViewBag.StartDate != null)
+                                        {
+                                            @Html.TextBox("StartDate", ((DateTime)ViewBag.StartDate).ToString("MM/dd/yyyy"), new { style = "width:100px;",@disabled = "disabled", @disabled = "disabled" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("StartDate", "", new { style = "width:100px;",@disabled = "disabled", @disabled = "disabled" })
+                                        }
+                                    </td>
+                                    <td>
+                                        <label>
+                                            Renewal Date</label>
+                                    </td>
+                                    <td>
+                                        @if (ViewBag.Renewal != null)
+                                        {
+                                            @Html.TextBox("Renewal", ((DateTime)ViewBag.Renewal).ToString("MM/dd/yyyy"), new { style = "width:100px;",@disabled = "disabled", @disabled = "disabled" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("Renewal", "", new { style = "width:100px;",@disabled = "disabled", @disabled = "disabled" })
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            FBC</label>
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("FBC", (string)ViewBag.FBC, new { style = "width:150px;",@disabled = "disabled" })
+                                    </td>
+                                    <td>
+                                        <label>
+                                            Region</label>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownList("Region", new SelectList(ViewBag.ddlRegion, "DivisionID", "DivisionName", (int)ViewBag.Region), new { style = "width:150px;float:left;", @disabled = "disabled" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            Web Site</label>
+                                    </td>
+                                    <td colspan="3">
+                                        @Html.TextBox("WebSite", (string)ViewBag.WebSite, new { style = "width:280px;",@disabled = "disabled" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>
+                                            E-mail</label>
+                                    </td>
+                                    <td colspan="3">
+                                        @Html.TextBox("Email", (string)ViewBag.Email, new { style = "width:280px;",@disabled = "disabled" })
+                                    </td>
+                                </tr>
+                            </table>*@
+            </td>
+        </tr>
+    </table>
+    @{Html.EndForm();}
+ @{Html.BeginForm("SaveCompanyInfo", "CompanyInfo", FormMethod.Post, new { enctype = "multipart/form-data" }); }
+   <div style="padding:left:50px">
+   <label  style ="margin-right:57px;margin-left:10px; ">Invoice Logo</label>
+       <input name="uploadFile" type="file" />
+       @Html.Hidden("hdnDbaId")
+       @Html.Hidden("hdnFranchiseid")
+        <input type="submit" id="btnSaveCompanyInfo" value="Upload File" />
+        </div>
+        @{Html.EndForm();}
+         @{Html.BeginForm("SaveCompanyInfo1", "CompanyInfo", FormMethod.Post, new { enctype = "multipart/form-data" }); }
+   <div style="padding:left:50px">
+    <label style ="margin-left:10px;">Terms and Conditions</label>
+       <input name="uploadFile" type="file" />
+        <input type="submit" id="btnSaveCompanyInfo1" value="Upload File" />
+        @Html.Hidden("hdnDbaId1")
+        @Html.Hidden("hdnFranchiseid1")
+        </div>
+        @{Html.EndForm();}
+</body>
+</html>

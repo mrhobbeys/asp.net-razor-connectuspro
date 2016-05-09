@@ -1,0 +1,589 @@
+﻿@model SiteBlue.Areas.OwnerPortal.Models.PaymentInfo
+@{
+    ViewBag.Title = "Payment Method2";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../codebase/dhtmlxwindows.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../../../common/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="../../../../../../common/css/style.css" rel="stylesheet" type="text/css"
+        media="screen" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxtabbar.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .link
+        {
+            text-decoration: none;
+            color: Black;
+            cursor: hand;
+            cursor: pointer;
+        }
+    </style>
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        var myCalendar;
+        $('document').ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { LoadARList(''); });
+            initARGrid();
+            LoadARList('');
+        });
+
+        function RecieveMoneyCall(id) {
+            var InvoiceNo = id
+
+            if (InvoiceNo == null) {
+                alert("Please Select Invoice");
+                return false;
+            }
+            else {
+                window.open("../MyFinances/RecieveMoney?InvoiceNo=" + InvoiceNo);
+                return true;
+            }
+        }
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+
+        var bln;
+        function doOnRowselect(rId, cInd) {
+            var jobid = argrid.cellById(rId, 1).getValue().split("^")[0];
+
+            $("#hjobid").val(jobid);
+            $("#txtamt").val(argrid.cellById(rId, 6).getValue().replace("$", ""));
+            //loadPaymentList();
+        }
+
+        function MakeAdjustment() {
+            if (document.getElementById("hjobid").value == "") {
+                alert("Please Select Invoice.");
+            } else {
+                if (bln == 'none') {
+                    bln = 'block';
+                    document.getElementById("trMakeAddjustment").style.display = 'block';
+                } else if (bln == 'block') {
+                    bln = 'none';
+                    document.getElementById("trMakeAddjustment").style.display = 'none';
+                } else {
+                    bln = 'block';
+                    document.getElementById("trMakeAddjustment").style.display = 'block';
+                }
+            }
+        }
+
+        /// - Called from AR GRid to open up pop-up of payments for an invoice
+        function attachURL(jobID) {
+
+            // Common code to do a popup
+            dhxWinsAdd = new dhtmlXWindows();
+            dhxWinsAdd.enableAutoViewport(false);
+            dhxWinsAdd.attachViewportTo("tabbarMain");
+            dhxWinsAdd.setImagePath("../../codebase/imgs/");
+            PaymentWindowAdd = dhxWinsAdd.createWindow("PaymentWindowAdd", 200, 50, 950, 375);
+            dhxWinsAdd.window("PaymentWindowAdd").setModal(true);
+            dhxWinsAdd.window("PaymentWindowAdd").setText("Payment");
+            dhxWinsAdd.attachEvent("onClose",
+                                                function (win) {
+                                                    updatePaymentDependencies(jobID);
+                                                    return true;
+                                                }
+                                    );
+            dhxWinsAdd.window("PaymentWindowAdd").attachURL("../../OwnerPortal/Payment/Payment?jobid=" + jobID + "&flag=0", false);
+        }
+
+        // Return function when the window attachURL window returns
+        function updatePaymentDependencies(jobID) {
+            RefreshDetail('');
+        }
+
+        function createCalendar() {
+            myCalendar = new dhtmlXCalendarObject(["txtDate"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+
+            dhtmlXGridObject.prototype._in_header_text_search = function (a, b) {
+                a.innerHTML = "<input id='txtDate' type='text' style='width:90%; font-size:8pt; font-family:Tahoma; -moz-user-select:text;'>";
+
+                a.onchange = a.onmousedown = function (a) {
+                    return (a || event).cancelBubble = !0
+                };
+
+                a.onselectstart = function () {
+                    return event.cancelBubble = !0
+                };
+
+                this.makeSearch(a.firstChild, b)
+            };
+        }
+
+        function initARGrid() {
+            argrid = new dhtmlXGridObject('GvARList');
+            argrid.setImagePath("../../codebase/imgs/");
+            argrid.setHeader("#master_checkbox,Invoice#,Bill To,Job Location,Age,Closed Date,Tech,Job Amt,Balance,Phone");
+            argrid.setInitWidths("30,100,260,160,100,110,160,140,100,135,131");
+            argrid.setColAlign("left,left,left,left,left,left,left,right,right,left");
+
+            argrid.attachHeader(",#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter", ",text-align:center,text-align:center,text-align:center,,,,,,text-align:center,text-align:center");
+            argrid.setSkin("dhx_skyblue");
+            argrid.setStyle("dhx_scale_bar");
+            argrid.setColTypes("ch,link,link,ro,ro,ro,link,ro,link,ro");
+            argrid.attachEvent("onRowSelect", doOnRowselect);
+            argrid.attachEvent("onCheck", CheckRow);
+            argrid.setColSorting(" ,str,str,str,str,date,str,str,str,str");
+
+
+
+            argrid.init();
+            argrid.setSizes();
+            createCalendar();
+
+            var myEvent = myCalendar.attachEvent("onClick", function () {
+                argrid.filterBy(5, txtDate.value, true);
+            });
+
+            dhtmlXGridObject.prototype._in_header_master_checkbox = function (a, b, c) {
+                a.innerHTML = c[0] + "<input type='checkbox' />" + c[1];
+                var d = this;
+                a.getElementsByTagName("input")[0].onclick = function (a) {
+
+                    //any custom code here                                           
+                    d._build_m_order();
+                    var c = d._m_order ? d._m_order[b] : b, g = this.checked ? 1 : 0;
+                    d.forEachRowA(function (a) {
+                        var b = this.cells(a, c);
+                        if (b.isCheckbox()) b.setValue(g), b.cell.wasChanged = !0; this.callEvent("onEditCell", [1, a, c, g])
+
+                        var cell = argrid.cellById(a, 7);
+                        var CellVal = cell.getValue();
+                        var ArrAmount = CellVal.split("^");
+                        var Amount = ArrAmount[0];
+
+                        if (Amount.indexOf('(') != -1) {
+                            Amount = "-" + Amount.replace("$", "").replace(",", "").replace("(", "").replace(")", "");
+                        }
+                        else {
+                            Amount = Amount.replace("$", "").replace(",", "").replace("(", "").replace(")", "");
+                        }
+
+                        var totalamount = $("#txtbalance").val();
+
+                        if (g) {
+                            totalamount = (parseFloat(totalamount) + parseFloat(Amount));
+
+                            var valind = totalamount.toString();
+                            if (valind.indexOf('-') != -1) {
+                                var finalval = CommaFormatted(totalamount);
+                                var displayval = "$(" + finalval + ")";
+                                displayval = displayval.replace("-", "");
+                                $("#txtbalance").val(displayval);
+                            }
+                            else {
+                                finalval = CommaFormatted(totalamount);
+                                displayval = "$" + finalval;
+                                $("#txtbalance").val(displayval);
+                            }                                                     
+                        }
+                        else {
+                            $('#txtbalance').val(0);
+                        }
+                    });
+                    (a || event).cancelBubble = !0
+                }
+            }
+        }
+
+        function LoadARList(ArParameter) {
+            var xmlstring = "";
+            var showAll = document.getElementById('lnkShowAll').className;
+            var current = document.getElementById('lnkCurrent').className;
+            var three = document.getElementById('lnkThree').className;
+            var six = document.getElementById('lnkSix').className;
+            var Nine = document.getElementById('lnkNine').className;
+
+            if (ArParameter == "") {
+                document.getElementById("lbldata").innerHTML = "ALL &nbsp;&nbsp;A/R";
+
+                document.getElementById('lnkShowAll').className = document.getElementById('lnkShowAll').className.replace('Current', 'myClass');
+
+                if (three == "myClass") {
+                    document.getElementById('lnkThree').className = document.getElementById('lnkThree').className.replace('myClass', 'Current');
+                    document.getElementById("lbldata").innerHTML = "31-60 &nbsp;&nbsp;A/R";
+                }
+                if (six == "myClass") {
+                    document.getElementById('lnkSix').className = document.getElementById('lnkSix').className.replace('myClass', 'Current');
+                }
+                if (Nine == "myClass") {
+                    document.getElementById('lnkNine').className = document.getElementById('lnkNine').className.replace('myClass', 'Current');
+                }
+                if (current == "myClass") {
+                    document.getElementById('lnkCurrent').className = document.getElementById('lnkCurrent').className.replace('myClass', 'Current');
+                }
+            } else if (ArParameter == "Current") {
+                document.getElementById("lbldata").innerHTML = "1 - 30&nbsp;&nbsp; A/R";
+
+                document.getElementById('lnkCurrent').className = document.getElementById('lnkCurrent').className.replace('Current', 'myClass');
+
+                if (three == "myClass") {
+                    document.getElementById('lnkThree').className = document.getElementById('lnkThree').className.replace('myClass', 'Current');
+                }
+                if (six == "myClass") {
+                    document.getElementById('lnkSix').className = document.getElementById('lnkSix').className.replace('myClass', 'Current');
+                }
+                if (Nine == "myClass") {
+                    document.getElementById('lnkNine').className = document.getElementById('lnkNine').className.replace('myClass', 'Current');
+                }
+                if (showAll == "myClass") {
+                    document.getElementById('lnkShowAll').className = document.getElementById('lnkShowAll').className.replace('myClass', 'Current');
+                }
+            } else if (ArParameter == "3060") {
+
+                document.getElementById("lbldata").innerHTML = "31 - 60 &nbsp;&nbsp;A/R";
+
+                document.getElementById('lnkThree').className = document.getElementById('lnkThree').className.replace('Current', 'myClass');
+
+                if (six == "myClass") {
+                    document.getElementById('lnkSix').className = document.getElementById('lnkSix').className.replace('myClass', 'Current');
+                }
+                if (Nine == "myClass") {
+                    document.getElementById('lnkNine').className = document.getElementById('lnkNine').className.replace('myClass', 'Current');
+                }
+                if (showAll == "myClass") {
+                    document.getElementById('lnkShowAll').className = document.getElementById('lnkShowAll').className.replace('myClass', 'Current');
+                }
+                if (current == "myClass") {
+                    document.getElementById('lnkCurrent').className = document.getElementById('lnkCurrent').className.replace('myClass', 'Current');
+                }
+            } else if (ArParameter == "6090") {
+                document.getElementById("lbldata").innerHTML = "61 - 90&nbsp;&nbsp; A/R";
+
+                document.getElementById('lnkSix').className = document.getElementById('lnkSix').className.replace('Current', 'myClass');
+
+                if (showAll == "myClass") {
+                    document.getElementById('lnkShowAll').className = document.getElementById('lnkShowAll').className.replace('myClass', 'Current');
+                }
+                if (current == "myClass") {
+                    document.getElementById('lnkCurrent').className = document.getElementById('lnkCurrent').className.replace('myClass', 'Current');
+                }
+                if (Nine == "myClass") {
+                    document.getElementById('lnkNine').className = document.getElementById('lnkNine').className.replace('myClass', 'Current');
+                }
+                if (three == "myClass") {
+                    document.getElementById('lnkThree').className = document.getElementById('lnkThree').className.replace('myClass', 'Current');
+                }
+            } else if (ArParameter == "Over90") {
+                document.getElementById("lbldata").innerHTML = "Over 90 &nbsp;&nbsp;A/R";
+
+                document.getElementById('lnkNine').className = document.getElementById('lnkNine').className.replace('Current', 'myClass');
+
+                if (showAll == "myClass") {
+                    document.getElementById('lnkShowAll').className = document.getElementById('lnkShowAll').className.replace('myClass', 'Current');
+                }
+                if (current == "myClass") {
+                    document.getElementById('lnkCurrent').className = document.getElementById('lnkCurrent').className.replace('myClass', 'Current');
+                }
+                if (six == "myClass") {
+                    document.getElementById('lnkSix').className = document.getElementById('lnkSix').className.replace('myClass', 'Current');
+                }
+                if (three == "myClass") {
+                    document.getElementById('lnkThree').className = document.getElementById('lnkThree').className.replace('myClass', 'Current');
+                }
+            }
+
+            $("#ARListgifId").show();
+            $("#txtbalance").val("");
+
+            var params = { franchiseid: SiteBlue.franchiseId, strscreeen: ArParameter };
+
+            $.ajax({
+                url: "../MyFinances/ARResult",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+
+                    argrid.clearAll();
+                    argrid.loadXMLString(result.strxml);
+
+                    $("#txtbalance").val(result.totalbalance);
+                    $("#hdnbalance").val(result.totalbalance);
+                    $("#ARListgifId").hide();
+
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#ARListgifId").hide();
+                }
+            });
+        }
+
+        function CheckRow(rId, cInd, state) {
+            var z = argrid.getStateOfView();
+            var selectedrows = argrid.getCheckedRows(0);
+            var arrSelectedRow = selectedrows.split(",");
+            var total = 0.0;            
+            if (selectedrows != "") {
+                for (var i = 0; i < arrSelectedRow.length; i++) {
+                    var cells = argrid.cellById(arrSelectedRow[i], 8).getValue();
+                    var arrcellvalue = cells.split("^");
+                    var cellvalue = arrcellvalue[0];
+
+                    if (cellvalue.indexOf('(') != -1) {
+                        var amt = parseFloat(cellvalue.replace('$', ' ').replace(',', '').replace('(', '').replace(')', ''));
+                        total = total - amt;
+                    }
+                    else {
+                        var amt = parseFloat(cellvalue.replace('$', '').replace(',', '').replace('(', '').replace(')', ''));
+                        total = total + amt;
+                    }
+                }
+                var valind = total.toString();
+                if (valind.indexOf('-') != -1) {
+                    var finalval = CommaFormatted(total);
+                    var displayval = "$(" + finalval + ")";
+                    displayval = displayval.replace("-", "");
+                    $("#txtbalance").val(displayval);
+                }
+                else {
+                    finalval = CommaFormatted(total);
+                    displayval = "$" + finalval;
+                    $("#txtbalance").val(displayval);
+                }
+            }
+            else {
+                var hdntotal = $("#hdnbalance").val();
+                $("#txtbalance").val(hdntotal);
+            }
+            $("#InvoiceNo").val(rId);
+        }
+
+        function downloadPaymentToExcel() {
+            argrid.toExcel("../MyFinances/DownloadMyFinances");
+        }
+
+        function roundNumber(num, dec) {
+            var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+            return result;
+        }
+
+        function ApplyNow() {
+            var selId = mygrid.getSelectedId();
+            var cellObj = mygrid.cellByIndex(selId, 6);
+            $("#hdnAppliedAmt").val(cellObj.getValue().replace('$', ''));
+            $("form").submit();
+        }
+
+        function RefreshDetail(result) {
+            LoadARList('');
+        }
+
+        function CommaFormatted(amount) {
+            try {
+                amount = String(Math.round(amount * 100) / 100);
+                var delimiter = ",";
+                var a = String(amount).split('.', 2)
+                var d = '00';
+                if (a[1] != null) {
+                    d = a[1];
+                }
+
+                var i = parseInt(a[0]);
+                if (isNaN(i)) { return '0.00'; }
+                var minus = '';
+                if (i < 0) { minus = '-'; }
+                i = Math.abs(i);
+                var n = new String(i);
+                var a = [];
+                while (n.length > 3) {
+                    var nn = n.substr(n.length - 3);
+                    a.unshift(nn);
+                    n = n.substr(0, n.length - 3);
+                }
+                if (n.length > 0) { a.unshift(n); }
+                n = a.join(delimiter);
+                if (d.length < 1) { amount = n; }
+                else { amount = n + '.' + d; }
+                amount = minus + amount;
+                return amount;
+            } catch (e) {
+                return "0.00";
+            }
+        }
+       
+    </script>
+}
+<div style="margin-left: 10px;">
+    <h2>
+        AR List</h2>
+</div>
+<div style="height: 730px; margin-top: 10px;" class=" dhx_tabbar_zone_top" id="tabbarMain">
+    <div class="dhx_tabbar_zone dhx_tabbar_zone_dhx_skyblue">
+        <div class="dhx_tablist_zone" style="height: 24px; top: 0px;">
+            <div class="dhx_tabbar_row" style="height: 26px; top: 0px; z-index: 10;">
+                <div class="dhx_tab_element dhx_tab_element_active" style="height: 26px; background-color: white;
+                    z-index: 7; top: 0px; left: 5px; width: 150px; background-color: white; z-index: 15;">
+                    <span><a class="link" href="PaymentMethod2">Open Balances</a> </span>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+                @*<div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="width: 150px;
+                    height: 26px; top: 0px; left: 303px;">
+                    <span><a class="link" href="WriteOffDownFunction">Write Off Function</a> </span>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>*@
+                <div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="height: 26px;
+                    top: 0px; left: 154px; width: 150px;">
+                    <span><a class="link" href="AccountsAdjustments">Accounts Adjustments</a> </span>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+                <div class="dhx_tablist_line" style="top: 22px; z-index: 8; width: 1332px;">
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabcontent_zone" style="background-color: transparent; height: 750px;
+            width: 99.9%; top: 27px;">
+            <div style="overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px;
+                width: 99.9%; height: 750px;">
+                <div id="dhxMainCont" style="background-color: #D5F1FF; position: relative; left: 0px;
+                    top: 0px; overflow: hidden; width: 100%; height: 850px;">
+                    <div id="winVP">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #D5F1FF;">
+                            <tr style="background-color: #D5F1FF">
+                                <td colspan="2">@Html.Label("", (string)ViewBag.lblmessage)
+                                </td>
+                            </tr>
+                            <tr style="background-color: #D5F1FF">
+                                <td width="100%" style="background-color: #D5F1FF; vertical-align: top; font-family: Trebuchet MS , Verdana, Helvetica, Sans-Serif;
+                                    font-weight: bold; font-size: medium;">
+                                    <div id="top-menu1">
+                                        <div style="width: 150px; padding-top: 15px; padding-left: 50px; float: left;" id="lbldata">
+                                        </div>
+                                        <div style="float: left; padding-top: 3px;">
+                                            <ul class="menu1" style="border: 0px;">
+                                                <li class="item-101"><a id="lnkShowAll" href="javascript:LoadARList('');" class="Current">
+                                                    Show All</a></li>
+                                                <li class="item-101"><a id="lnkCurrent" href="javascript:LoadARList('Current');"
+                                                    class="Current">1 - 30</a> </li>
+                                                <li class="item-101"><a id="lnkThree" href="javascript:LoadARList('3060');" class="Current">
+                                                    31 - 60</a></li>
+                                                <li class="item-101"><a id="lnkSix" href="javascript:LoadARList('6090');" class="Current">
+                                                    61 - 90</a> </li>
+                                                <li class="item-101"><a id="lnkNine" href="javascript:LoadARList('Over90');" class="Current">
+                                                    Over 90</a> </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0px;">
+                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                        <tr style="background-color: #D5F1FF">
+                                            <td id="paymentSection" style="display: none;" colspan="2">
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #D5F1FF">
+                                            <td colspan="2">
+                                                <center>
+                                                    <img id="ARListgifId" src="../../../../Images/ajax-loader.gif" alt="processing..." /></center>
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #D5F1FF">
+                                            <td colspan="2" valign="top">
+                                                <div id="GvARList" style="width: 99%; height: 300px; background-color: white; float: left;">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #D5F1FF; padding-left: 5px; padding-right: 5px;">
+                                            <td align="left">
+                                                <input id="btnRTExcel" type="button" onclick="downloadPaymentToExcel()" value="Export to Excel" />
+                                            </td>
+                                            <td align="right">
+                                                Amount $
+                                                <input type="text" id="txtbalance" style="width: 13%;" />
+                                                <input type="hidden" id="hdnbalance" style="width: 13%;" />
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color: #D5F1FF">
+                                            <td>
+                                                <a href="@Url.Content("~/MasterData/LandingPage/MyFinances")" title="Back to Dashboard" style="color: blue; text-decoration: underline;">
+                                                    Back to Dashboard</a>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        @Html.Hidden("hjobid")
+                        @Html.Hidden("hdnDate")
+                        @Html.Hidden("hdnBalance")
+                        @Html.Hidden("hdnSum")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dummyText">
+    Dummy Text
+</div>

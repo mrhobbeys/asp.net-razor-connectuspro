@@ -1,0 +1,13 @@
+﻿@{
+Layout = null;
+Response.ContentType = "text/xml";
+}
+@model IEnumerable<SiteBlue.Areas.PriceBook.Models.Franchise>
+<rows>
+@foreach (var franchise in Model)
+{
+<row id="@franchise.FranchiseID">
+<cell><![CDATA[@(franchise.FranchiseNumber ?? string.Empty)]]></cell>
+</row>
+}
+</rows>

@@ -1,0 +1,7 @@
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Core\bin\Debug\app.config
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Core\bin\Debug\SiteBlue.Core.dll.config
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Core\bin\Debug\SiteBlue.Core.dll
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Core\bin\Debug\SiteBlue.Core.pdb
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Core\obj\Debug\SiteBlue.Core.dll
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Core\obj\Debug\SiteBlue.Core.pdb
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Core\obj\Debug\SiteBlue.Core.csprojResolveAssemblyReference.cache

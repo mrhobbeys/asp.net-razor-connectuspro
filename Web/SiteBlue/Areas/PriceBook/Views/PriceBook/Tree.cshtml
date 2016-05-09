@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SiteBlue.Areas.PriceBook.Models.Section>
+
+<ul id="example" class="filetree">
+@foreach (var section in Model)
+{
+    string sName = (section.SectionName == "") ? "N/A" : section.SectionName;
+    
+    <li id="@Html.DisplayFor(sectionItem => section.SectionID)" title="@Url.Action("TreeSubSections", new {id = section.SectionID })" class="hasChildren sectionli">
+        
+        <span class="section">
+            @Html.CheckBoxFor(sectionItem => section.ActiveYN, new { id = section.SectionID, @class = "ActiveYNSection", href = Url.Action("ActivateSection", new {id = section.SectionID}) })
+            <span class="sectiontext">@Ajax.ActionLink(sName, "AllTaskList", new { id = section.SectionID }, new AjaxOptions { UpdateTargetId = "taskgrid" }, new { @class = "subsectionlink" })</span>
+            <img src="/Areas/PriceBook/images/edittreenode.jpg" id="@Html.DisplayFor(sectionItem => section.SectionID)" title="@Url.Action("UpdateSection", new { id = section.SectionID })" class="EditSection"/>
+            <img src="/Areas/PriceBook/images/add.jpg" id="@Html.DisplayFor(sectionItem => section.SectionID)" title="Add SubSection" class="AddSubSection"/>
+            <img src="/Areas/PriceBook/images/delete.jpg" id="@Html.DisplayFor(sectionItem => section.SectionID)" title="Delete Section" class="DeleteSection" url="@Url.Action("DeleteSection", new { id = section.SectionID })"/>
+            <img src="/Areas/PriceBook/images/copy.jpg" id="@Html.DisplayFor(sectionItem => section.SectionID)" title="Copy Section" class="CopySection" url="@Url.Action("CopySection", new { id = section.SectionID })"/>
+            <img src="/Areas/PriceBook/images/calc.jpg" id="@Html.DisplayFor(sectionItem => section.SectionID)" title="Calc Section" class="LaborSection" url="@Url.Action("LaborSection", new { id = section.SectionID })"/>
+        </span>
+
+        @if (section.SubSections.Count > 0)
+        {
+            <ul id="@Html.DisplayFor(sectionItem => section.SectionID)SubSections">
+			    <li class="templi"><span class="placeholder">&nbsp;</span></li>
+			</ul>
+        }
+    </li>
+}
+@if (Model.Count() == 0)
+{
+    <span>No Tasks found</span>
+}
+</ul>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        $("#percenttxt").val("@ViewBag.percent");
+    });
+</script>
+

@@ -1,0 +1,342 @@
+﻿@{
+    ViewBag.Title = "Unlocked Closed Sales";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    @*<link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />*@
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxcalendar.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" />
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+}
+@section ScriptIncludes {
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    @*<script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascipt"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_deprecated.js" type="text/javascipt"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_selection.js" type="text/javascipt"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        var Alljobid;
+        var Allclosedate;
+        $('document').ready(function () {
+            SiteBlue.renderMenu(true);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnLoad(); });
+            $("#totalAmount").attr("readonly", true);
+            doOnLoad();
+            //            $('input:checkbox').live('click', function () {
+            //                alert('f');
+            //                var current = $(this);
+            //                alert(current);
+            //                var isChecked = current.is(':checked');
+            //                alert(isChecked);
+            //            });
+            $('#Button').click(function () {
+                window.location.reload();
+                var Txt1 = $("#calendar1").val();
+                var Txt2 = $("#calendar2").val();
+                if (Txt1 != '' && Txt2 != '') {
+                    try {
+                        $.ajax({
+
+                            type: "POST",
+
+
+                            url: "/NetPromoter/NetPromoterScore",
+                            //                            data: JSON.stringify({ txt_refCode1: Txt1, txt_refCode2: Txt2 }),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg1) {
+                                var AdForHomePages1 = msg1;
+
+                                $("#calendar1").val('');
+                                $("#calendar2").val('');
+                            }
+                        });
+                    }
+                    catch (e) {
+                        alert(e);
+                    }
+                }
+                else {
+                    alert("Please enter Start Date and End Date ");
+                }
+            });
+        });
+
+        function DateCompare(date1Str, date2Str) {
+            var date1 = new Date(date1Str);
+            var date2 = new Date(date2Str);
+            if (date1 >= date2) {
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function decision() {
+            var message = "This will move all the jobs from window onto your weekly report for week of " + document.getElementById("txtlastlock").value + ". Would you like to continue?"
+            var z = mygrid.getStateOfView();
+            var selectedrows;
+            var arrjobid = new Array();
+            var j = 0;
+
+            selectedrows = mygrid.getCheckedRows(0);
+            arrjobid = selectedrows.split(",");
+
+            var arrofalljobid = new Array();
+            arrofalljobid = Alljobid.split(",");
+            var arrUnlockjobid = new Array();
+            if (selectedrows != "") {
+                for (var i = 0; i < arrofalljobid.length; i++) {
+                    if (arrjobid.length < arrofalljobid.length) {
+                        if (selectedrows.indexOf(arrofalljobid[i]) != -1) {
+
+                        }
+                        else {
+                            arrUnlockjobid[j] = arrofalljobid[i];
+                            j = j + 1;
+                        }
+                    }
+                }
+                var param = { jobids: arrjobid, Frid: SiteBlue.franchiseId };
+
+                var bln = confirm(message);
+                if (bln == true) {
+                    //document.getElementById("load").style.display = 'block';
+                    if (arrUnlockjobid.length > 0) {
+                        for (var ival = 0; ival < arrUnlockjobid.length; ival++) {
+                            var parameter = { jobid: arrUnlockjobid[ival] };
+                            var jsata = $.ajax({
+                                url: "/MyFinances/MyFinances/GetCloseDate/",
+                                data: JSON.stringify(parameter),
+                                contentType: "application/json; charset=utf-8",
+                                success: function (msg) {
+                                    var currentTime = addDays(new Date(), -30);
+                                    var month = currentTime.getMonth() + 1;
+                                    var day = currentTime.getDate();
+                                    var year = currentTime.getFullYear();
+                                    var currentdate = month + "/" + day + "/" + year;
+                                    var flags = DateCompare(currentdate, msg);
+
+
+                                    //var closedate = new Date(parseInt(msg.replace(/\/Date\((\d+)\)\//, '$1')));
+
+                                    if (flags == true) {
+                                        var bln1 = confirm("Unlocking a job older than 30 days is an exception that is recorded in the system. Are you sure?");
+                                        if (bln1 == true) {
+                                            var jsdata1 = $.ajax({
+                                                url: "/MyFinances/MyFinances/CloseWeek/",
+                                                data: JSON.stringify(param),
+                                                contentType: "application/json; charset=utf-8",
+                                                success: function (msg) {
+                                                    window.location.reload();
+                                                },
+                                                type: "POST",
+                                                dataType: "json",
+                                                error: function (e) {
+                                                    alert("Error occured.");
+                                                }
+                                            });
+
+                                        } else {
+                                            return false;
+                                        }
+
+                                    }
+                                },
+                                type: "POST",
+                                dataType: "json",
+                                error: function (e) {
+                                    alert("Error occured.");
+                                }
+                            });
+                        }
+                    }
+
+                    //document.getElementById("load").style.display = 'none';
+                }
+            } else {
+                alert("Please Select Checkbox.");
+            }
+        }
+
+        function addDays(myDate, days) {
+            return new Date(myDate.getTime() + days * 24 * 60 * 60 * 1000);
+        }
+
+        function getRoundNumber(num, dec) {
+            var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+            return result;
+        }
+
+        function doOnCheck1(rowId, cellIndex, state) {
+            var cell = mygrid.cellById(rowId, 8);
+            var cellvalue = cell.getValue();
+            var amountarray = cellvalue.split("^");
+            var amount = amountarray[0];
+            amount = amount.replace("$", "").replace(",", "").replace("(", "").replace(")", "");
+            var totalamount = $('#totalAmount').val();
+
+            if (state) {
+                totalamount = (parseFloat(totalamount) + parseFloat(amount));
+                $('#totalAmount').val(getRoundNumber(totalamount, 2));
+            }
+            else {
+                totalamount = (parseFloat(totalamount) - parseFloat(amount));
+                $('#totalAmount').val(getRoundNumber(totalamount, 2));
+            }
+
+            var parameter = { jobid: rowId };
+            var jsata = $.ajax({
+                url: "/MyFinances/MyFinances/GetCloseDate/",
+                data: JSON.stringify(parameter),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    var currentTime = addDays(new Date(), -30);
+                    var month = currentTime.getMonth() + 1;
+                    var day = currentTime.getDate();
+                    var year = currentTime.getFullYear();
+                    var currentdate = month + "/" + day + "/" + year;
+                    var flags = DateCompare(currentdate, msg);
+                    if (flags == true) {
+                        mygrid.checkAll(true);
+                        alert("You can't unselect the job which closed on older than 30 days.");
+                    } else {
+
+                    }
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    alert("Error occured.");
+                }
+            });
+        }
+
+        function doOnLoad() {
+            //var xmlstring = "";
+            $("#ajaxloader").show();
+
+            mygrid = new dhtmlXGridObject('gridbox');
+            mygrid.setImagePath("../../../../codebase/imgs/");
+            mygrid.setHeader("#master_checkbox,Invoice#,Bill To,Job Location,Status,Completed,Closed Date,Tech,Job Amt,Balance,Service Type,Comments", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+            mygrid.setInitWidths("60,60,170,150,60,115,115,115,115,115,80,80");
+            mygrid.setColAlign("center,center,left,left,center,center,center,left,right,right,left,left");
+            mygrid.setColTypes("ch,link,link,ro,ro,ro,ro,link,ro,link,ro,ro");
+            //mygrid.setColTypes("ch,link,link,ro,ro,ro,ro,link,ro,ro,ro,ro");
+            //mygrid.setColTypes("txt,txt,txt,txt,txt,ed,ed,txt,txt,txt,txt");
+            mygrid.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter", ",,,text-align:center,text-align:center,text-align:center,text-align:center,text-align:center,text-align:center,text-align:center,text-align:center,text-align:center");
+            mygrid.setColSorting("str,int,str,str,str,date,date,str,str,str,str,str");
+            //mygrid.attachEvent("onCheckbox", "dooncheck()");
+            mygrid.attachEvent("onCheck", doOnCheck1);
+            mygrid.setSkin("dhx_skyblue");
+            mygrid.init();
+
+            dhtmlXGridObject.prototype._in_header_master_checkbox = function (a, b, c) {
+                a.innerHTML = c[0] + "<input type='checkbox' />" + c[1];
+                var d = this;
+                a.getElementsByTagName("input")[0].onclick = function (a) {
+
+                    //any custom code here                                           
+                    d._build_m_order();
+                    var c = d._m_order ? d._m_order[b] : b, g = this.checked ? 1 : 0;
+                    d.forEachRowA(function (a) {
+                        var b = this.cells(a, c);
+                        if (b.isCheckbox()) b.setValue(g), b.cell.wasChanged = !0; this.callEvent("onEditCell", [1, a, c, g])
+
+                        var cell = mygrid.cellById(a, 8);
+                        var cellvalue = cell.getValue();
+                        var amount = cellvalue;
+                        amount = amount.replace("$", "").replace(",", "");
+                        var totalamount = $('#totalAmount').val();
+
+                        if (g) {
+                            totalamount = (parseFloat(totalamount) + parseFloat(amount));
+                            $('#totalAmount').val(getRoundNumber(totalamount, 2));
+                        }
+                        else {
+                            //totalamount = (parseFloat(totalamount) - parseFloat(amount));
+                            $('#totalAmount').val(0);
+                        }
+                    });
+                    (a || event).cancelBubble = !0
+                }
+            }
+
+            mygrid.setDateFormat("%Y-%m-%d %H:%i");
+            var parameter = { franchisid: SiteBlue.franchiseId };
+            var jsondata = $.ajax({
+                type: "POST",
+                url: '/MyFinances/MyFinances/GetWeeklyClosing/',
+                data: JSON.stringify(parameter),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    mygrid.loadXMLString(msg.strxml);
+                    //mygrid.checkAll(true);
+                    Alljobid = mygrid.getCheckedRows(0);
+
+                    //document.getElementById("txtlastlock").value = msg.lastdt;
+                    //document.getElementById("txtUser").value = msg.perform;
+
+                    $('#txtlastlock').val(msg.lastdt);
+                    $('#txtUser').val(msg.perform);
+
+                    //document.getElementById("load").style.display = 'none';
+                    $("#ajaxloader").hide();
+                },
+                error: function (e) {
+                    //$('#output').innerHtml(e);
+                    alert(e);
+                }
+            });
+        }
+
+        function downloadWeeklyClosingToExcel() {
+            mygrid.toExcel("../MyFinances/DownloadMyFinances");
+        } 
+    </script>
+}
+<div style="clear: both;">
+    <fieldset style="vertical-align: bottom; padding-bottom: 5px; padding-top: 5px;">
+        <div style="margin-right: 50px; float: left">
+            Date of last lock: @Html.TextBox("txtlastlock", "", new { @readonly = "readonly" })
+            performed by: @Html.TextBox("txtUser", "", new { @readonly = "readonly" })
+        </div>
+    </fieldset>
+</div>
+<div align="center" id='ajaxloader'>
+    <img src="../../../../Images/ajax-loader.gif" alt="processing..." />
+</div>
+<div id="gridbox" style="height: 450px">
+</div>
+<div id="gridpage">
+</div>
+<div style="margin: 10px;">
+    <div style="float: left;">
+        Unlocked Closed Sales&nbsp;
+        <input type="button" value="Lock Week" name="button1" onclick="decision()" />
+        &nbsp;
+        <input id="btnRTExcel" type="button" onclick="downloadWeeklyClosingToExcel()" value="Export to Excel" />
+    </div>
+    <div style="float: right;">
+        Balance $
+        <input type="text" id="totalAmount" value="0" />
+    </div>
+    <div style="clear: both;"></div>
+</div>
+<div style="margin-left: 10px;">
+    <a href="@Url.Content("~/MasterData/LandingPage/MyFinances")" title="Back to Dashboard">
+        Back to Dashboard</a>
+</div>

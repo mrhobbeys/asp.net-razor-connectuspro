@@ -1,0 +1,143 @@
+﻿@model int
+@if (Model != 0)
+{
+<html>
+<head><title>Account Receivable Method 2</title></head>
+ <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />   
+     <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+<link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+<link href="../../../../codebase/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet"type="text/css" />
+<script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <style type="text/css">
+    .div{
+    width:100%; float:left;
+    
+    }
+    .span{width:100%; float:left;margin-top:10px;}
+.sapn1{width:20%; float:left; font-weight:bold;}
+.sapn2{width:80%; text-align:right;}
+    </style>
+ 
+
+
+<body style="background-color:#d5f1ff;">
+
+<div style="width:100%; float:left;">
+    <div style="width:60%; float:left; height:22%; margin-top:20px;margin-left:4%">
+ <span style=" font-weight:bold; font-size :large;">Receive Payment </span> 
+ <div>
+ 
+ </div>
+<div style ="margin-top:10px; ">
+<span style="font-size:12px; font-weight:bold;">Open Balance For Customer :</span> 
+   <br />
+<input type ="text" value="First American Home buyers Protection Corp" style ="width:350px;height:17px;margin-top:10px;" />
+
+<div style ="margin-top:40px;margin-left:20%">
+<span style="font-size:12px;margin-left:20%;margin-top:15px;">Double Click on each row you would like to apply this payment :</span> 
+<br />
+<span style="font-size:12px;margin-left:40%;margin-top:20px;">
+OR</span> 
+<br />
+
+<span style="font-size:12px;margin-left:20%;margin-top:20px;">Enter the invoice number and double click on it</span> 
+</div>
+<br />
+<br />
+
+</div>
+</div>
+
+     <div style="width:30%; float:right;height:30%; margin-top:20px;">
+<div>
+@Html.Label("lblstartdate", "Payment Date")
+ <input type ="text" id="txtpdate" value="" style ="width:148px;height:15px;  margin-top:5px;" />
+ <script type="text/javascript">
+     var myCalendar = new dhtmlXCalendarObject(["txtpdate"]);
+     myCalendar.setWeekStartDay(7);
+     myCalendar.setDateFormat("%m/%d/%Y");
+</script>
+ <br />
+ @Html.Label("lblpayment", "Payment Amt")
+ <input type ="text" id="txtpayment" value="" style ="width:148px;height:15px; margin-top:5px;margin-left:6px;" />
+ <br />
+
+<label >Payment Type </label> 
+<select id="adjustmentAccount" style="Width:151px;margin-left:10px; margin-top:5px;margin-left:1px; ">
+<option>Check</option>
+<option></option>
+<option></option>
+<option></option>
+</select>
+<br />
+<label > Check#</label>
+<input type ="text" id="txtcheck" value="" style ="width:150px;height:15px; margin-left:40px; margin-top:5px; " />
+<br />
+<label> Invoice# </label> 
+<input type ="text" id="txtinvoice" value="" style ="width:150px;height:15px; margin-left:32px; margin-top:5px;" />
+</div>
+</div>
+
+     <div style="width:100%; float:right;height:500%;">
+
+    <div id="gridbox" style="float: left; height: 300px; width: 85%; margin-top:1px; margin-left:5%">
+                <script type="text/javascript">
+                    var xmlstring = "";
+                    var xmlstring1 = "";
+                    //document.getElementById("loader").style.display = "block";
+
+                    mygrid = new dhtmlXGridObject('gridbox');
+                    mygrid.setImagePath("../../../../codebase/imgs/");
+                    mygrid.setHeader("Invoice#,Job Location,Age,Closed Date,Job Amt,Balance,Amount Applied", null, ["text-align:left;", "text-align:left;", "text-align:left;", "text-align:left;", "text-align:right;", "text-align:right;", "text-align:right;"]);
+                    mygrid.setInitWidths("160,160,160,160,160,165,165");
+                    mygrid.setColAlign("left,left,left,left,right,right,right");
+                    mygrid.setColTypes("ed,ed,ed,ed,ed,ed,ed");
+                    mygrid.setColSorting("str,str,str,str,str,str,str");
+                    mygrid.init();
+                    mygrid.setSkin("dhx_skyblue");
+                    mygrid.setDateFormat("%Y-%m-%d %H:%i");
+                    mygrid.loadXML("../../../../common/ACCRecM2.xml");
+                    //document.getElementById("loader").style.display = "none";
+                </script>
+            </div>
+
+            </div>
+             
+    <div style="width: 98%; float: right;font-weight: bold; margin-top:20px;">
+        <div style="margin-right:100px; margin-left:3%;">
+                 <a href="@Url.Content("~/MyFinances/MyFinances/AccountsReceivableFunction")" title="Back to Dashboard">Back
+                 </a>
+                 </div>
+         <div style="margin-left:800px;">       
+            <label> Amount Applied</label>
+          <input type ="text" id="txtamtapp" value="$0.00" style ="width:150px;height:15px; margin-left:40px; margin-top:5px;" />
+        </div>
+        <div style="margin-left:800px;">
+        <label> Amount to be Applied </label> 
+        <input type ="text" id="txtamttobeapp" value="$0.00" style ="width:150px;height:15px; margin-left:4px; margin-top:5px;" />
+<div>
+</div>
+            </div>
+
+</div>
+
+</div>
+ 
+</body>
+
+</html>
+ }
+else
+{
+    @:<text>No information available</text>
+}

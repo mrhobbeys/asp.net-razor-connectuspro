@@ -1,0 +1,17 @@
+﻿@model IEnumerable<SiteBlue.Areas.PriceBook.Models.Task1>
+
+@foreach (var task in Model)
+{
+
+		<li>
+            <span class="task">
+                @Html.CheckBoxFor(sectionItem => task.ActiveYN, new { id = task.JobCodeID, @class = "ActiveYNTask", href = Url.Action("ActivateTask", new {id = task.JobCodeID}) }) 
+                <span class="sectiontext" jobcode="@Html.DisplayFor(taskItem => task.JobCode)">@Ajax.ActionLink(task.JobCode + " " + task.JobCodeDescription, "TaskDetail", new { id = task.JobCodeID }, new AjaxOptions { UpdateTargetId = "taskgrid" }, new { @class = "tasklink", @taskattr = task.JobCodeID, @url = Url.Action("SingleTask", new { id = task.JobCodeID }) })</span>
+                <img src="/Areas/PriceBook/images/edittreenode.jpg" id="@Html.DisplayFor(taskItem => task.JobCodeID)" title="@Url.Action("UpdateTask", new { id = task.JobCodeID })" class="EditTask"/>
+                <img src="/Areas/PriceBook/images/delete.jpg" id="@Html.DisplayFor(taskItem => task.JobCodeID)" title="Delete Task" class="DeleteTask" url="@Url.Action("DeleteTask", new { id = task.JobCodeID })"/>
+                <img src="/Areas/PriceBook/images/copy.jpg" id="@Html.DisplayFor(taskItem => task.JobCodeID)" title="Copy Task" class="CopyTask" url="@Url.Action("CopyTask", new { id = task.JobCodeID })"/>
+                <img src="/Areas/PriceBook/images/calc.jpg" id="@Html.DisplayFor(taskItem => task.JobCodeID)" title="Calc Task" class="LaborTask" url="@Url.Action("LaborTask", new { id = task.JobCodeID })"/>
+            </span>
+        </li>
+    
+}

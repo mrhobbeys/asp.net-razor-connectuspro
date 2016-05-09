@@ -1,0 +1,86 @@
+﻿@model Plumber.Models.CareerApplication
+
+@{
+    ViewBag.Title = "CareerApplicationDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<h2>Application Details</h2>
+
+<fieldset>
+    <legend><b>Contact Information</b></legend>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.FirstLastName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FirstLastName)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Address)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.City)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.City)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.State)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.State)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Zip)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Zip)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Phone)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Phone)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.MobilePhone)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MobilePhone)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Email)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+</fieldset>
+<fieldset>
+    <legend><b>Applicant profile</b></legend>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.PositionDesired)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PositionDesired)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.ExperienceYears)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ExperienceYears)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.PlumbingLicense)</div>
+    <div class="display-field">
+        @(Model.PlumbingLicense.HasValue && Model.PlumbingLicense.Value == true ? "Yes" : "No")
+        @*@Html.DisplayFor(model => model.PlumbingLicense)*@
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.DesiredSalary)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DesiredSalary)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.BestTimeToContact)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BestTimeToContact)
+    </div>
+</fieldset>
+
+<p>
+    @Html.ActionLink("Back to appointments list", "CareerApplications", "Dashboard", new { area = "Admin", id = 1}, null)
+</p>

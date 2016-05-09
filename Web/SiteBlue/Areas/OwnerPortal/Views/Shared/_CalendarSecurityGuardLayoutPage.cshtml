@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="/Content/SecurityGuard/securityguard.css" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Scripts/autocomplete/jquery.autocomplete.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/SecurityGuard/scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/autocomplete/lib/jquery.ajaxQueue.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/autocomplete/lib/jquery.bgiframe.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/autocomplete/lib/jquery.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/autocomplete/jquery.autocomplete.js")" type="text/javascript"></script>
+
+</head>
+<body class="inner_body">
+    <div id="wrapper_inner" class='wrapper_inner'>
+        <div id="header">
+         @{Html.RenderAction("UserCompanyCode", "Calendar");}
+        
+            <div class="inner">
+                <div id="menu">
+                     
+                </div>
+            </div>
+        </div>
+        <div id="content">
+            <div class="innerpage">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>

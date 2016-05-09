@@ -1,0 +1,67 @@
+﻿@model List<SiteBlue.Areas.HVAC_App.Models.VerificationResult>
+<link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet"
+    type="text/css" />
+@foreach (var ver in Model)
+{
+    <div style="margin-bottom: 5px;">
+       
+        <div style="float: left; width: 25%; margin: 5px;">@ver.NameOfVerification</div>  
+        @if (ver.Result)
+        {
+            <div style="float: left; width: 5%; margin: 5px; font-weight:bold; color: green;">Pass</div>
+        }
+        else
+        {
+            <div style="float: left; width: 5%; margin: 5px; font-weight: bold; color: red;">Fail</div>
+        }  
+        @if (ver.NameOfVerification == "Package codes verification")
+        {
+            <div style="margin: 5px; width: 65%; float: left; cursor: pointer;" onclick="dhxWins.window('verCd').show();">@ver.Message</div>
+        }
+        else
+        {
+            <div style="margin: 5px; width: 65%; float: left;">@ver.Message</div>
+        }
+    </div>
+    <div style="clear: both;"></div>                                           
+    
+        if (ver.NameOfVerification == "Package codes verification")
+        {
+        <div style="display: none;">
+            <div id="verCodes">   
+                @foreach (var code in (List<string>)ver.Data)
+                {
+                    <div>
+                        @code
+                    </div>
+                }    
+            </div>
+        </div>
+    }
+}
+<script>
+    var dhxWins;
+    $(document).ready(function() {
+        dhxWins = new dhtmlXWindows({
+            image_path: "../../../../codebase/imgs/",
+            skin: "dhx_skyblue"
+        });
+        dhxWins.createWindow({
+            id: "verCd",
+            x:100, y:100,
+            width: 300,
+            height: 300,
+            center: true      ,
+            onClose: function () {
+                dhxWins.window("verCd").hide();
+            }
+        });
+        dhxWins.window("verCd").setText("Not exist codes");
+        dhxWins.window("verCd").appendObject("verCodes");
+        dhxWins.window("verCd").setPosition(550, 200);
+        dhxWins.window("verCd").hide();
+    }
+    );
+    
+
+</script>

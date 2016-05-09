@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Welcome to ConnectusPro";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+@section Comments{
+    <div id="comments">
+        “ConnectusPro gives real time visibility of every aspect of the business, which
+        equals great control. “ <span class="comment-by">N.K.</span>
+        @*“ConnectusPro offers owners a level of control they could never experience on their
+        own. There is not a service company in North America that would not benefit from
+        the Pulse running as the engine under their hood.” <span class="comment-by">L.S.</span>*@
+    </div>
+}
+<div id="transition">
+    <a href="@Url.Content("~/Who")">
+        <img src="@Url.Content("~/Content/images/new/small-CP logo.jpg")" id="logo-image" alt="" /></a>
+    <a href="@Url.Content("~/Who")">
+        <img src="@Url.Content("~/Content/images/new/small-Frustrated man.jpg")" id="frustratedman-image" alt="" height="430" /></a>
+    <a href="@Url.Content("~/Who")">
+        <img src="@Url.Content("~/Content/images/new/small-Shaking hands 2.jpg")" id="shakinghands-image" alt="" /></a>
+    <a href="@Url.Content("~/Who")">
+        <img src="@Url.Content("~/Content/images/new/small-Growth.png")" id="growth-image" alt="" /></a>
+</div>
+<script type="text/javascript">
+
+    //var width = screen.width;
+    var height = screen.height;
+
+    if (height > 800) {
+        $("#logo-image").attr("src", '@Url.Content("~/Content/images/new/CP logo.jpg")');
+        $("#logo-image").attr("height", 630);
+
+        $("#frustratedman-image").attr("src", '@Url.Content("~/Content/images/new/Frustrated man.jpg")');
+        $("#frustratedman-image").attr("height", 630);
+
+        $("#shakinghands-image").attr("src", '@Url.Content("~/Content/images/new/Shaking hands 2.jpg")');
+        $("#shakinghands-image").attr("height", 630);
+
+        $("#growth-image").attr("src", '@Url.Content("~/Content/images/new/Growth.png")');
+        $("#growth-image").attr("height", 630);
+        $("#transition").css("height", 630);
+        $("#main").css("height", 655);
+    } else {
+        $("#transition").css("height", 430);
+        $("#main").css("height", 455);
+    }
+
+    $(document).ready(function () {
+        $("#transition")
+        .after('<div id="selector">')
+        .cycle({
+            fx: "fade",
+            timeout: 14000,
+            speed: 2000,
+            pager: '#selector'
+        });
+    });
+</script>
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cycle.all.2.74.js")"></script>
+}

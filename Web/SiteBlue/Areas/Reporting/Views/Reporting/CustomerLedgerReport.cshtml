@@ -1,0 +1,241 @@
+﻿@model SiteBlue.Areas.Reporting.Models.ReportSearch
+
+@{
+    ViewBag.Title = "CustomerLedgerReport";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxwindows.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxtabbar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Reporting/Reporting.css" rel="stylesheet" type="text/css" />
+}
+
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+}
+
+@section InlineScript {
+ <script type="text/javascript" language="javascript">
+     //Document Loading function
+     $(document).ready(function () {
+         maxLimitExceeded = false;
+
+         SiteBlue.renderMenu(false);
+         $(SiteBlue).bind("FranchiseChanged", function (e, data) {
+             Gridint();
+             LoadSearchReportResult();
+         });
+
+         //set read only attribute of date field 
+         $("#txtStartDate").attr('readonly', 'readonly');
+         $("#txtEndDate").attr('readonly', 'readonly');
+
+         //set disabled  attribute of date field 
+         $("#txtStartDate").attr('disabled', 'disabled');
+         $("#txtEndDate").attr('disabled', 'disabled');
+         $("#ddltimeperiods").attr("disabled", "disabled");
+
+         range = '@Model.Range';
+
+         if (range == "-1") {
+             $("#txtStartDate").removeAttr('disabled', 'disabled');
+             $("#txtEndDate").removeAttr('disabled', 'disabled');
+             $("#ddltimeperiods").attr("disabled", "disabled");
+             $('#rbtndate').attr("checked", "checked");
+             $('#rbtntimeperiod').removeAttr("checked", "checked");
+         } else {
+             $("#txtStartDate").attr('disabled', 'disabled');
+             $("#txtEndDate").attr('disabled', 'disabled');
+             $("#ddltimeperiods").removeAttr("disabled", "disabled");
+             $('#rbtndate').removeAttr("checked", "checked");
+             $('#rbtntimeperiod').attr("checked", "checked");
+         }
+
+         //Disable on redio button as per user selection
+         $("input:radio[name='reportfilter']").click(function () {
+             var i = $(this).val();
+             if (i == 0) {
+                 $("#txtStartDate").attr("disabled", "disabled");
+                 $("#txtEndDate").attr("disabled", "disabled");
+                 $("#ddltimeperiods").removeAttr("disabled", "disabled");
+             } else {
+                 $("#txtStartDate").removeAttr("disabled", "disabled");
+                 $("#txtEndDate").removeAttr("disabled", "disabled");
+                 $("#ddltimeperiods").attr("disabled", "disabled");
+             }
+         });
+
+         //--------------Call function--------------------
+         Gridint();
+         BindCalendar();
+         LoadSearchReportResult();
+
+         //search button click event.
+         $("#btnsearch").click(function () {
+             LoadSearchReportResult();
+         });
+     });
+
+     //Add Calender control to startdate and enddate
+     function BindCalendar() {
+         var Calendar = new dhtmlXCalendarObject(["txtStartDate", "txtEndDate"]);
+         Calendar.setWeekStartDay(7);
+         Calendar.setDateFormat("%m/%d/%Y");
+     }
+
+     //grid preinit function
+     function Gridint() {
+         gridList = new dhtmlXGridObject('divgridbox');
+         gridList.setImagePath("../../codebase/imgs/");
+         gridList.setHeader("Customer Name,Email Address,Primary Phone ,Cell Phone ,Bill To Address,Bill To City,Bill To State,Bill To Postal Code,Bill To Country,Last Visit,Type ,Sequence,Amount,Actual Balance,Stored Balance,Running Balance,Recorded Date,Is Outstanding");
+         gridList.setColTypes("link,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt");
+         gridList.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");
+         gridList.setInitWidths("150,150,150,150,200,100,100,100,100,100,200,150,150,150,150,150,150,150");
+         gridList.setColAlign("left,left,left,left,left,left,left,left,left,right,center,center,left,left,left,right,right,right");
+         gridList.setSkin("dhx_skyblue");
+         gridList.setColSorting("str,str,str,str,str,str,str,str,str,str,str,str,str,str,str,str,str");
+         gridList.enablePaging(true, 20, 3, "divPaging", false);
+         gridList.setPagingSkin("bricks");
+         gridList.init();
+     }
+
+
+     //Load grid datat from db
+     //Load grid datat from db
+     function LoadSearchReportResult() {
+         var startdate = $("#txtStartDate").val();
+         var enddate = $("#txtEndDate").val();
+
+         var filter = $('input[name="reportfilter"]:checked').val();
+         var timeperiod = (filter == 0) ? $("#ddltimeperiods").val() : "-1";
+
+         if (startdate == "" || enddate == "") return;
+         var date1 = new Date(startdate);
+         var date2 = new Date(enddate);
+         if (date1 > date2) {
+             alert("Start Date should be less than End Date");
+             return false;
+         } else {
+             var params = { franchiseId: SiteBlue.franchiseId, from: startdate, to: enddate, timeperiod: timeperiod };
+
+             $("#divloading").show();
+
+             $.ajax({
+                 url: '@Url.Action("GetCustomerLedger")',
+                 data: JSON.stringify(params),
+                 contentType: "application/json; charset=utf-8",
+                 success: function (result) {
+                     if (result.maxLimitExceeded == true) {
+                         alert("This query resulted in too many records to display on the screen. The system will only display the first 1000 records on the screen. You can either adjust the selection criteria to generate a smaller result-set so all results can be displayed on the screen, or use the <export to excel> button now to download the full record-set to view in Excel");
+                         maxLimitExceeded = result.maxLimitExceeded;
+                     }
+                     else {
+                         maxLimitExceeded = false;
+                     }
+                     gridList.clearAll();
+                     gridList.loadXMLString(result.data);
+                     $("#divloading").hide();
+                 },
+                 type: "POST",
+                 dataType: "json",
+                 error: function (xhr, status, error) {
+                     $("#divloading").hide();
+                     alert(error);
+                 }
+             });
+         }
+     }
+
+     function downloadToExcel() {
+         var startdate = $("#txtStartDate").val();
+         var enddate = $("#txtEndDate").val();
+
+         var filter = $('input[name="reportfilter"]:checked').val();
+         var timeperiod = (filter == 0) ? $("#ddltimeperiods").val() : "-1";
+
+         if (startdate == "" || enddate == "") return;
+         var date1 = new Date(startdate);
+         var date2 = new Date(enddate);
+         if (date1 > date2) {
+             alert("Start Date should be less than End Date");
+             return false;
+         } else {
+             var params = "bMaxLimitExceeded="+maxLimitExceeded+"&franchiseId="+SiteBlue.franchiseId+"&from="+startdate+"&to="+enddate+"&timeperiod="+timeperiod;
+
+             gridList.toExcel("../Reporting/DownloadCustomerLedgerExcel?" + params);
+         }
+     }
+
+
+ </script>
+
+}
+
+
+<div class="maincontainer">
+    <div class="divsearchpanel">
+        <fieldset>
+            <legend>&nbsp;Customer Ledger Report&nbsp;</legend>
+            <div class="searchParam">
+                <span class="rowspan">
+                    <input type="radio" id="rbtntimeperiod" checked="checked" name="reportfilter" value="0" />
+                </span>
+                <label class="rowlabel">@Html.Label("lbltimeperiods", "Time Periods -")&nbsp;:</label>
+                <span class="rowspan">
+                    @Html.DropDownList("ddltimeperiods", (List<SelectListItem>)(@Model.TimePeriod), new { Id = "ddltimeperiods" })
+                </span>
+                <span class="rowspan">
+                    <input type="radio" id="rbtndate" name="reportfilter" value="1" />
+                </span>
+                <label class="rowlabel">@Html.Label("lblstartdate", "Start Date")&nbsp;:</label>
+                <span class="rowspandate">
+                    @Html.TextBox("txtStartDate", @Model.FromDate.ToShortDateString(), new { @class = "reporttextbox" })
+                </span>
+                <label class="rowlabel">@Html.Label("lblenddate", "End Date")&nbsp;:</label>
+                <span class="rowspandate">
+                    @Html.TextBox("txtEndDate", @Model.ToDate.ToShortDateString(), new { @class = "reporttextbox" })
+                </span>
+                <span class="rowspan">
+                    <input id="btnsearch" type="button" value="Search" />
+                </span>
+            </div>
+            <div class="searchresult">
+                <div id="divloading" class="loadingbox" style="display: none;">
+                    <img src="../../../../Images/ajax-loader.gif" alt="processing..." /><label>&nbsp;Processing...</label>
+                </div>
+                <div id="divgridbox" style=" width:100%; height:370px; overflow:hidden;">
+                </div>
+                <div id="divPaging">
+                </div>
+                <div id="divexportpanel" class="exportpanel">
+                    <input id="btnExportExcel" type="button" onclick="downloadToExcel()" value="Export to Excel" />
+                </div>
+                <div style="float: right;">
+                    <a href="/Reporting/Reporting">Back to Parent Section</a>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>

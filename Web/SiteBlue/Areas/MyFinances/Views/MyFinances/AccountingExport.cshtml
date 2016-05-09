@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "Accounting Export";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+
+   
+@section Styles {  
+
+        <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+       
+        <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css">
+        <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+        
+        <link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css">
+        </link>
+        <link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css">
+        </link>
+        
+
+
+        
+}
+@section ScriptIncludes {
+        @*<script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>*@
+        @*<script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>*@
+        @*<script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+        <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+        
+        <script src="../../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>*@
+         <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_validation.js" type="text/javascript"></script>
+    <script src="../../../../codebase/json2.js" type="text/javascript"></script>
+}
+@section InlineScript {
+<script type="text/javascript">
+
+    
+  
+    $('document').ready(function () {
+        SiteBlue.renderMenu(true);
+        $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnLoad(); });
+        doOnLoad();
+        });
+
+
+   
+
+    function doOnLoad(){
+      
+     
+        mygrid = new dhtmlXGridObject('gridbox');
+        mygrid.setImagePath("../../../../codebase/imgs/");
+        mygrid.setHeader("ID,Deposit#,Deposit Date,Cash,Checks,Credit,Other,Batch Total,Transfer Date,Reference JE#,Transaction", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+        mygrid.setInitWidths("121,121,121,121,121,121,121,121,121,121,121");
+        mygrid.setColAlign("center,center,center,center,center,center,center,center,center,center,center");
+        mygrid.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro");
+        mygrid.setColSorting("int,int,date,int,int,int,int,int,int,int,int");
+        mygrid.init();
+        mygrid.setSkin("dhx_skyblue");
+        mygrid.setDateFormat("%Y-%m-%d %H:%i");
+        mygrid.loadXML("../../common/Quick_books1.xml");
+
+
+      
+        mygrid1 = new dhtmlXGridObject('gridbox1');
+        mygrid1.setImagePath("../../../../codebase/imgs/");
+        mygrid1.setHeader("WSR Date,WSR Sales,Posted?,Posted Date", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+        mygrid1.setInitWidths("123,123,123,123");
+        mygrid1.setColAlign("center,center,center,center");
+        mygrid1.setColTypes("ro,ro,ro,ro");
+        mygrid1.setColSorting("Date,int,str,str");
+        mygrid1.init();
+        mygrid1.setSkin("dhx_skyblue");
+        mygrid1.setDateFormat("%Y-%m-%d %H:%i");
+        mygrid1.loadXML("../../common/Quick_books2.xml");
+
+
+        mygrid2 = new dhtmlXGridObject('gridbox2');
+        mygrid2.setImagePath("../../../../codebase/imgs/");
+        mygrid2.setHeader("Invoice #,Sales,Accts,Difference", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+        mygrid2.setInitWidths("98,98,98,98");
+        mygrid2.setColAlign("center,center,center,center");
+        mygrid2.setColTypes("ro,ro,ro,ro");
+        mygrid2.setColSorting("int,int,int,int");
+        mygrid2.init();
+        mygrid2.setSkin("dhx_skyblue");
+        mygrid2.setDateFormat("%Y-%m-%d %H:%i");
+        mygrid2.loadXML("../../common/Quick_books3.xml");
+
+        mygrid3 = new dhtmlXGridObject('gridbox3');
+        mygrid3.setImagePath("../../../../codebase/imgs/");
+        mygrid3.setHeader("Invoice,Sales,Job", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+        mygrid3.setInitWidths("125,125,125");
+        mygrid3.setColAlign("center,center,center");
+        mygrid3.setColTypes("ro,ro,ro");
+        mygrid3.setColSorting("int,int,str");
+        mygrid3.init();
+        mygrid3.setSkin("dhx_skyblue");
+        mygrid3.setDateFormat("%Y-%m-%d %H:%i");
+        mygrid3.loadXML("../../common/Quick_books4.xml");
+
+
+        mygrid4 = new dhtmlXGridObject('gridbox4');
+        mygrid4.setImagePath("../../../../codebase/imgs/");
+        mygrid4.setHeader("WSR Date,Account #,Sales,N/A,Date,Reference", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+        mygrid4.setInitWidths("140,140,140,140,140,140");
+        mygrid4.setColAlign("center,center,center,center,center,center");
+        mygrid4.setColTypes("ro,ro,ro,ro,ro,ro");
+        mygrid4.setColSorting("date,int,int,int");
+        mygrid4.init();
+        mygrid4.setSkin("dhx_skyblue");
+        mygrid4.setDateFormat("%Y-%m-%d %H:%i");
+        mygrid4.loadXML("../../common/Quick_books5.xml");
+
+
+        mygrid5 = new dhtmlXGridObject('gridbox5');
+        mygrid5.setImagePath("../../../../codebase/imgs/");
+        mygrid5.setHeader("WSR Date,WSR Sale,Invoice #,Sales,Account,Task,Acct Sales,Tasks", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+        mygrid5.setInitWidths("110,110,110,110,110,110,110,110");
+        mygrid5.setColAlign("center,center,center,center,center,center,center,center");
+        mygrid5.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro");
+        mygrid5.setColSorting("date,int,int,int,int,str,int,str");
+        mygrid5.init();
+        mygrid5.setSkin("dhx_skyblue");
+        mygrid5.setDateFormat("%Y-%m-%d %H:%i");
+
+        mygrid5.loadXML("../../common/Quick_books6.xml");
+    }
+
+
+
+
+
+
+
+
+</script>
+}
+
+<div style="float: left; width: 100%;height:100%; background-color: #d5f1ff">
+            <table style="background-color: #d5f1ff; width: 100%; margin: 0px">
+            <div style="margin-left:550px;margin-bottom:10px;margin-top:10px"><span style="color: #1a3b69;font-size: 20px;">Deposits to be Transferred</span></div>
+                <tr>
+                    <td style="width: 50%;vertical-align:top">
+                        <div id="gridbox" style="width: 100%; height: 300px; background-color: #d5f1ff;">
+                        </div>
+                        
+                    </td>
+
+                </tr>
+            </table>
+            <table style="background-color: #d5f1ff; width: 100%; margin: 0px">
+            <div style="margin-left:550px;margin-bottom:10px;margin-top:10px"><span style="color: #1a3b69;font-size: 20px;"></span></div>
+                <tr>
+                    <td style="width: 40%;vertical-align:top">
+                        <div id="gridbox1" style="width: 100%; height: 200px; background-color: #d5f1ff;">
+                        </div>
+                        
+                    </td>
+                    <td style="width: 30%;vertical-align:top">
+                        <div id="gridbox2" style="width: 100%; height: 200px; background-color: #d5f1ff;">
+                        </div>
+                        
+                    </td>
+                     <td style="width: 30%;vertical-align:top">
+                        <table>
+                        <tr><td>Total Jobs</td><td><input type="text" /></td></tr>
+                        <tr><td>Total Job Sale</td><td><input type="text" /></td></tr>
+                        <tr><td>Total Tax</td><td><input type="text" /></td></tr>
+                        <tr><td>Job Grand Total</td><td><input type="text" /></td></tr>
+                        <tr><td>Total Account Sales</td><td><input type="text" /></td></tr>
+                        <tr><td>Difference</td><td><input type="text" /></td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <table style="background-color: #d5f1ff; width: 100%; margin: 0px">
+            <div style="margin-left:50px;margin-bottom:10px;margin-top:10px"><span style="color: #1a3b69;font-size: 20px;">Sales to be Transferred</span>
+            
+            <span style="color: #1a3b69;font-size: 20px;margin-left:300px">Accounts to be Transferred</span></div>
+            
+                <tr>
+                    <td style="width: 30%;vertical-align:top">
+                        <div id="gridbox3" style="width: 100%; height: 400px; background-color: #d5f1ff;">
+                        </div>
+                        
+                    </td>
+                    <td style="width: 70%;vertical-align:top">
+                        <div id="gridbox4" style="width: 100%; height: 200px; background-color: #d5f1ff;">
+                        </div>
+                        
+
+                       <div id="gridbox5" style="width: 100%; height: 200px; background-color: #d5f1ff;">
+                        </div>
+                        
+                    </td>
+                     
+                </tr>
+            </table>
+            <div style="height: 50px; margin-left: 15px; font-weight: bold;">
+                <a href="@Url.Content("~/MasterData/LandingPage/MyFinances")" title="Back to Dashboard">
+                    Back to Dashboard</a>
+            </div>
+        </div>
+

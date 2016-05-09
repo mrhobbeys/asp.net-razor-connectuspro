@@ -1,0 +1,379 @@
+﻿@model int
+           <div class="content" style="width:35%;float:left;height:50%">
+            <link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css">
+        </link>
+        <link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css">
+        </link>
+        <script src="../../../../../codebase/dhtmlxcalendar.js"></script>
+	
+
+
+
+	<div style="position:relative;padding-left:50px">
+    <a href="">Previous Date</a> 
+    
+	<input type="text" id="calendar">
+        <a href="">Next Date</a>
+		@*End Date:<input type="text" id="calendar2">*@
+		
+	</div>
+			
+			
+         </div>
+
+         <div style="width:65%;float:right;height:50%"><img src="@Url.Action("InvoiceAging", "Legend")" alt="SimpleChart" /></div>
+
+ @if (Model != 0)
+ {
+      
+     
+<div style="position:relative;top:200px">
+
+        
+        <div class="dhx_cal_header" style="width: 1366px; height: 20px; left: -1px; top: 23px;">
+            <div class="dhx_scale_bar" style="width: 194px; height: 18px; left: 0px; top: 0px;">
+                Monday</div>
+            <div class="dhx_scale_bar" style="width: 194px; height: 18px; left: 195px; top: 0px;">
+                Tuesday</div>
+            <div class="dhx_scale_bar" style="width: 194px; height: 18px; left: 390px; top: 0px;">
+                Wednesday</div>
+            <div class="dhx_scale_bar" style="width: 194px; height: 18px; left: 585px; top: 0px;">
+                Thursday</div>
+            <div class="dhx_scale_bar" style="width: 194px; height: 18px; left: 780px; top: 0px;">
+                Friday</div>
+            <div class="dhx_scale_bar" style="width: 194px; height: 18px; left: 975px; top: 0px;">
+                Saturday</div>
+            <div class="dhx_scale_bar" style="width: 195px; height: 18px; left: 1170px; top: 0px;">
+                Sunday</div>
+        </div>
+        <div class="dhx_cal_data" style="width: 1366px; height: 700px; left: 0px; top: 44px;">
+            <table cellspacing="0" cellpadding="0">
+            @{int id = Model;}
+                <tbody>
+                    <tr>
+                        <td class="dhx_before ">
+                            <div class="dhx_month_head">
+                                26</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_before ">
+                            <div class="dhx_month_head">
+                                27</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_before ">
+                            <div class="dhx_month_head">
+                                28</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_before ">
+                            <div class="dhx_month_head">
+                                29</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_before ">
+                            <div class="dhx_month_head">
+                                30</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_before ">
+                            <div class="dhx_month_head">
+                                31</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                01</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                             
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 1 })" alt="SimpleChart" />
+                             <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/rr2.png" alt="SimpleChart" height="50px" width="10px"/>
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                02</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 2 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/rr2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                03</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 3 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/rr2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                04</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 4 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/rr2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                05</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 5 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/rr2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                06</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 6 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                07</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 7 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                08</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 195px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 8 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                09</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 9 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/r2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                10</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 10 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/r2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                11</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 11 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/r2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                12</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 12 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/r2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                13</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 13 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/r2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                14</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 14 })" alt="SimpleChart" />
+                            <img src="../../../../Content/images/r1.png" alt="SimpleChart" height="80px" width="10px"/>
+                             <img src="../../../../Content/images/r2.png" alt="SimpleChart" height="50px" width="10px"/>
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                15</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 15 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                16</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 16 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                17</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 17 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                18</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 18 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                19</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 19 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                20</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 20 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                21</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 21 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                22</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 195px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 22 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                23</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 23 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                24</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 24 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                25</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 25 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                26</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 26 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                27</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 27 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                28</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 28 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                29</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 195px;">
+                            <img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 29 })" alt="SimpleChart" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class=" ">
+                            <div class="dhx_month_head">
+                                30</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            @*<img src="@Url.Action("CallReceiveDate", "Calendar", new { id = @id, day = 30 })" alt="SimpleChart" />*@
+                            </div>
+                        </td>
+                        <td class="dhx_after ">
+                            <div class="dhx_month_head">
+                                01</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_after ">
+                            <div class="dhx_month_head">
+                                02</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_after ">
+                            <div class="dhx_month_head">
+                                03</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_after ">
+                            <div class="dhx_month_head">
+                                04</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_after ">
+                            <div class="dhx_month_head">
+                                05</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 194px;">
+                            </div>
+                        </td>
+                        <td class="dhx_after ">
+                            <div class="dhx_month_head">
+                                06</div>
+                            <div class="dhx_month_body" style="height: 120px; width: 195px;">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+ }
+ else
+ {
+        @:<text>No information available</text>
+    }

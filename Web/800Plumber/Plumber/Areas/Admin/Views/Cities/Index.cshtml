@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Plumber.Models.CityServed>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    Manage cities for @ViewBag.SelectedLocation</h2>
+<p>
+    @Html.ActionLink("Add a new city", "Create", new { id = ViewBag.SelectedLocationId })
+</p>
+<table class="data-table" id="citiesTable">
+<thead>
+    <tr>
+        <th>
+            City served
+        </th>
+        <th>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+        <tr>
+            <td style="width: 95%">
+                @Html.Raw(item.City)
+            </td>
+            <td style="text-align: center">
+                @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/delete.gif"), "Delete", new { id = item.CityServedId }, null, null)
+            </td>
+        </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td style="width: 100%" colspan="2">
+                <img src="../../../../Content/admin_icons/warning.png" alt="" title="No city found for the selected location" /><br />
+                <strong>No City found for the selected Location!</strong>
+            </td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+        <tr id="pager">
+            <td colspan="2">
+                <img src="@Url.Content("~/Content/_assets/img/first.png")" alt="" class="first"/>
+                <img src="@Url.Content("~/Content/_assets/img/prev.png")" alt="" class="prev"/>
+                <input class="pagedisplay" type="text" />
+                <img src="@Url.Content("~/Content/_assets/img/next.png")" alt="" class="next"/>
+                <img src="@Url.Content("~/Content/_assets/img/last.png")" alt="" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                </select>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<p>
+    @Html.ActionLink("Back to location details", "Details", "Location", new { id = ViewBag.SelectedLocationId, area = "Admin" }, null)
+    |
+    @Html.ActionLink("Back to locations list", "Index", "Location")
+</p>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#citiesTable")
+        .tablesorter({ widgets: ['zebra'] })
+        .tablesorterPager({ container: $("#pager"), positionFixed: false })
+    });
+</script>
+@section Scripts{
+    <link href="@Url.Content("~/Content/_assets/themes/yui/style.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter-2.0.3.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.filer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+}

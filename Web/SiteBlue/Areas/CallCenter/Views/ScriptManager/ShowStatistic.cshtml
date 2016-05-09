@@ -1,0 +1,50 @@
+﻿@model string
+@{
+    ViewBag.Title = "ShowStatistic";
+    //ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+    //Layout = "~/Areas/CallCenter/Views/Shared/_ScriptLayout.cshtml";
+
+}
+
+@section ScriptIncludes
+{
+    <script src="@Url.Content("~/Content/themes/DhtmlX/dhtmlxcommon.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/dhtmlxcontainer.js")" type="text/javascript"> </script>
+
+    <script src="@Url.Content("~/Areas/CallCenter/Content/codebase/dhtmlxchart.js")" type="text/javascript"> </script>
+    <link href="@Url.Content("~/Areas/CallCenter/Content/codebase/dhtmlxchart.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Styles
+{
+    
+}
+
+
+<script>
+    $(document).ready(function() {
+        var data = eval("@(ViewBag.Data)".replace(/&quot;/g, "\""));
+        var pieChart = new dhtmlXChart({
+            view: "pie3D",
+            container: "chart_container",
+            value: "#count#",
+            legend: {
+                width: 160,
+                align: "right",
+                valign: "middle",
+                marker: {
+                    type: "round",
+                    width: 20
+                },
+                template: "#name#"
+            },
+            pieInnerText: "<b>#count#</b> #name#"
+        });
+        pieChart.parse(data, "json");
+
+    });
+</script>
+
+
+<div id="chart_container" style="width:600px;height:400px;border:1px solid #A4BED4;"></div>

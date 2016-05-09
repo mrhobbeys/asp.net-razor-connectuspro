@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="97814fd2-d192-4400-8856-7b372a4af96d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:52445/TechBio.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="TechBio3.xsd" MetadataType="Schema" ID="011f6063-c886-46e7-82f9-9fb849b7ba47" SourceId="1" SourceUrl="http://localhost:52445/TechBio.svc?xsd=xsd3" />
+    <MetadataFile FileName="TechBio2.xsd" MetadataType="Schema" ID="6a2e8cb6-238d-4c5a-9bab-81503ff944b3" SourceId="1" SourceUrl="http://localhost:52445/TechBio.svc?xsd=xsd0" />
+    <MetadataFile FileName="TechBio.wsdl" MetadataType="Wsdl" ID="94f9ce35-68fe-4c36-88f7-59d20cd79d58" SourceId="1" SourceUrl="http://localhost:52445/TechBio.svc?wsdl" />
+    <MetadataFile FileName="TechBio.disco" MetadataType="Disco" ID="1b6927a0-1222-4db2-82c9-db288ca89825" SourceId="1" SourceUrl="http://localhost:52445/TechBio.svc?disco" />
+    <MetadataFile FileName="TechBio1.xsd" MetadataType="Schema" ID="970d4850-239e-4158-be37-9990a69d611b" SourceId="1" SourceUrl="http://localhost:52445/TechBio.svc?xsd=xsd1" />
+    <MetadataFile FileName="TechBio.xsd" MetadataType="Schema" ID="22b971aa-ded0-46b9-9cec-534e2ccdfe4e" SourceId="1" SourceUrl="http://localhost:52445/TechBio.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

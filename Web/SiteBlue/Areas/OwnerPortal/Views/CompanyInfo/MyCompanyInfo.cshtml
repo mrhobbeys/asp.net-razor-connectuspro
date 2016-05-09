@@ -1,0 +1,1189 @@
+﻿@model SiteBlue.Areas.OwnerPortal.Models.CompanyInfoViewModel
+@{
+    ViewBag.Title = "Company Information";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../codebase/dhtmlxwindows.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../../../common/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="../../../../../../common/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+
+        function BindCompanyInfo(result) {
+            $('#OwnerName').val(result.OwnerName);
+            $('#LegalName').val(result.LegalName);
+            $('#LegalAddress').val(result.LegalAddress);
+            $('#LegalCity').val(result.LegalCity);
+            $('#LegalState').val(result.LegalState);
+            $('#LegalPostal').val(result.LegalPostal);
+            $('#LegalCountryID').val(result.LegalCountryID);
+
+            $('#OfficeName').val(result.OfficeName);
+            $('#OfficeCompany').val(result.OfficeCompany);
+            $('#OfficeAddress').val(result.OfficeAddress);
+            $('#OfficeCity').val(result.OfficeCity);
+            $('#OfficeState').val(result.OfficeState);
+            $('#OfficePostal').val(result.OfficePostal);
+            $('#OfficeCountryID').val(result.OfficeCountryID);
+
+            $('#ShipName').val(result.ShipName);
+            $('#ShipCompany').val(result.ShipCompany);
+            $('#ShipAddress').val(result.ShipAddress);
+            $('#ShipCity').val(result.ShipCity);
+            $('#ShipState').val(result.ShipState);
+            $('#ShipPostal').val(result.ShipPostal);
+            $('#ShipCountryID').val(result.ShipCountryID);
+
+            $('#MailName').val(result.MailName);
+            $('#MailCompany').val(result.MailCompany);
+            $('#MailAddress').val(result.MailAddress);
+            $('#MailCity').val(result.MailCity);
+            $('#MailState').val(result.MailState);
+            $('#MailPostal').val(result.MailPostal);
+            $('#MailCountryID').val(result.MailCountryID);
+        }
+
+        function doOnLoad() {
+
+            var fid = { FranchiseeId: SiteBlue.franchiseId };
+            $.ajax({
+                url: "/OwnerPortal/CompanyInfo/MyCompanyInfoData",
+                data: JSON.stringify(fid),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    BindCompanyInfo(result);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (xhr, status, error) {
+                    alert(error);
+                    //$('#output').innerHtml(e);
+                }
+
+            });
+            
+            // myCalendar = new dhtmlXCalendarObject(["StartDate", "Renewal"]);
+            // myCalendar.setWeekStartDay(7);
+            // myCalendar.setDateFormat("%m/%d/%Y");
+
+            BindDBA();
+            BindContactName();
+            //            var fid = { frId: SiteBlue.franchiseId };
+            //            alert(SiteBlue.franchiseId);
+            //            try {
+            //                $.ajax({
+            //                    type: "POST",
+            //                    url: "/OwnerPortal/CompanyInfo/GetData",
+            //                    data: JSON.stringify(fid),
+            //                    contentType: "application/json; charset=utf-8",
+            //                    success: function (msg1) {
+            //                        var AdForHomePages1 = msg1;
+            //                        $.each(AdForHomePages1, function (index, Dispatch_DBA) {
+            //                            alert(Dispatch_DBA.DBAName);
+            //                            $states.append('<option value="' + Dispatch_DBA.DBAID + '">' + Dispatch_DBA.DBAName + '</option>');
+            //                        });
+            //                    }
+            //                });
+            //            }
+            //            catch (e) {
+            //                alert(e);
+            //            }
+            //            binddropdn();
+
+        }
+
+        function CancelAdd() {
+            dhxWinsAdd.window("JobWindowAdd").close();
+        }
+
+        function SaveData() {
+            var ph = document.getElementById("txtPhoneNumber").value;
+            var regExpObj = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+            if (ph == "") {
+                alert("Enter Phone Number!");
+            }
+            else if (regExpObj.exec(ph) == null) {
+                alert('Invalid Phone Number!');
+                return false;
+            } else {
+
+                var phonetype = document.getElementById("ddlPhoneType").value;
+                var phonenumber = document.getElementById("txtPhoneNumber").value;
+                var contactName = document.getElementById("txtContactName").value;
+                var custid = { Phonetype: phonetype, Phonenumber: phonenumber, Contactname: contactName, FranchiseeId: SiteBlue.franchiseId };
+                var jsondataCoupon = $.ajax({
+                    url: "/OwnerPortal/CompanyInfo/EmployeeContactAdd",
+                    data: JSON.stringify(custid),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        var AdForHomePages = msg;
+                        window.location.reload();
+                        $.each(AdForHomePages, function (index, tbl_Referral) {
+                        });
+                    },
+                    type: "POST",
+                    dataType: "json"
+                });
+                //            return true;
+            }
+
+        }
+
+        function AddContactName_Click() {
+            document.getElementById("AddContactName").style.display = "block";
+            dhxWinsAdd = new dhtmlXWindows();
+            dhxWinsAdd.setImagePath("../../codebase/imgs/");
+            JobWindowAdd = dhxWinsAdd.createWindow("JobWindowAdd", 350, 70, 480, 250);
+            dhxWinsAdd.window("JobWindowAdd").setModal(true);
+            dhxWinsAdd.attachEvent("onClose", function (win) {
+                dhxWinsAdd.window("JobWindowAdd").detachObject("AddContactName");
+                return true;
+            });
+            dhxWinsAdd.window("JobWindowAdd").attachObject("AddContactName");
+        }
+
+        function changeShippingAddress() {
+            if (document.getElementById("chkShippingAddress").checked == true) {
+                $("#ShipName").val($("#OfficeName").val());
+                $("#ShipCompany").val($("#OfficeCompany").val());
+                $("#ShipAddress").val($("#OfficeAddress").val());
+                $("#ShipCity").val($("#OfficeCity").val());
+                $("#ShipState").val($("#OfficeState").val());
+                $("#ShipPostal").val($("#OfficePostal").val());
+                //$("#ShipCountryID").attr('selectedIndex', $("#OfficeCountryID").val() - 1);
+                $("#ShipCountryID").val($("#OfficeCountryID").val());
+            }
+            else {
+                $("#ShipName").val('');
+                $("#ShipCompany").val('');
+                $("#ShipAddress").val('');
+                $("#ShipCity").val('');
+                $("#ShipState").val('');
+                $("#ShipPostal").val('');
+            }
+        }
+
+        function changeMailingAddress() {
+            if (document.getElementById("chkMailingAddress").checked == true) {
+                $("#MailName").val($("#ShipName").val());
+                $("#MailCompany").val($("#ShipCompany").val());
+                $("#MailAddress").val($("#ShipAddress").val());
+                $("#MailCity").val($("#ShipCity").val());
+                $("#MailState").val($("#ShipState").val());
+                $("#MailPostal").val($("#ShipPostal").val());
+                //$("#MailCountryID").attr('selectedIndex', $("#ShipCountryID").val() - 1);
+                $("#MailCountryID").val($("#ShipCountryID").val());
+            }
+            else {
+                $("#MailName ").val('');
+                $("#MailCompany").val('');
+                $("#MailAddress").val('');
+                $("#MailCity").val('');
+                $("#MailState").val('');
+                $("#MailPostal").val('');
+            }
+        }
+
+        function doOnRowSelected(rowID, celInd) {
+            alert("Selected row ID is " + mygrd.getSelectedId() + "\nUser clicked cell with index " + celInd);
+        }
+
+        function BindContactName() {
+
+            var xmlstringCompany = "";
+            gridCompany = new dhtmlXGridObject('gridcontact');
+
+            gridCompany.setImagePath("../../codebase/imgs/");
+            gridCompany.setHeader("Contact Name,Phone Type,Phone Number");
+            gridCompany.setInitWidths("180,180,180");
+            gridCompany.setColAlign("left,left,left");
+            gridCompany.setColTypes("ro,ro,ro");
+            gridCompany.init();
+            gridCompany.setSkin("dhx_skyblue");
+
+            var Comid = { FranchiseeId: SiteBlue.franchiseId };
+            var jsondata1 = $.ajax({
+                url: "/OwnerPortal/CompanyInfo/MyCompanyContact",
+                data: JSON.stringify(Comid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+
+                    var AdForHomePages = msg;
+                    xmlstringCompany = xmlstringCompany + "<rows>";
+                    $.each(AdForHomePages, function (index, Franchisee) {
+
+                        //                        var c = Franchisee.ContactName;
+                        //                        alert("contact name: "+ c);
+                        //                        alert("phone type: " + Franchisee.PhoneType);
+
+                        xmlstringCompany = xmlstringCompany + "<row id='" + Franchisee.FranchiseContactID + "'>";
+                        xmlstringCompany = xmlstringCompany + "<cell><![CDATA[" + Franchisee.ContactName + "]]></cell>";
+                        xmlstringCompany = xmlstringCompany + "<cell><![CDATA[" + Franchisee.PhoneType + "]]></cell>";
+                        xmlstringCompany = xmlstringCompany + "<cell><![CDATA[" + Franchisee.PhoneNumber + "]]></cell>";
+                        xmlstringCompany = xmlstringCompany + "</row>";
+                    });
+                    xmlstringCompany = xmlstringCompany + "</rows>";
+
+                    gridCompany.loadXMLString(xmlstringCompany);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+        }
+
+        //        function binddropdn() {
+        //            
+        //            var fid = { frId: SiteBlue.franchiseId };
+        //            $states = $('#States').empty();
+        //           
+        //            $states.append('<option value="0">Select DBA</option>');
+        //            try {
+        //                $.ajax({
+        //                    type: "POST",
+        //                    url: "/OwnerPortal/CompanyInfo/GetData",
+        //                    data: JSON.stringify(fid),
+        //                    contentType: "application/json; charset=utf-8",
+        //                    success: function (msg1) {
+        //                        
+        //                        var AdForHomePages1 = msg1;
+        //                        $.each(AdForHomePages1, function (index, Dispatch_DBA) {
+        //                            $states.append('<option value="' + Dispatch_DBA.DBAID + '">' + Dispatch_DBA.DBAName + '</option>');
+        //                        });
+        //                    }
+        //                });
+        //            }
+        //            catch (e) {
+        //                alert(e);
+        //            }
+        //        }
+
+        function BindDBA() {
+            var xmlstring1 = "";
+            mygrd = new dhtmlXGridObject('grid1');
+            mygrd.setImagePath("../../../../codebase/imgs/");
+            mygrd.setHeader("DBA");
+            mygrd.setInitWidths("600");
+            mygrd.setColAlign("left");
+            mygrd.setColTypes("ed");
+            mygrd.setColSorting("txt");
+            mygrd.init();
+            mygrd.setSkin("dhx_skyblue");
+            mygrd.setDateFormat("%Y-%m-%d %H:%i");
+            //var frId = document.getElementById("ddlFrenchise").value;
+            //if (frId == '' || frId == null) {
+            //    frId = 56;
+            //}
+            var fid = { frId: SiteBlue.franchiseId };
+            var jsondata = $.ajax
+            ({
+                url: '/OwnerPortal/CompanyInfo/DBAList',
+                data: JSON.stringify(fid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    var AdForHomePages = msg;
+                    xmlstring1 = xmlstring1 + "<rows>";
+                    $.each(AdForHomePages, function (index, DBAList) {
+
+                        xmlstring1 = xmlstring1 + "<row id='" + DBAList.DBAID + "'>";
+                        xmlstring1 = xmlstring1 + "<cell><![CDATA[" + DBAList.DBAName + "]]></cell>";
+                        xmlstring1 = xmlstring1 + "</row>";
+                    });
+                    xmlstring1 = xmlstring1 + "</rows>";
+                    mygrd.loadXMLString(xmlstring1);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnLoad(); $("#FranchiseID").val(SiteBlue.franchiseId); });
+            doOnLoad();
+            $("#FranchiseID").val(SiteBlue.franchiseId);           
+                        
+            //            $states = $('#States').empty();
+            //            var countrySelected = $(this).val();
+            //            $states.append('<option value="0">Select DBA</option>');
+            //            try {
+            //                $.ajax({
+            //                    type: "POST",
+            //                    url: "/OwnerPortal/CompanyInfo/GetData",
+            //                    contentType: "application/json; charset=utf-8",
+            //                    success: function (msg1) {
+            //                        var AdForHomePages1 = msg1;
+            //                        $.each(AdForHomePages1, function (index, Dispatch_DBA) {
+            //                            $states.append('<option value="' + Dispatch_DBA.DBAID + '">' + Dispatch_DBA.DBAName + '</option>');
+            //                        });
+            //                    }
+            //                });
+            //            }
+            //            catch (e) {
+            //                alert(e);
+            //            }
+
+            $("#btnDeleteContactName").click(function () {
+                var ContactID = gridCompany.getSelectedId();
+                if (ContactID != null) {
+                    var custid = { Contactid: ContactID };
+                    try {
+                        $.ajax({
+                            type: "POST",
+                            url: "../CompanyInfo/DeleteContact",
+                            data: JSON.stringify(custid),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg1) {
+                                var AdForHomePages1 = msg1;
+                                BindContactName();
+                            }
+                        });
+                    }
+                    catch (e) {
+                        alert(e);
+                    }
+                }
+                else {
+                    alert("Please Select Contact Name To Delete");
+                }
+            });
+            $("#btnDbaDelete").click(function () {
+                var DBAID = mygrd.getSelectedId();
+                if (DBAID != null) {
+                    var custid = { DBA: DBAID };
+                    try {
+                        $.ajax({
+                            type: "POST",
+                            url: "../CompanyInfo/DeleteDBA",
+                            data: JSON.stringify(custid),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg1) {
+                                var AdForHomePages1 = msg1;
+                                BindDBA();
+                                //                                binddropdn();
+                            }
+                        });
+                    }
+                    catch (e) {
+                        alert(e);
+                    }
+                }
+                else {
+                    alert("Please Select DBA To Delete");
+                }
+            });
+            $("#AddDBA").click(function () {
+                var Txt = $("#AddDBATxt").val();
+                //var frId = document.getElementById("ddlFrenchise").value;
+                //if (frId == '' || frId == null) {
+                //    frId = 56;
+                //}
+                var custid = { DBA: Txt, frId: SiteBlue.franchiseId };
+                if (Txt != '') {
+                    try {
+                        $.ajax({
+                            type: "POST",
+                            url: "/OwnerPortal/CompanyInfo/Save_DBA_Data",
+                            data: JSON.stringify(custid),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg1) {
+                                var AdForHomePages1 = msg1;
+                                $("#AddDBATxt").val('');
+                                BindDBA();
+                                //                                binddropdn();
+                            }
+                        });
+                    }
+                    catch (e) {
+                        alert(e);
+                    }
+                }
+                else {
+                    alert("Please enter a DBA first, then click add...");
+                }
+                //                var fid = { frId: SiteBlue.franchiseId };
+                //                $states = $('#States').empty();
+                //                var countrySelected = $(this).val();
+                //                $states.append('<option value="0">Select DBA</option>');
+                //                try {
+                //                    $.ajax({
+                //                        type: "POST",
+                //                        url: "/OwnerPortal/CompanyInfo/GetData",
+                //                        data: JSON.stringify(fid),
+                //                        contentType: "application/json; charset=utf-8",
+                //                        success: function (msg1) {
+                //                            var AdForHomePages1 = msg1;
+                //                            $.each(AdForHomePages1, function (index, Dispatch_DBA) {
+                //                                $states.append('<option value="' + Dispatch_DBA.DBAID + '">' + Dispatch_DBA.DBAName + '</option>');
+                //                            });
+                //                        }
+                //                    });
+                //                }
+                //                catch (e) {
+                //                    alert(e);
+                //                }
+            });
+            //            $("#btnSaveCompanyInfo").click(function () {
+            //                var dba = $('#States').val();
+            //                $("#hdnDbaId").val(dba);
+            //                return true;
+            //            });
+            //            $("#btnSaveCompanyInfo1").click(function () {
+            //                var dba = $('#States').val();
+            //                $("#hdnDbaId1").val(dba);
+            //                return true;
+            //            });
+            //            $("#cancelbutton").click(function () {
+            ////                document.getElementById("OwnerName").setAttribute("readonly", "true");
+            ////                document.getElementById("LegalName").setAttribute("readonly", "true");
+            ////                document.getElementById("Address").setAttribute("readonly", "true");
+            ////                document.getElementById("City").setAttribute("readonly", "true");
+            ////                document.getElementById("State").setAttribute("readonly", "true");
+            ////                document.getElementById("Postal").setAttribute("readonly", "true");
+            ////                document.getElementById("Select").setAttribute("readonly", "true");
+            ////                document.getElementById("Country").setAttribute("disabled", "true");
+            ////                document.getElementById("TimeZone").setAttribute("readonly", "true");
+            //            });
+        });
+
+        //function SaveFile() {
+        //}
+
+        //        $("#States").change(function () {
+        //            $states = $('#States').empty();
+        //            var countrySelected = $(this).val();
+        //            $states.append('<option value="0">Select DBA</option>');
+        //            try {
+        //                $.ajax({
+        //                    type: "POST",
+        //                    url: "/OwnerPortal/CompanyInfo/GetData",
+        //                    contentType: "application/json; charset=utf-8",
+        //                    success: function (msg1) {
+        //                        var AdForHomePages1 = msg1;
+        //                        $.each(AdForHomePages1, function (index, Dispatch_DBA) {
+        //                            $states.append('<option value="' + Dispatch_DBA.DBAID + '">' + Dispatch_DBA.DBAName + '</option>');
+        //                        });
+        //                    }
+        //                });
+        //            }
+        //            catch (e) {
+        //                alert(e);
+        //            }
+        //        });
+
+
+        $(function () {
+            $('#PartialMyCompanyInfo').submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        var companycode = $('#current > a').text();
+                        if (companycode != null && companycode != "") {
+                            $.post('@Url.Action("PartialMyCompanyInfo")',
+                               { code: companycode }, function (data) {
+                                   $("#target").html(data);
+                                   //doOnLoad();
+                               });
+                        }
+                        $('#ShowResultHere').html(result.s);
+                    }
+                });
+                return false;
+            });
+        });
+        function getAverageTickets() {
+        }
+    </script>
+    <script language="javascript" type="text/javascript">
+
+        var zChar = new Array(' ', '(', ')', '-', '.');
+        var maxphonelength = 13;
+        var phonevalue1;
+        var phonevalue2;
+        var cursorposition;
+
+        function ParseForNumber1(object) {
+            phonevalue1 = ParseChar(object.value, zChar);
+        }
+        function ParseForNumber2(object) {
+            phonevalue2 = ParseChar(object.value, zChar);
+        }
+
+        function backspacerUP(object, e) {
+            if (e) {
+                e = e
+            } else {
+                e = window.event
+            }
+            if (e.which) {
+                var keycode = e.which
+            } else {
+                var keycode = e.keyCode
+            }
+
+            ParseForNumber1(object)
+
+            if (keycode >= 48) {
+                ValidatePhone(object)
+            }
+        }
+
+        function backspacerDOWN(object, e) {
+            if (e) {
+                e = e
+            } else {
+                e = window.event
+            }
+            if (e.which) {
+                var keycode = e.which
+            } else {
+                var keycode = e.keyCode
+            }
+            ParseForNumber2(object)
+        }
+
+        function GetCursorPosition() {
+
+            var t1 = phonevalue1;
+            var t2 = phonevalue2;
+            var bool = false
+            for (i = 0; i < t1.length; i++) {
+                if (t1.substring(i, 1) != t2.substring(i, 1)) {
+                    if (!bool) {
+                        cursorposition = i
+                        bool = true
+                    }
+                }
+            }
+        }
+
+        function ValidatePhone(object) {
+
+            var p = phonevalue1
+
+            p = p.replace(/[^\d]*/gi, "")
+
+            if (p.length < 3) {
+                object.value = p
+            } else if (p.length == 3) {
+                pp = p;
+                d4 = p.indexOf('(')
+                d5 = p.indexOf(')')
+                if (d4 == -1) {
+                    pp = "(" + pp;
+                }
+                if (d5 == -1) {
+                    pp = pp + ")";
+                }
+                object.value = pp;
+            } else if (p.length > 3 && p.length < 7) {
+                p = "(" + p;
+                l30 = p.length;
+                p30 = p.substring(0, 4);
+                p30 = p30 + ")"
+
+                p31 = p.substring(4, l30);
+                pp = p30 + p31;
+
+                object.value = pp;
+
+            } else if (p.length >= 7) {
+                p = "(" + p;
+                l30 = p.length;
+                p30 = p.substring(0, 4);
+                p30 = p30 + ")"
+
+                p31 = p.substring(4, l30);
+                pp = p30 + p31;
+
+                l40 = pp.length;
+                p40 = pp.substring(0, 8);
+                p40 = p40 + "-"
+
+                p41 = pp.substring(8, l40);
+                ppp = p40 + p41;
+
+                object.value = ppp.substring(0, maxphonelength);
+            }
+
+            GetCursorPosition()
+
+            if (cursorposition >= 0) {
+                if (cursorposition == 0) {
+                    cursorposition = 2
+                } else if (cursorposition <= 2) {
+                    cursorposition = cursorposition + 1
+                } else if (cursorposition <= 5) {
+                    cursorposition = cursorposition + 2
+                } else if (cursorposition == 6) {
+                    cursorposition = cursorposition + 2
+                } else if (cursorposition == 7) {
+                    cursorposition = cursorposition + 4
+                    e1 = object.value.indexOf(')')
+                    e2 = object.value.indexOf('-')
+                    if (e1 > -1 && e2 > -1) {
+                        if (e2 - e1 == 4) {
+                            cursorposition = cursorposition - 1
+                        }
+                    }
+                } else if (cursorposition < 11) {
+                    cursorposition = cursorposition + 3
+                } else if (cursorposition == 11) {
+                    cursorposition = cursorposition + 1
+                } else if (cursorposition >= 12) {
+                    cursorposition = cursorposition
+                }
+
+                var txtRange = object.createTextRange();
+                txtRange.moveStart("character", cursorposition);
+                txtRange.moveEnd("character", cursorposition - object.value.length);
+                txtRange.select();
+            }
+
+        }
+
+        function ParseChar(sStr, sChar) {
+            if (sChar.length == null) {
+                zChar = new Array(sChar);
+            }
+            else zChar = sChar;
+
+            for (i = 0; i < zChar.length; i++) {
+                sNewStr = "";
+
+                var iStart = 0;
+                var iEnd = sStr.indexOf(sChar[i]);
+
+                while (iEnd != -1) {
+                    sNewStr += sStr.substring(iStart, iEnd);
+                    iStart = iEnd + 1;
+                    iEnd = sStr.indexOf(sChar[i], iStart);
+                }
+                sNewStr += sStr.substring(sStr.lastIndexOf(sChar[i]) + 1, sStr.length);
+
+                sStr = sNewStr;
+            }
+
+            return sNewStr;
+        }
+        function validate() {
+
+            var ph = document.getElementById("txtPhoneNumber").value;
+            var regExpObj = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+            if (ph == "") {
+                alert("Enter Phone Number!");
+            }
+            else if (regExpObj.exec(ph) == null) {
+                alert('Invalid Phone Number!');
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+}
+@{Html.BeginForm("SaveMyCompanyInfo", "CompanyInfo", FormMethod.Post);}
+@Html.Hidden("FranchiseID")
+<div id="AddContactName" style="display: none;">
+    <table style="margin-top: 50px; margin-left: 70px;">
+        <tr>
+            <td>
+                <label>
+                    Contact Name</label>
+            </td>
+            <td>
+                @Html.TextBox("txtContactName", "")
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 30%">
+                <label>
+                    Phone Type</label>
+            </td>
+            <td>
+                @Html.DropDownList("ddlPhoneType", Model.PhoneType)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    Phone Number</label>
+            </td>
+            <td>
+                <input type="text" name="txtPhoneNumber" id="txtPhoneNumber" onkeydown="javascript:backspacerDOWN(this,event);"
+                    onkeyup="javascript:backspacerUP(this,event);" />
+                @*@Html.TextBox("txtPhoneNumber", "")*@
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <input type="button" value="Save" onclick="SaveData()" />
+                <input type="button" value="Cancel" style="margin-left: 10px;" onclick="CancelAdd();" />
+            </td>
+        </tr>
+    </table>
+</div>
+
+<fieldset style="vertical-align: bottom; padding: 5px 0px 5px 0px; width: 99.80%;
+    margin: 0px; margin-top: 5px; background-color: #dfedf3;">
+    <div style="margin-right: 50px; float: left">
+        <label style="font-size: larger; font-weight: bold;">
+            Company Information</label>
+    </div>
+    <div style="float: right">
+        @*<input type="button" id="cancelbutton" value="Cancel" style="background-color: #add8e4;
+        float: right; margin-right: 5px; width: 58px;" />*@
+        <input type="submit" id="savebutton" value="Save" style="background-color: #add8e4;
+            float: right; margin-right: 5px; width: 58px; height: 22px; font-size: 13.33px;
+            padding: 0px;" />
+    </div>
+</fieldset>
+<table width="100%">
+    <tr>
+        <td style="width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+            <table width="90%">
+                <tr style="background-color: #dfedf3">
+                    <td>
+                        <label style="font-size: larger; font-weight: bold;">
+                            Legal Address</label>
+                    </td>
+                </tr>
+                <tr style="background-color: White;">
+                    <td>
+                        <table width="100%" style="margin-top: 5px;">
+                            <tr style="background-color: White;">
+                                <td style="width: 40%">
+                                    <label>
+                                        Owner Name</label>
+                                </td>
+                                <td>
+                                    @*@Html.TextBox("OwnerName", null, new { style = "width:280px;COLOR: #989898;background-color: #EBEBE4", @readonly = "true" })*@
+                                    @Html.TextBox("OwnerName", null, new { style = "width:280px" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Legal name</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("LegalName", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Address</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("LegalAddress", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        City</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("LegalCity", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        State, Postal</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("LegalState", null, new { style = "width:37px;" })
+                                    @Html.TextBox("LegalPostal", null, new { style = "width:77px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Country, TimeZone</label>
+                                </td>
+                                <td>
+                                    @Html.DropDownList("LegalCountryID", Model.CountryList, new { style = "width:131px;float:left;" })
+                                    @Html.TextBox("TimeZone", null, new { style = "width:131px;margin-left:10px" })
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+            <table width="100%">
+                <tr style="background-color: #dfedf3">
+                    <td>
+                        <label style="font-size: larger; font-weight: bold;">
+                            Office Address</label>
+                    </td>
+                </tr>
+                <tr style="background-color: White;">
+                    <td>
+                        <table width="100%" style="margin-top: 5px;">
+                            <tr style="background-color: White;">
+                                <td style="width: 40%">
+                                    <label>
+                                        Name</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("OfficeName", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Company</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("OfficeCompany", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Address</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("OfficeAddress", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        City</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("OfficeCity", null, new { style = "width:250px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        State, Postal</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("OfficeState", null, new { style = "width:37px;" })
+                                    @Html.TextBox("OfficePostal", null, new { style = "width:77px;margin-left:10px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Country</label>
+                                </td>
+                                <td>
+                                    @Html.DropDownList("OfficeCountryID", Model.CountryList, new { style = "width:250px;float:left;" })
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="height: 300px; width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+            <table style="height: 280px" width="90%">
+                <tr style="background-color: #dfedf3">
+                    <td>
+                        <label style="font-size: larger; font-weight: bold;">
+                            Contact Names</label>
+                    </td>
+                </tr>
+                <tr style="background-color: White;">
+                    <td>
+                        <table width="100%">
+                            <tr style="background-color: White;">
+                                <td>
+                                    <div id="gridcontact" style="width: 630px; height: 200px; background-color: white;">
+                                    </div>
+                                    <input type="button" id="btnDeleteContactName" value="Delete" style="float: right" />
+                                    <input type="button" name="btnAddContactName" value="Add" style="float: right" onclick="AddContactName_Click()" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="height: 300px; width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+            <table style="height: 280px" width="100%;">
+                <tr style="background-color: #dfedf3">
+                    <td>
+                        <label style="font-size: larger; font-weight: bold;">
+                            Shipping Address</label>
+                        <abbr style="padding-left: 19px">
+                            @Html.CheckBox("chkShippingAddress", false, new { onclick = "changeShippingAddress()" })
+                            Same as Office Address
+                        </abbr>
+                    </td>
+                </tr>
+                <tr style="height: 250px; background-color: White;">
+                    <td>
+                        <table width="100%">
+                            <tr style="background-color: White;">
+                                <td style="width: 40%">
+                                    <label>
+                                        Name</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("ShipName", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Company</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("ShipCompany", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Address</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("ShipAddress", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        City</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("ShipCity", null, new { style = "width:250px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        State, Postal</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("ShipState", null, new { style = "width:37px;" })
+                                    @Html.TextBox("ShipPostal", null, new { style = "width:77px;margin-left:10px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Country</label>
+                                </td>
+                                <td>
+                                    @Html.DropDownList("ShipCountryID", Model.CountryList, new { style = "width:250px;float:left;" })
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr style="background-color: White;">
+        <td style="width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+            <table width="90%" style="margin-top: 5px;">
+                <tr style="background-color: #dfedf3">
+                    <td>
+                        <label style="font-size: larger; font-weight: bold;">
+                            DBA Info</label>
+                    </td>
+                </tr>
+                <tr style="background-color: White;">
+                    <td>
+                        <table width="100%" style="margin-top: 5px;">
+                            <tr style="background-color: White;">
+                                <td>
+                                    <div style="float: left; padding-right: 25px; padding-bottom: 10px;">
+                                        <input id="AddDBATxt" type="text" name="lname" style="width: 400px;" />
+                                        <a href="#" style="color: Green" id="AddDBA">Add DBA</a>
+                                    </div>
+                                    <div id="grid1" style="width: 630px; height: 200px; background-color: white;">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <input type="button" value="Delete" style="float: right" id="btnDbaDelete" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="width: 50%; background: none repeat scroll 0% 0% rgb(223, 237, 243);">
+            <table width="100%;" style="margin-top: 5px;">
+                <tr style="background-color: #dfedf3">
+                    <td>
+                        <label style="font-size: larger; font-weight: bold;">
+                            Mailing Address</label>
+                        <abbr style="padding-left: 19px">
+                            @Html.CheckBox("chkMailingAddress", false, new { onclick = "changeMailingAddress()" })
+                            Same as Shipping Address</abbr>
+                    </td>
+                </tr>
+                <tr style="background-color: White;">
+                    <td>
+                        <table style="height: 170px" width="100%" style="margin-top: 5px;">
+                            <tr style="background-color: White;">
+                                <td style="width: 40%">
+                                    <label>
+                                        Name</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("MailName", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Company</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("MailCompany", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Address</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("MailAddress", null, new { style = "width:280px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        City</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("MailCity", null, new { style = "width:250px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        State, Postal</label>
+                                </td>
+                                <td>
+                                    @Html.TextBox("MailState", null, new { style = "width:37px;" })
+                                    @Html.TextBox("MailPostal", null, new { style = "width:77px;margin-left:10px;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    <label>
+                                        Country</label>
+                                </td>
+                                <td>
+                                    @Html.DropDownList("MailCountryID", Model.CountryList, new { style = "width:250px;float:left;" })
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr style="background-color: White;">
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    @*<tr style="background-color: #dfedf3">
+        <td colspan="2">
+            <label style="font-size: larger; font-weight: bold;">
+                Invoice Header</label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table>
+                <tr>
+                    <td>
+                        <div style="float: left; padding-right: 20px;">
+                            <div style="float: left; padding-right: 75px;">
+                                <div style="color: Red;">
+                                    <p>
+                                        Pixels:600 Wide by 122 Tall
+                                        <br />
+                                        Anything larger will cropped
+                                        <br />
+                                        JPG File Only
+                                        <br />
+                                    </p>
+                                </div>
+                                <div style="clear: both; padding-top: 15px;">
+                                    <div style="float: left">
+                                        DBA
+                                        <select id="States">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="float: left;">
+                                <div style="border: 2px  solid black; height: auto; width: 650px;">
+                                    <img src="../../../../Content/images/landing/logo2.png" alt="image" />
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>*@
+</table>
+@{Html.EndForm();}

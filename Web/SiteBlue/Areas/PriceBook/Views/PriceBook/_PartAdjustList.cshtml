@@ -1,0 +1,217 @@
+﻿@model List<SiteBlue.Areas.PriceBook.Models.PartAdjust>
+
+<style type="text/css">
+    
+    #datatable {
+        width: 100% !Important;
+    }
+    
+</style>
+
+<table id="partadjustlist" cellpadding="10px" cellspacing="0px" border="1px" width="100%">
+    <thead>
+        <tr>
+            <th style="width: 100px;">Part Code</th>
+            <th>Part Description</th>
+            <th>Frequency Used</th>
+            <th>Cost</th>
+            <th>Part Price</th>
+            <th>Part Member Price</th>
+            <th>Part Addon Price</th>
+            <th>Part Member Addon Price</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th style="display: none;"></th>
+            <th style="display: none;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FrequencyUsed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartStdPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartMemberPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartAddonStdPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartAddonMemberPrice)
+            </td>
+            <td>
+                <input type="button" class="updatepart" value="Edit" />
+            </td>
+            <td>
+                <input type="button" class="deletepart" value="Delete" />
+            </td>
+            <td style="display: none;">
+                @Html.HiddenFor(modelItem => item.PartID)
+            </td>
+            <td style="display: none;">
+                @Html.HiddenFor(modelItem => item.MasterPartID)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+
+    var nEditing = null;
+
+    $(document).ready(function () {
+
+        var oTable = $("#partadjustlist").dataTable({
+            "bJQueryUI": true,
+            "bPaginate": false,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "bRetrieve": true,
+            "fnInitComplete": function (oSettings, json) {
+            }
+        });
+
+        $("#partadjustlist").delegate("input.updatepart", "click", function (e) {
+            e.preventDefault();
+
+            /* Get the row as a parent of the link that was clicked on */
+            var nRow = $(this).parents('tr')[0];
+            
+            if (nEditing !== null && nEditing != nRow) {
+                /* Currently editing - but not this row - restore the old before continuing to edit mode */
+                restoreRow(oTable, nEditing);
+                editRow(oTable, nRow);
+                nEditing = nRow;
+            }
+            else if (nEditing == nRow && this.value == "Save") {
+                /* Editing this row and want to save it */
+                saveRow(oTable, nEditing);
+                nEditing = null;
+            }
+            else {
+                /* No edit in progress - let's start one */
+                editRow(oTable, nRow);
+                nEditing = nRow;
+            }
+        });
+
+        $("#partadjustlist").delegate("input.deletepart", "click", function (e) {
+            e.preventDefault();
+
+            var nRow = $(this).parents('tr')[0];
+
+            var answer = confirm("Are you sure you want to delete this part?");
+            if (!answer)
+                return;
+
+            oTable.fnDeleteRow(nRow);
+        });
+    });
+
+    function restoreRow(oTable, nRow) {
+        var aData = oTable.fnGetData(nRow);
+        var jqTds = $('>td', nRow);
+
+        for (var i = 0, iLen = jqTds.length; i < iLen; i++) {
+            oTable.fnUpdate(aData[i], nRow, i, false);
+        }
+
+        oTable.fnDraw();
+    }
+
+    function editRow(oTable, nRow) {
+        var aData = oTable.fnGetData(nRow);
+        var jqTds = $('>td', nRow);
+
+        jqTds[0].innerHTML = '<input type="text" value="' + aData[0] + '" style="width: 80px;" />';
+        jqTds[1].innerHTML = '<input type="text" value="' + aData[1].replace(/"/g, "&quot;") + '" style="width: 180px;" />';
+        jqTds[2].innerHTML = '<input type="text" value="' + aData[2] + '" style="width: 80px;" disabled="disabled" />';
+        jqTds[3].innerHTML = '<input type="text" value="' + aData[3] + '" style="width: 80px;" />';
+        jqTds[4].innerHTML = '<input type="text" value="' + aData[4] + '" style="width: 80px;" />';
+        jqTds[5].innerHTML = '<input type="text" value="' + aData[5] + '" style="width: 80px;" />';
+        jqTds[6].innerHTML = '<input type="text" value="' + aData[6] + '" style="width: 80px;" />';
+        jqTds[7].innerHTML = '<input type="text" value="' + aData[7] + '" style="width: 80px;" />';
+        jqTds[8].innerHTML = '<input type="button" class="updatepart" value="Save" />';
+    }
+
+    function saveRow(oTable, nRow) {
+        var jqInputs = $('input', nRow);
+
+        var partdata =
+        {
+            PartID: jqInputs[10].value,
+            MasterPartID: jqInputs[11].value,
+            PartCode: jqInputs[0].value,
+            PartDescription: jqInputs[1].value,
+            FrequencyUsed: jqInputs[2].value,
+            PartCost: jqInputs[3].value,
+            PartStdPrice: jqInputs[4].value,
+            PartMemberPrice: jqInputs[5].value,
+            PartAddonStdPrice: jqInputs[6].value,
+            PartAddonMemberPrice: jqInputs[7].value
+        };
+
+        var pbid = $('select.autopostback option:selected').val();
+
+        var params = { partdata: partdata, pbid: pbid };
+
+        $('input[value="Save"]').after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+        $('input[value="Save"]').attr("disabled", "disabled");
+
+        $.ajax({
+            url: '@Url.Action("UpdatePart")',
+            data: JSON.stringify(params),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                $("#loadingimg").remove();
+                $('input[value="Save"]').removeAttr("disabled");
+
+                if (result == "success") {
+                    oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
+                    oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
+                    oTable.fnUpdate(jqInputs[2].value, nRow, 2, false);
+                    oTable.fnUpdate(jqInputs[3].value, nRow, 3, false);
+                    oTable.fnUpdate(jqInputs[4].value, nRow, 4, false);
+                    oTable.fnUpdate(jqInputs[5].value, nRow, 5, false);
+                    oTable.fnUpdate(jqInputs[6].value, nRow, 6, false);
+                    oTable.fnUpdate(jqInputs[7].value, nRow, 7, false);
+                    oTable.fnUpdate('<input type="button" class="updatepart" value="Edit" />', nRow, 8, false);
+                    oTable.fnDraw();
+
+                    var cid = $("#JobCodeID").val();
+
+                    if (cid != null) {
+                        $("#taskdetail").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+                        $("#taskdetail").load('@Url.Action("TaskDetail")' + '/' + cid);
+                    }
+                }
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (e) {
+                $("#loadingimg").remove();
+                $('input[value="Save"]').removeAttr("disabled");
+            }
+        });
+    }
+
+</script>
+

@@ -1,0 +1,148 @@
+body
+{
+    font-size: .85em;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset 
+{
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+    
+}
+
+legend 
+{
+    font-size:1.2em;
+    font-weight: bold;
+}
+
+textarea 
+{
+    min-height: 75px;
+}
+
+.editor-label 
+{
+    margin: 1em 0 0 0;
+}
+
+.editor-field 
+{
+    margin:0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+/*styles for Employee Grid
+------------------------------------------------*/
+
+.webgrid
+{
+width: 100%;
+border: 0px;
+border-collapse: collapse;
+}
+
+.webgrid a
+{
+color: #000;
+}
+
+.webgrid-header
+{
+padding: 6px 5px;
+
+text-align: left;
+background-color: #e8eef4;
+border-bottom: 2px solid #3966A2;
+height: 40px;
+border-top: 2px solid #D6E8FF;
+border-left: 2px solid #D6E8FF;
+border-right: 2px solid #D6E8FF;
+}
+
+.webgrid-footer
+{
+padding: 6px 5px;
+text-align: left;
+background-color: #e8eef4;
+border-top: 2px solid #3966A2;
+height: 30px;
+border-bottom: 2px solid #D6E8FF;
+border-left: 2px solid #D6E8FF;
+border-right: 2px solid #D6E8FF;
+}
+
+.webgrid-alternating-row
+{
+height: 30px;
+background-color: #f2f2f2;
+border-bottom: 1px solid #d2d2d2;
+border-left: 2px solid #D6E8FF;
+border-right: 2px solid #D6E8FF;
+text-align: left;
+}
+
+.webgrid-row-style
+{
+height: 30px;
+border-bottom: 1px solid #d2d2d2;
+border-left: 2px solid #D6E8FF;
+border-right: 2px solid #D6E8FF;
+text-align: left;
+}
+
+.webgrid-selected-row
+{
+font-weight: bold;
+}
+
+.calendar
+{
+    background-image:url('images/CalBG.png');
+    background-repeat:no-repeat;
+    width:120px;
+    padding-right:18px;
+    height:22px;
+    }

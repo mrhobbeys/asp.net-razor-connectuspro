@@ -1,0 +1,17 @@
+﻿@model Plumber.Models.Career
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    confirm delete</h2>
+<h3>
+    Are you sure you want to delete the selected career @Model.Title?</h3>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Delete" />
+        |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

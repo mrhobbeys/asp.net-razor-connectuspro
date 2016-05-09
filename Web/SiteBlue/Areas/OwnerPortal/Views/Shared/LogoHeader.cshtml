@@ -1,0 +1,20 @@
+﻿@using SiteBlue.Areas.OwnerPortal.Models
+<div style="background-color: #2C2D31; height: 30px; width: 100%">
+    <div style="float: left;padding-right:30px;padding-left:10px;">
+@*        <img src="../../Images/ConnectusPro logo CMYK 2.png" height="25px" width="150px"
+            alt="Image not found" />
+*@
+         @if (!(bool)(ViewBag.SwapBranding ?? false)){
+             <a href='@Url.Action(string.Empty, "Dashboard", new { Area = "LandingPage" })'>
+        <img src='@Url.Content("~/Images/ConnectusPro logo CMYK 2.png")' height="30px" width="150px" alt="Image not found" style="border:none" />
+        </a>
+        }
+      else
+      {
+             <a href='@Url.Action(string.Empty, "Dashboard", new { Area = "LandingPage" })'>
+        <img src='@Url.Content("~/Images/800plumber_CMYK_NO tag.png")' height="30px" width="150px" alt="Image not found" style="border:none" />
+        </a>
+      }
+
+    </div>
+</div>

@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SiteBlue.Data.Reporting" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="ReportingEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="vRpt_JobDetails" EntityType="SiteBlue.Data.Reporting.vRpt_JobDetail" />
+    <EntitySet Name="vRpt_Jobs" EntityType="SiteBlue.Data.Reporting.vRpt_Job" />
+    <EntitySet Name="vRpt_Customer" EntityType="SiteBlue.Data.Reporting.vRpt_Customer" />
+    <EntitySet Name="vRpt_Payroll" EntityType="SiteBlue.Data.Reporting.vRpt_Payroll" />
+    <EntitySet Name="vRpt_PayrollDetail" EntityType="SiteBlue.Data.Reporting.vRpt_PayrollDetail" />
+    <EntitySet Name="vRpt_AccountingSummary" EntityType="SiteBlue.Data.Reporting.vRpt_AccountingSummary" />
+    <EntitySet Name="vRpt_PartUsagePerJob" EntityType="SiteBlue.Data.Reporting.vRpt_PartUsagePerJob" />
+    <EntitySet Name="vRPT_MembershipInfo" EntityType="SiteBlue.Data.Reporting.vRPT_MembershipInfo" />
+    <EntitySet Name="vRpt_PayrollSetup" EntityType="SiteBlue.Data.Reporting.vRpt_PayrollSetup" />
+    <EntitySet Name="vRpt_PayrollSpiff" EntityType="SiteBlue.Data.Reporting.vRpt_PayrollSpiff" />
+    <EntitySet Name="vRpt_OvertimeMethod" EntityType="SiteBlue.Data.Reporting.vRpt_OvertimeMethod" />
+    <EntitySet Name="vRpt_Employee" EntityType="SiteBlue.Data.Reporting.vRpt_Employee" />
+    <EntitySet Name="vRpt_JobCode" EntityType="SiteBlue.Data.Reporting.vRpt_JobCode" />
+    <EntitySet Name="vRpt_SpiffPayType" EntityType="SiteBlue.Data.Reporting.vRpt_SpiffPayType" />
+    <EntitySet Name="vRpt_AccountingDetail" EntityType="SiteBlue.Data.Reporting.vRpt_AccountingDetail" />
+    <EntitySet Name="vRpt_WSR" EntityType="SiteBlue.Data.Reporting.vRpt_WSR" />
+    <EntitySet Name="vRpt_WSR_Dates" EntityType="SiteBlue.Data.Reporting.vRpt_WSR_Dates" />
+    <EntitySet Name="vRpt_CustomerLedger" EntityType="SiteBlue.Data.Reporting.vRpt_CustomerLedger" />
+    <EntitySet Name="vRpt_CustomerLedgerSummary" EntityType="SiteBlue.Data.Reporting.vRpt_CustomerLedgerSummary" />
+  </EntityContainer>
+  <EntityType Name="vRpt_JobDetail">
+    <Key>
+      <PropertyRef Name="JobID" />
+      <PropertyRef Name="ClientID" />
+      <PropertyRef Name="AccountCode" />
+      <PropertyRef Name="Rate" />
+      <PropertyRef Name="Quantity" />
+      <PropertyRef Name="IsAddOn" />
+      <PropertyRef Name="JobTaskID" />
+    </Key>
+    <Property Type="Int32" Name="JobID" Nullable="false" />
+    <Property Type="Int32" Name="ClientID" Nullable="false" />
+    <Property Type="String" Name="AccountCode" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="Rate" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="Amount" Precision="19" Scale="4" Nullable="false" />
+    <Property Type="String" Name="JobCode" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobCodeDescription" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="IsAddOn" Nullable="false" />
+    <Property Type="Int32" Name="JobTaskID" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vRpt_Job">
+    <Key>
+      <PropertyRef Name="TicketNumber" />
+      <PropertyRef Name="StatusID" />
+      <PropertyRef Name="Status" />
+      <PropertyRef Name="TotalSales" />
+      <PropertyRef Name="TaxAmount" />
+      <PropertyRef Name="SubTotal" />
+      <PropertyRef Name="BusinessTypeID" />
+      <PropertyRef Name="ClientID" />
+      <PropertyRef Name="JobPriorityID" />
+      <PropertyRef Name="ServiceProID" />
+      <PropertyRef Name="Balance" />
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Type="Int32" Name="TicketNumber" Nullable="false" />
+    <Property Type="DateTime" Name="CallCompleted" />
+    <Property Type="Int32" Name="StatusID" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ServiceID" />
+    <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="TotalSales" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="TaxAmount" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="SubTotal" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="String" Name="TaxDescription" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="BusinessTypeID" Nullable="false" />
+    <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CustomerName" MaxLength="103" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobCity" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobState" MaxLength="2" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ClientID" Nullable="false" />
+    <Property Type="Int32" Name="JobPriorityID" Nullable="false" />
+    <Property Type="String" Name="JobPriority" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ServiceProID" Nullable="false" />
+    <Property Type="Decimal" Name="Balance" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="CustomerID" Nullable="false" />
+    <Property Type="Int32" Name="ReferralID" />
+    <Property Type="String" Name="ReferralType" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="EstimateDate" />
+  </EntityType>
+  <EntityType Name="vRpt_Customer">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+      <PropertyRef Name="LastVisit" />
+      <PropertyRef Name="ClientID" />
+      <PropertyRef Name="JobCount" />
+      <PropertyRef Name="TotalSales" />
+      <PropertyRef Name="AverageJob" />
+      <PropertyRef Name="Payments" />
+      <PropertyRef Name="Balance" />
+    </Key>
+    <Property Type="Int32" Name="CustomerID" Nullable="false" />
+    <Property Type="String" Name="CustomerName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Email" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PrimaryPhone" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CellPhone" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToCity" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToState" MaxLength="2" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToCountry" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="LastVisit" Nullable="false" />
+    <Property Type="Int32" Name="ClientID" Nullable="false" />
+    <Property Type="Int32" Name="JobCount" Nullable="false" />
+    <Property Type="Decimal" Name="TotalSales" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="AverageJob" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="Payments" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="Balance" Nullable="false" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="vRpt_Payroll">
+    <Key>
+      <PropertyRef Name="PayrollID" />
+      <PropertyRef Name="FranchiseID" />
+      <PropertyRef Name="LockedYN" />
+    </Key>
+    <Property Type="Int32" Name="PayrollID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="FranchiseID" Nullable="false" />
+    <Property Type="DateTime" Name="PayrollDate" />
+    <Property Type="Boolean" Name="LockedYN" Nullable="false" />
+    <Property Type="Double" Name="GrossPay" />
+    <Property Type="DateTime" Name="LockDate" />
+  </EntityType>
+  <EntityType Name="vRpt_PayrollDetail">
+    <Key>
+      <PropertyRef Name="PayrollDetailID" />
+      <PropertyRef Name="PayrollID" />
+      <PropertyRef Name="EmployeeID" />
+      <PropertyRef Name="WeeklySalary" />
+      <PropertyRef Name="RegularHours" />
+      <PropertyRef Name="RegularRate" />
+      <PropertyRef Name="RegularPay" />
+      <PropertyRef Name="OTHours" />
+      <PropertyRef Name="OTRate" />
+      <PropertyRef Name="OTPay" />
+      <PropertyRef Name="CommissionParts" />
+      <PropertyRef Name="CommissionLabor" />
+      <PropertyRef Name="SundayHours" />
+      <PropertyRef Name="MondayHours" />
+      <PropertyRef Name="TuesdayHours" />
+      <PropertyRef Name="WednesdayHours" />
+      <PropertyRef Name="ThursdayHours" />
+      <PropertyRef Name="FridayHours" />
+      <PropertyRef Name="SaturdayHours" />
+      <PropertyRef Name="Adjustment" />
+      <PropertyRef Name="CommissionRateHour" />
+    </Key>
+    <Property Type="Int32" Name="PayrollDetailID" Nullable="false" />
+    <Property Type="Int32" Name="PayrollID" Nullable="false" />
+    <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+    <Property Type="Single" Name="WeeklySalary" Nullable="false" />
+    <Property Type="Single" Name="RegularHours" Nullable="false" />
+    <Property Type="Single" Name="RegularRate" Nullable="false" />
+    <Property Type="Single" Name="RegularPay" Nullable="false" />
+    <Property Type="Single" Name="OTHours" Nullable="false" />
+    <Property Type="Single" Name="OTRate" Nullable="false" />
+    <Property Type="Single" Name="OTPay" Nullable="false" />
+    <Property Type="Single" Name="CommissionParts" Nullable="false" />
+    <Property Type="Single" Name="CommissionLabor" Nullable="false" />
+    <Property Type="Double" Name="CommissionSpifs" />
+    <Property Type="Decimal" Name="TotalCommission" Precision="19" Scale="4" />
+    <Property Type="Single" Name="SundayHours" Nullable="false" />
+    <Property Type="Single" Name="MondayHours" Nullable="false" />
+    <Property Type="Single" Name="TuesdayHours" Nullable="false" />
+    <Property Type="Single" Name="WednesdayHours" Nullable="false" />
+    <Property Type="Single" Name="ThursdayHours" Nullable="false" />
+    <Property Type="Single" Name="FridayHours" Nullable="false" />
+    <Property Type="Single" Name="SaturdayHours" Nullable="false" />
+    <Property Type="Int32" Name="JobCount" />
+    <Property Type="Single" Name="Adjustment" Nullable="false" />
+    <Property Type="String" Name="AdjustmentReason" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Single" Name="CommissionRateHour" Nullable="false" />
+    <Property Type="Double" Name="CommissionOTMultiplier" />
+    <Property Type="Single" Name="OTAdditCommission" />
+    <Property Type="Double" Name="GrossPay" />
+    <Property Type="Binary" Name="TimeStamp" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Type="DateTime" Name="LockDate" />
+  </EntityType>
+  <EntityType Name="vRpt_AccountingSummary">
+    <Key>
+      <PropertyRef Name="ClientID" />
+      <PropertyRef Name="uID" />
+    </Key>
+    <Property Type="Int64" Name="uID" Nullable="false" />
+    <Property Type="Int32" Name="ClientID" Nullable="false" />
+    <Property Type="String" Name="AccountCode" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="AccountName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="JOBCOUNT" />
+    <Property Type="Decimal" Name="TotalSales" Precision="19" Scale="4" />
+    <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="FirstJobDate" />
+    <Property Type="DateTime" Name="LastJobDate" />
+    <Property Type="DateTime" Name="WSRCompletedDate" />
+  </EntityType>
+  <EntityType Name="vRpt_PartUsagePerJob">
+    <Key>
+      <PropertyRef Name="TicketNumber" />
+      <PropertyRef Name="Status" />
+      <PropertyRef Name="ClientID" />
+      <PropertyRef Name="TaskQty" />
+      <PropertyRef Name="PartQty" />
+      <PropertyRef Name="PartUnitPrice" />
+    </Key>
+    <Property Type="Int32" Name="TicketNumber" Nullable="false" />
+    <Property Type="DateTime" Name="CallCompleted" />
+    <Property Type="String" Name="Status" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CustomerName" MaxLength="105" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobCity" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobState" MaxLength="2" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ClientID" Nullable="false" />
+    <Property Type="String" Name="JobCode" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="TaskQty" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="String" Name="PartCode" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PartName" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="PartQty" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="PartCost" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="PartTotalCost" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="PartUnitPrice" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="PartTotalPrice" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="vRPT_MembershipInfo">
+    <Key>
+      <PropertyRef Name="MembershipID" />
+      <PropertyRef Name="CustomerID" />
+      <PropertyRef Name="MemberTypeID" />
+      <PropertyRef Name="CountCustomerVisits" />
+      <PropertyRef Name="JobCount" />
+      <PropertyRef Name="TotalSales" />
+      <PropertyRef Name="AverageJob" />
+      <PropertyRef Name="Payments" />
+      <PropertyRef Name="Balance" />
+      <PropertyRef Name="ClientID" />
+    </Key>
+    <Property Type="Int32" Name="MembershipID" Nullable="false" />
+    <Property Type="Int32" Name="CustomerID" Nullable="false" />
+    <Property Type="String" Name="CustomerName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Email" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PrimaryPhone" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CellPhone" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToCity" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToState" MaxLength="2" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BillToCountry" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="MemberTypeID" Nullable="false" />
+    <Property Type="String" Name="MemberType" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="MembershipStartDate" />
+    <Property Type="DateTime" Name="MembershipEndDate" />
+    <Property Type="Int32" Name="req_TotalInspectionsPerYear" />
+    <Property Type="Int32" Name="CountOfInspections" />
+    <Property Type="DateTime" Name="LastDateInspected" />
+    <Property Type="DateTime" Name="LastCustomerVisit" />
+    <Property Type="Int32" Name="CountCustomerVisits" Nullable="false" />
+    <Property Type="Int32" Name="JobCount" Nullable="false" />
+    <Property Type="Decimal" Name="TotalSales" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="AverageJob" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="Payments" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="Balance" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="ClientID" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vRpt_PayrollSetup">
+    <Key>
+      <PropertyRef Name="PayrollSetupID" />
+      <PropertyRef Name="FranchiseID" />
+      <PropertyRef Name="OvertimeStarts" />
+      <PropertyRef Name="OvertimeMethodID" />
+      <PropertyRef Name="OTMultiplier" />
+      <PropertyRef Name="OvertimeMethod" />
+    </Key>
+    <Property Type="Int32" Name="PayrollSetupID" Nullable="false" />
+    <Property Type="Int32" Name="FranchiseID" Nullable="false" />
+    <Property Type="Single" Name="OvertimeStarts" Nullable="false" />
+    <Property Type="Int32" Name="OvertimeMethodID" Nullable="false" />
+    <Property Type="Single" Name="OTMultiplier" Nullable="false" />
+    <Property Type="String" Name="OvertimeMethod" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="vRpt_PayrollSpiff">
+    <Key>
+      <PropertyRef Name="PayrollSpiffID" />
+      <PropertyRef Name="PayrollSetupID" />
+      <PropertyRef Name="JobCodeID" />
+      <PropertyRef Name="ServiceProID" />
+      <PropertyRef Name="PayTypeID" />
+      <PropertyRef Name="PayType" />
+      <PropertyRef Name="Rate" />
+      <PropertyRef Name="AddonYN" />
+      <PropertyRef Name="ActiveYN" />
+    </Key>
+    <Property Type="Int32" Name="PayrollSpiffID" Nullable="false" />
+    <Property Type="Int32" Name="PayrollSetupID" Nullable="false" />
+    <Property Type="Int32" Name="JobCodeID" Nullable="false" />
+    <Property Type="String" Name="JobCode" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobCodeDescription" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ServiceProID" Nullable="false" />
+    <Property Type="Int32" Name="PayTypeID" Nullable="false" />
+    <Property Type="String" Name="PayType" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="Rate" Nullable="false" Precision="10" Scale="6" />
+    <Property Type="DateTime" Name="DateExpires" />
+    <Property Type="String" Name="Comments" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="AddonYN" Nullable="false" />
+    <Property Type="Boolean" Name="ActiveYN" Nullable="false" />
+    <Property Type="String" Name="Employee" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="vRpt_OvertimeMethod">
+    <Key>
+      <PropertyRef Name="OvertimeMethodID" />
+      <PropertyRef Name="OvertimeMethod" />
+    </Key>
+    <Property Type="Int32" Name="OvertimeMethodID" Nullable="false" />
+    <Property Type="String" Name="OvertimeMethod" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="vRpt_Employee">
+    <Key>
+      <PropertyRef Name="FranchiseID" />
+      <PropertyRef Name="FranchiseLegalName" />
+    </Key>
+    <Property Type="Int32" Name="FranchiseID" Nullable="false" />
+    <Property Type="String" Name="FranchiseNUmber" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FranchiseLegalName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+    <Property Type="String" Name="Employee" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="CommissionRate" Precision="7" Scale="4" Nullable="false" />
+    <Property Type="Boolean" Name="ServiceProYN" Nullable="false" />
+    <Property Type="Boolean" Name="ActiveYN" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vRpt_JobCode">
+    <Key>
+      <PropertyRef Name="PriceBookID" />
+      <PropertyRef Name="PriceBookActiveYN" />
+      <PropertyRef Name="FranchiseID" />
+    </Key>
+    <Property Type="Int32" Name="PriceBookID" Nullable="false" />
+    <Property Type="String" Name="PriceBookName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="PriceBookActiveYN" Nullable="false" />
+    <Property Type="Int32" Name="JobCodeID" Nullable="false" />
+    <Property Type="Boolean" Name="ActiveYN" Nullable="false" />
+    <Property Type="String" Name="JobCode" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobCodeDescription" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="FranchiseID" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vRpt_SpiffPayType">
+    <Key>
+      <PropertyRef Name="SpiffPayTypeID" />
+      <PropertyRef Name="SpiffPayType" />
+    </Key>
+    <Property Type="Int32" Name="SpiffPayTypeID" Nullable="false" />
+    <Property Type="String" Name="SpiffPayType" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="vRpt_AccountingDetail">
+    <Key>
+      <PropertyRef Name="ClientID" />
+      <PropertyRef Name="JOBCOUNT" />
+      <PropertyRef Name="uID" />
+    </Key>
+    <Property Type="Int64" Name="uID" Nullable="false" />
+    <Property Type="Int32" Name="ClientID" Nullable="false" />
+    <Property Type="String" Name="AccountCode" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="AccountName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="JOBCOUNT" Nullable="false" />
+    <Property Type="Decimal" Name="TotalSales" Precision="19" Scale="4" />
+    <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="JobDate" />
+    <Property Type="DateTime" Name="WSRCompletedDate" />
+  </EntityType>
+  <EntityType Name="vRpt_WSR">
+    <Key>
+      <PropertyRef Name="TicketNumber" />
+      <PropertyRef Name="StatusID" />
+      <PropertyRef Name="Status" />
+      <PropertyRef Name="TotalSales" />
+      <PropertyRef Name="TaxAmount" />
+      <PropertyRef Name="SubTotal" />
+      <PropertyRef Name="BusinessTypeID" />
+      <PropertyRef Name="ClientID" />
+      <PropertyRef Name="JobPriorityID" />
+      <PropertyRef Name="ServiceProID" />
+      <PropertyRef Name="Balance" />
+    </Key>
+    <Property Type="DateTime" Name="WSRCompletedDate" />
+    <Property Type="Int32" Name="TicketNumber" Nullable="false" />
+    <Property Type="DateTime" Name="CallCompleted" />
+    <Property Type="Int32" Name="StatusID" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ServiceID" />
+    <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="TotalSales" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="TaxAmount" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="SubTotal" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="String" Name="TaxDescription" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="BusinessTypeID" Nullable="false" />
+    <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CustomerName" MaxLength="103" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobCity" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobState" MaxLength="2" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="JobPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ClientID" Nullable="false" />
+    <Property Type="Int32" Name="JobPriorityID" Nullable="false" />
+    <Property Type="String" Name="JobPriority" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ServiceProID" Nullable="false" />
+    <Property Type="Decimal" Name="Balance" Nullable="false" Precision="19" Scale="4" />
+  </EntityType>
+  <EntityType Name="vRpt_WSR_Dates">
+    <Key>
+      <PropertyRef Name="ClientID" />
+    </Key>
+    <Property Type="DateTime" Name="WSRCompletedDate" />
+    <Property Type="Int32" Name="ClientID" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vRpt_CustomerLedger">
+    <Key>
+      <PropertyRef Name="LineId" />
+      <PropertyRef Name="ReferenceId" />
+      <PropertyRef Name="Type" />
+      <PropertyRef Name="StoredBalance" />
+    </Key>
+    <Property Type="Int64" Name="Sequence" />
+    <Property Type="Int32" Name="CustomerId" Nullable="false" />
+    <Property Type="Int32" Name="LineId" Nullable="false" />
+    <Property Type="Int32" Name="ReferenceId" Nullable="false" />
+    <Property Type="String" Name="Type" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="Amount" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="ActualBalance" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="StoredBalance" Nullable="false" Precision="19" Scale="4" />
+    <Property Type="DateTime" Name="RecordedDate" />
+    <Property Type="Boolean" Name="IsOutstanding" />
+    <Property Type="Decimal" Name="RunningBalance" Precision="19" Scale="4" />
+    <Property Type="Int32" Name="ClientId" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vRpt_CustomerLedgerSummary">
+    <Key>
+      <PropertyRef Name="ClientId" />
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Type="Int32" Name="ClientId" Nullable="false" />
+    <Property Type="Int32" Name="CustomerId" Nullable="false" />
+    <Property Type="Decimal" Name="Invoices" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="Payments" Precision="19" Scale="4" />
+    <Property Type="Decimal" Name="OutstandingBalance" Precision="19" Scale="4" />
+  </EntityType>
+</Schema>

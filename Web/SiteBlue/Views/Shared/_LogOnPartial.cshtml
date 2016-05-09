@@ -1,0 +1,8 @@
+﻿@if(Request.IsAuthenticated) {
+    <text>Welcome back <strong>@User.Identity.Name</strong>! [ <a href="@Url.Content("~/LandingPage/Dashboard")" title="Dashboard">Dashboard</a>]
+    [ <a href="@Url.Content("~/SGAccount/ChangePassword")" title="ChangePassword">Change Password</a>]
+    [ @Html.ActionLink("Log Off", "LogOff", "SGAccount") ]</text>
+}
+else {
+    @:[ @Html.ActionLink("Log On", "LogOn", "SGAccount") ]
+}

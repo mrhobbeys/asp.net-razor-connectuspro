@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Calendar";
+    Layout = "~/Areas/OwnerPortal/Views/Shared/_CalendarSecurityGuardLayoutPage.cshtml";
+}
+   
+<script type="text/javascript">
+
+    var companycode = "@ViewBag.code"    
+    $('document').ready(function () {
+
+        if (companycode != null && companycode != "") {
+            $.post('@Url.Action("databyCompanyCode")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                    $("#linkCalendar").css("display", "block");                    
+                });
+            }
+
+
+        $('#test1 > li > a').click(function (index) {
+            var companycode = $(this).text();
+
+            $.post('@Url.Action("databyCompanyCode")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                    $('#current > a').text(companycode);
+                    $("#linkCalendar").css("display", "block");
+                    $('li a')[1].click();
+                });
+
+
+        });
+
+        $('#current > a').click(function (index) {
+            var companycode = $(this).text();
+            $.post('@Url.Action("databyCompanyCode")',
+                { code: companycode }, function (data) {
+
+                    $("#target").html(data);
+                    $("#linkCalendar").css("display", "block");
+                });
+        });
+
+        $('#previous').click(function (index) {
+            var companycode = $(this).text();
+            $.post('@Url.Action("PreviousDay")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        });
+
+        $('#Next').click(function (index) {
+            var companycode = $(this).text();
+            $.post('@Url.Action("NextDay")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        });
+
+        $('#Today').click(function (index) {
+            var companycode = $(this).text();
+            $.post('@Url.Action("CurrentDay")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        });
+
+
+    });
+
+</script>
+
+<div id="target" >
+   
+</div>

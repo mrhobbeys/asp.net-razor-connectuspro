@@ -1,0 +1,110 @@
+﻿﻿@model IEnumerable<SiteBlue.Data.LookupScript>
+@{
+    Layout = "../Shared/_CallCenterLayout.cshtml";
+    ViewBag.Title = "Index";
+}
+<h2>
+    Call center</h2>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "button" })
+    <br />
+</p>
+<div id="dialog-confirm"></div>
+<article style="width: 900px;">
+    <table class="wizard-table">
+        <tr>
+            <th class="ui-action-links">
+            </th>
+            <th class="lookup-phone">
+                Lookup Phone Nr
+            </th>
+            <th class="code">
+                Connectus Code
+            </th>
+            <th class="script">
+                Call Script
+            </th>@*
+            <th></th>*@
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLinkUI(model => item.LookupId, "Edit", "ScriptManager", "CallCenter", "ui-icon-pencil")
+                    @Html.ActionLinkUI(model => item.LookupId, "Details", "ScriptManager", "CallCenter", "ui-icon-note")
+                    @Html.ActionLinkUI(model => item.LookupId, "Delete", "ScriptManager", "CallCenter", "ui-icon-close",
+                     new {
+                            onclick = "return confirm('Are you sure you wish to delete this article?');"
+                     })
+                     <a href="@Url.Action("Incoming", new { id = item.LookupPhoneNr, id2 = ""})" class="ui-corner-all ui-state-default ui-widget actionLinkUI" target="_blank" title="Receive Call">
+                        <span class="ui-icon-star ui-icon">Incoming</span>
+                     </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LookupPhoneNr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConnectusCode)
+                </td>
+                <td>
+                    @Html.Raw(item.CallScript)
+                </td>
+                @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.LookupId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.LookupId }) |
+                    @Ajax.ActionLink("Delete", "DeleteLookupPhone", "ScriptManager", new { id = item.LookupId }, new AjaxOptions { Confirm = "Are you sure You want to delete " + item.LookupId + "?", HttpMethod = "Delete", OnComplete = "callCenterDelete_OnComplete" })
+                </td>*@
+ @*                   @Html.DisplayFor(modelItem => item.XMLCode)
+                </td>*@
+            </tr>
+        }
+    </table>
+</article>
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+<script type="text/javascript">
+
+    function callCenterDelete_OnComplete(context) {
+        window.location.reload();
+    }
+
+    $("#dialog-confirm").dialog({
+        autoOpen: false,
+        resizable: false,
+        width: 500,
+        modal: true,
+        buttons: {
+            "Delete this item": function () {
+                $(this).dialog("close");
+            },
+            Cancel: function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+
+    $("[data-dialog-confirm]").click(function (e) {
+        e.preventDefault();
+        var theHREF = $(this).attr("href");
+        $("#dialog-confirm").dialog('option', 'buttons', { "Yes":
+        function () {
+            $.get(theHREF, null, function () { refreshList() });
+            $(this).dialog("close");
+        }, "No":
+      function () { $(this).dialog("close"); }
+        });
+        $("#dialog-confirm").dialog("open");
+    });
+
+</script>

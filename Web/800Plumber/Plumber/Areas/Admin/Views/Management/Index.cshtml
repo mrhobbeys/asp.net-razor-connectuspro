@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Plumber.Models.Management>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Management</h2>
+
+<p>
+    @Html.ActionLink("Add a new manager", "Create")
+</p>
+<table class="data-table" id="managementTable">
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Description
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+    <tr>
+        <td style="vertical-align:top">
+            <table style="border-collapse: collapse;">
+                <tr>
+                    <td>
+                        <img src="@Url.Content((item.ImageUrl != null && item.ImageUrl != "") ? item.ImageUrl : "~/Images/no-image.jpg")" alt="@item.AlternativeText" width="50" height="50" />
+                    </td>
+                    <td style="vertical-align:top">
+                        <a href="@Url.Content("~/Admin/Management/Details/" + item.ManagementId)">@Html.Raw(item.FirstName + " " + item.LastName)</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <th style="width: 200px;vertical-align:top">
+            <p>@Html.Raw(item.Title)</p>
+        </th>
+        <td style="width: 400px">
+            @Html.Raw(item.Description)
+        </td>
+        <td>
+            @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/user-edit.png"), "Edit", new { id = item.ManagementId }, null, new { title = "Edit selected manager" })
+            @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/user-details.png"), "Details", new { id = item.ManagementId }, null, new { title = "View selected manager details" })
+            @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/user-delete.png"), "Delete", new { id = item.ManagementId }, null, new { title = "Delete selected manager" })
+        </td>
+    </tr>
+    }
+}
+    else
+    {
+        <tr>
+            <td style="width:100%" colspan="4">
+                <img src="../../../../Content/admin_icons/warning.png" alt="" title="No Manager found" /><br />
+                <strong>No Manager found!</strong>
+            </td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+        <tr id="pager">
+            <td colspan="4">
+                <img src="@Url.Content("~/Content/_assets/img/first.png")" alt="" class="first"/>
+                <img src="@Url.Content("~/Content/_assets/img/prev.png")" alt="" class="prev"/>
+                <input class="pagedisplay" type="text" />
+                <img src="@Url.Content("~/Content/_assets/img/next.png")" alt="" class="next"/>
+                <img src="@Url.Content("~/Content/_assets/img/last.png")" alt="" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                </select>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#managementTable")
+        .tablesorter({ widgets: ['zebra'] })
+        .tablesorterPager({ container: $("#pager"), positionFixed: false })
+    });
+</script>
+@section Scripts{
+    <link href="@Url.Content("~/Content/_assets/themes/yui/style.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter-2.0.3.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.filer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+}

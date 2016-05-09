@@ -1,0 +1,126 @@
+﻿@model SiteBlue.Areas.Admin.Models.ReportViewModel
+
+@{
+    ViewBag.Title = "Admin - Reporting";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+
+@section Styles {
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Reporting/Reporting.css" rel="stylesheet" type="text/css" />
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+}
+
+@section InlineScript {
+    <script type="text/javascript">
+        $(function () {
+            SiteBlue.allFranchiseLabel = "All Clients";
+            $("#current > a").text(SiteBlue.allFranchiseLabel).attr('fid', '0');
+            SiteBlue.renderMenu(true);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) {
+                
+            });
+
+            $("#txtStartDate").attr('readonly', 'readonly');
+            $("#txtEndDate").attr('readonly', 'readonly');
+
+            $("#txtStartDate").attr("disabled", "disabled");
+            $("#txtEndDate").attr("disabled", "disabled");
+
+            $(".reportnav").mouseover(function () {
+                var description = $(this).data("description");
+                $("#Desriptiontext").show();
+                $("#Desriptiondata").html(description);
+
+            });
+            $(".reportnav").mouseout(function () {
+                $("#Desriptiontext").hide();
+                $("#Desriptiondata").empty();
+            });
+
+            $("input:radio[name='reportfilter']").click(function () {
+                var i = $(this).val();
+                if (i == 0) {
+                    $("#txtStartDate").attr("disabled", "disabled");
+                    $("#txtEndDate").attr("disabled", "disabled");
+                    $("#ddltimeperiod").removeAttr("disabled", "disabled");
+                }
+                else {
+                    $("#txtStartDate").removeAttr("disabled", "disabled");
+                    $("#txtEndDate").removeAttr("disabled", "disabled");
+                    $("#ddltimeperiod").attr("disabled", "disabled");
+                }
+            });
+
+            BindCalendar();
+
+            $("#detailedCallStats").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                }
+                else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Admin/Reporting/DetailedCallStats?franchiseId=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timeperiod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+        });        
+
+        function BindCalendar() {
+            var myCalendar = new dhtmlXCalendarObject(["txtStartDate", "txtEndDate"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+        }
+    </script>
+}
+
+<div id="divmain">
+    <h2>Admin - Reporting</h2>
+    <fieldset id="field">
+        <legend></legend>
+        <div class="ReportCrit">
+            <div>
+                <span class="rowspan">
+                    <input type="radio" id="rbtntimeperiod" checked="checked" name="reportfilter" value="0" />
+                </span>
+                <label class="rowlabel">@Html.Label("lbltimeperiods", "Time Periods ")&nbsp;:</label>
+                <span class="rowspan">
+                    @Html.DropDownList("ddltimeperiod", (List<SelectListItem>)(@Model.TimePeriod))
+                </span>
+            </div>
+            <div id="divdatefilter" class="divdatefilter">
+                <span class="rowspan">
+                    <input type="radio" id="rbtndate" name="reportfilter" value="1" />
+                </span>
+                <label class="rowlabel">@Html.Label("lblstartdate", "Start Date")&nbsp;:</label>
+                <span class="rowspandate" style="margin-left:18px;">@Html.TextBox("txtStartDate", @Model.FromDate.ToShortDateString(), new { @class = "reporttextbox" })
+                </span>
+                <label class="rowlabel">@Html.Label("lblenddate", "End Date")&nbsp;:</label>
+                <span class="rowspandate">@Html.TextBox("txtEndDate", @Model.ToDate.ToShortDateString(), new { @class = "reporttextbox" })</span>
+                <span id="space"></span>
+            </div>
+        </div>
+        <div id="divReportnav">
+            @Html.ActionLink("Detailed CallStats", "DetailedCallStats", null, new { Id = "detailedCallStats", data_description = "Detailed CallStats", @class = "reportnav" })
+        </div>
+        <div class="reportDesription" id="Desriptiontext">
+            <fieldset>
+                <legend>Description</legend>
+                <div id="Desriptiondata">
+                </div>
+            </fieldset>
+        </div>
+    </fieldset>
+</div>

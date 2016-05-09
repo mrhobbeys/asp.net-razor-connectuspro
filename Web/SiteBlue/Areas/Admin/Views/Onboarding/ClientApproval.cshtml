@@ -1,0 +1,644 @@
+﻿@{
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+<div id="wrapper" class='wrapper'>
+    <div id="content">
+        <div class="innerpage">
+            <div style="background-color: #dfedf3; padding: 10px; text-align: center; margin-bottom: 20px;">
+                <label style="font-size: 150%; font-weight: bold;">
+                    Onboarding - Client Approval
+                </label>
+            </div>
+            <div id="criteriaWrapper">
+                <h3>
+                    Filter by:</h3>
+                <label for="uiQuestionnaireId">
+                    Questionnaire ID</label>
+                <input type="text" id="uiQuestionnaireId" />
+                <label for="uiBusinessId">
+                    Business ID</label>
+                <input type="text" id="uiBusinessId" />
+            </div>
+            <div id="btns">
+                <input type="button" id="applyFilter" value="Apply" class="button" />
+            </div>
+            <div id="detailsWrapper">
+                <div id="layoutContainer" style="position: relative; top: 20px; left: 20px; width: 850px;
+                    height: 400px; aborder: #B5CDE4 1px solid;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="DetailsContainer" class="detailsContainer">
+    <div id="businessInformationEmptySection">
+        <h2><label id="uiEmptyBusinessInformation"></label></h2>
+    </div>
+    <div id="businessInformationSection" style="display:none">
+        <h2>Business Information Details</h2>
+        <div class="formContainer">
+            <strong>Contact</strong><br />
+            Cell Phone: <label id="uiCellPhone"></label><br />
+            Office Phone: <label id="uiOfficePhone"></label><br />
+            Website: <label id="uiWebsite"></label>
+        </div>
+        <div class="formContainer">
+            <strong>Operations Information</strong><br />
+            <strong>Trucks Number</strong><br />
+            <div class="sleftDiv">
+                Service<br /><label id="uiTrucksService"></label>
+            </div>
+            <div class="sleftDiv">
+                Commercial<br /><label id="uiTrucksCommercial"></label>
+            </div>
+            <div class="sleftDiv">
+                Installation<br /><label id="uiTrucksInstallation"></label>
+            </div>
+            <div class="sleftDiv">
+                Sales<br /><label id="uiTrucksSales"></label>
+            </div>
+            <br /><br />
+            <strong>Technicians Number</strong><br />
+            <div class="sleftDiv">
+                Service<br /><label id="uiTechniciansService"></label>
+            </div>
+            <div class="sleftDiv">
+                Commercial<br /><label id="uiTechniciansCommercial"></label>
+            </div>
+            <div class="sleftDiv">
+                Installation<br /><label id="uiTechniciansInstallation"></label>
+            </div>
+            <div class="sleftDiv">
+                Sales<br /><label id="uiTechniciansSales"></label>
+            </div>
+        </div>
+        <div class="formContainer">
+            <strong>GPS</strong><br />
+            <img id="imgGPS" src="@Url.Content("~/Content/images/Yes.png")" alt="" height="16" width="16" /> Have GPS<br />
+            GPS System: <label id="uiGPSSystemName"></label> - <label id="uiOtherGPSSystem"></label>
+        </div>
+        <div class="formContainer">
+            <strong>Hours of Operation</strong><br />
+            <strong>Monday - Friday</strong><br />
+            Start Hour: <label id="uiMondayFridayST"></label> - End Hour: <label id="uiMondayFridayET"></label><br />
+            <strong>Saturday</strong><br />
+            Start Hour: <label id="uiSaturdayST"></label> - End Hour: <label id="uiSaturdayET"></label><br />
+            <strong>Sunday</strong><br />
+            Start Hour: <label id="uiSundayST"></label> - End Hour: <label id="uiSundayET"></label>
+        </div>
+        <div class="formContainer">
+            <strong>Service Trip Fees</strong><br />
+            <img id="imgServiceTripFees" src="@Url.Content("~/Content/images/Yes.png")" alt="" height="16" width="16" /> Charge service trip<br />
+            <strong>Service trip fees description:</strong><br /><label id="uiServiceTripFeesDescription"></label><br />
+            <strong>Are technicians available nights, weekend and holidays?</strong><br />
+            <label id="uiTechniciansAvailabilityNights"></label> <label id="uiTechniciansAvailabilityWeekend"></label> <label id="uiTechniciansAvailabilityHolidays"></label><br />
+            <img id="imgAfterHoursHolidaysFees" src="@Url.Content("~/Content/images/Yes.png")" alt="" height="16" width="16" /> Have extra charges for service afterhours or on holidays<br />
+            If so, please describe those fees:<br />
+            <label id="uiAfterHoursHolidaysFeesDescription"></label>
+        </div>
+        <div class="formContainer">
+            Phones answer:<br />
+            <label id="uiServiceCenterAgentsAnswer"></label><br />
+            Do you bill flat rate or time and material?<br />
+            <div class="sleftDiv">
+            <img id="imgFlateRate" src="@Url.Content("~/Content/images/Yes.png")" alt="" height="16" width="16" /> Flate Rate
+            </div>
+            <div class="sleftDiv" style="width:200px">
+            <img id="imgTimeAndMaterial" src="@Url.Content("~/Content/images/Yes.png")" alt="" height="16" width="16" /> Time and Material
+            </div>
+        </div>
+        <div class="formContainer">
+            <img id="imgDoWarrantyWork" src="@Url.Content("~/Content/images/Yes.png")" alt="" height="16" width="16" /> Do warranty work.<br />
+            <img id="imgServicePlansOffer" src="@Url.Content("~/Content/images/Yes.png")" alt="" height="16" width="16" /> Offer service plan.<br />
+            Plan description: <label id="uiServicePlanComment"></label><br />
+            Service plan members discount: <label id="uiServicePlanMembersDiscount"></label><br />
+            <img id="imgServicePlanMembersMaintenance" src="@Url.Content("~/Content/images/Yes.png")" alt="" height="16" width="16" /> Receive maintenance visits <label id="uiServicePlanMembersTime"></label> time(s).<br />
+            <img id="imgServicePlanPayTrip" src="@Url.Content("~/Content/images/Yes.png")" alt="" height="16" width="16" /> Pay trip charges.
+        </div>
+    </div>
+</div>
+<div id="ControlsContainer">
+    <input type="button" id="CopyToDatabase" value="transfer data to database" class="largebutton" />
+</div>
+<div id="loading" style="display:none">Loading...</div>
+<div id="message" style="display:none"></div>
+@section Styles{
+    <link href="@Url.Content("~/Content/themes/DhtmlX/layout/dhtmlxlayout.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/layout/skins/dhtmlxlayout_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/tabbar/dhtmlxtabbar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/grid/dhtmlxgrid.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/grid/skins/dhtmlxgrid_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/windows/dhtmlxwindows.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/windows/skins/dhtmlxwindows_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #loading { 
+           position: absolute; 
+           top: 0; left: 30%; 
+           z-index: 10; 
+	       background:#ffc;
+	       padding:5px;
+           border:1px solid #CCCCCC;
+           text-align:center; 
+           font-weight:bold; 
+           width:40%;
+          }
+          #message { 
+           position: absolute; 
+           top: 0; left: 30%; 
+           z-index: 10; 
+	       background:#ffc;
+	       padding:5px;
+           border:1px solid #CCCCCC;
+           text-align:center; 
+           font-weight:bold; 
+           width:40%;
+          }
+        #criteriaWrapper
+        {
+            margin: 0 auto;
+            width: 650px;
+            background-color: #fff;
+            border: 1px solid #eaeaea;
+            padding-left: 20px;
+            padding-bottom: 20px;
+        }
+        #criteriaWrapper label
+        {
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        #criteriaWrapper input[type=text]
+        {
+            margin-right: 40px;
+        }
+        #btns
+        {
+            margin: 0 auto;
+            width: 650px;
+            background-color: #fff;
+            border: 1px solid #eaeaea;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .button
+        {
+            border: 1px solid #eaeaea;
+            width: 100px;
+            height: 25px;
+        }
+        .largebutton
+        {
+            border: 1px solid #eaeaea;
+            width: 200px;
+            height: 25px;
+        }
+        #detailsWrapper
+        {
+            margin: 0 auto;
+            width: 900px;
+            height: 430px;
+        }
+        #ControlsContainer{margin: 0 auto;width:900px;height:30px;text-align:center}
+        #businessInformationSection{height:370px;width:100%;overflow:auto;font-family:Tahoma Arial Verdana;font-size:8pt}
+        /*.detailsContainer{}*/
+        .sleftDiv{display:block;float:left;width:100px}
+        .formContainer{overflow:hidden;margin-bottom:3px;border:1px solid transparent;float:left;clear:both;-moz-border-radius:5px;-webkit-border-radius:5px;-khtml-border-radius: 5px;border-radius: 5px;padding:.25em .8em .5em .5em;font-size: 11pt; width: 750px;}
+    </style>
+}
+@section ScriptIncludes
+{
+    <script src="@Url.Content("~/Content/themes/DhtmlX/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/dhtmlxcontainer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/windows/dhtmlxwindows.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/layout/dhtmlxlayout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgrid.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/grid/dhtmlxgridcell.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/tabbar/dhtmlxtabbar.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput-1.3.min.js")" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        // Variables
+        var questionnaireId;
+        var businessId;
+        var contactState, serviceState, taxRateState, zipState, dbaState;
+        // Initialize content
+        $("#uiQuestionnaireId").val() == '' ? questionnaireId = null : questionnaireId = $("#uiQuestionnaireId").val();
+        $("#uiBusinessId").val() == '' ? businessId = null : businessId = $("#uiBusinessId").val();
+        $(document).ready(function () {
+
+            // Initialize franchises elements
+            SiteBlue.renderMenu(true);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { initializeFranchise(); });
+
+            doOnLoad();
+
+            //scroll the message box to the top offset of browser's scrool bar
+            $(window).scroll(function () {
+                $('#message').animate({ top: $(window).scrollTop() + "px" }, { queue: false, duration: 350 });
+            });
+            //scroll the loading box to the top offset of browser's scrool bar
+            $(window).scroll(function () {
+                $('#loading').animate({ top: $(window).scrollTop() + "px" }, { queue: false, duration: 350 });
+            });
+
+            $("#CopyToDatabase").click(function () {
+                $("#loading").show();
+                if (dhxGrid.getSelectedRowId() != null) {
+                    var questionnaireID = dhxGrid.cellById(dhxGrid.getSelectedRowId(), 1).getValue();
+                    var businessID = dhxGrid.cellById(dhxGrid.getSelectedRowId(), 2).getValue();
+                    if (businessID == 'null') {
+                        // Exit with an error message: Business information not found
+                        $("#loading").hide();
+                        $("#message").html("Business Information not found for the selected questionnaire!");
+                        $("#message").fadeIn("fast");
+                        $("#message").fadeOut(15000);
+                    }
+                    else {
+                        // Initialize parameters
+                        var selectedServices = dhxServiceGrid.getCheckedRows(0);
+                        var contactName = ""
+                        var cellPhone = $("#uiCellPhone").text();
+                        var officePhone = $("#uiOfficePhone").text();
+                        // Copy data from ConnectUsPro Database to Eighthundred Database
+                        $.ajax({
+                            cache: false,
+                            url: '@Url.Content("~/Admin/Onboarding/SaveInformationToDatabase")',
+                            type: 'POST',
+                            data: { franchiseId: SiteBlue.franchiseId, questionnaireId: questionnaireID, businessInformationId: businessID, services: selectedServices, cellPhone: cellPhone, officePhone: officePhone },
+                            success: function (r) {
+                                $("#loading").hide();
+                                if (r.Success == true) {
+                                    $("#message").html("<strong>" + r.Message + "</strong><br />" +
+                                        "Contact information inserted: " + r.ContactRowInserted + " / skiped: " + r.ContactRowSkiped + "<br />" +
+                                        "Services inserted: " + r.ServiceRowInserted + " / skiped: " + r.ServiceRowSkiped + "<br />" +
+                                        "Tax rates inserted: " + r.TaxRowInserted + " / skiped: " + r.TaxRowSkiped + "<br />" +
+                                        "ZIP inserted: " + r.ZIPRowInserted + " / skiped: " + r.ZIPRowSkiped + "<br />" +
+                                        "DBA inserted: " + r.DBARowInserted + " / skiped: " + r.DBARowSkiped + "<br />");
+                                } else {
+                                    $("#message").html("Error: " + r.Message);
+                                }
+                                $("#message").fadeIn("fast");
+                                $("#message").fadeOut(15000);
+                            },
+                            error: function () {
+                                $("#loading").hide();
+                                $("#message").html("An error occured while trying to copy data to database!");
+                                $("#message").fadeIn("fast");
+                                $("#message").fadeOut(15000);
+                            }
+                        });
+                    }
+                }
+                else {
+                    // Exit with message: Please select the questionnaire to submit
+                    $("#loading").hide();
+                    $("#message").html("Please select the questionnaire to submit!");
+                    $("#message").fadeIn("fast");
+                    $("#message").fadeOut(15000);
+                }
+            });
+
+            $("#applyFilter").click(function () {
+                $("#loading").show();
+                dhxGrid.clearAll();
+                $("#businessInformationSection").hide();
+                $("#businessInformationEmptySection").hide();
+                // 
+
+                $("#uiQuestionnaireId").val() == '' ? questionnaireId = null : questionnaireId = $("#uiQuestionnaireId").val();
+                $("#uiBusinessId").val() == '' ? businessId = null : businessId = $("#uiBusinessId").val();
+                $.ajax({
+                    cache: false,
+                    url: '@Url.Content("~/Admin/Onboarding/LoadQuestionnaires")',
+                    type: 'POST',
+                    data: { questionnaireId: questionnaireId, businessInformationId: businessId },
+                    success: function (data) {
+                        var AdForHomePages = data;
+                        var xmlstringOnboarding = "<rows>";
+                        $.each(AdForHomePages, function (index, OnboardingList) {
+                            xmlstringOnboarding = xmlstringOnboarding + "<row id='" + OnboardingList.QuestionnaireId + "'>";
+                            xmlstringOnboarding = xmlstringOnboarding + "<cell><![CDATA[" + OnboardingList.FirstName + " " + OnboardingList.LastName + "]]></cell>";
+                            xmlstringOnboarding = xmlstringOnboarding + '<cell align="right"><![CDATA[' + OnboardingList.QuestionnaireId + ']]></cell>';
+                            xmlstringOnboarding = xmlstringOnboarding + '<cell align="right"><![CDATA[' + OnboardingList.BusinessInformationId + ']]></cell></row>';
+                        });
+                        xmlstringOnboarding = xmlstringOnboarding + "</rows>";
+                        dhxGrid.loadXMLString(xmlstringOnboarding);
+                        $("#loading").hide();
+                    },
+                    error: function () {
+                        $("#loading").hide();
+                        $("#message").html("An error occured while trying to apply the selected filters!");
+                        $("#message").fadeIn("fast");
+                        $("#message").fadeOut(15000);
+                    }
+                });
+            });
+
+        });
+
+        function doOnLoad() {
+            // Initialize values
+            contactState = false;
+            serviceState = false;
+            taxRateState = false;
+            zipState = false;
+            dbaState = false;
+            $("#loading").show();
+            dhxLayout = new dhtmlXLayoutObject("layoutContainer", "2U");
+            // Left column
+            dhxLayout.cells("a").setText("Client Onboarding List");
+            // Initialize questionnaires grid
+            dhxGrid = dhxLayout.cells("a").attachGrid();
+            dhxGrid.setHeader("User Name,Questionnaire ID, Business Information ID");
+            dhxGrid.setImagePath("../../codebase/imgs/");
+            dhxGrid.setEditable(false);
+            dhxGrid.attachEvent("onRowSelect", "RowClick");
+            dhxGrid.init();
+
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Admin/Onboarding/LoadQuestionnaires")',
+                type: 'POST',
+                data: { questionnaireId: questionnaireId, businessInformationId: businessId },
+                success: function (data) {
+                    var AdForHomePages = data;
+                    var xmlstringOnboarding = "<rows>";
+                    $.each(AdForHomePages, function (index, OnboardingList) {
+                        xmlstringOnboarding = xmlstringOnboarding + "<row id='" + index + "'>";
+                        xmlstringOnboarding = xmlstringOnboarding + "<cell><![CDATA[" + OnboardingList.FirstName + " " + OnboardingList.LastName + "]]></cell>";
+                        xmlstringOnboarding = xmlstringOnboarding + '<cell align="right"><![CDATA[' + OnboardingList.QuestionnaireId + ']]></cell>';
+                        xmlstringOnboarding = xmlstringOnboarding + '<cell align="right"><![CDATA[' + OnboardingList.BusinessInformationId + ']]></cell></row>';
+                    });
+                    xmlstringOnboarding = xmlstringOnboarding + "</rows>";
+                    dhxGrid.loadXMLString(xmlstringOnboarding);
+                    $("#loading").hide();
+                },
+                error: function () {
+                    $("#loading").hide();
+                    $("#message").html("An error occured while trying to load data!");
+                    $("#message").fadeIn("fast");
+                    $("#message").fadeOut(15000);
+                }
+            });
+
+            // Right column
+            dhxLayout.cells("b").setText("Details");
+            dhxLayout.cells("b").setWidth(550);
+            // Attaching tabbar to the right column
+            dhxTabbar = dhxLayout.cells("b").attachTabbar();
+            dhxTabbar.setImagePath('@Url.Content("~/Content/themes/DhtmlX/tabbar/imgs/")');
+            dhxTabbar.setHrefMode("ajax-html");
+            dhxTabbar.addTab("a1", "Business Information", "130px");
+            dhxTabbar.addTab("a2", "Services", "100px");
+            dhxTabbar.addTab("a3", "Taxes", "80px");
+            dhxTabbar.addTab("a4", "ZIP", "80px");
+            dhxTabbar.addTab("a5", "DBA", "80px");
+            dhxTabbar.setContent("a1", "DetailsContainer");
+
+            dhxServiceGrid = dhxTabbar.cells("a2").attachGrid();
+            dhxServiceGrid.setHeader(",Service");
+            dhxServiceGrid.setImagePath("../../codebase/imgs/");
+            dhxServiceGrid.enableMultiselect(true);
+            dhxServiceGrid.setColTypes("ch,ro");
+            dhxServiceGrid.setInitWidths('20,*');
+            dhxServiceGrid.init();
+            //dhxServiceGrid.attachEvent("onCheck", "onSelectService");
+
+            dhxTaxRateGrid = dhxTabbar.cells("a3").attachGrid();
+            dhxTaxRateGrid.setHeader("Tax Rate");
+            dhxTaxRateGrid.setImagePath("../../codebase/imgs/");
+            dhxTaxRateGrid.setEditable(false);
+            dhxTaxRateGrid.init();
+
+            dhxZipGrid = dhxTabbar.cells("a4").attachGrid();
+            dhxZipGrid.setHeader("ZIP,City Name");
+            dhxZipGrid.setImagePath("../../codebase/imgs/");
+            dhxZipGrid.setEditable(false);
+            dhxZipGrid.setInitWidths('50,*');
+            dhxZipGrid.init();
+
+            dhxDBAGrid = dhxTabbar.cells("a5").attachGrid();
+            dhxDBAGrid.setHeader("DBA Name");
+            dhxDBAGrid.setImagePath("../../codebase/imgs/");
+            dhxDBAGrid.setEditable(false);
+            dhxDBAGrid.init();
+
+            dhxTabbar.attachEvent("onSelect", function (id, last_id) {
+                if (dhxGrid.getSelectedRowId() != null) {
+                    var bId = dhxGrid.cellById(dhxGrid.getSelectedRowId(), 2).getValue();
+
+                    switch (id) {
+                        case 'a1':
+                            if (contactState == false) {
+                                contactState = true;
+                            }
+                            break;
+
+                        case 'a2': // Service
+                            if (serviceState == false) {
+                                $("#loading").show();
+                                $.ajax({
+                                    cache: false,
+                                    url: '@Url.Content("~/Admin/Onboarding/LoadServices")',
+                                    type: 'POST',
+                                    success: function (data) {
+                                        dhxServiceGrid.loadXMLString(data.ResultData);
+                                        dhxServiceGrid.uncheckAll();
+                                        $("#loading").hide();
+                                        serviceState = true;
+                                    },
+                                    error: function (xhr, status, error) {
+                                        $("#loading").hide();
+                                        $("#message").html("Ann error occured while trying to load data!");
+                                        $("#message").fadeIn("fast");
+                                        $("#message").fadeOut(15000);
+                                        serviceState = true;
+                                    }
+                                });
+                            }
+                            break;
+
+                        case 'a3': // Tax Rates
+                            if (taxRateState == false) {
+                                $("#loading").show();
+                                $.ajax({
+                                    cache: false,
+                                    url: '@Url.Content("~/Admin/Onboarding/LoadTaxRates")',
+                                    type: 'POST',
+                                    data: { businessInformationId: bId },
+                                    success: function (data) {
+                                        dhxTaxRateGrid.loadXMLString(data.ResultData);
+                                        $("#loading").hide();
+                                        taxRateState = true;
+                                    },
+                                    error: function (xhr, status, error) {
+                                        $("#loading").hide();
+                                        $("#message").html("Ann error occured while trying to load data!");
+                                        $("#message").fadeIn("fast");
+                                        $("#message").fadeOut(15000);
+                                        taxRateState = true;
+                                    }
+                                });
+                            }
+                            break;
+
+                        case 'a4': // ZipCode
+                            if (zipState == false) {
+                                $("#loading").show();
+                                $.ajax({
+                                    cache: false,
+                                    url: '@Url.Content("~/Admin/Onboarding/LoadZipCodes")',
+                                    type: 'POST',
+                                    data: { businessInformationId: bId },
+                                    success: function (data) {
+                                        dhxZipGrid.loadXMLString(data.ResultData);
+                                        $("#loading").hide();
+                                        zipState = true;
+                                    },
+                                    error: function (xhr, status, error) {
+                                        $("#loading").hide();
+                                        $("#message").html("Ann error occured while trying to load data!");
+                                        $("#message").fadeIn("fast");
+                                        $("#message").fadeOut(15000);
+                                        zipState = true;
+                                    }
+                                });
+                            }
+                            break;
+
+                        case 'a5': // DBA
+                            if (dbaState == false) {
+                                $("#loading").show();
+                                $.ajax({
+                                    cache: false,
+                                    url: '@Url.Content("~/Admin/Onboarding/LoadDBAs")',
+                                    type: 'POST',
+                                    data: { businessInformationId: bId },
+                                    success: function (data) {
+                                        dhxDBAGrid.loadXMLString(data.ResultData);
+                                        $("#loading").hide();
+                                        dbaState = true;
+                                    },
+                                    error: function (xhr, status, error) {
+                                        $("#loading").hide();
+                                        $("#message").html("Ann error occured while trying to load data!");
+                                        $("#message").fadeIn("fast");
+                                        $("#message").fadeOut(15000);
+                                        dbaState = true;
+                                    }
+                                });
+                            }
+                            break;
+                    }
+                }
+
+                return true;
+            });           
+        }
+
+        function RowClick(rId, cInd) {
+            $("#loading").show();
+            var qId = dhxGrid.cellById(rId, 1).getValue();
+            // Change tabs status for data loading
+            contactState = false;
+            serviceState = false;
+            taxRateState = false;
+            zipState = false;
+            dbaState = false;
+            dhxServiceGrid.uncheckAll(); // unchecked checked rows
+            dhxServiceGrid.clearSelection(); // Clear selected rows
+
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Admin/Onboarding/LoadQuestionnaire")',
+                type: 'POST',
+                data: { questionnaireId: qId },
+                success: function (data) {
+                    if (data.Message != 'Success') {
+                        $("#businessInformationSection").hide();
+                        $("#businessInformationEmptySection").fadeIn('slow');
+                        $("#uiEmptyBusinessInformation").text(data.Message);
+
+                        dhxTabbar.setTabActive("a1");
+                        // Empty all grids
+                        dhxTaxRateGrid.clearAll();
+                        dhxZipGrid.clearAll();
+                        dhxDBAGrid.clearAll();
+                        $("#loading").hide();
+                    }
+                    else {
+                        $("#businessInformationEmptySection").hide();
+                        $("#businessInformationSection").fadeIn('slow');
+                        $("#uiCellPhone").text(data.CellPhone);
+                        $("#uiOfficePhone").text(data.OfficePhone);
+                        $("#uiWebsite").text(data.Website);
+                        $("#uiTrucksService").text(data.TrucksService);
+                        $("#uiTrucksCommercial").text(data.TrucksCommercial);
+                        $("#uiTrucksInstallatione").text(data.TrucksInstallation);
+                        $("#uiTrucksSales").text(data.TrucksSales);
+                        $("#uiTechniciansService").text(data.TechniciansService);
+                        $("#uiTechniciansCommercial").text(data.TechniciansCommercial);
+                        $("#uiTechniciansInstallatione").text(data.TechniciansInstallation);
+                        $("#uiTechniciansSales").text(data.TechniciansSales);
+                        data.GPS == 'Yes' ? $("#imgGPS").attr({ src: '@Url.Content("~/Content/images/Yes.png")', alt: 'Yes' }) : $("#imgGPS").attr({ src: '@Url.Content("~/Content/images/No.png")', alt: 'No' });
+                        $("#uiGPSSystemName").text(data.GPSSystemName);
+                        $("#uiOtherGPSSystem").text(data.OtherGPSSystem);
+                        $("#uiMondayFridayST").text(data.MondayFridayST);
+                        $("#uiMondayFridaayET").text(data.MondayFridayET);
+                        $("#uiSaturdayST").text(data.SaturdayST);
+                        $("#uiSaturdayET").text(data.SaturdayET);
+                        $("#uiSundayST").text(data.SundayST);
+                        $("#uiSundayET").text(data.SundayET);
+                        data.ServiceTripFees == 'Yes' ? $("#imgServiceTripFees").attr({ src: '@Url.Content("~/Content/images/Yes.png")', alt: 'Yes' }) : $("#imgServiceTripFees").attr({ src: '@Url.Content("~/Content/images/No.png")', alt: 'No' });
+                        $("#uiServiceTripFeesDescription").text(data.ServiceTripFeesDescription);
+                        $("#uiTechniciansAvailabilityNights").text(data.TechniciansAvailabilityNights);
+                        $("#uiTechniciansAvailabilityWeekend").text(data.TechniciansAvailabilityWeekend);
+                        $("#uiTechniciansAvailabilityHolidays").text(data.TechniciansAvailabilityHolidays);
+                        $("#uiAdditionalDetails").text(data.AdditionalDetails);
+                        data.AfterHoursHolidaysFees == 'Yes' ? $("#imgAfterHoursHolidaysFees").attr({ src: '@Url.Content("~/Content/images/Yes.png")', alt: 'Yes' }) : $("#imgAfterHoursHolidaysFees").attr({ src: '@Url.Content("~/Content/images/No.png")', alt: 'No' });
+                        $("#uiAfterHoursHolidaysFeesDescription").text(data.AfterHoursHolidaysFeesDescription);
+                        $("#uiServiceCenterAgentsAnswer").text(data.ServiceCenterAgentsAnswer);
+                        data.FlateRate == 'Yes' ? $("#imgFlateRate").attr({ src: '@Url.Content("~/Content/images/Yes.png")', alt: 'Yes' }) : $("#imgFlateRate").attr({ src: '@Url.Content("~/Content/images/No.png")', alt: 'No' });
+                        data.TimeAndMaterial == 'Yes' ? $("#imgTimeAndMaterial").attr({ src: '@Url.Content("~/Content/images/Yes.png")', alt: 'Yes' }) : $("#imgTimeAndMaterial").attr({ src: '@Url.Content("~/Content/images/No.png")', alt: 'No' });
+                        data.DoWarrantyWork == 'Yes' ? $("#imgDoWarrantyWork").attr({ src: '@Url.Content("~/Content/images/Yes.png")', alt: 'Yes' }) : $("#imgDoWarrantyWork").attr({ src: '@Url.Content("~/Content/images/No.png")', alt: 'No' });
+                        data.ServicePlansOffer == 'Yes' ? $("#imgServicePlansOffer").attr({ src: '@Url.Content("~/Content/images/Yes.png")', alt: 'Yes' }) : $("#imgServicePlansOffer").attr({ src: '@Url.Content("~/Content/images/No.png")', alt: 'No' });
+                        $("#uiServicePlanMembersDiscount").text(data.ServicePlanMembersDiscount);
+                        data.ServicePlanMembersMaintenance == 'Yes' ? $("#imgServicePlanMembersMaintenance").attr({ src: '@Url.Content("~/Content/images/Yes.png")', alt: 'Yes' }) : $("#imgServicePlanMembersMaintenance").attr({ src: '@Url.Content("~/Content/images/No.png")', alt: 'No' });
+                        $("#uiServicePlanMembersTime").text(data.ServicePlanMembersTime);
+                        $("#uiServicePlanName").text(data.ServicePlanName);
+                        $("#uiServicePlanComment").text(data.ServicePlanComment);
+                        data.ServicePlanPayTrip == 'Yes' ? $("#imgServicePlanPayTrip").attr({ src: '@Url.Content("~/Content/images/Yes.png")', alt: 'Yes' }) : $("#imgServicePlanPayTrip").attr({ src: '@Url.Content("~/Content/images/No.png")', alt: 'No' });
+
+                        dhxTabbar.setTabActive("a1");
+                        // Empty all grids
+                        dhxTaxRateGrid.clearAll();
+                        dhxZipGrid.clearAll();
+                        dhxDBAGrid.clearAll();
+                        $("#loading").hide();
+                    }
+
+                },
+                error: function () {
+                    $("#loading").hide();
+                    $("#message").html("Ann error occured while trying to load data!");
+                    $("#message").fadeIn("fast");
+                    $("#message").fadeOut(15000);
+                }
+            });
+        }
+
+//        function onSelectService(rId,cInd,state){
+//            // TODO: Anis --> corriger la sélection des services et ajouter contact information.
+//            //alert('R ID: ' + rId + ', C IND: ' + cInd + ', STATE: ' + state);
+//            if (state)
+//                dhxServiceGrid.selectRow(rId, false, true, true);
+//            else
+//                dhxServiceGrid.clearSelection(rId);
+//        }
+
+        function initializeFranchise() {
+        }
+    </script>
+}

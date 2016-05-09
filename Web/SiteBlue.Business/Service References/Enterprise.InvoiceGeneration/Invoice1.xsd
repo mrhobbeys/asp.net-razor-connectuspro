@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.Invoices" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.Invoices" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="Invoice">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Balance" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BusinessType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CallReason" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Completed" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DBAId" type="xs:int" />
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Diagnostics" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FranchiseId" type="xs:int" />
+      <xs:element minOccurs="0" name="FranchiseTypeID" type="xs:int" />
+      <xs:element minOccurs="0" name="FromAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FromCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FromName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FromPhone" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FromState" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FromZip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HasAcceptSignature" type="xs:boolean" />
+      <xs:element minOccurs="0" name="HasAuthSignature" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsEstimate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsMember" type="xs:boolean" />
+      <xs:element minOccurs="0" name="JobID" type="xs:int" />
+      <xs:element minOccurs="0" name="LicenseNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Lines" nillable="true" type="tns:ArrayOfInvoiceLine" />
+      <xs:element minOccurs="0" name="LocationAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LocationCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LocationName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LocationPhone" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LocationState" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LocationZip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Number" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Payments" nillable="true" type="tns:ArrayOfPayment" />
+      <xs:element minOccurs="0" name="Recommendations" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SubTotal" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TaxAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Technician" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ToAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ToCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ToEmail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ToName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ToPhone" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ToState" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ToZip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TotalAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Warranty1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Warranty1Length" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Warranty2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Warranty2Length" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Invoice" nillable="true" type="tns:Invoice" />
+  <xs:complexType name="ArrayOfInvoiceLine">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InvoiceLine" nillable="true" type="tns:InvoiceLine" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInvoiceLine" nillable="true" type="tns:ArrayOfInvoiceLine" />
+  <xs:complexType name="InvoiceLine">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Discount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ExtendedPrice" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Quantity" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Sequence" type="xs:int" />
+      <xs:element minOccurs="0" name="Tax" type="xs:decimal" />
+      <xs:element minOccurs="0" name="UnitPrice" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InvoiceLine" nillable="true" type="tns:InvoiceLine" />
+  <xs:complexType name="ArrayOfPayment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Payment" nillable="true" type="tns:Payment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPayment" nillable="true" type="tns:ArrayOfPayment" />
+  <xs:complexType name="Payment">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Amount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PaymentType" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Payment" nillable="true" type="tns:Payment" />
+</xs:schema>

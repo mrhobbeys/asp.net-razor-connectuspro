@@ -1,0 +1,59 @@
+﻿body
+{
+    background-color: white;
+    font-family: Verdana;
+    font-size: 12px;
+    margin:opx;
+}
+#maindiv
+{
+    width: 100%;
+    float: left;
+    font-family: Verdana;
+    background-color: LightBlue;
+    font-size: 12px;
+}
+#middlediv
+{
+    width: 35%;
+    float: left;
+}
+#outerdiv
+{
+    width: 61%;
+    float: left;
+    margin-top: 10px;
+}
+.span1
+{
+    float: left;
+    width: 100%;
+}
+
+.span2
+{
+    float: left;
+    width: 30%;
+    font-weight: bold;
+    text-align: right;
+}
+.span3
+{
+    float: left;
+    width: 67%;
+    font-size: small;
+    position: relative;
+    left: 3%;
+}
+.span4
+{
+    float: left;
+    width: 30%;
+}
+.span5
+{
+    float: left;
+    width: 69%;
+}
+
+

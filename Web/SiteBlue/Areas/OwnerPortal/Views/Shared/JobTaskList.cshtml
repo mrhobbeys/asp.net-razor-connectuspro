@@ -1,0 +1,765 @@
+﻿<html>
+<head>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            initJobTaskGrid();
+            BindJobTask();
+
+            $("#selSpan").live('click', function () {
+                $("#ACDiv").empty().html($("#divAccountCode").html());
+            });
+        });
+
+        function ChangeAccountCode() {
+            var newval = $('#ACDiv .clsAccountCode').val();
+            var taskid = $("#hdntaskid").val();
+
+            var params = { taskid: taskid, accode: newval };
+
+            $("#ACDiv .clsAccountCode").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+            $("#ACDiv .clsAccountCode").attr("disabled", "disabled");
+
+            $.ajax({
+                url: "/JobTask/UpdateAccountCode",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    $("#divAccountCode .clsAccountCode").val(newval);
+                    $("#ACDiv").html('<span id="selSpan">' + $('#ACDiv .clsAccountCode option:selected').text() + '</span>');
+
+                    BindJobTask();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#loadingimg").remove();
+                    $("#ACDiv .clsAccountCode").removeAttr("disabled");
+                    alert("error");
+                }
+            });
+        }
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+
+        function ConvertTasktoAuthNoAuth(JobTaskID, JobTaskPartsID, blnaddonyn) {
+            if (blnaddonyn == false) {
+                var bln = confirm("Do you want to authorize this task");
+
+                if (bln == true) {
+                    var JobParameter = { jobtaskid: JobTaskID.toString(), jobtaskpartid: JobTaskPartsID.toString() };
+                    document.getElementById("JobtaskgifId").style.display = "block";
+                    var empid = { jobtaskid: JobTaskID, jobtaskpartid: JobTaskPartsID };
+
+                    var jsondata = $.ajax({
+                        url: "/Invoice/ConTasktoAuthNoAuth",
+                        data: JSON.stringify(empid),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (msg) {
+                            window.location.reload(true);
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        error: function (e) {
+                            $('#output').innerHtml(e);
+
+                        }
+                    });
+                }
+            } else {
+                alert("Task has already authorized.");
+            }
+        }
+
+        function initJobTaskGrid() {
+            jobtaskgrid = new dhtmlXGridObject(gridviewjobtask);
+            jobtaskgrid.enableAutoWidth(false);
+            jobtaskgrid.setImagePath("../../codebase/imgs/");
+            jobtaskgrid.setHeader("Qty,Code,Task Description,Unit $,Line $,Part #,Part Desc,Qty,Price $,Task ID,TaskPartsID,AddonYN,MemberYN,AccountCode");
+            jobtaskgrid.setInitWidthsP("3,9,20,6,6,11,15,3,6,5,6,5,5,0");
+            jobtaskgrid.setColAlign("left,left,left,right,right,left,left,left,right,left,left,left,left,left");
+            jobtaskgrid.setColTypes("txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt");
+            jobtaskgrid.enableEditEvents(false, false, false, false, false, false, false, false, false, false, false, false, false);
+            jobtaskgrid.attachEvent("onRowSelect", doOnRowselect);
+            jobtaskgrid.setColumnHidden(13, true);
+            jobtaskgrid.init();
+            jobtaskgrid.setSkin("dhx_skyblue");
+        }
+
+        function BindJobTask() {
+            var taskquantity = "";
+            var taskcode = "";
+            var taskTaskDescription = "";
+            var taskunit = "";
+            var taskline = "";
+            var previd = -1;
+
+            var jobid = '@Model.CurrentJobID';
+            btype = $("#ddljobtype").val();
+            var params = { jobid: jobid, actype: btype };
+
+            $("#JobtaskgifId").show();
+
+            var jsondata = $.ajax({
+                url: "/JobTask/JobTaskList",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+
+                    var xmlstring = "<rows>";
+                    $.each(result, function (index, JobTaskDetails) {
+
+                        xmlstring += "<row id='" + index + "'>";
+                        if (taskquantity == JobTaskDetails.Quantity
+                                && taskcode == JobTaskDetails.Code
+                                && taskTaskDescription == JobTaskDetails.TaskDesc
+                                && taskunit == JobTaskDetails.Unit
+                                && taskline == JobTaskDetails.Line) {
+
+                            xmlstring += "<cell hrid='" + previd + "'>" + "" + "</cell>";
+                            xmlstring += "<cell>" + "" + "</cell>";
+                            xmlstring += "<cell>" + "" + "</cell>";
+                            xmlstring += "<cell>" + "" + "</cell>";
+                            xmlstring += "<cell>" + "" + "</cell>";
+
+                        } else {
+                            xmlstring += "<cell hrid='" + index + "'><![CDATA[" + JobTaskDetails.Quantity + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + JobTaskDetails.Code + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + JobTaskDetails.TaskDesc + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + JobTaskDetails.Unit + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + JobTaskDetails.Line + "]]></cell>";
+
+                            taskline = JobTaskDetails.Line;
+                            taskunit = JobTaskDetails.Unit;
+                            taskTaskDescription = JobTaskDetails.TaskDesc;
+                            taskcode = JobTaskDetails.Code;
+                            taskquantity = JobTaskDetails.Quantity;
+
+                            previd = index;
+
+                        }
+                        xmlstring += "<cell><![CDATA[" + JobTaskDetails.Part + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + JobTaskDetails.PartDesc + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + JobTaskDetails.PartQuantity + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + JobTaskDetails.PartPrice + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + JobTaskDetails.JobTaskID + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + JobTaskDetails.JobTaskPartsID + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + JobTaskDetails.AddOnYN + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + JobTaskDetails.MemberYN + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + JobTaskDetails.AccountCode + "]]></cell>";
+                        xmlstring += "</row>";
+
+                    });
+                    xmlstring += "</rows>";
+
+                    jobtaskgrid.clearAll();
+                    jobtaskgrid.loadXMLString(xmlstring);
+
+                    $("#JobtaskgifId").hide();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#JobtaskgifId").hide();
+                }
+            });
+        }
+
+        function doOnRowselect(rId, cInd) {
+            var hrid = jobtaskgrid.cells(rId, 0).getAttribute("hrid");
+
+            $("#hdntaskid").val(jobtaskgrid.cellById(rId, 9).getValue());
+            $("#hdntaskpartid").val(jobtaskgrid.cellById(rId, 10).getValue());
+
+            $("#txtPartno").val(jobtaskgrid.cellById(rId, 5).getValue().replace("NoAuth!", ""));
+            $("#txtPartDescription").val(jobtaskgrid.cellById(rId, 6).getValue());
+            $("#txtPartQty").val(jobtaskgrid.cellById(rId, 7).getValue());
+            $("#txtPartPrice").val(jobtaskgrid.cellById(rId, 8).getValue().replace("$", ""));
+
+            $("#txtCode").val(jobtaskgrid.cellById(hrid, 1).getValue());
+            $("#txtDescription").val(jobtaskgrid.cellById(hrid, 2).getValue());
+            $("#txtQty").val(jobtaskgrid.cellById(hrid, 0).getValue());
+            $("#txtPrice").val(jobtaskgrid.cellById(hrid, 3).getValue().replace("$", ""));
+
+            var acid = jobtaskgrid.cellById(rId, 13).getValue();
+
+            if (acid == "") acid = "N/A";
+
+            $("#ACDiv").html('<span id="selSpan">' + acid + '</span>');
+            $("#ddlAccountCode").val(jobtaskgrid.cellById(rId, 13).getValue());
+
+            var code = document.getElementById("ddlTaskCode");
+            code.options[code.selectedIndex].text = jobtaskgrid.cellById(hrid, 1).getValue();
+
+            var parts = document.getElementById("ddlPart");
+            parts.options[parts.selectedIndex].text = jobtaskgrid.cellById(rId, 5).getValue().replace("NoAuth!", "");
+
+            if ($("#txtCode").val() != "") {
+                if (jobtaskgrid.cellById(rId, 11).getValue() == "true") {
+                    document.getElementById("chkAddon").checked = jobtaskgrid.cellById(rId, 11).getValue();
+                } else {
+                    document.getElementById("chkAddon").checked = false;
+                }
+
+                if (jobtaskgrid.cellById(rId, 12).getValue() == "true") {
+                    document.getElementById("chkMember").checked = jobtaskgrid.cellById(rId, 12).getValue();
+                } else {
+                    document.getElementById("chkMember").checked = false;
+                }
+            }
+            else {
+                document.getElementById("chkAddon").checked = false;
+                document.getElementById("chkMember").checked = false;
+            }
+        }
+
+        function showManageJobTask() {
+            /*var iJobId = getUrlVars()["JobId"];
+
+            window.location.href = "../JobTask/ManageTask?JobId=" + iJobId;*/
+
+            if ($("#mngtaskDiv").is(":hidden")) {
+                $("#mngtaskDiv").show("slow");
+            } else {
+                $("#mngtaskDiv").hide();
+            }
+
+        }
+
+        function AddCode() {
+            var jobid = '@Model.CurrentJobID';
+            var params = { jobcodeid: $("#ddlTaskCode").val(), jobid: jobid };
+
+            $("#btnAddCode").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+            $("#btnAddCode").attr("disabled", "disabled");
+
+            $.ajax({
+                url: "/JobTask/AddCode",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    $("#loadingimg").remove();
+                    $("#btnAddCode").removeAttr("disabled");
+
+                    if (result == "fail") return;
+
+                    ResetFinance(result);
+                    BindJobTask();
+                    BindHistory();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#loadingimg").remove();
+                    $("#btnAddCode").removeAttr("disabled");
+                    alert("error");
+                }
+            });
+        }
+
+        function AddPart() {
+            var taskid = $("#hdntaskid").val();
+
+            if (taskid == "") {
+                alert("Please select a task to add the part to.");
+                return;
+            }
+
+            var jobid = '@Model.CurrentJobID';
+            var params = { partid: $("#ddlPart").val(), jobid: jobid, taskid: taskid };
+
+            $("#btnAddPart").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+            $("#btnAddPart").attr("disabled", "disabled");
+
+            $.ajax({
+                url: "/JobTask/AddPart",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    $("#loadingimg").remove();
+                    $("#btnAddPart").removeAttr("disabled");
+
+                    if (result == "fail") return;
+
+                    ResetFinance(result);
+                    BindJobTask();
+                    BindHistory();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#loadingimg").remove();
+                    $("#btnAddPart").removeAttr("disabled");
+                    alert("error");
+                }
+            });
+        }
+
+        function UpdateJobTask() {
+            var taskid = $("#hdntaskid").val();
+
+            if (taskid == "") {
+                alert("Please select a task to add the part to.");
+                return;
+            }
+
+            var partid = $("#hdntaskpartid").val();
+
+            if (partid == "") {
+                alert("Please select a part.");
+                return;
+            }
+
+            var taskparam =
+            {
+                JobTaskID: taskid,
+                JobCodeID: $("#ddlTaskCode").val(),
+                AddOnYN: $("#chkAddon").is(":checked"),
+                MemberYN: $("#chkMember").is(":checked"),
+                Price: $("#txtPrice").val().replace(",", ""),
+                Quantity: $("#txtQty").val(),
+                JobCodeDescription: $("#txtDescription").val(),
+                JobCode: $("#txtCode").val()
+            };
+
+            var partparam =
+            {
+                JobTaskPartsID: partid,
+                PartsID: $("#ddlPart").val(),
+                Quantity: $("#txtPartQty").val(),
+                Price: $("#txtPartPrice").val().replace(",", ""),
+                PartCode: $("#txtPartno").val(),
+                PartName: $("#txtPartDescription").val()
+            };
+
+            var jobid = '@Model.CurrentJobID';
+            var params = { jobid: jobid, taskdata: taskparam, partdata: partparam };
+
+            $("#btnUpdateJobTask").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+            $("#btnUpdateJobTask").attr("disabled", "disabled");
+
+            $.ajax({
+                url: "/JobTask/UpdateJobTask",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    $("#loadingimg").remove();
+                    $("#btnUpdateJobTask").removeAttr("disabled");
+
+                    if (result == "fail") return;
+
+                    ResetFinance(result);
+                    BindJobTask();
+                    BindHistory();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#loadingimg").remove();
+                    $("#btnUpdateJobTask").removeAttr("disabled");
+
+                    alert("error");
+                }
+            });
+        }
+
+        function DeleteJobTask() {
+            var taskid = $("#hdntaskid").val();
+
+            if (taskid == "") {
+                alert("Please select a task to delete.");
+                return;
+            }
+
+            var partid = $("#hdntaskpartid").val();
+
+            if (partid == "") {
+                alert("Please select a part.");
+                return;
+            }
+
+            var answer = confirm("Are you sure you want to delete this task?");
+            if (!answer)
+                return;
+
+            var jobid = '@Model.CurrentJobID';
+            var params = { jobid: jobid, taskid: taskid, partid: partid };
+
+            $("#btnDeleteJobTask").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+            $("#btnDeleteJobTask").attr("disabled", "disabled");
+
+            $.ajax({
+                url: "/JobTask/DeleteJobTask",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    $("#loadingimg").remove();
+                    $("#btnDeleteJobTask").removeAttr("disabled");
+
+                    if (result == "fail") return;
+
+                    ResetFinance(result);
+                    BindJobTask();
+                    BindHistory();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#loadingimg").remove();
+                    $("#btnDeleteJobTask").removeAttr("disabled");
+
+                    alert("error");
+                }
+            });
+        }
+
+        function ChangeCode() {
+            var jobcode = $("#ddlTaskCode").val();
+            var params = { jobcodeid: jobcode };
+
+            $("#ddlTaskCode").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+
+            $.ajax({
+                url: "/JobTask/GetJobCodeData",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    $("#txtCode").val(msg.JobCode);
+                    $("#txtDescription").val(msg.JobCodeDescription);
+                    $("#txtQty").val(1);
+                    $("#txtPrice").val(msg.JobAddonMemberPrice);
+
+                    $("#loadingimg").remove();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#loadingimg").remove();
+                }
+            });
+        }
+
+        function ChangePart() {
+            var partid = $("#ddlPart").val();
+            var params = { partid: partid };
+
+            $("#ddlPart").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+
+            $.ajax({
+                url: "/JobTask/GetJobPartData",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    $("#txtPartno").val(msg.PartCode);
+                    $("#txtPartQty").val(1);
+                    $("#txtPartDescription").val(msg.PartName);
+                    $("#txtPartPrice").val(msg.PartAddonMemberPrice);
+
+                    $("#loadingimg").remove();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#loadingimg").remove();
+                }
+            });
+        }
+
+        function SearchCode() {
+            var jobid = '@Model.CurrentJobID';
+            var params = { jobid: jobid, searchstr: $("#txtJobCode").val(), pbid: $("#ddlPriceBook").val() };
+
+            $("#btnSearchCode").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+            $("#btnSearchCode").attr("disabled", "disabled");
+
+            $.ajax({
+                url: "/JobTask/SearchCode",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    var select = $("#ddlTaskCode");
+                    select.empty();
+                    
+                    $.each(result, function (index, itemData) {
+                        select.append($('<option></option>').val(itemData.JobCodeID).html(itemData.Code));
+                    });
+
+                    $("#loadingimg").remove();
+                    $("#btnSearchCode").removeAttr("disabled");
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#loadingimg").remove();
+                    $("#btnSearchCode").removeAttr("disabled");
+                }
+            });
+        }
+
+        function SearchPart() {
+            var jobid = '@Model.CurrentJobID';
+            var param = { jobid: jobid, searchstr: $("#txtPartCode").val(), pbid: $("#ddlPriceBook").val() };
+
+            $("#btnSearchPart").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+            $("#btnSearchPart").attr("disabled", "disabled");
+
+            $.ajax({
+                url: "/JobTask/SearchPart",
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    var select = $("#ddlPart");
+                    select.empty();
+
+                    $.each(result, function (index, itemData) {
+                        select.append($('<option></option>').val(itemData.PartID).html(itemData.Code));
+                    });
+
+                    $("#loadingimg").remove();
+                    $("#btnSearchPart").removeAttr("disabled");
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#loadingimg").remove();
+                    $("#btnSearchPart").removeAttr("disabled");
+                }
+            });
+        }
+
+    </script>
+    <style type="text/css">
+        .fll
+        {
+            float: left;
+        }
+        
+        .flr
+        {
+            float: right;
+        }
+        
+        .clr
+        {
+            clear: both;
+        }
+        
+        #selSpan
+        {
+            cursor: pointer;
+            font-size: 14px;
+            color: #FF6600;
+        }
+    </style>
+</head>
+<body>
+    @Html.Hidden("flag")
+    <div style="float: left">
+        <a href="javascript:showManageJobTask();" style="color: Blue; font-weight: bold; text-decoration: underline;display:@(Model.JobInfo.InvoiceStatusList.SelectedValue == "7" ? "none" : "")" id="lnkJobTasks">Job Tasks</a>
+        <div id="mngtaskDiv" style="display: none;">
+            @Html.Hidden("hdntaskid")
+            @Html.Hidden("hdntaskpartid")
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div class="fll" style="width: 100px;">
+                            Price Book
+                        </div>
+                        <div class="fll" style="width: 600px;">
+                            @Html.DropDownList("ddlPriceBook", (SelectList)Model.MngJobTask.PriceBookList, new { @style = "width:590px" })
+                        </div>
+                        <input type="submit" name="command" value="Change Price Book" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="fll" style="width: 100px;">
+                            Code
+                        </div>
+                        <div class="fll" style="width: 600px;">
+                            @Html.DropDownList("ddlTaskCode", (SelectList)Model.MngJobTask.TaskCodeList, new { @style = "width:590px", onchange = "ChangeCode();" })
+                        </div>
+                        <div class="fll" style="width: 80px; padding-left: 10px;">
+                            <input type="button" id="btnAddCode" value="Add Code" onclick="AddCode()" />
+                        </div>
+                        <div class="fll" style="width: 150px; padding-left: 30px;">
+                            @Html.TextBox("txtJobCode")
+                        </div>
+                        <div class="fll" style="width: 100px; padding-left: 10px;">
+                            <input type="button" id="btnSearchCode" value="Search Code" onclick="SearchCode()" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="fll" style="width: 100px;">
+                            Parts
+                        </div>
+                        <div class="fll" style="width: 600px;">
+                            @Html.DropDownList("ddlPart", (SelectList)Model.MngJobTask.PartList, new { @style = "width:590px", onchange = "ChangePart();" })
+                        </div>
+                        <div class="fll" style="width: 80px; padding-left: 10px;">
+                            <input type="button" id="btnAddPart" value="Add Parts" onclick="AddPart()" />
+                        </div>
+                        <div class="fll" style="width: 150px; padding-left: 30px;">
+                            @Html.TextBox("txtPartCode")
+                        </div>
+                        <div class="fll" style="width: 100px; padding-left: 10px;">
+                            <input type="button" id="btnSearchPart" value="Search Parts" onclick="SearchPart()" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="fll" style="width: 100px;">
+                            Account Code
+                        </div>
+                        <div class="fll" style="width: 600px;" id="ACDiv">
+                        </div>
+                        <div id="divAccountCode" style="display: none;">
+                            @Html.DropDownList("ddlAccountCode", (SelectList)Model.MngJobTask.AccountCodeList, new { @class = "clsAccountCode", @style = "width:570px", onchange = "ChangeAccountCode();" })
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="fll" style="width: 200px;">
+                            <div>
+                                <div>
+                                    Parts #
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.TextBox("txtPartno", "")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fll" style="width: 200px; padding-left: 15px;">
+                            <div>
+                                <div>
+                                    Part Description
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.TextBox("txtPartDescription", "")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fll" style="width: 200px; padding-left: 15px;">
+                            <div>
+                                <div>
+                                    Part Qty
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.TextBox("txtPartQty", "")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fll" style="width: 200px; padding-left: 15px;">
+                            <div>
+                                <div>
+                                    Part Price
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.TextBox("txtPartPrice", "")
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="labelstask">
+                    <td>
+                        <div class="fll" style="width: 200px;">
+                            <div>
+                                <div>
+                                    Code
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.TextBox("txtCode", "")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fll" style="width: 200px; padding-left: 15px;">
+                            <div>
+                                <div>
+                                    Description
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.TextBox("txtDescription", "")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fll" style="width: 200px; padding-left: 15px;">
+                            <div>
+                                <div>
+                                    Qty
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.TextBox("txtQty", "")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fll" style="width: 200px; padding-left: 15px;">
+                            <div>
+                                <div>
+                                    Price
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.TextBox("txtPrice", "")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fll" style="width: 100px; padding-left: 15px;">
+                            <div>
+                                <div>
+                                    Add on
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.CheckBox("chkAddon", "")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fll" style="width: 100px; padding-left: 15px;">
+                            <div>
+                                <div>
+                                    Member
+                                </div>
+                                <div style="clear: both;">
+                                    @Html.CheckBox("chkMember", "")
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="width: 1025px;">
+                            <div class="flr">
+                                <div class="fll">
+                                    <input type="button" id="btnUpdateJobTask" value="Update" onclick="UpdateJobTask()" />
+                                </div>
+                                <div class="fll">
+                                    <input type="button" id="btnDeleteJobTask" value="Delete" onclick="DeleteJobTask()" />
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div style="padding-left: 650px;">
+        <img id="JobtaskgifId" src="../../../../Images/ajax-loader.gif" alt="processing..." />
+    </div>
+    <div id="gridviewjobtask" style="height: 200px; background-color: white;">
+    </div>
+</body>
+</html>

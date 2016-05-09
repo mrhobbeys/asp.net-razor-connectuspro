@@ -1,0 +1,257 @@
+﻿@model int
+@if (Model != 0)
+{
+    <html>
+    <head>
+        <title>BankingDeposits</title>
+    </head>
+    <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../../codebase/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function doOnRowselect(rId, cInd) {
+            alert("row selected");
+//            document.getElementById("hdnjobid").value = mygrid1.cellById(rId, 0).getValue();
+            document.getElementById("txtjobid").value = mygrid.cellById(rId, 0).getValue();
+            document.getElementById("txtamt").value = mygrid.cellById(rId, 6).getValue().replace("$", "");
+        }
+
+        $(document).ready(function () {
+            LoadARList('');
+           
+        });
+        
+        function LoadARList(ArParameter) {
+            alert(ArParameter);
+            var xmlstring = "";
+
+//            if (ArParameter == "") {
+//                document.getElementById("lbldata").innerHTML = "ALL AR";
+//            } else if (ArParameter == "Current") {
+//                document.getElementById("lbldata").innerHTML = "Current AR";
+//            } else if (ArParameter == "3060") {
+//                document.getElementById("lbldata").innerHTML = "30 - 60 AR";
+//            } else if (ArParameter == "6090") {
+//                document.getElementById("lbldata").innerHTML = "60 - 90 AR";
+//            } else if (ArParameter == "Over90") {
+//                document.getElementById("lbldata").innerHTML = "Over 90 AR";
+//            }
+
+            var fid = { franchiseid: SiteBlue.franchiseId, strscreeen: ArParameter };
+            alert(SiteBlue.franchiseId);
+//            document.getElementById("ARListgifId").style.display = "block";
+            document.getElementById("txtbalance").value = "";
+            var jsondata = $.ajax({
+                url: "../MyFinances/ARResult",
+                data: JSON.stringify(fid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    alert("success");
+                    mygrid1 = new dhtmlXGridObject('gridbox');
+
+                    mygrid1.setImagePath("../../codebase/imgs/");
+                    mygrid1.setHeader("Invoice#,Bill To,Job Location,Age,Closed Date,Tech,Job Amt,Balance,Phone");
+                    //mygrid.setInitWidths("70,50,*");
+                    mygrid1.setColAlign("left,left,left,left,left,left,right,right,left");
+                    mygrid1.setColTypes("txt,txt,txt,txt,txt,txt,txt,txt,txt");
+                    mygrid1.enableEditEvents(false, false, false, false, false, false, false, false, false);
+                    mygrid1.attachEvent("onRowSelect", doOnRowselect);
+                    mygrid1.init();
+                    mygrid1.setSkin("dhx_skyblue");
+                    var d = msg;
+                    xmlstring = xmlstring + "<rows>";
+                    $.each(d, function (index, Details) {
+
+                        xmlstring = xmlstring + "<row id='" + index + "'>";
+                        //                    xmlstring = xmlstring + "<cell><![CDATA[" + Details.Jobid + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Details.Invoicenumber + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Details.BillTo + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Details.JobLocation + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Details.age + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Details.shortdatestring + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Details.Tech + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Details.strJobAmt + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Details.strBalance + "]]></cell>";
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Details.Phone + "]]></cell>";
+
+
+                        xmlstring = xmlstring + "</row>";
+                        document.getElementById("txtbalance").value = Details.totalbalance;
+                    });
+                    xmlstring = xmlstring + "</rows>";
+                   // mygrid1.clearAll();
+                    mygrid1.loadXMLString(xmlstring);
+
+//                    document.getElementById("ARListgifId").style.display = "none";
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+
+                }
+            });
+
+        }
+   
+        function RecieveMoneyCall() {
+
+            var InvoiceNo = mygrid.getSelectedId();
+            if (InvoiceNo == null) {
+                alert("Please Select Invoice");
+                return false;
+            }
+            else {
+                window.open("../MyFinances/RecieveMoney?InvoiceNo=" + InvoiceNo);
+                return true;
+            }
+        }
+    </script>
+    <style type="text/css">
+        .div
+        {
+            width: 100%;
+            float: left;
+        }
+        .span
+        {
+            width: 100%;
+            float: left;
+            margin-top: 10px;
+        }
+        .sapn1
+        {
+            width: 20%;
+            float: left;
+            font-weight: bold;
+        }
+        .sapn2
+        {
+            width: 80%;
+            text-align: right;
+        }
+    </style>
+    <script type="text/javascript">
+        var myCalendar = new dhtmlXCalendarObject(["depositDate"]);
+        myCalendar.setWeekStartDay(7);
+        myCalendar.setDateFormat("%m/%d/%Y");
+    </script>
+    <body>
+        @*main Div*@
+        <div style="width: 100%; float: left; margin-top: 15px;">
+            <div style="margin-top: 15px; font-size: 14px; font-family: Verdana;">
+                <span style="font-weight: bold; margin-left: 2%" id="lblmsg"> </span>
+            </div>
+        </div>
+        <div style="padding-left:2%;padding-top:15px;padding-bottom:15px">
+            <div style="padding-right:15px;float:left">
+                <a href="javascript:LoadARList('');" style="color: Blue; font-weight: bold; text-decoration: underline">
+                    Show All</a></div>
+            <div style="padding-right:15px;float:left">
+                <a href="javascript:LoadARList('Current');" style="color: Blue; font-weight: bold;
+                    text-decoration: underline">Current</a></div>
+            <div style="padding-right:15px;float:left">
+                <a href="javascript:LoadARList('3060');" style="color: Blue; font-weight: bold; text-decoration: underline">
+                    30 - 60</a></div>
+            <div style="padding-right:15px;float:left">
+                <a href="javascript:LoadARList('6090');" style="color: Blue; font-weight: bold; text-decoration: underline">
+                    60 - 90</a></div>
+            <div style="padding-right:15px;float:left">
+                <a href="javascript:LoadARList('Over90');" style="color: Blue; font-weight: bold;
+                    text-decoration: underline">Over 90</a></div>
+            <div style="float:left">
+                <a href="javascript:MakeAdjustment();" style="color: Blue; font-weight: bold; text-decoration: underline">
+                    Make Adjustment to Selected Job</a></div>
+        </div>
+        <div style="width: 100%; float: left; background-color: #D5F1FF;">
+            <div class="div">
+            <div style="font-weight: bold;" id="lbldata"></div>
+               <div style="font-weight: bold;">
+                <div class="div" id="loader" align="center" style="background-color: White;">
+                    <img src="../../../../Images/3.gif" alt="Processing........." /></div>
+                <div id="gridbox" style="float: left; height: 200px; width: 90%; margin-top: 20px;
+                    margin-left: 2%">
+                </div>
+            </div>
+            <div style="width: 92%; float: left; margin-top: 10px; margin-right: 2%;">
+                <span style="width: 100%; float: left; margin-top: 10px; text-align: right;"><span
+                    style="width: 20%; font-weight: bold;">Balance:</span> <span style="width: 80%; text-align: right;">
+                        @Html.TextBox("txtbalance", "", new { style = "text-align:right", @readonly = "readonly" })</span>
+                </span>
+            </div>
+            <div style="width: 98%; float: left; font-family: Verdana; font-weight: bold; margin-left: 2%;
+                height: 25px; margin-top: 20px;">
+                <a href="javascript:RecieveMoneyCall()" title="RecieveMoney">Recieve Money</a> <a
+                    href="javascript:RecieveMoneyCall()" title="RecieveMoney">Make Adjustment To Selected
+                    Job</a>
+                    
+            </div>
+            <div id="dvMakeAddjustment" style="margin-left: 2%; background-color: #dfedf3;">
+                <table width="50%">
+                    <tr>
+                        <td>
+                            Invoice
+                        </td>
+                        <td>@Html.TextBox("txtjobid")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Adjustment Amount
+                        </td>
+                        <td>@Html.TextBox("txtamt")
+                        </td>
+                    </tr>
+                 <tr>
+                        <td>
+                            Adjustment Account
+                        </td>
+                        <td>
+                        @Html.DropDownList("ddlAdjustmentAmount", new SelectList(new List<string>() { "","58000 Plumbing Discount/Coupon/Adjustment", "59100 Electrical Discount/Coupon/Adjustment", "59000 HVAC      Discount/Coupon/Adjustment", "65900 WriteOff" }))
+                        
+                        </td>
+                 
+                 </tr>
+                    <tr>
+                        <td>
+                            Adjustment Comments
+                        </td>
+                        <td>@Html.TextArea("txtcomments")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            <a href="javascript:ApplyAdjustment();" style="color: Red; font-weight: bold; text-decoration: underline">
+                                Apply Adjustment NOW!</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="width: 92%; float: left; margin-top: 10px; margin-right: 2%;">
+                <a href="@Url.Content("~/MyFinances/MyFinances/AccountsReceivableFunction")" title="Back">
+                    Back</a>
+            </div>
+        </div>
+    </body>
+    </html>
+}
+else
+{
+    @:<text>No information available</text>
+}

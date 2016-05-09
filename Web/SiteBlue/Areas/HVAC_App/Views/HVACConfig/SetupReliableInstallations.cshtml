@@ -1,0 +1,38 @@
+﻿@model string  
+@{
+    var id = DateTime.Now.Ticks;
+}
+<script>
+    function showVideo() {
+        var code = $("#cd").val();
+        $("#videoContainer").html('<object><param name="movie" value="http://www.youtube.com/v/' + code + '?version=3&feature=player_detailpage"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="false"><embed src="http://www.youtube.com/v/' + code + '?version=3&feature=player_detailpage" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="435" height="260"></object>');
+    }
+    function onSuccess() {
+
+    }
+</script>
+@using (Ajax.BeginForm("SaveReliableInstallations", "HVACConfig", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "onSuccess()", LoadingElementId = "loading" + id.ToString() }))
+{
+    <div>@Html.Label("Enter Youtube code") @Html.TextBox("cd", Model)</div>
+    <div>Example: http://www.youtube.com/watch?v=<b>WwdArhNPJPE</b> => code is <b>WwdArhNPJPE</b></div>
+    <div>
+        <button id="btnSave" type="submit">Save</button>   
+    </div>
+}
+<div style="height: 30px;">
+    <div id="loading@(id.ToString())" style="display: none;"> <img src="../../../../Content/images/loading.gif" alt="Loading..."/></div>
+</div>
+<button id="btnShowVideo" type="button" onclick="showVideo()">Show Video</button>          
+
+<div id="videoContainer">
+          @if (!String.IsNullOrEmpty(Model))
+          {
+                    <object>
+                        <param name="movie" value='http://www.youtube.com/v/@Model?version=3&feature=player_detailpage'>
+                        <param name="allowFullScreen" value="true">
+                        <param name="allowScriptAccess" value="false">        
+                        <embed src="http://www.youtube.com/v/@Model?version=3&feature=player_detailpage" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="435" height="260">
+                    </object>
+
+                }    
+</div>

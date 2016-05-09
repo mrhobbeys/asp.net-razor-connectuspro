@@ -1,0 +1,226 @@
+﻿html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, details, figcaption, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, summary {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 12pt;
+	vertical-align: baseline;
+	background: transparent;
+	font-family: Calibri,'MS Mincho',Tahoma,Geneva,sans-serif;
+}
+h2
+{
+    font-size: 26px;
+    color: #999999;
+    font-family: Calibri,Tahoma;
+    font-weight: bold;
+}
+
+#hp #section {margin:30px 0; padding:0; background:url("../design/hp-section.png") 600px 0 repeat-y;}
+#hp #content {float:left; width:570px; overflow:hidden;}
+#hp #aside {float:right; width:330px; overflow:hidden;}
+
+
+.box {min-height:1px; _height:1%;}
+.box:after {display:block; visibility:hidden; clear:both; line-height:0; font-size:0; content:".";}
+
+/* -------------- Header ----------------- */
+#header {position:relative; height:150px; overflow:hidden; border-bottom: 2px solid #5F72B7; margin-right: auto; margin-left:auto; width:980px}
+#header #pagetitle{margin-top:10px;margin-left:120px}
+#header .header-pic {padding-top:10px;width:980px;height:488px;margin-left: auto;margin-right: auto;}
+#header .header-pic span {font:36px/1.2em 'MS Mincho', Arial, Helvetica, sans-serif;color:#272727;text-transform:uppercase;}
+#footer {margin-right:auto; margin-left:auto; width:980px;padding-top:10px;padding-bottom:10px;font-family:Calibri, Tahoma;font-size:14pt}
+#footer a{text-decoration:none;color:#5F72B7;font-weight:bold;font-family:Calibri, Tahoma;font-size:14pt}
+#doffice{float:left;width:380px;color:#5F72B7;font-family:Calibri, Tahoma;font-size:14pt;padding-left:20px}
+#demail{float:left;width:350px;color:#5F72B7;font-family:Calibri, Tahoma;font-size:14pt}
+#dcontact{float:right;width:150px;color:#5F72B7;font-family:Calibri, Tahoma;font-size:14pt}
+#comments{position:absolute;top:80px; right:50px; margin:0;width:450px;font-size:10pt}
+#comments .comment-by{color: #5F72B7;font-style:italic;font-size:10pt}
+#navigation{border-right-style: solid;border-bottom-style: solid;border-left-style: solid;border-width: 2px;border-color: #5F72B7;position:absolute;top:20px; right:20px; margin:0; list-style-type:none;padding-bottom:5px}
+#navigation li {display:inline; margin:0; padding: 0;}    
+#navigation a {float:left;	margin-left:7px; padding-left:7px; margin-right:7px; padding-right:7px; text-decoration:none; color:#5F72B7}
+#navigation a.current {float:left;	margin-left:7px; padding-left:7px; margin-right:7px; padding-right:7px; text-decoration:underline; color:#5F72B7}
+#navigation a span {float:left; display:block; padding-right:17px; line-height:35px;}
+#navigation a:hover {background-position:0 -70px;text-decoration:underline}
+/*#navigation a:hover{background:url(images/new/circle.png) no-repeat;background-position:center center}*/
+#navigation a:hover span {background-position:100% -70px;}
+/* -------------- Content ----------------- */
+#main{position:relative;margin-right:auto; margin-left:auto; width:980px;border-bottom: 2px solid #5F72B7;color:#303030;}
+#main p {margin-bottom:16px;padding: 30px 0 0 60;font:18pt 'MS Mincho';color:#777777}
+.underline
+{
+    margin-bottom: 16px;
+    padding: 30px 0 0 60;
+    font: 18pt 'MS Mincho';
+    color: #777777;
+    text-decoration: underline;
+}
+#transition{margin-left:auto;margin-right:auto;width:930px;position:relative}
+#selector{margin-left:auto;margin-right:auto;width:200px;text-align:center;padding-bottom:5px}
+#selector a
+{
+    background-position: center center;
+    background-image: url('Images/new/not-selected.png');
+    text-decoration: none;
+    margin: 0 5px;
+    padding: 3px 5px;
+    background-repeat: no-repeat;
+    font-size: 7pt;
+    color: white;
+}
+#selector a.activeSlide{background-image:url('Images/new/selected.png');color: rgb(79,129,189);}
+.pfirst
+{
+    background-image: url('images/new/arrow.png');
+    background-repeat: no-repeat;
+    background-position: 20px 18px;
+    padding-left: 60px;
+    margin-top: 50px;
+}
+.psecond{background-image: url('images/new/arrow.png');background-repeat: no-repeat;background-position: 20px 18px;padding-left: 60px;margin-top: 50px;}
+.content{padding: 30px 0 0 20;margin-bottom:16px;font:18pt 'MS Mincho', Tahoma,Geneva,sans-serif;}
+.content p{padding-top:15px;padding-left:70px;}
+.content .link{float:right;text-align:left;width:150px;padding-top:20px;margin-bottom:20px}
+.content .link a{text-decoration:none;color:#5F72B7;font-weight:bold}
+.howdiv{margin-left:auto;margin-right:auto;width:980px;padding-top:20px}
+ul#how{list-style: none;margin-left: 0px;}
+ul#how li{width: 300px;float: left;text-align: center;}
+ul#how li.line{width: 40px;float: left;text-align: center;}
+/*#page{margin-top:auto;margin-bottom:auto;}*/
+#subcontent{float:left;width:200px;padding-top:100px;padding-left:100px}
+#subimage{float:right;padding-top:100px;padding-right:200px}
+.hyperlink a{text-decoration:none;color:#5F72B7;font-weight:bold}
+
+
+/* -------------- Contact Form ----------------- */
+/*----- forms -----*/
+#form1 div,p,a,label
+{
+    font-family:Calibri,Tahoma;
+    font-size:14pt;
+}
+
+#form1 .left{
+	width:280px;
+	color:#373732;
+	float:left;
+	padding-right:50px;
+	font-family:Calibri,Tahoma;
+    font-size:14pt;
+}
+#form1 .credentials{
+	width:280px;
+	margin-left:auto;
+	margin-right:auto;
+	color:#373732;
+    font-family:Calibri,Tahoma;
+	/*padding-right:50px;*/
+}
+
+#form1 .right{
+	width:326px;
+	float:left;
+	font-family:Calibri,Tahoma;
+    font-size:14pt;
+}
+
+#form1 label{
+	font:14px Calibri, Tahoma, Geneva, sans-serif;
+}
+
+#form1 input[type=text]{
+	width:280px;
+	height: 14px;
+	border:1px solid #a5a5a5;
+	padding:4px 0 4px 0;
+	margin:0;
+}
+
+#form1 input[type=password]{
+	width:280px;
+	height: 14px;
+	border:1px solid #a5a5a5;
+	padding:4px 0 4px 0;
+	margin:0;
+}
+
+#form1 textarea{
+	width:326px;
+	height:104px;
+	border:1px solid #a5a5a5;
+	overflow:auto;
+}
+
+#form1 .btns{
+	float:right;
+	padding-top:26px;
+	font-family:Calibri;
+}
+
+#form1 .btns a{
+	margin-left:20px;
+	font-family:Calibri;
+}
+
+#form1 .links{
+	float:left;
+	padding-top:26px;
+	font-family:Calibri;
+}
+
+#form1 .links a{
+	text-decoration:none;
+	color:#5F72B7;
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+	width: 100%;
+	background: #ee0101;
+	position:relative;
+	z-index:5001;
+	color: #fff;
+	width: 150px;
+	font-family: tahoma;
+	font-size: 11px;
+	border: 2px solid #ddd;
+	box-shadow: 0 0 6px #000;
+	-moz-box-shadow: 0 0 6px #000;
+	-webkit-box-shadow: 0 0 6px #000;
+	padding: 4px 10px 4px 10px;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+}
+
+.field-validation-valid {
+	display: none;
+}
+
+.input-validation-error {
+	border: 1px solid #ff0000;
+	background-color: #ffeeee;
+}
+
+.validation-summary-errors {
+	font-weight: bold;
+	color: #ff0000;
+}
+
+.validation-summary-valid {
+	display: none;
+}
+.btns{
+	float:right;
+	padding-top:26px;
+}
+
+.button {
+	padding:0 16px 0 16px;
+	text-decoration:none;
+	font:bold 12px/24px Calibri, Tahoma, Geneva, sans-serif;
+	color:#fffff0;
+	float:left;
+	background:#5F72B7;
+}

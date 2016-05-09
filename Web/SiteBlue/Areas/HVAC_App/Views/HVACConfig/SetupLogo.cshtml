@@ -1,0 +1,45 @@
+﻿@model SiteBlue.Areas.HVAC_App.Models.SetupModels.LogoModel
+           
+<script>
+    function changeBackGround() {
+        if ($("#Url").val() == "")
+            return;
+        for (var i = 0; i < document.styleSheets.length; ++i) {
+            if (document.styleSheets[i].href != null)
+                if (document.styleSheets[i].href.indexOf("site.css") != -1) {
+                    var crossrule;
+                    if (document.styleSheets[i].cssRules) {
+                        crossrule = document.styleSheets[i].cssRules[3];
+                        crossrule.style.backgroundImage = "url('" + $("#Url").val() + "')";
+                    } else if (document.styleSheets[i].rules) {
+                        p_logo.filters(0).src = $("#Url").val();
+                    }
+                }
+        }
+    }
+
+    $(document).ready(function () {
+        changeBackGround();
+    });
+    
+    function onSuccess(data) {
+        
+    }
+</script>
+@using (Ajax.BeginForm("SaveLogo", new AjaxOptions() { LoadingElementId = "loadingLogo", OnSuccess = "onSuccess" }))
+{
+    <div style="float: left;" class="logocell">
+        @Html.LabelFor(item=>item.Url)
+    </div>
+    <div class="logocell">
+        @Html.EditorFor(item => item.Url, new { @class = "logoInput" })
+    </div>
+    <button type="submit" class="logocell">Save</button>
+}
+<div style="height: 60px;">
+    <div id="loadingLogo" style="display: none;"> <img src="../../../../Content/images/loading.gif" alt="Loading..."/></div>
+    
+</div>
+<button type="button" onclick="changeBackGround();">Show</button>
+<div class="p_logo" id="p_logo" style="width:378px; height: 355px; border: 1px solid #A4BED4; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../Areas/hvac_app/content/bigimage.png', sizingMethod='scale');"></div>
+

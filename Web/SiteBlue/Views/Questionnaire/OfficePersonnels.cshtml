@@ -1,0 +1,148 @@
+﻿@model List<SiteBlue.Questionnaire.Data.OfficePersonnel>
+<div class="form" id="officePersonnelForm">
+    @*<div class="formComponent formComponentSingleLineText">
+        <label class="formComponentLabel">
+            Key office personnel</label>*@@*[<a href="#" id="officePersonnelButton">+</a>]*@
+        @*<br />
+    </div>*@
+    <div class="formComponent formComponentAddress" id="dvOfficePersonnelOne">
+        <input type="hidden" id="uiOfficePersonnelId" name="uiOfficePersonnelId" />
+        <label class="formComponentLabel">
+            Key office personnel</label>
+        <div class="phoneDiv">
+            <label for="uiFirstName">First name</label>
+            <input type="text" id="uiFirstName" name="uiFirstName" class="cellPhone singleLineText" />
+        </div>
+        <div class="phoneDiv">
+            <label for="uiLastName">Last name</label>
+            <input type="text" id="uiLastName" name="uiLastName" class="homePhone singleLineText" />
+        </div>
+        <div class="emailDiv">
+            <label for="uiTitle">Title</label>
+            <input type="text" id="uiTitle" name="uiTitle" class="large singleLineText" />
+        </div>
+    </div>
+    <div class="formComponent formComponentAddress"  id="dvOfficePersonnelTwo">
+        <div class="phoneDiv">
+            <label for="uiCellPhone">Cell phone</label>
+            <input type="text" id="uiCellPhone" name="uiCellPhone" class="cellPhone singleLineText" />
+        </div>
+        <div class="phoneDiv">
+            <label for="uiOfficePhone">Office phone</label>
+            <input type="text" id="uiOfficePhone" name="uiOfficePhone" class="homePhone singleLineText" />
+        </div>
+    </div>
+    <div class="buttons" id="dvOfficePersonnelThree">
+        <ul class="jquerycontrol">
+            <li><a onclick="saveOfficePersonnel()" class="formbutton" id="save">Add New key office personnel</a></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+<div class="formComponent formComponentSingleLineText" id="zoneOfficePersonnels">
+    @Html.Partial("Partial/OfficePersonnelsTable", Model)
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function ($) {
+            // apply masks
+            $("#uiCellPhone").mask("999-999-9999");
+            $("#uiOfficePhone").mask("999-999-9999");
+        });
+    });
+
+        var _officePersonnel = -1;
+
+        function saveOfficePersonnel() {
+
+            $("#uiFirstName").parents('.formComponent').removeClass('formComponentHighlight');
+            $("#uiFirstName").parents('.formComponent').removeClass('formComponentValidationFailed');
+            $("#uiOfficePhone").parents('.formComponent').removeClass('formComponentHighlight');
+            $("#uiOfficePhone").parents('.formComponent').removeClass('formComponentValidationFailed');
+            var firstName = $("#uiFirstName").val();
+            var lastName = $("#uiLastName").val();
+            var title = $("#uiTitle").val();
+            var cellPhone = $("#uiCellPhone").val();
+            var officePhone = $("#uiOfficePhone").val();
+            var bid = $("#uiBusinessInformationId").val();
+            var id = $("#uiOfficePersonnelId").val();
+            if ((firstName == "") || (lastName == "") || (title == "") || (cellPhone == "") || (officePhone == "")) {
+                //----------------------------------------------------------------------------------------------
+                if ((firstName == "") || (lastName == "") || (title == "")) {
+                    $("#uiFirstName").parents('.formComponent').addClass('formComponentHighlight');
+                    $("#uiFirstName").parents('.formComponent').addClass('formComponentValidationFailed');
+                }
+                if ((cellPhone == "") || (officePhone == "")) {
+                    $("#uiOfficePhone").parents('.formComponent').addClass('formComponentHighlight');
+                    $("#uiOfficePhone").parents('.formComponent').addClass('formComponentValidationFailed');
+                }
+                //----------------------------------------------------------------------------------------------
+                $("#error-div").html("Please fill the required fields!");
+                $("#error-div").fadeIn("fast");
+                $("#uiDiscountName").parents('.formComponent').addClass('formComponentValidationFailed');
+                $("#error-div").fadeOut(5000);
+                return false;
+            } else {
+                $.ajax({
+                    cache: false,
+                    url: '@Url.Content("~/Questionnaire/SaveOfficePersonnel")',
+                    type: 'POST',
+                    data: { bid: bid, id: id, firstName: firstName, lastName: lastName, title: title, cellPhone: cellPhone, officePhone: officePhone },
+                    success: function (r) {
+                        $("#zoneOfficePersonnels").html(r.data);
+                        $("#message-div").html("item saved with success!");
+                        $("#message-div").fadeIn("fast");
+                        $("#uiOfficePersonnelId").val("");
+                        $("#uiFirstName").val("");
+                        $("#uiLastName").val("");
+                        $("#uiTitle").val("");
+                        $("#uiCellPhone").val("");
+                        $("#uiOfficePhone").val("");
+                        $("#uiFirstName").parents('.formComponent').removeClass('formComponentHighlight');
+                        $("#uiFirstName").parents('.formComponent').removeClass('formComponentValidationFailed');
+                        $("#message-div").fadeOut(4000);
+                    },
+                    error: function () {
+                        $("#error-div").html("An error occured while trying to save the selected item, try again!");
+                        $("#error-div").fadeIn("fast");
+                        $("#uiFirstName").parents('.formComponent').addClass('formComponentValidationFailed');
+                        $("#error-div").fadeOut(5000);
+                    }
+                });
+            }
+        }
+
+        function deleteOfficePersonnel() {
+            $("#message-div").html("item deleted with success!");
+            $("#message-div").fadeIn("fast");
+            $("#message-div").fadeOut(4000);
+        }
+
+        function selectOfficePersonnel(itemId) {
+
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/GetOfficePersonnel")',
+                type: 'POST',
+                data: { id: itemId },
+                success: function (data) {
+                    $("#uiOfficePersonnelId").val(data.officePersonnelId);
+                    $("#uiFirstName").val(data.firstName);
+                    $("#uiLastName").val(data.lastName);
+                    $("#uiTitle").val(data.title);
+                    $("#uiCellPhone").val(data.cellPhone);
+                    $("#uiOfficePhone").val(data.officePhone);
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to load the selected item, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+
+        function beginOfficePersonnel(name) {
+            _officePersonnel = $(name).attr("itemid");
+            selectOfficePersonnel(_officePersonnel);
+        }
+</script>

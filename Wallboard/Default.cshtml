@@ -1,0 +1,211 @@
+﻿<html>
+<head>
+    <title>Wallboard</title>
+    <link rel="Stylesheet" type="text/css" href="Styles/@(string.IsNullOrWhiteSpace(Request.QueryString["for"]) ? "wallboard" : Request.QueryString["for"]).css" />
+    <link rel="Stylesheet" type="text/css" href="Styles/common.css" />
+    <link rel="Stylesheet" type="text/css" href="Styles/li-scroller.css" />
+    <script type="text/javascript" src="Scripts/jquery-1.7.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.li-scroller.1.0.js"></script>
+    <script type="text/javascript">
+        var timer = setInterval(getData, 5000);
+        var refreshTimer = setInterval(window.location.reload, 300000);
+
+        var clock = setInterval(tick, 1000);
+
+        $(document).ready(function () {
+            //            $(function(){
+            //                $("ul#ticker").liScroll({ travelocity: 0.15 });
+            //            });
+            getData();
+        });
+
+        function getData() {
+            $.ajax({
+                url: "Service.svc/GetData",
+                contentType: "application/json",
+                dataType: "json",
+                cache: false,
+                success: function (data) {
+
+                    var plumber = data.d[0].Name == "1800Plumber" ? data.d[0] : data.d[1];
+                    var connectus = data.d[0].Name == "1800Plumber" ? data.d[1] : data.d[0];
+
+                    updateIfChanged($("#QContainer1 .Q"), plumber.OnHold, false);
+                    updateIfChanged($("#QContainer1 .longestHold"), plumber.LongestHoldTime, true);
+                    updateIfChanged($("#QContainer1 .loggedIn .val"), plumber.AgentsLoggedIn, false);
+                    updateIfChanged($("#QContainer1 .available .val"), plumber.AgentsAvailable, false);
+                    updateIfChanged($("#QContainer1 .unavailable .val"), plumber.AgentsUnavailable, false);
+                    updateIfChanged($("#QContainer1 .talking .val"), plumber.AgentsTalking, false);
+                    updateIfChanged($("#QContainer1 .avgWait .val"), plumber.AverageWait, false);
+                    updateIfChanged($("#QContainer1 .longestWait .val"), plumber.LongestWait, false);
+                    updateIfChanged($("#QContainer1 .abandonedCalls .val"), plumber.AbandonedCalls, false);
+                    updateIfChanged($("#QContainer1 .totalCalls .val"), plumber.TotalCalls, false);
+
+                    updateIfChanged($("#QContainer2 .Q"), connectus.OnHold, false);
+                    updateIfChanged($("#QContainer2 .longestHold"), connectus.LongestHoldTime, true);
+                    updateIfChanged($("#QContainer2 .loggedIn .val"), connectus.AgentsLoggedIn, false);
+                    updateIfChanged($("#QContainer2 .available .val"), connectus.AgentsAvailable, false);
+                    updateIfChanged($("#QContainer2 .unavailable .val"), connectus.AgentsUnavailable, false);
+                    updateIfChanged($("#QContainer2 .talking .val"), connectus.AgentsTalking, false);
+                    updateIfChanged($("#QContainer2 .avgWait .val"), connectus.AverageWait, false);
+                    updateIfChanged($("#QContainer2 .longestWait .val"), connectus.LongestWait, false);
+                    updateIfChanged($("#QContainer2 .abandonedCalls .val"), connectus.AbandonedCalls, false);
+                    updateIfChanged($("#QContainer2 .totalCalls .val"), connectus.TotalCalls, false);
+
+                },
+                error: function (e) {
+                    $("#error").html(e);
+                }
+            });
+        }
+
+        function updateIfChanged(obj, newVal, impactsTemp) {
+            if (obj.html() != newVal.toString()) {
+                obj.fadeOut('slow', function () {
+                    obj.html(newVal);
+                    if (impactsTemp) takeTemperature(obj, newVal);
+                    obj.fadeIn();
+                });
+            }
+        }
+
+        function takeTemperature(obj, val) {
+
+            var parsedVal = val;
+
+            if (typeof (val == "string")) {
+                var parts = val.toString().split(":");
+                var hrs = parts.length > 0 ? parts[0] : 0;
+                var mins = parts.length > 1 ? parts[1] : 0;
+                parsedVal = (parts.length > 2 ? parts[2] : 0) + (hrs * 60 * 60) + (mins * 60);
+            }
+
+            var temp = obj.closest(".temperature");
+            temp.removeClass("hot warm");
+            if (parsedVal >= 30)
+                temp.addClass("hot");
+            else if (parsedVal >= 15)
+                temp.addClass("warm");
+        }
+
+        function tick() {
+            $("#clock").html(new Date().toLocaleTimeString());
+        }
+    </script>
+    
+</head>
+<body>
+    <div id="QContainer1">
+        <img src="http://www.connectuspro.net/Images/800plumber_CMYK_NO%20tag.png" style="width: 300px;" />
+        <div class="temperature">
+            <h1 class="Q">
+            </h1>
+            <h2 class="hdg longestHold">
+            </h2>
+        </div>
+        <div class="sub">
+            <div class="hdg totalCalls">
+                Total Calls
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg loggedIn">
+                Logged In
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg available">
+                Available
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg talking">
+                Talking
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg unavailable">
+                Unavailable
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg abandonedCalls">
+                Abandoned
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg avgWait">
+                Avg Wait
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg longestWait">
+                Longest Wait
+                <div class="val">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="clock">
+    </div>
+    <div id="QContainer2">
+        <img src="http://www.connectuspro.net/Images/ConnectusPro%20logo%20CMYK%202.png"
+            style="width: 300px;" />
+        <div class="temperature">
+            <h1 class="Q">
+            </h1>
+            <h2 class="longestHold">
+            </h2>
+        </div>
+        <div class="sub">
+            <div class="hdg totalCalls">
+                Total Calls
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg loggedIn">
+                Logged In
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg available">
+                Available
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg talking">
+                Talking
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg unavailable">
+                Unavailable
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg abandonedCalls">
+                Abandoned
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg avgWait">
+                Avg Wait
+                <div class="val">
+                </div>
+            </div>
+            <div class="hdg longestWait">
+                Longest Wait
+                <div class="val">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="error">
+    </div>
+    <ul id="ticker" style="display: none">
+        <li><span>10/10/2007</span><a href="#">The first thing ...</a></li>
+        <li><span>10/10/2007</span><a href="#">End up doing is ...</a></li>
+        <li><span>10/10/2007</span><a href="#">The code that you ...</a></li>
+    </ul>
+</body>
+</html>

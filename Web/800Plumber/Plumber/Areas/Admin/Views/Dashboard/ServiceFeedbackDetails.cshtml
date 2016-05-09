@@ -1,0 +1,42 @@
+﻿@model Plumber.Models.ServiceFeedback
+@{
+    ViewBag.Title = "ServiceFeedbackDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    Service Feedback Details</h2>
+<fieldset>
+    <legend>Location information</legend>
+    <div class="display-label" style="font-weight: bold">
+        Location</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Location.LocationName)
+    </div>
+    <div class="display-label" style="font-weight: bold">
+        Address</div>
+    <div class="display-field">
+        @Html.Raw(Model.Location.Address + "<br />" + Model.Location.ZipCode + "<br />" + Model.Location.City + ", " + Model.Location.State)
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Contact information</legend>
+    <div class="display-label" style="font-weight: bold">
+        Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="display-label" style="font-weight: bold">
+        Email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Comment</legend>
+    <div class="display-field">
+        @Html.Raw(Model.Comment)
+    </div>
+</fieldset>
+<p>
+    <a href="mailto:@Model.Email">Contact @Model.Name</a> | @Html.ActionLink("Back to service feedbacks list", "ServiceFeedbacks", "Dashboard", new { area = "Admin", id = 1 }, null)
+</p>

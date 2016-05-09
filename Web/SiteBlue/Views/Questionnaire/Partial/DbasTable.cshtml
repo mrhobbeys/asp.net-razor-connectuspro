@@ -1,0 +1,73 @@
+﻿@model List<SiteBlue.Questionnaire.Data.Dba>
+
+    @if ((Model != null) && (Model.Count > 0))
+    {
+        <table class="data-table" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th class="actions edit">
+                        Edit
+                    </th>
+                    <th class="actions delete">
+                        Delete
+                    </th>
+                    <th>
+                        DBA
+                    </th>
+                    <th>
+                        Advertised phone
+                    </th>
+                    <th>
+                        Business name
+                    </th>
+                    <th>
+                        Comment
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 0;
+                    }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="actions edit">
+                            @Ajax.ImageActionLink("../../../Content/images/edit.png", "DbasTable", new { id = item.DbaId }, new AjaxOptions { UpdateTargetId = "dbaForm", OnBegin = "beginDba(db" + item.DbaId + ")" }, new { itemid = item.DbaId, id = "db" + item.DbaId })
+                        </td>
+                        <td class="actions delete">
+                            @Ajax.ImageActionLink("../../../Content/images/delete.png", "DeleteDba", new { id = item.DbaId }, new AjaxOptions { Confirm = "Delete DBA?", HttpMethod = "Delete", UpdateTargetId = "zoneDbas", OnComplete = "deleteDba" }, null)
+                        </td>
+                        <th>
+                            @Html.DisplayFor(modelItem => item.DbaName)
+                        </th>
+                        <td style="width: 150px">
+                            @Html.DisplayFor(modelItem => item.AdvertisedPhoneNumber)
+                        </td>
+                        <td style="width: 100px">
+                            @if (i == 0)
+                            {
+                                <span>@item.BusinessInformation.Questionnaire.OwnerInformations[0].BusinessName</span>
+                            }
+                        </td>
+                        <td style="width: 150px">
+                            @Html.DisplayFor(modelItem => item.Comment)
+                        </td>
+                    </tr>
+                            i++;
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table cellpadding="0" cellspacing="0" class="data-table">
+            <tbody>
+                <tr>
+                    <td colspan="4" style="height: 40px; width: 900px; vertical-align: middle">
+                        <span class="notification">No row returned</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }

@@ -1,0 +1,1528 @@
+﻿@using SiteBlue.Data.EightHundred
+@model SiteBlue.Areas.CallCenter.Models.Incoming
+
+@{
+    ViewBag.Title = "Incoming Call Scriptonator";
+    Layout = null;
+    //Layout = "~/Views/Shared/SecondaryLayout.cshtml";
+    var inTimeString = DateTime.Now.ToLongTimeString();
+    var inTimeDate = DateTime.Now;
+    var inDate = DateTime.Now.ToShortDateString();
+    var defaultFranchiseId = Model.AvailableFranchises.Count != 1 ? string.Empty : Model.AvailableFranchises.First().Key.ToString();
+    var defaultFranchiseName = Model.AvailableFranchises.Count != 1 ? "Franchise" : Model.AvailableFranchises.First().Value.ToString();
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="x-ua-compatible" content="IE=8">
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    
+    <script src="@Url.Content("~/Scripts/jquery-1.5.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.watermark.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/dhtmlxcontainer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/windows/dhtmlxwindows.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/layout/dhtmlxlayout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgrid.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/grid/dhtmlxgridcell.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/tabbar/dhtmlxtabbar.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/calendar/dhtmlxcalendar.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.maskedinput-1.3.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/patterns/dhtmlxlayout_pattern4w.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/jquery.dateFormat-1.0.js")" type="text/javascript"></script>
+
+    <link href="@Url.Content("~/Content/themes/base/scriptonator.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/layout/dhtmlxlayout.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/layout/skins/dhtmlxlayout_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/tabbar/dhtmlxtabbar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/grid/dhtmlxgrid.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/grid/skins/dhtmlxgrid_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/windows/dhtmlxwindows.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/windows/skins/dhtmlxwindows_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/calendar/dhtmlxcalendar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/calendar/skins/dhtmlxcalendar_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <style>
+        .odd {background-color:#e9e9e9}
+        .dhx_tab_element_active {text-decoration:underline;font-size:12px;}
+        .btn {padding:3px;border:1px solid #666666;background-color:#6E95AD;color:#ffffff;font-weight:bold;width:100px;margin-top:10px;}
+        .btns {float:right;width:100px;margin-right:10px;}
+        #BillTo, #JobLocation {float:left;font-size:13px;padding:10px;width:200px;}
+    </style>
+    <script language="javascript" type="text/javascript">
+        window.onerror = function (msg, url, linenumber) {
+            alert('An unhandled exception has occurred.  Please refresh this page to prevent inconsistent data.\n\nMessage: ' + msg + '\nLine: ' + linenumber);
+        };
+
+        function filterEquipFields() {
+            var svcId = $("#Services").val();
+
+            if (svcId != 1 && svcId != 8)
+                $("#AgeOfWaterHeater").slideUp();
+            else
+                $("#AgeOfWaterHeater").slideDown();
+
+            if (svcId == 2 || svcId == 3 || svcId == 4 || svcId == 9 || svcId == 10)
+                $("#AgeOfHVAC").slideDown();
+            else
+                $("#AgeOfHVAC").slideUp();
+
+            if (svcId != 6 && svcId != 7)
+                $("#AgeOfHouse").slideDown();
+            else
+                $("#AgeOfHouse").slideUp();
+        }
+        
+    </script>
+</head>
+<body>
+    <input type="hidden" id="CallID" name="CallID" />
+    <input type="hidden" id="JobID" name="JobID" />
+    <div id="parentId"></div>
+    <div id="contentWrapper" style="display:none">
+        <div id="header_left">
+            <div id="links">
+                <div id="date">
+                    <h1></h1>
+                </div>
+                <a href="#" style="display:none">View Queue</a>&nbsp;&nbsp;&nbsp;<a href="#" style="display:none">Outgoing Calls</a>
+                <br />
+                <span style="color: #FF0000;" id="callStatus">Call In Progress</span>
+            </div>
+        </div>
+        <div id="callScriptContainer" style="padding-top: 5px; padding-left: 10px;">
+            <label id="informationLabel">@Html.Raw("<b>" + Model.CallScript + "</b>")</label>
+        </div>
+        <div id="businessInformation" class="content" style="position:absolute;top:0;bottom:0;left:0;right:0;">
+            <div>
+                @Html.TextBox("ConnectusCode", Model.CPCode, new { @class = "textfield", @readonly = "readonly" })
+                <select name="Franchise" id="Franchise" class="reqFld" disabled="disabled">
+                    <option value="@defaultFranchiseId">@defaultFranchiseName</option>
+                </select>
+                <textarea id="CallReason" name="CallReason" rows="4" class="input reqFld"></textarea>
+                <input type="text" id="ZipDummy" name="ZipDummy" class="textfield req" />    
+                <select name="Services" id="Services" class="reqFld">
+                    <option value="">Services</option>
+                </select>
+            </div>
+        
+            <div id="customerTab" style="width:100%;height:330px;z-index:0"></div>
+        </div>
+        <div id="moreDetailsForm" class="content">
+            <select name="DBA" id="DBA">
+                <option value="">DBA</option>
+            </select>
+            <select name="AgeOfHouse" id="AgeOfHouse" style="display:none">
+                <option value="">Age of house</option>
+                <option value="A">More than 10 years</option>
+                <option value="B">5 to 10 years</option>
+                <option value="C">Less than 5 years</option>
+            </select>
+            <select name="AgeOfHVAC" id="AgeOfHVAC" style="display:none">
+                <option value="">Age of HVAC</option>
+                <option value="A">More than 10 years</option>
+                <option value="B">5 to 10 years</option>
+                <option value="C">Less than 5 years</option>
+            </select>
+            <select name="AgeOfWaterHeater" id="AgeOfWaterHeater" style="display:none">
+                <option value="">Age of water heater</option>
+                <option value="A">More than 10 years</option>
+                <option value="B">5 to 10 years</option>
+                <option value="C">Less than 5 years</option>
+            </select>
+            <select name="HomeOrBusiness" id="HomeOrBusiness" class="reqFld">
+                <option value="">Home or business</option>
+                <option value="3">Business</option>
+                <option value="2">Home</option>
+            </select>
+            <select name="PropertyOwner" id="PropertyOwner" class="reqFld">
+                <option value="">Property owner</option>
+                <option value="1">No</option>
+                <option value="2">Yes</option>
+            </select>
+            <input type="text" id="CrossStreet" name="CrossStreet" class="textfield input" />
+            <select name="Referrals" id="Referrals" class="reqFld"><option value="">Referral</option></select>
+            @Html.DropDownList("Priority", new SelectList(Model.JobPriorities, "Key", "Value"), "Priority", new { @class = "reqFld" })
+            <input type="text" id="RequestedDate" name="RequestedDate" class="textfield input reqFld" />
+            <input type="text" id="RequestedTime" name="RequestedTime" class="textfield input" />
+            <input type="text" id="ServiceDate" name="ServiceDate" class="textfield input reqFld" />
+            <select id="ServiceWindow" name="ServiceWindow" class="reqFld">
+                <option value="">Service Window</option>
+            </select>
+            <select name="ServiceLength" id="ServiceLength" class="reqFld">
+                <option value="">Service Length</option>
+                <option value="2" selected="selected">2 hours</option>
+                <option value="4">4 hours</option>
+                <option value="8">8 hours</option>
+            </select>
+            @Html.DropDownList("PayType", new SelectList(Model.PaymentTypes, "Key", "Value"), "Pay Type")
+            <input type="text" id="WrapUp" name="WrapUp" class="textfield input" />
+        </div>
+        <div id="customerBillToForm" class="content" style="width: 100%">
+            <div>
+                <input type="text" id="SearchName" name="SearchName" class="integrated-input" />
+                <input type="text" id="SearchPhoneNumber" name="SearchPhoneNumber" class="integrated-input" value="@Request.QueryString["id2"]" />
+            </div>
+            <div id="possibleMatchesGridBillTo" style="width:99%;height:100px;"></div>
+            <div id="BillTo">No billing party selected.</div>
+            <div class="btns">
+                <input type="button" id="editBillTo" value="Edit" class="btn" />
+                <input type="button" id="newBillTo" value="New" class="btn" />
+            </div>
+            <input type="hidden" id="CustomerId" name="CustomerId" value="0" />
+        </div>
+        <div id="jobLocationForm" class="content" style="width: 100%">
+            <div>
+                <div>
+                    <input type="text" id="SearchNameLocation" name="SearchName" class="integrated-input" />
+                    <input type="text" id="SearchPhoneNumberLocation" name="SearchPhoneNumberLocation" class="integrated-input" value="@Request.QueryString["id2"]" />
+                </div>
+                <div id="possibleMatchesGridLocation" style="width:99%; height:100px;" multiline="true"></div>
+            </div>
+            <div id="JobLocation">No job location selected.</div>
+            <div class="btns">
+                <input type="button" id="editJobLocation" value="Edit" class="btn" />
+                <input type="button" id="newJobLocation" value="New" class="btn" />
+            </div>
+            <input type="hidden" id="JobLocationId" name="JobLocationId" value="0" />
+        </div>
+        <div id="customerModal">
+            <div>
+                <input type="text" id="Postal" name="Postal" class="textfield req" />
+            </div>
+            <div>
+                <input type="text" id="Name" name="Name" class="textfield input req" />
+            </div>
+            <div>
+                <input type="text" id="Company" name="Company" class="textfield input req" />
+            </div>
+            <div>
+                <input type="text" id="Address" name="Address" class="textfield input req" />
+            </div>
+            <div>
+                <input type="text" id="City" name="City" class="textfield input req" />
+            </div>
+            <div>
+                <input type="text" id="State" name="State" class="integrated-input req" maxlength="2" />
+                <input type="text" id="Country" name="Country" class="integrated-input input req" />
+            </div>
+            <div>
+                <input type="text" id="ContactName" name="ContactName" class="textfield input req" />
+            </div>
+            <div>
+                <input type="text" id="PrimaryPhone" name="PrimaryPhone" class="integrated-input input req" />
+                <input type="text" id="Cell" name="Cell" class="integrated-input input" />
+            </div>
+            <div>
+                <input type="text" id="Email" name="Email" class="textfield input" />
+            </div>
+            <div style="text-align:center">
+                <input type="button" id="saveInfo" name="saveInfo" value="Save" class="btn" />
+                <input type="hidden" id="editingCustomerId" name="editingCustomerId" />
+                <input type="hidden" id="editingLocationId" name="editingLocationId" />
+                <input type="hidden" id="editingContactId" name="editingContactId" />
+                <input type="hidden" id="editingContact2Id" name="editingContact2Id" />
+                <input type="hidden" id="editingJobLocation" name="editingJobLocation" value="false" />
+            </div>
+        </div>
+        <div id="ownerNotesTab" style="width: 100%; height: 440px;"></div>
+        <div id="ownerInformationTab" class="content" style="width: 100%; height: 250px;">
+            <textarea id="OwnerNotes" name="OwnerNotes" rows="8"></textarea>
+            <textarea id="OwnerPicture" name="OwnerPicture" rows="8"></textarea>
+            <textarea id="OwnerSpecials" name="OwnerSpecials" rows="8"></textarea>
+        </div>
+        <div id="pastNotesGridContainer" style="width:100%">
+            <div class="content">
+                <textarea id="NewNote" name="newnote" rows="8"></textarea>
+                <a href="#" class="small">Add Note</a>
+            </div>
+        </div>
+        <div id="sendQueryContainer" class="link">
+            <a href="#" id="sendQuery">Book Job</a>&nbsp;<a href="#" id="cancelQuery">Cancel</a>
+        </div>
+        <div id="notFoundPostalCodeSection" class="content" style="display:none">
+            <p style="font-size: 12pt; font-weight:bold">We've NOT selected a franchise in your area yet. Is <span id="postalConfirm"></span> the correct postal code?</p>
+            <div class="link" style="text-align: right">
+                <a href="javascript:postalWindow.hide();postalWindow.setModal(false);" id="notTheCorrectPostalCode" class="small">No</a></div>
+            <p style="font-size: 12pt; font-weight:bold">
+                May we enter your email address to notify you when we become active in your area?
+            </p>
+            <p>
+                <input type="text" id="notificationEmailAddress" name="notificationEmailAddress" class="textfield" />
+            </p>
+            <div class="link" style="text-align: right">
+                <a href="javascript:alert('Not yet implemented.')" id="notificationSubmitButton" class="small">Yes</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    window.dhx_globalImgPath = '@Url.Content("~/Content/themes/DhtmlX/combo/imgs/")'; // "../../codebase/imgs/";
+
+    var custGrid = new dhtmlXGridObject("possibleMatchesGridBillTo");
+    var locGrid = new dhtmlXGridObject("possibleMatchesGridLocation");
+    var customerTab = null;
+    var mainLayout = null;
+    var topLayout = null;
+    var toolsLayout = null;
+    var ownerLayout = null;
+    var middleLayout = null;
+    var dhxWins;
+    var ownerNotesTab = null;
+    var reqColor = "#FFFFB3";
+
+    function loadLayout()
+    {
+        middleLayout = new dhtmlXLayoutObject(mainLayout.cells("b"), "4W");
+        middleLayout.cells("a").hideHeader();
+        middleLayout.cells("a").setWidth(400);
+        middleLayout.cells("b").hideHeader();
+        middleLayout.cells("b").setWidth(200);       
+        middleLayout.cells("c").hideHeader();
+        middleLayout.cells("d").hideHeader();
+
+        // tools layout
+        toolsLayout = new dhtmlXLayoutObject(middleLayout.cells("d"), "2E");
+        toolsLayout.cells("a").setHeight(160);
+        toolsLayout.cells("a").setText("Weather");
+        toolsLayout.cells("a").hideHeader();       
+        toolsLayout.cells("b").setText("Map");
+        toolsLayout.cells("b").hideHeader();
+        toolsLayout.attachEvent("onContentLoaded", function(win){
+            toolsLayout.cells(win).progressOff(); 
+        });
+
+        // owner layout
+        ownerLayout = new dhtmlXLayoutObject(middleLayout.cells("c"), "2E");
+        ownerLayout.cells("a").setText("Past notes");
+        ownerLayout.cells("a").hideHeader();
+        ownerLayout.cells("b").setHeight(52);
+        ownerLayout.cells("b").hideHeader();
+
+        middleLayout.cells("a").attachObject("businessInformation");
+        middleLayout.cells("b").attachObject("moreDetailsForm");
+        
+        ownerLayout.cells("a").attachObject("ownerNotesTab");
+        ownerLayout.cells("b").attachObject("sendQueryContainer");
+
+        //toolsLayout.cells("a").progressOn();
+        //toolsLayout.cells("a").attachURL("@Url.Action("yWeather", new { phone = (string.IsNullOrEmpty(Request.QueryString["id2"]) ? Model.DialInNumber : Request.QueryString["id2"]) })");
+
+        //toolsLayout.cells("b").progressOn();
+        //toolsLayout.cells("b").attachURL("@Url.Action("yMap", new { phone = (string.IsNullOrEmpty(Request.QueryString["id2"]) ? Model.DialInNumber : Request.QueryString["id2"]) })");
+        
+        mainLayout.cells("b").progressOff();
+    }
+
+    function initLayout() {
+        // main layout
+        mainLayout = new dhtmlXLayoutObject(document.body, "2E");
+        mainLayout.setImagePath('@Url.Content("~/Content/themes/DhtmlX/layout/imgs")');
+        mainLayout.cells("a").setHeight(100);
+        mainLayout.cells("a").hideHeader();
+        mainLayout.cells("b").hideHeader();
+
+        // top layout
+        topLayout = new dhtmlXLayoutObject(mainLayout.cells("a"), "2U");
+        topLayout.cells("a").setWidth(230);
+        topLayout.cells("a").attachObject("header_left");
+        topLayout.cells("a").hideHeader();
+        topLayout.cells("b").attachObject("callScriptContainer");
+        topLayout.cells("b").hideHeader();
+
+          
+        mainLayout.cells("b").progressOn();
+
+        tickClock();
+        setInterval(tickClock, 1001);
+    }
+
+
+    initLayout();
+
+    function initTabs() {
+        // Customer Billing Address Tab
+        customerTab = new dhtmlXTabBar("customerTab", "top");
+        customerTab.setSkin("dhx_skyblue");
+        customerTab.setImagePath('@Url.Content("~/Content/themes/DhtmlX/tabbar/imgs/")');
+        customerTab.addTab("a1", "Customer Bill To", "120px");
+        customerTab.addTab("a2", "Job Location", "100px");
+        customerTab.setContent("a1", "customerBillToForm");
+        customerTab.setContent("a2", "jobLocationForm");
+        customerTab.setTabActive("a1");
+
+        ownerNotesTab = new dhtmlXTabBar("ownerNotesTab", "top");
+        ownerNotesTab.setSkin("dhx_skyblue");
+        ownerNotesTab.setImagePath('@Url.Content("~/Content/themes/DhtmlX/tabbar/imgs/")');
+        ownerNotesTab.addTab("a1", "Owner Notes", "100px");
+        ownerNotesTab.addTab("a2", "Customer Notes", "110px");
+        ownerNotesTab.addTab("a3", "Scheduling", "90px");
+        ownerNotesTab.setContent("a1", "ownerInformationTab");
+        ownerNotesTab.setContent("a2", "pastNotesGridContainer");
+        ownerNotesTab.setContentHTML("a3", "<p style='text-align: center; color: red;'>Input the Requested Date</p>");
+        ownerNotesTab.setTabActive("a1");
+        ownerNotesTab.attachEvent("onSelect", function(id,last_id) {
+              if (id == "a3") 
+                refreshSchedule(id);
+              return true;
+        });
+    }
+
+    function refreshSchedule(id)
+    {
+        var fid = $("#Franchise").val();
+
+        if (fid == "")
+            return;
+
+        var reqdate = $("#RequestedDate").val();
+        if (reqdate == "" || reqdate == "__/__/____") {
+            return;
+        }
+
+        var url = '@Url.Action("GetSchedule")?franchiseId=' + fid + "&requesteddate=" + reqdate;
+
+        var schedulegrid = ownerNotesTab.cells(id).attachGrid();
+        schedulegrid.setHeader("Available Time Slot (This is not 100% correct yet)");
+        schedulegrid.setEditable(false);
+        schedulegrid.init();
+        
+        schedulegrid.load(url, 'json');
+    }
+
+    function applyMasks() {
+        // apply masks
+        $("#SearchPhoneNumber").mask("(999) 999-9999");
+        $("#SearchPhoneNumberLocation").mask("(999) 999-9999");
+        $("#LocationPrimaryPhone").mask("(999) 999-9999");
+        $("#LocationCell").mask("(999) 999-9999");
+        $("#PrimaryPhone").mask("(999) 999-9999");
+        $("#Cell").mask("(999) 999-9999");
+        $("#RequestedDate").mask("99/99/9999");
+        $("#ServiceDate").mask("99/99/9999");
+    }
+
+    function tickClock() {
+        var date = new Date();
+        var secs0 = (date.getSeconds() <= 9) ? "0" : "";
+        var str = date.getHours() + ":" + (date.getMinutes() <= 9 ? "0" + date.getMinutes() : date.getMinutes()) + ":" + secs0 + date.getSeconds();
+       
+        $("#date h1").html(str);
+    }
+
+    function searchCustomers(src, selectedId) {
+        var location = src == "location" ? "Location" : "";
+        var grid = src == "location" ? locGrid : custGrid;
+        var phone = $("#SearchPhoneNumber" + location).val();
+        var name = $("#SearchName" + location).val();
+
+        grid.clearAll();
+        grid.loadXML('@Url.Action("CustomerList")?phoneNumber=' + phone + '&name=' + name + '&billTo=' + (src != "location") + "&scriptId=@Model.Id", function() {
+            if (selectedId && selectedId != null)
+                grid.selectRow(grid.getRowIndex(selectedId));
+        });
+    }
+
+    function wireupScripts()
+    {
+        var scriptArray = [
+                            [["ConnectusCode"], "@Html.Raw(Model.CallScript)"],
+                            [["CallReason"], "You've called the right place. May I have a little more detail about the problem you're having?"],
+                            [["ZipDummy","Postal"], "May I have your zip code please?"],
+                            [["SearchNameLocation"], "<b>Search By Customer Name</b>"],
+                            [["SearchPhoneNumberLocation"], "<b>Search By Customer Phone</b>"],
+                            [["SearchName"], "<b>Search By Customer Name</b>"],
+                            [["SearchPhoneNumber"], "<b>Search By Customer Phone</b>"],
+                            [["Services"], "Oh, I can imagine how frustrating that must be"],
+                            [["AgeOfHouse"], "Do you know how old the home is?"],
+                            [["AgeOfHVAC"], "Do you happen to know how old your HVAC system is? <br />Do you think it is the original equipment?"],
+                            [["AgeOfWaterHeater"], "Do you happen to know how old your water heater is?"],
+                            [["SearchPhoneNumber"], "Search By Phone Number"],
+                            [["Cell"], "Is there an alternate number such as a work or cell number? Great. That was _ _ _-_ _ _-_ _ _ _ correct?"],
+                            [["Name"], "May I have the spelling of your first and last name? That was _ _ _ _      _ _ _ _ _ _ _ correct?"],
+                            [["HomeOrBusiness"], "Is this call for your home or business?"],
+                            [["Address"], "What is the street address of the billing party? That was ________ ________ Got it, thank you"],
+                            [["City"], "What city is the billing party located in? That was ________ ________ Got it, thank you"],
+                            [["State"], "What state is the billing party located in? That was ________ ________ Got it, thank you"],
+                            [["Country"], "What country is the billing party located in? That was ________ ________ Got it, thank you"],
+                            [["CrossStreet"], "What is the nearest major cross street? That is ___________ _____________ Thank You"],
+                            [["Email"], "Since we have gone paperless, may I have your e-mail address to send you a confirmation notice or other information about your call? That is ________ @@ ______.com correct? Great"],
+                            [["Referrals"], "How did you find our phone number today, Mr/MS ________________?"],
+                            [["Priority"], "Job Priority"],
+                            [["RequestedDate"], "We know your time is valuable, when would you prefer your appointment?"],
+                            [["OwnerNotes"], "Owner Notes"],
+                            [["OwnerSpecials"], "Owner Specials"],
+                            [["OwnerPicture"], "Owner Picture"],
+                            [["DBA"], "Select a DBA where applicable."],
+                            [["ServiceDate"], "We have an appointment available between __________________. Will that be acceptable?"],
+                            [["ServiceLength"], "Good, I have you set up for between 6 and 8 this evening. Let me share with you what to expect during your service call. Our Technician will do a thorough evaluation of you system and determine what caused today's problem. He will spend time helping you understand the problem and the proper way to correct it. Then he will give your options and you can decide the best option for you. Does that make sense?"],
+                            [["PropertyOwner"], "You are the owner correct? Very good."],
+                            [["PayType"], "While there is no fee for the evaluation, our Technician will collect for the options you choose. How would you like to take are of this? We accept cash, checks, and most major credit cards."],
+                            [["WrapUp"], "Very good! We will give you a call to let you know the when we are on the way as well as the name of the technician coming to your home. Also, be sure to ask your technician about our HomeGuard program, it's a great way to save money in the future and you may even save money on this visit. Is there anything else I can help you with today? Mr/Ms _____________ it's been a pleasure speaking with you today. If you do have any questions, my name is _______________, please feel free to give me a call. Have great day."]
+                          ];
+
+            $(scriptArray).each(function(idx){
+                var flds = $(this)[0];
+                var txt = $(this)[1];
+                $(flds).each(function(idx2) { 
+                                $("#" + flds[idx2]).focus(function() {$("#informationLabel").html("<b>" + txt + "</b>");});
+                });
+
+            });
+    }
+
+    function doInit()
+    {
+        if (@((Model.AvailableFranchises.Count == 0).ToString().ToLower()))
+           alert("The number that this customer has called (@Model.RawDialInNumber) does not map to a known Plumber franchise or Connectus client.  You will not be able to book this job.");
+
+        if (!@Model.Valid.ToString().ToLower())
+        {
+            mainLayout.cells("b").progressOff();
+            return;
+        }
+
+        loadLayout();
+        $("#SearchPhoneNumber").val("@Request.QueryString["id2"]")
+        var searchPhoneNumber = $("#SearchPhoneNumber").val();
+        $("bookJobContainer").hide();
+
+        
+        $(".reqFld").css("font-weight","bold");
+        $(".reqFld").css("background-color", reqColor);
+        $(".reqFld").blur(function(e) {
+            switch (this.tagName.toLowerCase())
+            {
+                case "select" :
+                case "textarea" :
+                case "input" : if (!$(this).hasClass("reqFld") || (this.value != null && this.value.length > 0)) 
+                    this.style.backgroundColor = "" 
+                else 
+                    this.style.backgroundColor = reqColor; 
+            }
+        });
+
+        $(".req").css("font-weight","bold");
+        $(".req").css("background-color", reqColor);
+        $(".req").blur(function(e) {
+            switch (this.tagName.toLowerCase())
+            {
+                case "select" :
+                case "textarea" :
+                case "input" : if (!$(this).hasClass("req") || (this.value != null && this.value.length > 0)) 
+                    this.style.backgroundColor = "" 
+                else 
+                    this.style.backgroundColor = reqColor; 
+            }
+        });
+        
+        applyMasks();
+        initTabs();
+
+        var requestCalendar = new dhtmlXCalendarObject("RequestedDate");
+        requestCalendar.setWeekStartDay(7);
+        requestCalendar.hideTime();
+        requestCalendar.setDateFormat("%m/%d/%Y");
+        requestCalendar.setSensitiveRange(requestCalendar.getDate(), null);
+        requestCalendar.attachEvent("onClick", function () {
+            if ($("#RequestedDate").val() != "" && $("#ServiceDate").val() != "") $("#ServiceWindow").focus();
+            else if ($("#RequestedDate").val() == "") $("#RequestedDate").focus();
+            else $("#ServiceDate").focus();
+
+            refreshSchedule("a3");
+        });
+
+        var svcCalendar = new dhtmlXCalendarObject("ServiceDate");
+        svcCalendar.setWeekStartDay(7);
+        svcCalendar.hideTime();
+        svcCalendar.setDateFormat("%m/%d/%Y");
+        svcCalendar.setSensitiveRange(svcCalendar.getDate(), null);
+        svcCalendar.attachEvent("onClick", function () {
+            getServiceWindows();
+        });
+        
+        dhxWins = new dhtmlXWindows();
+        dhxWins.setImagePath('@Url.Content("~/Content/themes/DhtmlX/windows/imgs/")');
+
+        // Bill To Customer Grid
+        custGrid.setEditable(false);
+        custGrid.setImagePath('@Url.Content("~/Content/themes/DhtmlX/grid/imgs/")');
+        custGrid.setHeader("Customer, Contact, Phone, Address");
+        custGrid.setInitWidths("100,100,100,*");
+        custGrid.setSkin("dhx_skyblue");
+        custGrid.enableAlterCss("even", "odd");
+        custGrid.enableAutoWidth(true);
+        custGrid.setSizes();
+        //custGrid.enableMultiline(true);
+        custGrid.init();
+        custGrid.attachEvent("onSelectStateChanged", function(id){
+            GetCustomerInformation(parseInt(id), "billto");
+        });
+
+        custGrid.attachEvent("onXLS", function() {  
+                middleLayout.cells("a").progressOn(); 
+                clearSelectedCustomer(true);
+        });
+
+        custGrid.attachEvent("onXLE", function() {  
+            middleLayout.cells("a").progressOff(); 
+
+            if(custGrid.getRowsNum() == 1) 
+                custGrid.selectRow(0, true, false, true);
+        });
+            
+        // Bill To Customer Grid
+        locGrid.setEditable(false);
+        locGrid.setImagePath('@Url.Content("~/Content/themes/DhtmlX/grid/imgs/")');
+        locGrid.setHeader("Customer, Contact, Phone, Address");
+        locGrid.setInitWidths("100,100,100,*");
+        locGrid.setSkin("dhx_skyblue");
+        locGrid.enableAlterCss("even", "odd");
+        locGrid.enableAutoWidth(true);
+        locGrid.setSizes();
+        locGrid.init();
+        locGrid.attachEvent("onSelectStateChanged", function(id){
+            GetCustomerInformation(parseInt(id), "location");
+        });
+
+        locGrid.attachEvent("onXLS", function() {  
+                    middleLayout.cells("a").progressOn(); 
+                    clearSelectedCustomer(false);
+            });
+
+        locGrid.attachEvent("onXLE", function() {  
+            middleLayout.cells("a").progressOff(); 
+            if(locGrid.getRowsNum() == 1) 
+                locGrid.selectRow(0, true, false, true);
+        });
+            
+        searchCustomers("billto");
+        searchCustomers("location");
+
+        if (!@Model.FranchiseCanChange.ToString().ToLower())
+            loadFranchise();
+
+        $("#ConnectusCode").focus();
+
+        applyWatermarks();
+
+        $("#ZipDummy").change(function () {
+                getFranchise($("#ZipDummy").val(), true);
+                clearSelectedCustomer(false);
+        });
+
+        $("#Postal").change(function () {
+                if ($("#editingJobLocation").val() == "true")
+                {
+                    $("#ZipDummy").data("locInfo", null);
+
+                    getFranchise($("#Postal").val(), true);
+                    clearSelectedCustomer(false);
+
+                    var data = $("#ZipDummy").data("locInfo");
+                    if (data != null)
+                    {
+                        $("#City").val(data.City);
+                        $("#State").val(data.State);
+                    }
+                    else
+                    {
+                        $("#City").val("");
+                        $("#State").val("");
+                    }
+                }
+        });
+
+        wireupScripts();
+
+        $("#HomeOrBusiness").change(function () {
+            $("#Company").removeClass("reqFld");
+            
+            if (parseInt($("#HomeOrBusiness").val()) == 3)
+                $("#Company").addClass("reqFld");
+
+            $("#Company").blur();
+            
+            if (parseInt($("#HomeOrBusiness").val()) == 3)
+            {
+                $("#PropertyOwner").slideUp();
+                $("#PropertyOwner").removeClass("reqFld");
+                $("#PropertyOwner").blur();
+            }
+            else {
+                $("#PropertyOwner").slideDown();
+                $("#PropertyOwner").addClass("reqFld");
+                $("#PropertyOwner").blur();
+                $("#PropertyOwner").focus();
+            }
+        });
+
+        
+
+        $("#Company").focus(function () {
+            if ($("#HomeOrBusiness").val() == 1)
+                $("#informationLabel").html("<p><b>May I have the name of the business? That was ________ ________ Got it, thank you</b></p>");
+            else
+                $("#informationLabel").html("Business Name Optional");
+        });
+
+        $("#sendQuery").click(function () {
+            mainLayout.cells("b").progressOn();
+//            if (!queueCall(3))
+//                alert("Error queueing call.");
+                if (!BookJob())
+                    alert('Error booking job.');
+            mainLayout.cells("b").progressOff();
+        });
+
+        $("#PayType").blur(function() {
+            if (!checkHasTerms())
+                $("#PayType").focus();
+        });
+
+        $("#PropertyOwner").change(function () {
+            if ($("#PropertyOwner").val() != "2") alert("We need the owner's permission to perform any work. Please have the owner contact us.");
+            $("PropertyOwner").focus();
+        });
+
+        $("#saveInfo").click(function () {
+            saveCustomerInformation();
+        });
+
+        $("#editBillTo").click(function () {
+            EditCustomerDetails(false, true, $("#editBillTo").data("cust"));
+        });
+
+        $("#newBillTo").click(function () {
+            EditCustomerDetails(true, true, null);
+        });
+
+        $("#newJobLocation").click(function () {
+            EditCustomerDetails(true, false, null);
+        });
+
+        $("#editJobLocation").click(function () {
+            EditCustomerDetails(false, false, $("#editJobLocation").data("cust"));
+        });
+
+        $("#SearchName").change(function () { searchCustomers("billto"); });
+        $("#SearchPhoneNumber").change(function () { searchCustomers("billto"); });
+        $("#SearchNameLocation").change(function () { searchCustomers("location"); });
+        $("#SearchPhoneNumberLocation").change(function () { searchCustomers("location"); });
+    }
+
+    $(document).ready(function () {
+        doInit();
+        $("#Services").change(filterEquipFields);
+    });
+
+    function getServiceWindows()
+    {
+        middleLayout.cells("b").progressOn();
+
+        var serviceDate = $("#ServiceDate").val();
+        var selected = $("#ServiceWindow").val();
+        var today = new Date().setHours(0, 0, 0, 0);
+        var ddl = $("#ServiceWindow");
+
+        ddl.find('option').remove().end().append('<option value="">Service Window</option>').val("") 
+
+        if (serviceDate != "") {
+            $.ajax({
+                    async: false,
+                    cache: false,
+                    data : {date : serviceDate},
+                    url: '@Url.Action("GetServiceWindows")',
+                    type: 'POST',
+                    success: function (r) { $.each(r, function() {ddl.append($("<option />").val(this.Key).text(this.Value));}); }
+                    });
+        }
+
+        $("#ServiceWindow").val(selected);
+        middleLayout.cells("b").progressOff();
+    }
+
+    function applyWatermarks() {
+        $("#CallReason").watermark("Enter problem description");
+        $("#PhoneNumber").watermark("Phone Number");
+        $("#CellPhone").watermark("Cell");
+        $("#CrossStreet").watermark("Cross Street");
+        $("#Email").watermark("E-mail");
+        $("#RequestedDate").watermark("Requested Date");
+        $("#RequestedTime").watermark("Requested Time");
+        $("#ServiceDate").watermark("Service Date");
+        $("#WrapUp").watermark("Wrap-up");
+        $("#SearchPhoneNumber").watermark("Phone Number");
+        $("#SearchPhoneNumberLocation").watermark("Phone Number");
+        $("#SearchName").watermark("Name");
+        $("#SearchNameLocation").watermark("Name");
+        $("#Name").watermark("Customer Name");
+        $("#ContactName").watermark("Contact Name");
+        $("#Company").watermark("Company");
+        $("#Address").watermark("Address");
+        $("#City").watermark("City");
+        $("#State").watermark("State");
+        $("#Postal").watermark("Postal Code");
+        $("#ZipDummy").watermark("Postal Code");
+        $("#Country").watermark("Country");
+        $("#PrimaryPhone").watermark("Primary Phone");
+        $("#Cell").watermark("Cell");
+        $("#OwnerSpecials").watermark("Owner Specials:");
+        $("#OwnerNotes").watermark("Owner Notes:");
+        $("#OwnerPicture").watermark("Owner Picture:");
+        $("#NewNote").watermark("Customer Notes");
+    }
+
+    var postalWindow = null;
+    var custWindow = null;
+    function createPostalCodeWindow(zip) {
+        
+        $("#postalConfirm").html(zip);
+        if (postalWindow == null)
+        {
+        postalWindow = dhxWins.createWindow("w1", 200, 200, 500, 300);
+        postalWindow.setText("Postal Code Not Found");
+        postalWindow.attachObject("notFoundPostalCodeSection");
+        postalWindow.denyResize();
+        postalWindow.denyPark();
+        postalWindow.button("minmax1").hide();
+        postalWindow.button("park").hide();
+        postalWindow.setModal(true);
+        postalWindow.centerOnScreen();
+        postalWindow.attachEvent("onClose",function(id) {
+            postalWindow.hide();
+            postalWindow.setModal(false);
+            });
+        }
+        else
+        {
+            postalWindow.setModal(true);
+            postalWindow.show();
+            dhxWins.window("w1").bringToTop();
+        }
+        
+    }
+
+    function GetCustomerInformation(customerId, src) {
+        $.ajax({
+            cache: false,
+            url: '@Url.Action("GetCustomerInformation")',
+            type: 'GET',
+            data: { customerId: customerId, billingLocation : src == "billto", scriptId : @(Model.Id) },
+            success: function (r) {
+                
+                if (!r)
+                { alert('Unable to find customer information.');
+                    $(".reqFld").blur();
+                    }
+                else {
+
+                var crlf = "<br />";
+
+                switch (src)
+                {
+                    case "billto" :
+                    {
+                        
+                        var str = r.CustomerName + crlf;
+
+                        if (r.CompanyName != null && r.CompanyName.length > 0)
+                            str += r.CompanyName + crlf;
+
+                        $("#editBillTo").data("cust", r);
+
+                        str += r.Address + crlf + r.City + ", " + r.State + " " + r.Zip + " " + r.Country +
+                            crlf + crlf + "Contact Name: " + r.ContactName + crlf + "Primary Phone: " + r.PhoneNumber + crlf + "Cell Phone: " + r.SecondaryContactNumber +
+                                crlf + "Email: <a href=\'mailto:" + r.Email + "\'>" + r.Email + "</a>";
+
+                        $("#BillTo").html(str);
+                        $("#CustomerId").val(r.CustomerID);
+                        }
+                        break;
+                    case "location" :
+                    {
+                       var str = r.CustomerName + crlf;
+
+                        if (r.CompanyName != null && r.CompanyName.length > 0)
+                            str += r.CompanyName + crlf;
+
+                        $("#editJobLocation").data("cust", r);
+
+                        str += r.Address + crlf + r.City + ", " + r.State + " " + r.Zip + " " + r.Country +
+                            crlf + crlf + "Contact Name: " + r.ContactName + crlf + "Primary Phone: " + r.PhoneNumber + crlf + "Cell Phone: " + r.SecondaryContactNumber + 
+                            crlf + "Email: <a href=\'mailto:" + r.Email + "\'>" + r.Email + "</a>";
+                        
+                        if (r.IsMember) {
+                        str += crlf + "Membership expires: " + (r.MemberTo == null ? "12/31/9999" : $.format.date(new Date(parseInt(r.MemberTo.substr(6))), 'MM/dd/yyyy'));
+                        }
+                        
+                        $("#JobLocation").html(str);
+                        $("#JobLocationId").val(r.LocationID);
+                        window.document.title = r.CustomerName;
+                        $("#ZipDummy").val(r.Zip);
+                        $("#ZipDummy").data("locInfo", {City : r.City, State : r.State});
+                        $("#ZipDummy").blur();
+                        
+                        getFranchise(r.Zip, false);
+                    }
+                    break;
+                }
+            }
+            $(".reqFld").blur();
+            },
+            error: function () {
+                alert("There was an error retrieving the customer information.");
+                $(".reqFld").blur();
+            }
+        });
+    }
+
+    function loadFranchise()
+    {
+        getFranchiseServices();
+        getOwnerNotesSpecials();
+        getDBA();
+        getReferralTypes();
+    }
+
+    function getFranchise(zipCode, prepopCityState) {
+        
+        if (zipCode == null || zipCode == "")
+        {
+            $("#Franchise").val("");
+            loadFranchise();
+        };
+
+        mainLayout.cells("b").progressOn();      
+
+        $.ajax({
+            async : false,
+            cache : false,
+            url: '@Url.Action("GetDbaByZipCode")',
+            type: 'POST',
+            data: { scriptId: @(Model.Id), postalCode: zipCode },
+            success: function (r) {
+
+            var currentFranchise = $("#Franchise").val();
+                if (!r.Success)
+                {
+                    alert("Error looking up client from postal code: " + r.Message);
+                    return;
+                }
+
+                if (r.Found) 
+                {
+                    if (prepopCityState)
+                        $("#ZipDummy").data("locInfo", {City: r.City, State : r.State});
+
+                    if (@Model.FranchiseCanChange.ToString().ToLower())
+                    {
+                        $('#Franchise').find('option')
+                            .remove()
+                            .end()
+                            .append('<option value="' + r.FranchiseId + '">' + r.Name + '</option>')
+                            .val(r.FranchiseId);
+                    }
+                }
+                else 
+                {
+                    if (@Model.FranchiseCanChange.ToString().ToLower())
+                    {
+                        $("#Franchise").find('option').remove() 
+                                    .end() 
+                                    .append('<option value="">Franchise</option>') 
+                                    .val("") ;
+                    }
+                    createPostalCodeWindow(zipCode);
+                }
+
+                if (currentFranchise != r.FranchiseId)
+                    loadFranchise();
+
+            },
+            error: function () {
+                $("#Franchise").val("");
+                loadFranchise();
+                createPostalCodeWindow(zipCode);
+            }
+        });
+
+        mainLayout.cells("b").progressOff();
+    }
+
+    function getReferralTypes() {
+        var selected =  $("#Referrals").val();
+
+        var franchiseId = $("#Franchise").val();
+
+        $('#Referrals').find('option') 
+                                .remove() 
+                                .end() 
+                                .append('<option value="">Referral</option>') 
+                                .val('') 
+
+        if (franchiseId != "")
+        {
+            $.ajax({
+                cache: false,
+                url: '@Url.Action("GetReferralTypes")',
+                type: 'GET',
+                data: { franchiseId: franchiseId },
+                success: function (result) {
+                    $.each(result, function (i, r) {
+                        $("#Referrals").append('<option value="' + r.ID + '">'
+                            + r.Type + '</option>')
+                    })
+                },
+                error: function () {
+                    alert("Error getting referral types for selected franchise.");
+                }
+            });
+        }
+
+         $("#Referrals").val(selected);
+    }
+
+    function getFranchiseServices() {
+        var selected = $('#Services').val();
+
+        $('#Services').find('option') 
+                    .remove() 
+                    .end() 
+                    .append('<option value="">Services</option>') 
+                    .val('') 
+
+        var franchiseId = $("#Franchise").val();
+
+        if (franchiseId != "")
+        {
+            $.ajax({
+                async:false,
+                cache: false,
+                url: '@Url.Action("GetFranchiseServices")',
+                type: 'GET',
+                data: { franchiseId: franchiseId },
+                success: function (r) {
+                    $.each(r, function (i, service) {
+                        $("#Services").append('<option value="' + service.ServiceId + '">'
+                            + service.ServiceName + '</option>')
+                    })
+                },
+                error: function () {
+                    alert("Error getting services for selected franchise.");
+                }
+            });
+        }
+
+        $('#Services').val(selected);
+    }
+
+    function getDBA() {
+        var selected = $("#DBA").val();
+
+        var franchiseId = $("#Franchise").val();
+
+        $('#DBA').find('option') 
+                .remove() 
+                .end() 
+                .append('<option value="">DBA</option>') 
+                .val('')
+
+        if (franchiseId != "")
+        {
+            $.ajax({
+                async:false,
+                cache: false,
+                url: '@Url.Action("GetDBAList")',
+                type: 'GET',
+                data: { franchiseId: franchiseId },
+                success: function (r) {
+                         
+                        $.each(r.DBA, function (i, dba) {
+                        $("#DBA").append('<option value="' + dba.ID + '">'
+                            + dba.Name + '</option>')
+                    });
+
+                    if ($('#DBA option').size() == 2)
+                    {
+                        $("#DBA option[value='']").remove(); 
+                        $("#DBA option:first").attr('selected','selected'); 
+                    }
+                    
+                },
+                error: function () {
+                    alert("Error getting services for selected franchise.");
+                }
+            });
+        }
+
+        $("#DBA").val(selected);
+    }
+
+    function getOwnerNotesSpecials()
+    {
+        var franchiseId = $("#Franchise").val();
+
+        $('#OwnerNotes').val("");
+        $('#OwnerSpecials').val("");
+
+        if (franchiseId != "")
+        {
+            $.ajax({
+                    cache: false,
+                    url: '@Url.Action("OwnerNotes")',
+                    type: 'GET',
+                    data: { franchiseId: franchiseId },
+                    success: function (r) {
+                            $('#OwnerNotes').val((r.Notes != null) ? r.Notes : "");
+                            $('#OwnerSpecials').val((r.Specials != null) ?  r.Specials : "");
+                    },
+                    error: function () {
+                        alert("Error getting owner notes and specials.");
+                    }
+                });
+        }
+
+    }
+
+    function SaveCall(resultCode) {        
+
+        var callTypeId = $("#HomeOrBusiness").val();
+        var owner = false;
+        if ($("#PropertyOwner").val() == "2") owner = true;
+        var call = {
+                    CallID: $("#CallID").val(),
+                    CallAddress: $("#LocationAddress").val(),
+                    CallCompletedTime: "@DateTime.Now.ToLongTimeString()",
+                    CallInTime: "@inTimeString",
+                    CallName: $("#Name").val(),
+                    CallPhone: $("#PrimaryPhone").val(),
+                    CallCell: $("#CellPhone").val(),
+                    CallReason: $("#CallReason").val(),
+                    CallReceivedDate: "@inDate",        
+                    CallTakerID: 0,
+                    CallZipCode: $("#Postal").val(),
+                    CallTypeId: callTypeId,
+                    CancelReasonID: 0,
+                    CompanyAddress: $("#LocationAddress").val(),
+                    CompanyName: $("#LocationName").val(),        
+                    ConceptDetailId: 0,
+                    ConceptId: 0,
+                    CrossStreet: $("#CrossStreet").val(),
+                    CustomerID: $("#CustomerId").val(),
+                    Email: $("#Email").val(),
+                    ExpectedPayTypeID: $("#PayType").val(),
+                    FranchiseID: $("#Franchise").val(),
+                    LocationID: $("#JobLocationId").val(),
+                    Owner: owner,
+                    PriorityID: $("#Priority").val(),
+                    ReferralID: $("#Referrals").val(),
+                    RequestedDate: $("#RequestedDate").val(),
+                    RequestedTime: $("#RequestedTime").val(),
+                    ResultCodeID: resultCode,
+                    ServiceDate: $("#ServiceDate").val(),
+                    ServiceWindowID: $("#ServiceWindow").val(),
+                    ServiceLength: $("#ServiceLength").val(),
+                    ServiceID: $("#Services").val()
+                };
+        
+        // Job location validation on client side.        
+        var isLocationSelected = $("#JobLocationId").val() != "" && parseInt($("#JobLocationId").val()) != 0;
+        if (!isLocationSelected)
+        {
+            alert('The job could not be saved: \n\n No job location selected for this job.');            
+            return null;
+        }        
+
+        var callId = null;
+        $.ajax({
+            async:false,
+            cache: false,
+            url: '@Url.Action("SaveCall")',
+            type: 'POST',
+            data: call,
+            success: function (r) {
+                if (r.Success)
+                    callId = r.Value;
+                else
+                    alert("Error saving call: " + r.Message);
+
+            },
+            error: function () {
+                alert("Error saving call");
+            }
+        });
+
+        return callId;
+    }
+
+    function SaveJob() {
+
+        var statusId = 1; //an appointment
+        var job = {
+                    AreaID: $("#DBA").val(),
+                    BusinessTypeID: $("#HomeOrBusiness").val(),
+                    CallID: $("#CallID").val(),
+                    CallTypeID: $("#HomeOrBusiness").val(),
+                    CallReason: $("#CallReason").val(),
+                    CallSourceID: $("#Referrals").val(),
+                    CallTaken: "@inTimeDate",
+                    CallTakerID: 0,
+                    CustomerID: $("#CustomerId").val(),
+                    ExpectedPayTypeID: $("#PayType").val(),
+                    FranchiseID: $("#Franchise").val(),
+                    JobPriorityID: $("#Priority").val(),
+                    JobTypeID: 0,
+                    JobTypeDetailID: 0,
+                    LocationID: $("#JobLocationId").val(),
+                    RequestedDate: $("#RequestedDate").val(),
+                    RequestedTime: $("#RequestedTime").val(),
+                    ServiceID: $("#Services").val(),
+                    ServiceWindowID: $("#ServiceWindow").val(),
+                    ServiceLength: $("#ServiceLength").val(),
+                    StatusID: statusId,
+                    ServiceDate: $("#ServiceDate").val(),
+                    AgeOfHouse: $("#AgeOfHouse").val(),
+                    AgeOfHVAC: $("#AgeOfHVAC").val(),
+                    AgeOfWaterHeater: $("#AgeOfWaterHeater").val()
+                };
+
+        var jobId = null;
+        $.ajax({
+            async : false,
+            cache : false,
+            url: '@Url.Action("SaveJob")',
+            type: 'POST',
+            dataType: "json", 
+            contentType: "application/json", 
+            data: JSON.stringify({job : job, trackId : "@Request.QueryString["calltracker"]"}),
+            success: function (r) {
+
+                var msg = r.Messages.join("\n");
+                if (!r.Success)
+                    alert('The job could not be saved: \n\n' + msg);
+                else
+                {
+                    alert(msg);
+                    jobId = r.SavedId;
+                }
+            },
+            error: function () {
+                alert("There was an unexepcted problem creating the job.");
+            }
+        });
+
+        return jobId;
+    }
+
+    function checkHasTerms()
+    {
+        //only validate when pay type is "Bill To"
+        if ($("#PayType").val() != 7) return true;
+
+        var errMsg = "Could not determine if customer has credit terms set up.  Please try again.";
+        var hasTerms = false;
+
+        if ($("#Franchise").val().length == 0 || $("#CustomerId").val().length == 0)
+            return true;
+
+        $.ajax({
+            cache: false,
+            async : false,
+            url: '@Url.Action("CheckCreditTerms")',
+            type: 'POST',
+            data: {franchiseId : $("#Franchise").val(), customerId: $("#CustomerId").val() },
+            success: function (r) {
+                if (!r.Success)
+                    alert(errMsg);
+                else if(!r.HasTerms)
+                    alert("The current customer does not have any terms set up with this franchise.  Please select a different Pay Type.");
+
+                hasTerms = r.HasTerms;
+            },
+            error: function () {
+                alert(errMsg);
+            }
+        });
+
+        return hasTerms;
+    }
+
+    function queueCall(resultCode) {
+
+        if (resultCode == 3)
+        {
+            alert ("Call queueing is not yet implemented.");
+            return;
+        }
+
+        var callId = SaveCall(resultCode);
+        if (callId == null) return false;
+        $("#CallID").val(callId);
+        
+        if (resultCode == 3)
+            alert("Successfully queued.");
+        
+        return true;
+    }
+
+    function BookJob() {
+        if ($("#JobID").val().length > 0)
+        {
+            alert("Job " + $("#JobID").val() + " has already been booked for this call.");
+            return;
+        }
+
+        if (!validateInput() || !queueCall(4)) return false
+
+        var jobId = SaveJob();
+        
+        $("#callStatus").html('Job ' + jobId + ' Booked')
+        $("#JobID").val(jobId);
+
+        return true;
+    }
+
+     
+    function validateInput()
+    {
+        var reqFlds = $(".reqFld");
+        var str = "The following fields are required: \n";
+        var bad = false;
+
+        for (var i=0;i<reqFlds.length;i++)
+        {
+            var elem = reqFlds[i];
+            if (elem.value == null || elem.value.length == 0) 
+            {
+                   str += elem.id + ", ";
+                   bad = true;
+            }
+        }
+
+        if (!checkHasTerms())
+        {   
+            str += (bad ? "\n\n" : "") + "Payment terms are invalid.  Customer has no credit terms set up with this franchise.";
+            bad = true;
+            
+        }
+
+        if (bad) alert(str);
+        return !bad;
+    }
+
+    function EditCustomerDetails(isNew, isBillTo, custData)
+    {
+        if (!isNew)
+        {
+            var selectedId = isBillTo ? custGrid.getSelectedId() : locGrid.getSelectedId();
+
+            if (selectedId == null || selectedId.length == 0 || selectedId == 0)
+            {
+                alert("Please select a record to edit.");
+                return;
+            }
+        }
+
+        $("#Postal").val("");
+        $("#Name").val("");
+        $("#ContactName").val("");
+        $("#Company").val("");
+        $("#Address").val("");
+        $("#City").val("");
+        $("#State").val("");
+
+        if (isNew)
+        {
+            var data = $("#ZipDummy").data("locInfo");
+            if (data && data != null)
+            {
+                $("#City").val(data.City);
+                $("#State").val(data.State);
+            }
+        }
+        
+        $("#Country").val("");
+        $("#PrimaryPhone").val("");
+        $("#Cell").val("");
+        $("#Email").val("");
+
+        $("#editingCustomerId").val(0);
+        $("#editingLocationId").val(0);
+        $("#editingContactId").val(0);
+        $("#editingContact2Id").val(0);
+        $("#editingJobLocation").val(isBillTo ? "false" : "true");
+
+        if (!isNew)
+        {
+            var r = custData;
+
+            $("#editingCustomerId").val(r.CustomerID);
+            $("#editingLocationId").val(r.LocationID);
+            $("#editingContactId").val(r.ContactID);
+            $("#editingContact2Id").val(r.SecondaryContactID);
+
+            $("#Name").val(r.CustomerName);
+            $("#ContactName").val(r.ContactName);
+            $("#Company").val(r.CompanyName);
+            $("#Address").val(r.Address);
+            $("#City").val(r.City);
+            $("#State").val(r.State);
+            $("#Postal").val(r.Zip);
+            $("#Country").val(r.Country);
+            $("#Email").val(r.Email);
+            $("#PrimaryPhone").val(r.PhoneNumber);
+            $("#Cell").val(r.SecondaryContactNumber);
+       }
+       else
+       {
+            if (!isBillTo)
+                $("#Postal").val($("#ZipDummy").val());
+       }
+
+        $("#Postal").blur();
+        $("#Name").blur();
+        $("#ContactName").blur();
+        $("#Company").blur();
+        $("#Address").blur();
+        $("#City").blur();
+        $("#State").blur();
+        $("#Country").blur();
+        $("#PrimaryPhone").blur();
+        $("#Cell").blur();
+        $("#Email").blur();
+
+        if (custWindow == null)
+        {
+            custWindow = dhxWins.createWindow("custModal", 200, 200, 500, 380);
+            custWindow.attachObject("customerModal");
+            custWindow.attachEvent("onClose",function(id) {
+                custWindow.hide();
+                custWindow.setModal(false);
+            });
+        }
+        else
+        {
+            custWindow.show();
+        }
+
+        custWindow.centerOnScreen();   
+        var type = isBillTo ? "Billing" : "Job Location"         
+        custWindow.setText(isNew ? "Create " + type + " Information" : "Edit " + type + " Information");
+        custWindow.setModal(true);
+    }
+
+    function saveCustomerInformation()
+    {
+        var franchiseId = $("#Franchise").val();
+
+        if (franchiseId == null || franchiseId == "")
+        {
+            alert("No client can be found to service this zip code.  Cannot save customer record.");
+            return;
+        }
+
+        var src = customerTab.getActiveTab() == "a1" ? "billto" : "location";
+        var customer = { CustomerID: $("#editingCustomerId").val(), CustomerName: $("#Name").val(), CompanyName: $("#Company").val(),
+            EMail: $("#Email").val()
+        };
+
+        var isNewCustomer = customer.CustomerID == 0;
+        var isLocationSelected = $("#JobLocationId").val() != "" && parseInt($("#JobLocationId").val()) != 0;
+        var isBillToSelected = $("#CustomerId").val() != "" && parseInt($("#CustomerId").val()) != 0;
+        
+        var location;
+        if (src == "billto")
+            location = { LocationID: $("#editingLocationId").val(), BilltoCustomerID: $("#editingCustomerId").val(),
+            Address: $("#Address").val(), City: $("#City").val(), State: $("#State").val(), PostalCode: $("#Postal").val(),
+            LocationName: $("#Name").val(), LocationCompany: $("#Company").val(), Country: $("#Country").val()
+            };
+        else
+            location = { LocationID: $("#editingLocationId").val(), ActvieCustomerID: $("#editingCustomerId").val(),
+                Address: $("#Address").val(), City: $("#City").val(), State: $("#State").val(), PostalCode: $("#Postal").val(),
+                LocationName: $("#Name").val(), LocationCompany: $("#Company").val(), Country: $("#Country").val()
+            };
+
+        var primContact = {ContactID: $("#editingContactId").val(), ContactName: $("#ContactName").val(), CustomerID: $("#editingCustomerId").val(), LocationID: location.LocationID, PhoneNumber: $("#PrimaryPhone").val().toString()  , PhoneTypeID : 2 };
+        var secContact = {ContactID: $("#editingContact2Id").val(), ContactName: $("#ContactName").val(), CustomerID: $("#editingCustomerId").val(), LocationID: location.LocationID, PhoneNumber: $("#Cell").val().toString(), PhoneTypeID : 4 };
+
+        $.ajax({
+            async: false,
+            cache: false,
+            url: '@Url.Action("UpdateCustomerInformation")',
+            type: 'POST',
+            dataType: "json", 
+            contentType: "application/json", 
+            data: JSON.stringify({franchiseId : franchiseId, customer : customer, location : location, primaryContact : primContact, secondaryContact : secContact, isBillTo: src == "billto"}),
+            success: function (r) {
+                if (r.Success)
+                {
+                    $("#editingCustomerId").val(r.CustomerId);
+                    $("#editingLocationId").val(r.LocationId);
+                    $("#editingContactId").val(r.PrimaryContactId);
+                    $("#editingContact2Id").val(r.SecondaryContactId);
+                    
+                    if (src != "billto")
+                        $("#ZipDummy").val(location.PostalCode)
+
+                    refreshCustomerDetails(r.PrimaryContactId, $("#Name").val(), $("#PrimaryPhone").val(), src);
+
+                    var otherTab = src == "location" ? "billto" : "location";
+
+                    var refreshOtherTab = isNewCustomer && ((otherTab == "billto" && !isBillToSelected) || (otherTab == "location" && !isLocationSelected));
+                        
+                    if (refreshOtherTab)
+                        refreshCustomerDetails(null, $("#Name").val(), $("#PrimaryPhone").val(), otherTab);
+                    
+                    custWindow.hide();
+                    custWindow.setModal(false);
+                    
+                    if (refreshOtherTab)
+                    searchCustomers(otherTab);
+                }
+                else
+                    alert("Error saving customer information: " + r.Message);
+            },
+            error: function () {
+                alert("Error saving customer information.");
+            }
+        });
+    }
+
+    function clearSelectedCustomer(isBillTo)
+    {
+        var grid = isBillTo ? custGrid : locGrid;
+        var box = isBillTo ? $("#BillTo") : $("#JobLocation");
+        var hidden = isBillTo ? $("#CustomerId") : $("#JobLocationId");
+        var msg = isBillTo ? "No billing party selected." : "No job location selected.";
+
+        grid.clearAll();
+        box.html(msg);
+        hidden.val("");
+    }
+
+    function refreshCustomerDetails(id, name, phone, src)
+    {
+        switch (src)
+        {
+            case "billto" :
+                {
+                    $("#SearchName").val(name);
+                    $("#SearchPhoneNumber").val(phone);
+                }
+                break;
+            case "location" :
+                {
+                    $("#SearchNameLocation").val(name);
+                    $("#SearchPhoneNumberLocation").val(phone);
+                }
+                break;
+        }
+
+        middleLayout.cells("a").progressOn();
+        searchCustomers(src, id);
+        middleLayout.cells("a").progressOff();
+    }
+</script>

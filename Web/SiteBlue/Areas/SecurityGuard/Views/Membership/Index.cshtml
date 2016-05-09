@@ -1,0 +1,316 @@
+@model SecurityGuard.ViewModels.ManageUsersViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/SecurityGuard/Views/Shared/_SecurityGuardLayoutPage.cshtml";
+}
+
+@*Load jquery for table sorting*@
+<script type="text/javascript" src="@Url.Content("~/Content/SecurityGuard/sorttable.js")"></script>
+<script language="javascript" type="text/javascript" src="@Url.Content("~/Content/SecurityGuard/progress.js")"></script>
+
+
+    <link href="@Url.Content("~/codebase/dhtmlxwindows.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/skins/dhtmlxwindows_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxwindows.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/codebase/dhtmlxcontainer.js")" type="text/javascript"></script>
+
+    <script type="text/javascript" charset="utf-8">
+
+        var dhxWins = null;
+        var detailWin = null;
+
+    </script>
+
+@*  ============================
+      Greybox scripts removed
+    ============================*@
+@*<script type="text/javascript">
+
+    //Set Greybox root directory...
+    var GB_ROOT_DIR = "/GreyBox/";
+
+</script>*@
+
+@*Load Greybox files*@
+@*<script type="text/javascript" src="@Url.Content("~/GreyBox/AJS.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/GreyBox/AJS_fx.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/GreyBox/gb_scripts.js")"></script>
+<link href="@Url.Content("~/GreyBox/gb_styles.css")" rel="stylesheet" type="text/css" media="all" />*@
+
+@*<script type="text/javascript" language="javascript">
+    
+    //Set GreyBox properties...
+    GB_myShow = function (caption, url, /* optional */height, width, callback_fn) {
+        var options = {
+            caption: caption,
+            height: height || 600,
+            width: width || 1000,
+            fullscreen: false,
+            show_loading: true,
+            center_win: true,
+            callback_fn: callback_fn
+        }
+        var win = new GB_Window(options);
+        return win.show(url);
+    }
+
+</script>*@
+@*  ============================
+      Greybox scripts removed
+    ============================*@
+
+<style type="text/css">
+    .text_center{ text-align: center !important;}    
+    .default_scroll{float: left; overflow-x: scroll;width: 934px;}
+    .for_scroll{height:620px;width: 938px;overflow:auto;}   
+</style>
+
+<div style="width:100%;height:65px;">
+&nbsp;
+</div>
+<div id="breadcrumb">
+    @Html.ActionLink("Dashboard", "Index", "Dashboard") > Manage Users
+</div>
+<h2>
+    Manage Users</h2>
+<p>
+    To Grant a user to Roles, click a radio button next to the user name then click
+    the &quot;Grant Roles To User&quot; link.</p>
+<p>@*<a id="btn-CreateUser" href="#">Create User</a>
+    |*@ @Html.ActionLink("Grant Roles to User", "GrantRolesToUser", "Membership", new { area = "SecurityGuard" }, new { id = "grant-roles-to-user" })</p>
+@using (Html.BeginForm())
+{
+    <select id="filterby" name="filterby">
+        <option value="0">Corporate</option>
+        <option value="1">All Company Codes</option>
+        <option value="2">Display All</option>
+    </select>
+    
+    <text>&nbsp;Starts with:</text> @Html.TextBox("searchterm") 
+
+    <input type="button" id="filter-button" value="Search" />
+
+}
+
+<script type="text/javascript">
+
+    var url = "../../../SecurityGuard/Membership/AutoCompleteForUsers";
+    $("#searchterm").autocomplete(url, {
+        type: "POST",
+        extraParams: {
+            filterby: function () {
+                return "username";
+            }
+        }
+    });
+
+    var name = "";
+
+        //get user list on page load...
+    var result = getUserList(name, $("#filterby").val());
+
+  
+        //get Security Guard users list according to theire role...
+    $("#filterby").change(function () {
+        var result = getUserList(name, $("#filterby").val());
+    });
+
+    function getUserList(name, ftype) {
+        $.ajax({
+            type: "POST",
+            url: "/SecurityGuard/Membership/GetUsersInRoles",
+            dataType: "json",
+            data: {
+
+                UserName: name,
+                FranchiseType: ftype
+            },
+            success: function (data, status, xhr) {
+                //alert('success');
+                if (data.UserDetails != "" && data.UserCount > 0) {
+                    $("#dvProcessbar").hide();
+                    $("#details_wrapper").show();
+                    $("#details").empty();
+                    $("#details").show();
+                    $("#details").append(data.UserDetails);
+                    $("#prMessage").hide();
+
+                    sorttable.init();
+
+                    if (data.UserCount > 20)
+                        $("#details").attr("class", "table_wrapper_inner for_scroll");
+                    else
+                        $("#details").attr("class", "table_wrapper_inner default_scroll");
+
+                } else {
+                    $("#dvProcessbar").hide();
+                    $("#details_wrapper").hide();
+                    $("#details").empty();
+                    $("#prMessage").show();
+                }
+
+            },
+            error: function (xhr, status, error) {
+                alert(error.message);
+            }
+        });
+        return true;
+    }      
+    
+</script>
+
+<br />
+
+@*script to show process bar.While the Grid is not load...*@
+<div align="center" id="dvProcessbar">
+    <script type="text/javascript">
+        var bar = createBar(320, 15, 'white', 1, 'black', 'green', 85, 7, 3, "");
+    </script>
+</div>
+<br />
+<div class="section_inner" >
+    <div class="table_wrapper" id="details_wrapper" style="display:none;">
+        <div class="table_wrapper_inner default_scroll" id="details" style="display:none;">
+        </div>
+        <div style="float:right;">
+            <input type="button" id="btn-CreateNewUser" value="Create New User" style="display: block;margin:5px 5px 0 0; float: left;" />
+            <input type="button" id="btn-SaveChanges" value="Save Changes" style="display: block; float: left; margin: 5px 0 0 5px; " />
+            <span style="display: block;clear: both; margin: 0px; padding: 0px; height: 1px;"></span>
+        </div>
+        <span style="display: block;clear: both; margin: 0px; padding: 0px; height: 1px;"></span>
+    </div>
+    <span style="display: block;clear: both; margin: 0px; padding: 0px; height: 1px;"></span>
+    <p id="prMessage" style="display:none;"> No users for this search.</p>
+</div> 
+@*<input type="hidden" id="hdnCheckbox" />*@
+
+<script type="text/javascript">
+
+    $(function () {
+
+        /**************************************************
+        * Begin Radio Button functions
+        *
+        * This captures radio button event clicks and 
+        * enables the "Grant Roles To User" link.
+        **************************************************/
+        var anchor = $("a#grant-roles-to-user");
+        anchor.attr("disabled", "disabled");
+
+        $(".userRadio").click(function () {
+            // Get the value of the clicked radio button
+            // which is the username.
+            var userName = $(this).val();
+
+            // Get a reference to the "href" of the link.
+            var href = anchor.attr("href");
+
+            // Concatenate the existing href value with the username
+            var newHref = href + "/" + userName;
+
+            // Replace the existing href value with the new one
+            anchor.attr("href", newHref);
+
+            // Remove the disabled attribute on the 
+            // Grant Roles to User link
+            anchor.removeAttr("disabled");
+        });
+
+        /**************************************************
+        * End Radio Button functions
+        **************************************************/
+
+        //        $("#btn-CreateUser").click(function () {
+        //            fnOpenCreateUserWindow();
+
+        //        });
+
+        /*****************************************************
+        * Begin Create User functions
+        *****************************************************/
+
+        $("#btn-CreateNewUser").click(function () {
+            fnOpenCreateUserWindow();
+
+        });
+
+        //function to open Create User window in grey box..
+        function fnOpenCreateUserWindow() {
+            return popupURL('@Url.Action("CreateUser", "Membership")');
+
+            //return GB_myShow('Create User', '@Url.Action("CreateUser", "Membership")', '', '', null);
+        }
+
+        function popupURL(actionUrl) {
+
+            // Common code to do a popup
+            dhxWinsAdd = new dhtmlXWindows();
+            dhxWinsAdd.enableAutoViewport(true);
+            dhxWinsAdd.setImagePath("../../codebase/imgs/");
+            var createUserWindowAdd = dhxWinsAdd.createWindow("createUserWindowAdd", 200, 40, 990, 610);
+            dhxWinsAdd.window("createUserWindowAdd").setModal(true);
+            dhxWinsAdd.window("createUserWindowAdd").setText("Create User");
+            dhxWinsAdd.attachEvent("onClose",
+                function (win) {
+                    return true;
+                });
+
+            dhxWinsAdd.window("createUserWindowAdd").attachURL(actionUrl);
+        }
+
+        /**************************************************
+        * End Create User functions
+        **************************************************/
+
+        /*****************************************************
+        * Begin Save User Changes functions
+        *****************************************************/
+        $("#btn-SaveChanges").click(function () {
+            var checkboxString = "";
+
+            $('#tblUser tbody tr  input:checkbox').each(function () {
+                if (this.checked) {
+                    checkboxString = checkboxString + this.id + "_checked#";
+                } else {
+                    checkboxString = checkboxString + this.id + "_unchecked#";
+                }
+            });
+            fnSaveUserChanges(checkboxString);
+        });
+
+        function fnSaveUserChanges(checkboxString) {
+            $.ajax({
+                type: "POST",
+                url: "/SecurityGuard/Membership/SaveUserChanges",
+                dataType: "json",
+                data: {
+                    cbString: checkboxString
+                },
+                success: function (data, status, xhr) {
+                    alert(data.Message);
+                },
+                error: function (xhr, status, error) {
+                    alert(error.Message);
+                }
+            });
+        }
+
+        /**************************************************
+        * End Save User Changes functions
+        **************************************************/
+
+        //search users by name and company code...
+        $("#filter-button").click(function () {
+            $("#dvProcessbar").show();
+            $("#prMessage").hide();
+            var result = getUserList($("#searchterm").val(), $("#filterby").val());
+        });
+
+    });  
+        
+</script>
+
+

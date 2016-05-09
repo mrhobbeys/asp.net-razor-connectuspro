@@ -1,0 +1,72 @@
+﻿<html>
+<head>
+    <script type="text/javascript">
+
+        $('document').ready(function () {
+            initJobHistoryGrid();
+        });
+
+        function initJobHistoryGrid() {
+            jh_grid = new dhtmlXGridObject(gridjobhistory);
+
+            jh_grid.setImagePath("../../codebase/imgs/");
+            jh_grid.setHeader("FieldName,Table,TypeOfChange,Date,Time,On Tablet?,ChangedBy,From,To");
+            jh_grid.setInitWidths("180,160,160,120,120,150,180,150,150");
+            jh_grid.setColAlign("left,left,left,left,left,left,left,left,left");
+            jh_grid.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro");
+            jh_grid.init();
+            jh_grid.setSkin("dhx_skyblue");
+        }
+
+        function BindJobHistory(jid) {
+            var params = { jobid: jid };
+
+            $("#JobHistorygifId").show();
+
+            $.ajax({
+                url: "/Invoice/JobHistoryList",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    var xmlstring = "<rows>";
+                    $.each(result, function (index, item) {
+
+                        xmlstring += "<row id='" + index + "'>";
+                        xmlstring += "<cell><![CDATA[" + item.FieldName + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.TableName + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.ChangeType + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.Date + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.Time + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.isTablet + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.ChangedBy + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.From + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.To + "]]></cell>";
+                        xmlstring += "</row>";
+
+                    });
+                    xmlstring += "</rows>";
+
+                    jh_grid.clearAll();
+                    jh_grid.loadXMLString(xmlstring);
+
+                    $("#JobHistorygifId").hide();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    alert("ajax error");
+                    $("#JobHistorygifId").hide();
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div style="text-align: center;">
+        <img id="JobHistorygifId" src="../../../../Images/ajax-loader.gif" alt="processing..." style="display: none;" />
+    </div>
+    <div id="gridjobhistory" style="height: 420px; background-color: white;">
+    </div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BB8FDEA7-1535-41B5-A87C-733150FE6A90}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		SiteBlue.vsmdi = SiteBlue.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{E6CC9C50-4F06-4CE2-B8E7-3D4FBEFC1AD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteBlue", "SiteBlue\SiteBlue.csproj", "{AAAD98C9-98E6-4E98-88E3-82D9BA425BA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteBlue.Data", "SiteBlue.Data\SiteBlue.Data.csproj", "{07829041-B59E-45D7-A00B-0EB969578E61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteBlue.Questionnaire.Data", "SiteBlue.Questionnaire.Data\SiteBlue.Questionnaire.Data.csproj", "{DCD4A37F-2A21-4F50-BCE2-07EEF0967D6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteBlue.Core", "SiteBlue.Core\SiteBlue.Core.csproj", "{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteBlue.Business", "SiteBlue.Business\SiteBlue.Business.csproj", "{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}"
+EndProject
+Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "EightHundred", "..\Database\EightHundred\EightHundred.dbproj", "{67CBC824-A49E-4E9B-A947-360F3DFE65C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteBlue.Test", "SiteBlue.Test\SiteBlue.Test.csproj", "{5C9E66E5-D375-47F2-83C9-D4C7A9AD0CE3}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.connectuspro.net:1088/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = SiteBlue.Questionnaire.Data\\SiteBlue.Questionnaire.Data.csproj
+		SccProjectName1 = SiteBlue.Questionnaire.Data
+		SccLocalPath1 = SiteBlue.Questionnaire.Data
+		SccProjectUniqueName2 = SiteBlue.Core\\SiteBlue.Core.csproj
+		SccProjectName2 = SiteBlue.Core
+		SccLocalPath2 = SiteBlue.Core
+		SccProjectUniqueName3 = SiteBlue.Data\\SiteBlue.Data.csproj
+		SccProjectName3 = SiteBlue.Data
+		SccLocalPath3 = SiteBlue.Data
+		SccProjectUniqueName4 = SiteBlue.Business\\SiteBlue.Business.csproj
+		SccProjectName4 = SiteBlue.Business
+		SccLocalPath4 = SiteBlue.Business
+		SccProjectUniqueName5 = SiteBlue\\SiteBlue.csproj
+		SccProjectName5 = SiteBlue
+		SccLocalPath5 = SiteBlue
+		SccProjectUniqueName6 = ..\\Database\\EightHundred\\EightHundred.dbproj
+		SccProjectTopLevelParentUniqueName6 = SiteBlue.sln
+		SccProjectName6 = ../Database/EightHundred
+		SccLocalPath6 = ..\\Database\\EightHundred
+		SccProjectUniqueName7 = SiteBlue.Test\\SiteBlue.Test.csproj
+		SccProjectName7 = SiteBlue.Test
+		SccLocalPath7 = SiteBlue.Test
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = SiteBlue.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAAD98C9-98E6-4E98-88E3-82D9BA425BA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAAD98C9-98E6-4E98-88E3-82D9BA425BA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAAD98C9-98E6-4E98-88E3-82D9BA425BA2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AAAD98C9-98E6-4E98-88E3-82D9BA425BA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAAD98C9-98E6-4E98-88E3-82D9BA425BA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAAD98C9-98E6-4E98-88E3-82D9BA425BA2}.Release|x86.ActiveCfg = Release|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Release|x86.ActiveCfg = Release|Any CPU
+		{DCD4A37F-2A21-4F50-BCE2-07EEF0967D6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD4A37F-2A21-4F50-BCE2-07EEF0967D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCD4A37F-2A21-4F50-BCE2-07EEF0967D6E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DCD4A37F-2A21-4F50-BCE2-07EEF0967D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD4A37F-2A21-4F50-BCE2-07EEF0967D6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCD4A37F-2A21-4F50-BCE2-07EEF0967D6E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{DCD4A37F-2A21-4F50-BCE2-07EEF0967D6E}.Release|x86.ActiveCfg = Release|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Release|x86.ActiveCfg = Release|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Release|x86.ActiveCfg = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|x86.ActiveCfg = Release|Any CPU
+		{5C9E66E5-D375-47F2-83C9-D4C7A9AD0CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C9E66E5-D375-47F2-83C9-D4C7A9AD0CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C9E66E5-D375-47F2-83C9-D4C7A9AD0CE3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5C9E66E5-D375-47F2-83C9-D4C7A9AD0CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C9E66E5-D375-47F2-83C9-D4C7A9AD0CE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C9E66E5-D375-47F2-83C9-D4C7A9AD0CE3}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3} = {E6CC9C50-4F06-4CE2-B8E7-3D4FBEFC1AD3}
+	EndGlobalSection
+EndGlobal

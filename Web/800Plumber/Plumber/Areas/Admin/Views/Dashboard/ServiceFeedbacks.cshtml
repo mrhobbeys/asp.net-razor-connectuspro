@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Plumber.Models.ServiceFeedback>
+@{
+    ViewBag.Title = "ServiceFeedbacks";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    Service Feedbacks</h2>
+<table class="data-table" id="serviceFeedbackTable">
+    <thead>
+        <tr>
+            <th style="width: 15%">
+                Location
+            </th>
+            <th style="width: 15%">
+                Name
+            </th>
+            <th style="width: 20%">
+                Email
+            </th>
+            <th style="width: 45%">
+                Comment
+            </th>
+            <th style="width: 5%">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr @if (item.MessageStatusId == 1)
+                { <text>style="font-weight:bold"</text> }>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/details.png"), "ServiceFeedbackDetails", new { id = item.ServiceFeedbackId }, null, new { title = "View service feedback's details" })
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr id="pager">
+            <td colspan="5">
+                <img src="@Url.Content("~/Content/_assets/img/first.png")" alt="" class="first"/>
+                <img src="@Url.Content("~/Content/_assets/img/prev.png")" alt="" class="prev"/>
+                <input type="text" class="pagedisplay" />
+                <img src="@Url.Content("~/Content/_assets/img/next.png")" alt="" class="next"/>
+                <img src="@Url.Content("~/Content/_assets/img/last.png")" alt="" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                </select>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#serviceFeedbackTable")
+        .tablesorter({ widgets: ['zebra'] })
+        .tablesorterPager({ container: $("#pager"), positionFixed: false })
+    });
+    //.tablesorter({ debug: false, sortList: [[0, 0]], widgets: ['zebra'] })
+    //.tablesorterFilter({ filterContainer: $("#filterBoxOne"),
+    //filterClearContainer: $("#filterClearOne"),
+    //filterColumns: [0, 1, 2, 3],
+    //filterCaseSensitive: false
+</script>
+@section Scripts{
+    <link href="@Url.Content("~/Content/_assets/themes/yui/style.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter-2.0.3.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.filer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+}

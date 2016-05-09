@@ -1,0 +1,59 @@
+
+.calender {width:353px; height:302px;  }
+
+h2.calendar {
+  color : #669900;
+  font-weight : normal;   margin : 20px ;
+}
+
+ul#days, ul.weeks {
+  font-family : 'courier new', monospace;
+  list-style-type : none;
+  margin : 20px ;
+}
+
+ul#days li span {
+  background-color : #669900;
+  border : 1px solid #000;
+  cursor : help;
+  font-weight : bold;
+  color : #fff;
+  padding : 5px;
+}
+
+ul.weeks li a.al, ul.weeks li a.na  { 
+  color : #666;
+  text-decoration : none;
+  background-color : #ffffcc;
+  border : 1px solid #999;
+  padding : 5px;
+}
+
+ul.weeks li a.na, ul.weeks li a.na:hover, ul.weeks li a.na:focus, ul.weeks li a.na:active   { 
+
+
+  background : transparent;
+  color : #666;
+  cursor : default;
+}
+
+ul.weeks li a.al:hover, ul.weeks li a.al:focus, ul.weeks li a.al:active {
+  color : #000;
+  background-color : #eecc11;
+  border : 1px solid #000;
+  text-decoration : none;
+  cursor : pointer;
+}
+
+ul.weeks li a.nu { 
+  color : #eee;
+  padding : 5px;
+  border : 1px solid #ccc;
+  background-color : #eee;
+  cursor : default;
+}
+
+span.sep {
+  display : none;
+}
+

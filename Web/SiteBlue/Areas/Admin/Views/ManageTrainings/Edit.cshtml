@@ -1,0 +1,152 @@
+﻿@model SiteBlue.Data.EightHundred.Training
+
+@{
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+<br />
+<h2>Edit</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<form action="@Url.Content("~/Admin/ManageTrainings/Edit")" method="post" enctype="multipart/form-data">
+    <fieldset>
+        @*<legend>Training</legend>*@
+
+        @Html.HiddenFor(model => model.TrainingId)
+
+        <div class="editor-label" style="padding-top: 5px">
+            <strong>@Html.LabelFor(model => model.SiteId, "Site"): </strong>
+            <label>@Model.Site.SiteName</label>
+            @Html.HiddenFor(model => model.SiteId)
+            @Html.ValidationMessageFor(model => model.SiteId)
+        </div>
+
+        <div class="editor-label" style="padding-top: 5px">
+            <strong>@Html.LabelFor(model => model.TrainingTypeId, "TrainingType"): </strong>
+            <label>@Model.TrainingType.TrainingTypeName</label>
+            @Html.HiddenFor(model => model.TrainingTypeId)
+            @Html.ValidationMessageFor(model => model.TrainingTypeId)
+        </div>
+
+        <div class="editor-label" style="padding-top: 5px">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Title, new { @class = "formtext" })
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label" style="padding-top: 5px">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Description, new { @class = "formtextarea" })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        @if (Model.TrainingType.IsFile == true)
+        {
+            <div class="editor-label" style="padding-top: 5px">
+                <label for="file">Select a file to upload</label>
+            </div>
+            <div class="editor-field">
+                <input type="file" id="file" name="file" class="formtext" />
+            </div>
+            if ((Model.NavigateUrl != null) && (Model.NavigateUrl != ""))
+            {
+                <div class="editor-label" style="padding-top: 5px">
+                    <strong>Associated file: </strong><label>@Model.Title</label> [<a href="@Url.Content(Model.NavigateUrl)" target="_blank" id="openFile">Open</a>]
+                </div>
+            } else {
+                <div class="editor-label" style="padding-top: 5px">No file attached, please upload a valid @Model.TrainingType.TrainingTypeName</div>
+            }
+        }
+        else
+        {
+            <div class="editor-label" style="padding-top: 5px">
+                @Html.LabelFor(model => model.NavigateUrl) <label id="opnCheckUrl">[</label><a href="" target="_blank" id="checkUrl">Check Url</a><label id="clsCheckUrl">]</label>
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.NavigateUrl, new { @class = "formtext" })
+                @Html.ValidationMessageFor(model => model.NavigateUrl)
+            </div>
+        }
+
+        <div class="editor-field" style="padding-top: 5px">
+            @Html.EditorFor(model => model.IsActive) <label for="IsActive">Active</label>
+            @Html.ValidationMessageFor(model => model.IsActive)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" class="savebutton" />
+        </p>
+    </fieldset>
+</form>
+
+<div>
+    @Html.ActionLink("Back to course list", "Index") | @Html.ActionLink("Back to the training page", "Training", "Dashboard", new { area = "LandingPage" }, null)
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        if ($("#NavigateUrl").val() == ''){
+            $("#checkUrl").hide();
+            $("#opnCheckUrl").hide();
+            $("#clsCheckUrl").hide();
+        }
+
+        $("#NavigateUrl").change(function(){
+            if ($("#NavigateUrl").val() == ''){
+                $("#checkUrl").fadeOut();
+                $("#opnCheckUrl").fadeOut();
+                $("#clsCheckUrl").fadeOut();
+            }
+            else{
+                $("#checkUrl").fadeIn();
+                $("#opnCheckUrl").fadeIn();
+                $("#clsCheckUrl").fadeIn();
+            }
+        });
+        $("#checkUrl").attr("href", $("#NavigateUrl").val());
+
+        $("#NavigateUrl").focusout(function(){
+            $("#checkUrl").attr("href", $("#NavigateUrl").val());
+        });
+    });
+
+    tinyMCE.init({
+        // General options
+        mode: "exact",
+        elements: "Description",
+        theme: "advanced",
+        skin: "o2k7",
+        plugins: "lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,inlinepopups,autosave",
+
+        // Theme options
+        theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+        theme_advanced_buttons2: "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+        theme_advanced_buttons3: "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+        theme_advanced_buttons4: "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak,restoredraft",
+        theme_advanced_toolbar_location: "top",
+        theme_advanced_toolbar_align: "left",
+        theme_advanced_statusbar_location: "bottom",
+        theme_advanced_resizing: true,
+
+        // Example content CSS (should be your site CSS)
+        content_css: '@Url.Content("~/Content/tiny_mce.css")',
+
+        // Drop lists for link/image/media/template dialogs
+        template_external_list_url: "@Url.Content("~/Script/tiny_mce/lists/template_list.js")",
+        external_link_list_url: "@Url.Content("~/Script/tiny_mce/lists/link_list.js")",
+        external_image_list_url: "@Url.Content("~/Script/tiny_mce/lists/image_list.js")",
+        media_external_list_url: "@Url.Content("~/Script/tiny_mce/lists/media_list.js")",
+
+        // Replace values for the template plugin
+        template_replace_values: {
+            username: "Some User",
+            staffid: "991234"
+        }
+    });
+</script>

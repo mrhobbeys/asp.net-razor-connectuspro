@@ -1,0 +1,627 @@
+﻿@model SiteBlue.Areas.OwnerPortal.Models.PayrollSetup
+@{
+    ViewBag.Title = "Payroll Setup";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxwindows.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../../../../common/css/style.css" type="text/css"
+        media="screen" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/dhtmlxtabbar.css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .link
+        {
+            text-decoration: none;
+            color: Black;
+            cursor: hand;
+            cursor: pointer;
+        }
+    </style>
+}
+@section ScriptIncludes {
+<script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+<script src="../../../../content/json2.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+<script src="../../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+<script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        dhtmlx.skin = "dhx_skyblue";
+    </script>
+    <script type="text/javascript">
+
+        var jobCodes_AllForFranchise = @Html.Raw(Model.JobCodes_JSON) ;    // Used for loading ddlJobCode
+        var currentPayrollSpiffID = -1;
+
+        $('document').ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnLoad(); });
+            doOnLoad();
+        });
+
+        function CommaFormatted(amount) {
+            try {
+                amount = String(Math.round(amount * 100) / 100);
+                var delimiter = ",";
+                var a = String(amount).split('.', 2)
+                var d = '00';
+                if (a[1] != null) {
+                    d = a[1];
+                }
+                var i = parseInt(a[0]);
+                if (isNaN(i)) { return '0.00'; }
+                var minus = '';
+                if (i < 0) { minus = '-'; }
+                i = Math.abs(i);
+                var n = new String(i);
+                var a = [];
+                while (n.length > 3) {
+                    var nn = n.substr(n.length - 3);
+                    a.unshift(nn);
+                    n = n.substr(0, n.length - 3);
+                }
+                if (n.length > 0) { a.unshift(n); }
+                n = a.join(delimiter);
+                if (d.length < 1) { amount = n; }
+                else { amount = n + '.' + d; }
+                amount = minus + amount;
+                return amount;
+            } catch (e) {
+                return "0.00";
+            }
+        }
+
+        function doOnLoad() {
+            myCalendar = new dhtmlXCalendarObject("txtDateExpiresAdd");
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+            InitiateLoadPayrollSpiffs();
+            LoadJobCodesBasedOnPriceBook();
+        }
+
+        function InitiateLoadPayrollSpiffs()
+        {
+            document.getElementById("gifId").style.display = "block";
+            var status = document.getElementById("showInactive").checked;
+            var partDescription = document.getElementById("txtPartDescriptionSearch").value;
+            var partCode = document.getElementById("txtPartCodeSearch").value;
+            var xmlstringPayrollSetup = "";
+            var empid = { checkStatus: status, partsDesc: partDescription, partsCode: partCode, FranchiseeId: SiteBlue.franchiseId };
+            var jsondata = $.ajax({
+                url: "/ownerportal/PayrollHistory/PayrollPartExceptionData",
+                data: JSON.stringify(empid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                        LoadPayrollSpiffs(msg);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+
+        }
+
+        /// Load Payroll Spiffs Grid based on Payroll Spiffs Collection
+        function LoadPayrollSpiffs(jsonSpiffsData) {
+            gridPayrollSetup = new dhtmlXGridObject("setupGrid");
+            gridPayrollSetup.setHeader("Job Code,Job Code Description,Service Pro,Pay Type,Rate,Add On,Date Expires,Comments,Active");
+            gridPayrollSetup.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro");
+            gridPayrollSetup.enablePaging(true, 10, 3, "gridpgn", false);
+            gridPayrollSetup.setPagingSkin("bricks");
+            gridPayrollSetup.init();
+            gridPayrollSetup.setSkin("dhx_skyblue");
+            gridPayrollSetup.parse(jsonSpiffsData, "json");
+            document.getElementById("gifId").style.display = "none";
+            
+        }
+
+        function SavePayrollData() {
+            // Disable save button and show AJAX loader
+            $("#buttonSavePayrollData").attr("disabled", "disabled");
+            $("#imgProcessingSavePayrollData").css("visibility", "visible");
+
+            var method = document.getElementById("OTMethod").value;
+            var multiplier = document.getElementById("OTMultiplier").value;
+            var start = document.getElementById("OTStart").value;
+            var fid = { FranchiseeId: SiteBlue.franchiseId, method: method, multiplier: multiplier, start: start };
+            var jsondata = $.ajax({
+                url: "/OwnerPortal/PayrollHistory/SavePayrollSetupData",
+                data: JSON.stringify(fid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    alert(msg.Message);
+                    $("#buttonSavePayrollData").removeAttr("disabled", "disabled");
+                    $("#imgProcessingSavePayrollData").css("visibility", "hidden");
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+        }
+
+        function Add_Row() {
+            currentPayrollSpiffID = -1;
+
+            var listItems = "";
+            var fid = { FranchiseeId: SiteBlue.franchiseId };
+            document.getElementById("popUpTimeAdd").style.display = "block";
+        }
+
+        function CancelAdd() {
+            document.getElementById("popUpTimeAdd").style.display = "none";
+        }
+
+        function SaveData(fid) {
+            json_call(fid);
+        }
+
+        function json_call(fid) {
+
+            // New
+            var payrollSetupID = @ViewBag.PayrollSetupID;
+            var jobCodeID = $("#ddlJobCode").val();
+            var serviceProID = $("#ddlServiceProAdd").val();
+            var payTypeID = $("#ddlPayTypeAdd").val();
+            var rate = $("#txtRateAdd").val();
+            var addOn = $("#chkAddOnAdd").attr('checked'); 
+            var dateexpires = $("#txtDateExpiresAdd").val();
+            var active = $("#chkActiveAdd").attr('checked');
+            var comments = document.getElementById("txtCommentsAdd").value;
+            var jsonData = {
+                            strCurrentPayrollSpiffID : currentPayrollSpiffID,                         
+                            strPayrollSetupID : payrollSetupID,
+                            strJobCodeID : jobCodeID, strServiceProID : serviceProID, strPayTypeID : payTypeID, strRate : rate, strAddOn : addOn, 
+                             strDateExpires : dateexpires, strActive : active, strComments : comments};
+            var ajaxCall = $.ajax({
+                url: "/PayrollHistory/PayrollSpiffAdd",
+                data: JSON.stringify(jsonData),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                        alert(msg.Message);
+                        $('#popUpTimeAdd').css("display", "none");
+                        InitiateLoadPayrollSpiffs();
+                },
+                type: "POST",
+                dataType: "json"
+            });
+
+        }
+
+        function addFirstItem(list, text, value) {
+            for (var i = 0; i < list.options.length; i++) {
+                if (list.options[i].value == "-1") {
+                    return;
+                }
+            }
+            var newOption = document.createElement("option");
+            newOption.text = text;
+            newOption.value = value;
+            list.options.add(newOption);
+        }
+
+
+        function Edit_Row() {
+            var selectedIndex = gridPayrollSetup.getSelectedRowId();
+            if (selectedIndex != null) {
+                currentPayrollSpiffID = selectedIndex;
+
+                var listItems = "";
+                var fid = { FranchiseeId: SiteBlue.franchiseId };
+
+                document.getElementById("popUpTimeAdd").style.display = "block";
+
+                var pId = { partExceptionId: selectedIndex };
+                var jsondata = $.ajax({
+                    url: "/PayrollHistory/PayrollExceptionDataEdit",
+                    data: JSON.stringify(pId),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        
+
+
+                        document.getElementById("ddlJobCode").value = msg.JobCodeID;
+                        document.getElementById("ddlPayTypeAdd").value = msg.PayTypeID;
+                        document.getElementById("chkAddOnAdd").checked = msg.Addon;
+                        document.getElementById("txtRateAdd").value = msg.Rate;
+                        document.getElementById("txtDateExpiresAdd").value = msg.DateExpiresFormatted;
+                        document.getElementById("ddlServiceProAdd").value = msg.ServiceProID;
+                        document.getElementById("chkActiveAdd").checked = msg.Active;
+                        document.getElementById("txtCommentsAdd").value = msg.Comments;
+
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $('#output').innerHtml(e);
+                    }
+                });
+
+                
+            }
+            else {
+                alert("Please select any Row to edit");
+            }
+        }
+
+        function ExportExcel() {
+            gridPayrollSetup.toExcel("/PayrollHistory/ExportToExcel");
+        }
+
+        function ddlPriceBook_Change(source)
+        {
+            LoadJobCodesBasedOnPriceBook();
+        }
+
+        function LoadJobCodesBasedOnPriceBook() {
+            //alert($("#ddlPriceBook").val());
+            var strSelectedPriceBook = $("#ddlPriceBook").val();
+            $('#ddlJobCode >option').remove();
+            var ddlJobCode= $('#ddlJobCode');
+
+            $.each(jobCodes_AllForFranchise, function(index, value) {
+            
+                    if (value.PriceBookID.toString() === strSelectedPriceBook)
+                        ddlJobCode.append( new Option(value.Text,value.Value) ); 
+                        //ddlJobCode.append($('< option > </option>').val(index).html('Hello world') );
+
+                  //alert(index + ': ' + value); 
+
+                });
+
+
+
+        }
+
+
+    </script>
+}
+<form id="myform" action="PayrollSetup">
+@{Html.BeginForm("PayrollSetup", "PayrollHistory");}
+<div style="height: 730px; margin-top: 10px;" class=" dhx_tabbar_zone_top">
+    <div class="dhx_tabbar_zone dhx_tabbar_zone_dhx_skyblue">
+        <div class="dhx_tablist_zone" style="height: 24px; top: 0px;">
+            <div class="dhx_tabbar_row" style="height: 26px; top: 0px; z-index: 10;">
+                <div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="height: 26px;
+                    background-color: white; z-index: 7; top: 0px; left: 5px; width: 150px;">
+                    <span><a class="link" href="../Employee/EmployeeList">Employee List</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_active dhx_tab_hover" style="height: 26px;
+                    top: 0px; left: 154px; width: 150px; background-color: white; z-index: 15;">
+                    <span>Payroll Setup</span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 150px; height: 26px;
+                    top: 0px; left: 303px;">
+                    <span><a class="link" href="../Employee/TimeCardSummary">Time Card Summary</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 150px; height: 26px;
+                    top: 0px; left: 452px;">
+                    <span><a class="link" href="PayrollProcessing">Payroll Processing</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="height: 26px; background-color: white;
+                    z-index: 7; top: 0px; left: 601px; width: 150px;">
+                    <span><a class="link" href="GetPayrollHistroy">Payroll History</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 750px;">
+                    <span><a class="link" href="../Employee/hr_form">Forms</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 849px;">
+                    <span><a class="link" href="../Employee/HR_ReviewForm">Reviews</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 948px;">
+                    <span><a class="link" href="../Employee/EmployeeReminders">Reminders</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tablist_line" style="top: 22px; z-index: 8; width: 1332px;">
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabcontent_zone" style="background-color: white; height: 700px; width: 99.9%;
+            top: 27px;">
+            <div style="overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px;
+                width: 99.9%; height: 700px;">
+                <div id="dhxMainCont" style="position: relative; left: 0px; top: 0px; overflow: hidden;
+                    width: 100%; height: 800px;">
+                    <fieldset style="vertical-align: bottom; padding: 5px 0px 5px 0px; width: 100%; margin: 0px;">
+                        <div style="margin-right: 50px; float: left; margin-left: 5px;">
+                            <label style="font-size: larger; font-weight: bold;">
+                                Payroll Add On / Spiffs</label>
+                        </div>
+                    </fieldset>
+                    <div id="popupWindow" style="width: 100%">
+                        <table width="100%" style="margin-top: 10px;">
+                            <tr>
+                                <td align="left">
+                                    <label style="margin-right: 5px;">
+                                        Overtime Method</label>
+                                        @Html.DropDownList("OTMethod", Model.OvertimeMethods, new { style="width:100px;"})
+@*TODO: Remove Entirely
+                                    @if (ViewBag.OTStart != null)
+                                    {
+                                        @Html.DropDownList("OTMethod", (List<SelectListItem>)(ViewBag.OTMethod), (string)ViewBag.OvertimeMethod)
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("OTMethod", (List<SelectListItem>)(ViewBag.OTMethod), (string)ViewBag.OvertimeMethod)
+                                    }
+*@                                </td>
+                                <td align="left">
+                                    <label style="margin-right: 5px;">
+                                        Overtime Starts After</label>
+                                        @Html.TextBox("OTStart",Model.OvertimeStarts)
+                                </td>
+                                <td align="left">
+                                    <label style="margin-right: 5px;">
+                                        Overtime Multiplier</label>
+                                        @Html.TextBox("OTMultiplier", Model.OTMultiplier, "")
+                                </td>
+                                <td align="left">
+                                    <img id="imgProcessingSavePayrollData" src="../../../../Images/ajax-loader.gif" alt="processing..." style=" visibility:hidden;"/>
+                                    &nbsp;
+                                    <input id="buttonSavePayrollData" type="button" value="Save" onclick="SavePayrollData()" />
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%" style="margin-top: 10px;">
+                            <tr>
+                                <td>
+                                    @*<div style="float: left">
+                                            @Html.Label("Search")
+                                        </div>*@
+                                    <div style="float: left; padding-left: 10px;">
+                                        <input type="text" id="txtPartCodeSearch" style="width: 150px" />
+                                    </div>
+                                    <div style="float: left; padding-left: 10px;">
+                                        <input id="btnCode" type="button" value="Search Code" onclick="doOnLoad()" />
+                                    </div>
+                                    <div style="float: left; padding-left: 20px;">
+                                        <input type="text" id="txtPartDescriptionSearch" style="width: 150px" />
+                                    </div>
+                                    <div style="float: left; padding-left: 10px;">
+                                        <input id="btnPart" type="button" value="Search Part" onclick="doOnLoad()" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="float: right; margin-right: 2px;">
+                                        <a href="javascript:Add_Row()">Add Row</a> 
+                                        <a href="javascript:Edit_Row()" style="margin-left: 10px;
+                                            margin-right: 10px;">Edit Row</a>
+                                            <!--TODO: Changed checked to TRUE, verify that makes sense -->
+                                        @Html.CheckBox("showInactive", true, new { onchange = "doOnLoad()" })
+                                        @Html.Label("Active")
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div align="center" id='gifId'>
+                                        <img src="../../../../Images/ajax-loader.gif" alt="processing..." />
+                                    </div>
+                                    <div id="setupGrid" style="width: 99%; height: 225px;">
+                                    </div>
+                                    <div id="gridpgn">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div id="popUpTimeAdd" style="display: none;">
+                                        <table>
+                                            
+                                            <tr>
+                                                <td colspan="5">
+                                                    <label style="font-size: larger; font-weight: bold;">
+                                                        Add Payroll Addon / Spiff</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <label>Price Book</label>
+                                                    &nbsp;&nbsp;
+                                                     @Html.DropDownList("ddlPriceBook", Model.PriceBooks, new { onchange = "ddlPriceBook_Change(this)" })
+                                                </td>
+                                                <td style="width: 20%">
+                                                </td>
+                                                <td style="width: 20%">
+                                                </td>
+                                                <td style="width: 20%">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 20%">
+                                                    <label>
+                                                        Job Code
+                                                    </label>
+                                                </td>
+                                                <td style="width: 20%">
+                                                </td>
+                                                <td style="width: 20%">
+                                                </td>
+                                                <td style="width: 20%">
+                                                <label>  Pay Type</label>
+                                                </td>
+                                                <td style="width: 20%">
+                                                    <label>
+                                                        Add On</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" style="border:solid 1px black;">
+                                                    <!--This DDL is dynamic based on the price books, so we're loading it when the page loads and when the Price Book DDL changes-->
+                                                    @Html.DropDownList("ddlJobCode", new SelectListItem[]{})
+                                                </td>
+                                                <td style="border:solid 1px black;">
+                                                    @Html.DropDownList("ddlPayTypeAdd", @Model.SpiffPayTypes, new { style = "width:80%" })
+                                                </td>
+                                                <td style="border:solid 1px black;">
+                                                    @Html.CheckBox("chkAddOnAdd", false)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label>
+                                                        Rate</label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        Date Expires</label>
+                                                </td>
+                                                <td colspan="2">
+                                                    <label>Service Pro</label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        Active</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">
+                                                    @Html.TextBox("txtRateAdd", "", new { style = "width:80%;" })
+                                                </td>
+                                                <td valign="top">
+                                                    @Html.TextBox("txtDateExpiresAdd", (string)DateTime.Now.ToShortDateString(), new { style = "width:80%" })
+                                                </td>
+                                                <td colspan="2" valign="top">
+                                                    @Html.DropDownList("ddlServiceProAdd", @Model.ServicePros, new { style = "width:80%;" })
+                                                </td>
+                                                <td valign="top">
+                                                    @Html.CheckBox("chkActiveAdd", true)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:right; vertical-align:top;">
+                                                    <label>Comments</label>
+                                                </td>
+                                                <td colspan="2">
+                                                    @Html.TextArea("txtCommentsAdd", "", new { style = "width:90%;height:50px;" })
+                                                </td>
+                                                <td colspan="2" style="text-align:center; vertical-align:bottom;">
+                                                    <input type="button" value="Save" style="margin-top: 10px;" onclick="SaveData(SiteBlue.franchiseId)" />
+                                                    <input type="button" value="Cancel" style="margin-left: 10px;" onclick="CancelAdd();" />
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabbar_lineA" style="top: 24px; width: 100%;">
+        </div>
+        <div class="dhx_tabbar_lineB" style="top: 24px; width: 100%;">
+        </div>
+        <div class="dhx_tabbar_lineC" style="height: 21px;">
+        </div>
+        <div class="dhx_tabbar_lineD">
+        </div>
+    </div>
+</div>
+
+<div style="float: left; margin-left: 10px">
+    <input id="btnExportToExcel" type="button" onclick="ExportExcel()" value="Export" />
+</div>
+
+@{Html.EndForm();}
+</form>

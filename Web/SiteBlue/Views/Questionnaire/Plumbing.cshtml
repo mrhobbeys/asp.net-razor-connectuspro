@@ -1,0 +1,330 @@
+﻿@model SiteBlue.Questionnaire.Data.Plumbing
+@{
+    ViewBag.Title = "Plumbing";
+    Layout = "~/Views/Shared/QuestionnaireLayout.cshtml";
+}
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Owner Portal", "Dashboard", "LandingPage", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+<script type="text/javascript">
+
+    $(function () {
+
+        // binds form submission and fields to the validation engine
+        //$(".form").validationEngine();
+
+        $(".wizard-step:first").fadeIn(); // Show the first div
+
+        // attach back step button handler
+        // hide on first step
+        $("#back").hide().click(function () {
+            var $step = $(".wizard-step:visible"); // Get current step
+            if ($step.prev().hasClass("wizard-step")) {
+                $step.hide().prev().fadeIn();
+
+                // disable back step button
+                if (!$step.prev().prev().hasClass("wizard-step")) $("#back").hide();
+            }
+        });
+
+        // attach next step button handler
+        $("#next").click(function () {
+            var $step = $(".wizard-step:visible"); // Get current step
+            var validator = $("form").validate(); // Obtain validator
+            var anyError = false;
+
+            $step.find("input").each(function () {
+                if (!validator.element(this)) anyError = true;
+            });
+
+            //if (anyError) return false; // Exit if any error found
+
+            if ($step.next().hasClass("wizard-step")) { // is there any next step?
+                $step.hide().next().fadeIn();  // show it and hide current step
+                $("#back").show();   // recall to show backStep button
+            }
+
+            else { // this is last step, submit form
+                $("form").submit();
+            }
+        });
+    });
+</script>
+<h2>
+    Plumbing</h2>
+@using (Html.BeginForm("Plumbing", "Questionnaire", new { tid = (Request.QueryString["tid"] != null ? Request.QueryString["tid"].ToString() : "") }, FormMethod.Post, new { id = "form", @class = "form" }))
+{
+    @Html.ValidationSummary(true)
+    <h3>
+        Technician name: @Html.Raw(Model.Technician.FirstName + " " + Model.Technician.LastName)</h3>
+    <hr />
+    if ((Model.PlumbingId != null) && (Model.PlumbingId != 0))
+    {
+        @Html.HiddenFor(model => model.PlumbingId)            
+    }
+    @Html.HiddenFor(model => model.TechnicianInformationId)
+    <article style="width: 900px; height: 300px">
+        <div class="wizard-step">
+            <fieldset>
+                <legend></legend>
+                <table class="items">
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.BD_diagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("BD_diagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))@*, new { @class = "validate[required,custom[integer],min[1],max[5]]" })*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.BD_TestCertify)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("BD_TestCertify", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.SD_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("SD_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.SF_RepairReplace)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("SF_RepairReplace", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.OF_ReplaceRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("OF_ReplaceRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.SinkReplacement)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("SinkReplacement", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.TO_RepairReplace)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("TO_RepairReplace", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.UR_RepairReplace)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("UR_RepairReplace", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.ShowerPanReplacement)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("ShowerPanReplacement", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.DS_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("DS_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="wizard-step">
+            <fieldset>
+                <legend></legend>
+                <table class="items">
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.TSD_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("TSD_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.TSF_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("TSF_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.GL_Installation)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("GL_Installation", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.GL_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("GL_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.WH_Installation)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("WH_Installation", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.WH_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("WH_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.KD_RepairReplace)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("KD_RepairReplace", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.DWL_RepairReplace)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("DWL_RepairReplace", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.SL_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("SL_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.WL_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("WL_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="wizard-step">
+            <fieldset>
+                <legend></legend>
+                <table class="items">
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.MGL_Installation)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("MGL_Installation", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.MGL_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("MGL_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.WWP_RepairReplace)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("WWP_RepairReplace", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.SWP_RepairReplace)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("SWP_RepairReplace", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.SUP_RepairReplace)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("SUP_RepairReplace", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.WP_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("WP_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.SL_RepairReplace)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("SL_RepairReplace", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.HO_RePipe)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("HO_RePipe", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.WFS_Installation)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("WFS_Installation", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.WFS_DiagnosisRepair)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("WFS_DiagnosisRepair", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+        <div class="wizard-step">
+            <fieldset>
+                <legend></legend>
+                <table class="items">
+                    <tr>
+                        <td class="left-td">@Html.LabelFor(model => model.DC_InspectDiagnosis)
+                        </td>
+                        <td class="right-td">
+                            @Html.DropDownList("DC_InspectDiagnosis", new SelectList(new List<string>() { "Yes", "No" }))
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+    </article>
+}
+<div id="but" style="height: 60px; width: 100%; display: block; text-align: right">
+    <ul class="control">
+        <li>@Html.ActionLink("< Back to technician information", "TechnicianInformation", new { qid = Model.Technician.QuestionnaireId }, new { @class = "formbutton" })
+            <a class="formbutton" id="back">< Back</a> <a class="formbutton" id="next">Next ></a></li><li>
+            </li>
+    </ul>
+</div>

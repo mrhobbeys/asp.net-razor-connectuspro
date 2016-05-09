@@ -1,0 +1,17 @@
+﻿@model string
+           
+@{
+    var id = DateTime.Now.Ticks;
+}
+
+@using (Ajax.BeginForm("SaveHowWeAre", new AjaxOptions { HttpMethod = "post", LoadingElementId = "loading" + id.ToString() }))
+{
+    <div >
+        Enter text for "Who we are" screen
+        @Html.TextArea("GuaranteeText", Model)
+    </div>
+    <button type = "submit" >Save</button>
+}
+<div style="height: 30px;">
+    <div id="loading@(id.ToString())" style="display: none;"> <img src="../../../../Content/images/loading.gif" alt="Loading..."/></div>
+</div>

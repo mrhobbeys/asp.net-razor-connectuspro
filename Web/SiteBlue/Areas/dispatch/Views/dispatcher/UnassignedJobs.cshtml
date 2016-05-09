@@ -1,0 +1,15 @@
+﻿@{
+    Layout = null;
+    Response.ContentType = "text/xml";
+}
+@using SiteBlue.Areas.dispatch.Models
+@model IEnumerable<JobViewModel>
+<rows>
+@foreach (var job in Model)
+{
+<row id="@job.JobID" status="@job.Status.StatusID">
+    <cell title="@(job.Start.GetValueOrDefault().ToString("HH:mm")) - @(job.End.GetValueOrDefault().ToString("HH:mm"))"><![CDATA[@job.DisplayName]]></cell>
+    <cell><![CDATA[@(job.Start.GetValueOrDefault().ToShortDateString())]]></cell>
+</row>
+}
+</rows>

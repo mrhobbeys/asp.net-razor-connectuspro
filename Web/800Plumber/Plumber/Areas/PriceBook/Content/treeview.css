@@ -1,0 +1,149 @@
+﻿form {display: inline-block;}
+.treeview, .treeview ul { 
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.treeview ul {
+	background-color: white;
+	margin-top: 4px;
+}
+
+.treeview .hitarea {
+	background: url(/Areas/PriceBook/images/treeview-default.gif) -64px -25px no-repeat;
+	height: 16px;
+	width: 16px;
+	margin-left: -16px;
+	float: left;
+	cursor: pointer;
+}
+/* fix for IE6 */
+* html .hitarea {
+	display: inline;
+	float:none;
+}
+
+.treeview li { 
+	margin: 0;
+	padding: 3px 0pt 3px 16px;
+}
+
+.treeview a.selected {
+	background-color: #eee;
+}
+
+#treecontrol { margin: 1em 0; display: none; }
+
+.treeview .hover { color: red; cursor: pointer; }
+
+.treeview li { background: url(/Areas/PriceBook/images/treeview-default-line.gif) 0 0 no-repeat; }
+.treeview li.collapsable, .treeview li.expandable { background-position: 0 -176px; }
+
+.treeview .expandable-hitarea { background-position: -80px -3px; }
+
+.treeview li.last { background-position: 0 -1766px }
+.treeview li.lastCollapsable, .treeview li.lastExpandable { background-image: url(/Areas/PriceBook/images/treeview-default.gif); }  
+.treeview li.lastCollapsable { background-position: 0 -111px }
+.treeview li.lastExpandable { background-position: -32px -67px }
+
+.treeview div.lastCollapsable-hitarea, .treeview div.lastExpandable-hitarea { background-position: 0; }
+
+.treeview-red li { background-image: url(/Areas/PriceBook/images/treeview-red-line.gif); }
+.treeview-red .hitarea, .treeview-red li.lastCollapsable, .treeview-red li.lastExpandable { background-image: url(/Areas/PriceBook/images/treeview-red.gif); } 
+
+.treeview-black li { background-image: url(/Areas/PriceBook/images/treeview-black-line.gif); }
+.treeview-black .hitarea, .treeview-black li.lastCollapsable, .treeview-black li.lastExpandable { background-image: url(/Areas/PriceBook/images/treeview-black.gif); }  
+
+.treeview-gray li { background-image: url(/Areas/PriceBook/images/treeview-gray-line.gif); }
+.treeview-gray .hitarea, .treeview-gray li.lastCollapsable, .treeview-gray li.lastExpandable { background-image: url(/Areas/PriceBook/images/treeview-gray.gif); } 
+
+.treeview-famfamfam li { background-image: url(/Areas/PriceBook/images/treeview-famfamfam-line.gif); }
+.treeview-famfamfam .hitarea, .treeview-famfamfam li.lastCollapsable, .treeview-famfamfam li.lastExpandable { background-image: url(/Areas/PriceBook/images/treeview-famfamfam.gif); } 
+
+.treeview .placeholder {
+	background: url(/Areas/PriceBook/images/ajax-loader.gif) 0 0 no-repeat;
+	height: 16px;
+	width: 16px;
+	display: block;
+}
+
+.filetree li { padding: 3px 0 2px 16px; }
+.filetree span.section, .filetree span.subsection, .filetree span.task { padding: 1px 0 1px 16px; display: inline-block; }
+span.sectiontext, sapn.subsectiontext, span.tasktext {display: inline;}
+.filetree span.section { background: url(/Areas/PriceBook/images/folder.gif) 0 0 no-repeat; }
+.filetree span.subsection { background: url(/Areas/PriceBook/images/folder.gif) 0 0 no-repeat; }
+.filetree span.task { background: url(/Areas/PriceBook/images/file.gif) 0 0 no-repeat; cursor : pointer;}
+.filetree li.expandable span.section { background: url(/Areas/PriceBook/images/folder-closed.gif) 0 0 no-repeat; }
+.filetree li.expandable span.subsection { background: url(/Areas/PriceBook/images/folder-closed.gif) 0 0 no-repeat; }
+.filetree li.expandable span.task { background: url(/Areas/PriceBook/images/file.gif) 0 0 no-repeat; cursor : pointer;}
+
+a.subsectionlink {text-decoration : none;}
+a.tasklink {text-decoration: none;}
+#taskgrid {width: 100%;}
+#task{float: left;}
+.uploadContainer{width: 300px; float: left;}
+#uploadimg{ width: 100%; }
+#viewimg { width: 100%; }
+#taskdetail {float: left;}
+#partname {text-align: center;}
+
+
+li.inactive {opacity: 0.5; filter: alpha(opacity = 50)}
+
+.txtfocushide {display:none;}
+.txtfocusshow {display:inline;}
+
+.boldnode {font-weight: bold; color: Green;}
+.boldnode a {color: Green;}
+
+#sidetreecontrol {visibility: hidden;}
+#hiddendiv {display: none;}
+#searchprocess {display: none;}
+
+#searchmessages {display:none; color:red;}
+
+.sorting_asc 
+{
+    cursor: pointer;
+	background: url('/Areas/PriceBook/images/sort_asc.png') no-repeat center right;
+}
+
+.sorting_desc 
+{
+    cursor: pointer;
+	background: url('/Areas/PriceBook/images/sort_desc.png') no-repeat center right;
+}
+
+.sorting 
+{
+    cursor: pointer;
+	background: url('/Areas/PriceBook/images/sort_both.png') no-repeat center right;
+}
+
+.sorting_asc_disabled 
+{
+    cursor: pointer;
+	background: url('/Areas/PriceBook/images/sort_asc_disabled.png') no-repeat center right;
+}
+
+.sorting_desc_disabled 
+{
+    cursor: pointer;
+	background: url('/Areas/PriceBook/images/sort_desc_disabled.png') no-repeat center right;
+}
+
+.jslider
+{
+    /*background:#ffcc33;*/
+    border:0px solid #da1800;
+    width:500px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#subtaskname
+{
+    text-align: center;
+    height: 20px;
+}

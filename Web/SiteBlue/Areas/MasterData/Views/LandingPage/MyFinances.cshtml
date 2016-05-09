@@ -1,0 +1,121 @@
+﻿@{
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+<div id="BigIcons" class="fr">
+     <div class="BigIcon">
+               @*<a href="@Url.Content("~/MyCalls/CallScripts/index")" title="Enter Budget">*@
+                <a href="@Url.Content("~/MyFinances/MyFinances/AccountsReceivableFunction")" title="Acounts Receivable">
+                 @*<a href="" title="Call Scripts">*@
+            <img src="@Url.Content("~/Content/images/landing/Icon blacbrd.png")" alt="Big Icon" class="hoverable"/></a>
+        <h3>
+             ACCOUNTS RECEIVABLE </h3>
+    </div>
+ 
+    <!--  Vertical Line between Icon 1 and Icon 2 -->
+    <div class="verticalLineTop">
+        <div class="verticalLineTopWhite">
+        </div>
+        <div class="verticalLineTopBlack">
+        </div>
+    </div>
+
+      <div class="BigIcon">
+         @*<a href="@Url.Content("~/MyCalls/NetPromoter/index")" title="KPI">*@
+        <a href="@Url.Content("~/MyFinances/MyFinances/index")" title="Banking">
+         @*<a href="#" title="Net Promotor">*@
+            <img class="hoverable" src="@Url.Content("~/Content/images/landing/icon report.png")" alt="Big Icon" />
+        </a>
+        <h3>
+            BANKING</h3>
+    </div>
+
+    <!--  Vertical Line between Icon 2 and Icon 3 -->
+    <div class="verticalLineTop">
+        <div class="verticalLineTopWhite">
+        </div>
+        <div class="verticalLineTopBlack">
+        </div>
+    </div>
+        <div class="BigIcon">
+@*      <a href="@Url.Content("~/MyFinances/MyFinances/SalesTaxReport")" title="Sales Tax Report">*@
+      <a href="@Url.Content("~/Reporting/Reporting")" title="Reporting">
+          <img src="@Url.Content("~/Content/images/landing/icon font.png")" alt="Big Icon" />
+        </a>
+                <h3>
+            Reporting</h3>
+    </div>
+
+
+  
+    <!-- Long Horizontal Line between firts row of icons and second row of icons-->
+    <div class="horizontalLine">
+        <div class="horizontalLineWhite">
+        </div>
+        <div class="horizontalLineBlack">
+        </div>
+        <div class="horizontalLineWhite">
+        </div>
+    </div>
+  
+
+    <div class="BigIcon">
+               @*<a href="@Url.Content("~/MyCalls/CallScripts/index")" title="Enter Budget">*@
+                <a href="@Url.Content("~/MyFinances/MyFinances/WeeklyClosing")" title="Weekly Closing">
+                 @*<a href="" title="Call Scripts">*@
+            <img src="@Url.Content("~/Content/images/landing/Icon note.png")" alt="Big Icon" class="hoverable"/></a>
+        <h3>
+            WEEKLY LOCK <br /> OF CLOSED SALES </h3>
+    </div>
+
+
+    <!--  Vertical Line between Icon 4 and Icon 5 -->
+    <div class="verticalLineMiddle">
+    </div>
+    <div class="BigIcon">
+       @*<a href="@Url.Content("~/MyCalls/CallScripts/index")" title="Enter Budget">*@
+                <a href="@Url.Content("~/MyFinances/MyFinances/WeeklySalesReport")" title="Weekly Sales Report">
+                 @*<a href="" title="Call Scripts">*@
+            <img src="@Url.Content("~/Content/images/landing/icon graph.png")" alt="Big Icon" class="hoverable"/></a>
+        <h3>
+            WEEKLY SALES REPORT </h3>
+    </div>
+    <!--  Vertical Line between Icon 5 and Icon 6 -->
+    <div class="verticalLineMiddle">
+    </div>
+
+      <div class="BigIcon">
+     <a href="@Url.Content("~/MyFinances/MyFinances/AccountingExport")" title="Accounting Export">
+          <img src="@Url.Content("~/Content/images/landing/Icon Dollar.png")" alt="Big Icon" />
+        </a>
+                <h3>
+            ACCOUNTING EXPORT</h3>
+    </div>
+
+
+    <!-- Long Horizontal Line between second row of icons and third row of icons-->
+    <div class="horizontalLine">
+        <div class="horizontalLineWhite">
+        </div>
+        <div class="horizontalLineBlack">
+        </div>
+        <div class="horizontalLineWhite">
+        </div>
+    </div>   
+
+@*    <div class="BigIcon">
+      <a href="@Url.Content("~/MyFinances/MyFinances/AccountsAdjustments")" title="Accounting Calendar">
+          <img src="@Url.Content("~/Content/images/landing/bigIcon1.png")" alt="Big Icon" />
+        </a>
+                <h3>
+            ACCOUNTING CALENDAR</h3>
+    </div>
+    <div class="verticalLineMiddle">
+    </div>*@
+</div>
+
+@section BackSection
+{
+    <div id="back-section">
+        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard", new { area = "LandingPage" }, null)
+    </div>
+}

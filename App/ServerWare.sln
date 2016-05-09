@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "800PlumberServerWare", "ServerWare\800PlumberServerWare.vbproj", "{DE169F00-D598-4D8F-99DD-3E8CC81157F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectusAppServer", "ConnectusAppServer\ConnectusAppServer.csproj", "{E441185A-6AED-44A2-A4F1-B956C4C5DD60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteBlue.Core", "..\Web\SiteBlue.Core\SiteBlue.Core.csproj", "{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteBlue.Data", "..\Web\SiteBlue.Data\SiteBlue.Data.csproj", "{07829041-B59E-45D7-A00B-0EB969578E61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteBlue.Business", "..\Web\SiteBlue.Business\SiteBlue.Business.csproj", "{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.connectuspro.net:1088/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ServerWare\\800PlumberServerWare.vbproj
+		SccProjectName1 = ServerWare
+		SccLocalPath1 = ServerWare
+		SccProjectUniqueName2 = ConnectusAppServer\\ConnectusAppServer.csproj
+		SccProjectName2 = ConnectusAppServer
+		SccLocalPath2 = ConnectusAppServer
+		SccProjectUniqueName3 = ..\\Web\\SiteBlue.Core\\SiteBlue.Core.csproj
+		SccProjectName3 = ../Web/SiteBlue.Core
+		SccLocalPath3 = ..\\Web\\SiteBlue.Core
+		SccProjectUniqueName4 = ..\\Web\\SiteBlue.Data\\SiteBlue.Data.csproj
+		SccProjectName4 = ../Web/SiteBlue.Data
+		SccLocalPath4 = ..\\Web\\SiteBlue.Data
+		SccProjectUniqueName5 = ..\\Web\\SiteBlue.Business\\SiteBlue.Business.csproj
+		SccProjectName5 = ../Web/SiteBlue.Business
+		SccLocalPath5 = ..\\Web\\SiteBlue.Business
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE169F00-D598-4D8F-99DD-3E8CC81157F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE169F00-D598-4D8F-99DD-3E8CC81157F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE169F00-D598-4D8F-99DD-3E8CC81157F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE169F00-D598-4D8F-99DD-3E8CC81157F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E441185A-6AED-44A2-A4F1-B956C4C5DD60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E441185A-6AED-44A2-A4F1-B956C4C5DD60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E441185A-6AED-44A2-A4F1-B956C4C5DD60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E441185A-6AED-44A2-A4F1-B956C4C5DD60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07829041-B59E-45D7-A00B-0EB969578E61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

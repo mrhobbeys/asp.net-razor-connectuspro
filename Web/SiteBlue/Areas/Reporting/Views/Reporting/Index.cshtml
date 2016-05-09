@@ -1,0 +1,299 @@
+﻿@model SiteBlue.Areas.Reporting.Models.ReportSearch
+@{
+    ViewBag.Title = "Reporting";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Reporting/Reporting.css" rel="stylesheet" type="text/css" />
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript" language="javascript">
+        //Document Loading function
+        $('document').ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) {
+            });
+
+            //Set Date text field Readonly because date selected from the calender drop menu. 
+            $("#txtStartDate").attr('readonly', 'readonly');
+            $("#txtEndDate").attr('readonly', 'readonly');
+
+            $("#txtStartDate").attr("disabled", "disabled");
+            $("#txtEndDate").attr("disabled", "disabled");
+
+            //Description container
+            $(".reportnav").mouseover(function () {
+                var description = $(this).data("description");
+                $("#Desriptiontext").show("fast");
+                $("#Desriptiondata").html(description);
+
+            });
+            $(".reportnav").mouseout(function () {
+                $("#Desriptiontext").hide("fast");
+                $("#Desriptiondata").html('');
+            });
+
+            //Disable as per user selection
+            $("input:radio[name='reportfilter']").click(function () {
+                var i = $(this).val();
+                if (i == 0) {
+                    $("#txtStartDate").attr("disabled", "disabled");
+                    $("#txtEndDate").attr("disabled", "disabled");
+                    $("#ddltimeperiod").removeAttr("disabled", "disabled");
+                }
+                else {
+                    $("#txtStartDate").removeAttr("disabled", "disabled");
+                    $("#txtEndDate").removeAttr("disabled", "disabled");
+                    $("#ddltimeperiod").attr("disabled", "disabled");
+                }
+            });
+
+            //Call cal function
+            BindCalendar();
+
+            $("#job").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                }
+                else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/JobInformation?franchiseId=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timeperiod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+            $("#jobsalesreport").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                }
+                else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/JobDetailSalesReport?franchiseId=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timeperiod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+            $("#CustomerInformation").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                }
+                else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/CustomerInformation?franchiseId=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timeperiod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+            $("#accountingsummary").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                } else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/AccountingSummary?franchiseId=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timeperiod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+
+            $("#JobTaskPartDetails").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                } else {
+                    timeperiod = "-1";
+                }
+                 var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/JobTaskPartInformation?franchiseId=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timeperiod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+
+            $("#memberships").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                } else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/Memberships?franchiseId=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timeperiod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+            $("#accountingdetail").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                } else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/AccountingDetail?franchiseId=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timeperiod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+            $("#wsrreport").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                } else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/WSRReport?franchiseID=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timePeriod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+            $("#ledgerreport").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                } else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/CustomerLedgerReport?franchiseID=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timePeriod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+
+
+            $("#custledgerreport").click(function () {
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var filter = $('input[name="reportfilter"]:checked').val();
+                var timeperiod;
+                if (filter == 0) {
+                    timeperiod = $("#ddltimeperiod").val();
+                } else {
+                    timeperiod = "-1";
+                }
+                var href = $(this).attr("href");
+                var route = "/Reporting/Reporting/CustomerLedgerSummaryReport?franchiseID=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timePeriod=" + timeperiod;
+                $(this).attr("href", route);
+            });
+        });
+
+        //Add Calender control to startdate and enddate
+        function BindCalendar() {
+            var myCalendar = new dhtmlXCalendarObject(["txtStartDate", "txtEndDate"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+        }       
+    </script>
+}
+<div id="divmain">
+    <h2>
+        Reporting</h2>
+    <fieldset id="field">
+        <legend></legend>
+        <div id="divReportCrit" class="ReportCrit">
+            <div>
+                <span class="rowspan">
+                    <input type="radio" id="rbtntimeperiod" checked="checked" name="reportfilter" value="0" />
+                </span>
+                <label class="rowlabel">@Html.Label("lbltimeperiods", "Time Periods ")&nbsp;:</label>
+                <span class="rowspan">
+                    @Html.DropDownList("ddltimeperiod", (List<SelectListItem>)(@Model.TimePeriod))
+                </span>
+            </div>
+            <div id="divdatefilter" class="divdatefilter">
+                <span class="rowspan">
+                    <input type="radio" id="rbtndate" name="reportfilter" value="1" />
+                </span>
+                <label class="rowlabel">@Html.Label("lblstartdate", "Start Date")&nbsp;:</label>
+                <span class="rowspandate" style="margin-left:18px;">@Html.TextBox("txtStartDate", @Model.FromDate.ToShortDateString(), new { @class = "reporttextbox" })
+                </span>
+                <label class="rowlabel">@Html.Label("lblenddate", "End Date")&nbsp;:</label>
+                <span class="rowspandate">@Html.TextBox("txtEndDate", @Model.ToDate.ToShortDateString(), new { @class = "reporttextbox" })</span>
+                <span id="space"></span>
+            </div>
+        </div>
+        <div id="divReportnav">
+            @Html.ActionLink("Job Information", "JobInformation", null, new { Id = "job", data_description = "This report gives all essential information for a ticket as a single line row for each job.  Use this for a quick reference between job number, billto-customer, job-location, total and tax amount, payment balance and various classification options for financial reporting (business type, commercial versus residential business, etc)", @class = "reportnav" })
+            <span class="rowspan">
+                @Html.ActionLink("Customer Information", "CustomerInformation", null, new { Id = "CustomerInformation", data_description = "This report gives an overview of your customers, organized and selectable by the last visit date.  Use this report to find the customers you have visited in the last 3 months, the customers you have not visited in the last year, etc.  Because a cumulative job total is calculated per customer, as well as the cumulative outstanding balance on the customer, you can use this report to find the customer who is responsible for the most revenue for any given time period. ", @class = "reportnav" })
+            </span>
+@*            <span class="rowspan">
+                <a href="@Url.Content("~/Reporting/Reporting/JobTaskAccounting")" title="Job Task Accounting" data-description="Click to view / export JobTask Accounting report" class="reportnav">
+                JobTask Accounting </a>
+            </span>*@
+@*            <span class="rowspan">
+                @Html.ActionLink("JobDetail Sales Report", "JobDetailSalesReport", null, new { Id = "jobsalesreport", data_description = "Click to view / export Job Detail Sales report", @class = "reportnav" })
+            </span>*@
+            <span class="rowspan">
+             @Html.ActionLink("Job Task Part Details", "JobTaskPartInformation", null, new { Id = "JobTaskPartDetails", data_description = "This report gives detailed cost accounting information per job, including part details, parts usage, part costing information.  Use this for inventory usage reports, as well as detailed material cost reports. ", @class = "reportnav" })
+         
+            </span>
+            <span class="rowspan">
+                @Html.ActionLink("Accounting Summary", "AccountingSummary", null, new { Id = "accountingsummary", data_description = "Click to view / export Accounting Summary", @class = "reportnav" })
+            </span>
+            <span class="rowspan">
+                @Html.ActionLink("Memberships", "Memberships", null, new { Id = "memberships", data_description = "Click to view / export Memberships", @class = "reportnav" })
+            </span>
+            <span class="rowspan">
+                @Html.ActionLink("Accounting Detail", "AccountingDetail", null, new { Id = "accountingdetail", data_description = "Click to view / export Accounting Detail", @class = "reportnav" })
+            </span>
+            <span class="rowspan">
+                @Html.ActionLink("WSR Report", "WSRReport", null, new { Id = "wsrreport", data_description = "Click to view / export WSR Report", @class = "reportnav" })
+            </span>
+            
+
+               <span class="rowspan">
+                @Html.ActionLink("Customer Ledger ", "CustomerLedgerReport", null, new { Id = "ledgerreport", data_description = "Click to view / export Customer Ledger Report", @class = "reportnav" })
+            </span>
+               <span class="rowspan">
+                @Html.ActionLink("Customer Ledger Summary", "CustomerLedgerSummaryReport", null, new { Id = "custledgerreport", data_description = "Click to view / export Customer Ledger Summary Report", @class = "reportnav" })
+            </span>
+        </div>
+        <div class="reportDesription" id="Desriptiontext">
+            <fieldset>
+                <legend>Description</legend>
+                <div id="Desriptiondata">
+                </div>
+            </fieldset>
+        </div>
+    </fieldset>
+</div>

@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+
+<div id="BigIcons" class="fr">
+    <div class="BigIcon">
+@*         <a href="@Url.Content("~/MyCalls/NetPromoter/index")" title="My  Promotor">*@
+         <a href="#" title="Net Promotor">
+            <img class="hoverable" src="@Url.Content("~/Content/images/landing/bigIcon1.png")" alt="Big Icon" />
+        </a>
+        <h3>
+            Net Promotor<br />
+             Score</h3>       
+
+    </div>
+
+    <!--  Vertical Line between Icon 1 and Icon 2 -->
+
+    <div class="verticalLineTop">
+        <div class="verticalLineTopWhite">
+        </div>
+        <div class="verticalLineTopBlack">
+        </div>
+    </div>
+
+     <div class="BigIcon">
+                <a href="@Url.Content("~/MyCalls/CallScripts/index")" title="My Call Scripts">
+                 @*<a href="" title="Call Scripts">*@
+            <img src="@Url.Content("~/Content/images/landing/bigIcon5.png")" alt="Big Icon" class="hoverable"/></a>
+        <h3>
+            Call Scripts </h3>
+        
+    </div>
+
+   <!--  Vertical Line between Icon 2 and Icon 3 -->
+    <div class="verticalLineTop">
+        <div class="verticalLineTopWhite">
+        </div>
+        <div class="verticalLineTopBlack">
+        </div>
+    </div>
+
+
+    <div class="BigIcon">
+        <a href="#" title="My Call Stats">
+    @*    <a href="@Url.Content("~/MyCalls/CallStatistic/Index")" title="My Call Stats">*@
+          <img src="@Url.Content("~/Content/images/landing/bigIcon3.png")" alt="Big Icon" />
+        </a>
+                <h3>
+            Call Stats</h3>
+       
+    </div>
+
+   
+    <!-- Long Horizontal Line between firts row of icons and second row of icons-->
+    <div class="horizontalLine">
+        <div class="horizontalLineWhite">
+        </div>
+        <div class="horizontalLineBlack">
+        </div>
+        <div class="horizontalLineWhite">
+        </div>          
+    </div>
+    <!--  Vertical Line between Icon 4 and Icon 5 -->
+  @*  <div class="verticalLineMiddle">
+    </div>*@
+</div>
+@section BackSection
+{
+    <div id="back-section">
+        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard", new { area = "LandingPage" }, null)
+    </div>
+}

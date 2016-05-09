@@ -1,0 +1,46 @@
+﻿@model SiteBlue.Data.LookupScript
+@{
+    Layout = "../Shared/_CallCenterLayout.cshtml";
+    ViewBag.Title = "Edit";
+}
+<h2>
+    @Model.LookupPhoneNr details</h2>
+<div id="wizard">
+    <article style="width: 900px;">
+        <div class="wizard-step">
+            <fieldset>
+                <legend></legend>
+                    <label class="label">Lookup Phone Number:</label>
+                    @Html.DisplayFor(model => model.LookupPhoneNr)<br />
+                    <label class="label">ConnectUs Code:</label>
+                    @Html.DisplayFor(model => model.ConnectusCode)<br />
+                    <label class="label">Call Script:</label>
+                    @Html.Raw(Model.CallScript)<br />
+                    @*<label class="label">XML Code:</label>
+                    @Html.DisplayFor(model => model.XMLCode)<br />*@
+            </fieldset>
+        </div>
+    </article>
+    <article style="width: 800px">
+        <label class="btns">
+            @Html.ActionLink("< Back to List", "Index", "ScriptManager", null, new { @class = "button" })
+            @Html.ActionLink("Edit", "Edit", new { id = Model.LookupId }, new { @class = "button" })
+        </label>
+    </article>
+</div>
+<script type="text/javascript">
+    $(".wizard-step:first").fadeIn(); // Show the first div
+</script>
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}

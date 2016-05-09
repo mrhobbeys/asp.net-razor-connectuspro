@@ -1,0 +1,386 @@
+﻿@model SiteBlue.Areas.Reporting.Models.WSRReportViewModel
+
+@{
+    ViewBag.Title = "WSR Report";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+
+@section Styles {
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxwindows.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxtabbar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Reporting/Reporting.css" rel="stylesheet" type="text/css" />
+}
+
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+}
+
+@section InlineScript {
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $('#ajaxindicator').ajaxStart(function () { $(this).show(); });
+            $('#ajaxindicator').ajaxStop(function () { $(this).hide(); });
+            maxLimitExceeded = false;
+
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) {
+                $("#ddlwsrdates").empty();
+                var startdate = $("#txtStartDate").val();
+                var enddate = $("#txtEndDate").val();
+                var Id = $('input[name="reportfilter"]:checked').val();
+                var value;
+                $("#ddltimeperiods").removeAttr("disabled", "disabled");
+                $('#rbtntimeperiod').attr("checked", "checked");
+                $('#rbtndate').removeAttr("checked", "checked");
+                value = $("#ddltimeperiods").val();
+
+               
+            
+                var payload = { franchiseID: SiteBlue.franchiseId, from: startdate, to: enddate, timePeriod: value };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("getDates")',
+                    data: JSON.stringify(payload),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        $.each(result, function (key, value) {
+                            var myDate = new Date(parseInt(value.substr(6)));
+                            var strDate = (myDate.getMonth() + 1) + "/" + myDate.getDate() + "/" + myDate.getFullYear() + " " + myDate.toLocaleTimeString();
+                            $("#ddlwsrdates").append($('<option></option>').val(strDate).html(strDate));
+                        });
+                        $("#ddlwsrdates").prepend($('<option></option>').val(-1).html('Select Date'));
+                        LoadSearchReportResult();
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+
+            });
+
+            $("#txtStartDate").attr('readonly', 'readonly');
+            $("#txtEndDate").attr('readonly', 'readonly');
+
+            $("#txtStartDate").attr('disabled', 'disabled');
+            $("#txtEndDate").attr('disabled', 'disabled');
+            $("#ddlwsrdates").attr("disabled", "disabled");
+
+            $("#ddltimeperiods").attr("disabled", "disabled");
+
+            var range = '@Model.Range';
+
+            if (range == "-1") {
+                $("#txtStartDate").removeAttr('disabled', 'disabled');
+                $("#txtEndDate").removeAttr('disabled', 'disabled');
+                $("#ddltimeperiods").attr("disabled", "disabled");
+                $('#rbtndate').attr("checked", "checked");
+                $('#rbtntimeperiod').removeAttr("checked", "checked");
+            } else {
+                $("#txtStartDate").attr('disabled', 'disabled');
+                $("#txtEndDate").attr('disabled', 'disabled');
+                $("#ddltimeperiods").removeAttr("disabled", "disabled");
+                $('#rbtndate').removeAttr("checked", "checked");
+                $('#rbtntimeperiod').attr("checked", "checked");
+            }
+
+            $("input:radio[name='reportfilter']").click(function () {
+                var i = $(this).val();
+                if (i == 0) {
+                    $("#txtStartDate").attr("disabled", "disabled");
+                    $("#txtEndDate").attr("disabled", "disabled");
+                    $("#ddltimeperiods").removeAttr("disabled", "disabled");
+                    $("#ddlwsrdates").attr("disabled", "disabled");
+                }
+                else if (i == 2) {
+                    $("#txtStartDate").attr("disabled", "disabled");
+                    $("#txtEndDate").attr("disabled", "disabled");
+                    $("#ddltimeperiods").attr("disabled", "disabled");
+                    $("#ddlwsrdates").removeAttr("disabled", "disabled");
+                }
+
+                else {
+                    $("#txtStartDate").removeAttr("disabled", "disabled");
+                    $("#txtEndDate").removeAttr("disabled", "disabled");
+                    $("#ddltimeperiods").attr("disabled", "disabled");
+                    $("#ddlwsrdates").attr("disabled", "disabled");
+                }
+            });
+
+            $("#ddlwsrdates").prepend($('<option></option>').val(-1).html('Select Date'));
+
+            InitializeGrid();
+            BindCalendar();
+            LoadSearchReportResult();
+
+            $("#btnsearch").click(function () {
+                var timeperiod;
+                var Id = $('input[name="reportfilter"]:checked').val();
+                var value = $("#ddltimeperiods").val();
+                var d = new Date();
+                var startdate;
+                var enddate;
+                var year = d.getFullYear();
+                var day = d.getDate();
+                var month = d.getMonth();
+                var n = d.getDay();
+                month = month + 1;
+                if (Id == "0") {
+                    if (value == "0") {
+                        timeperiod = 0;
+                        $("#ddlwsrdates").empty();
+                        var month = d.getMonth();
+                        day = day - n;
+                        var date = month + '/' + day + '/' + year;
+                        day = day + n;
+                        var today = month + '/' + day + '/' + year;
+                        getdates(date, today, timeperiod);
+                    }
+                    if (value == "1") {
+                        timeperiod = 1;
+                        $("#ddlwsrdates").empty();
+                        startdate = month + '/' + day + '/' + year;
+                        enddate = month + '/' + day + '/' + year;
+                        getdates(startdate, enddate, timeperiod);
+                    }
+                    if (value == "2") {
+                        timeperiod = 2;
+                        $("#ddlwsrdates").empty();
+                        startdate = month + '/' + 1 + '/' + year;
+                        enddate = month + '/' + day + '/' + year;
+                        getdates(startdate, enddate, timeperiod);
+                    }
+                    if (value == "3") {
+                        timeperiod = 3;
+                        $("#ddlwsrdates").empty();
+                        startdate = month - 1 + '/' + 1 + '/' + year;
+                        enddate = month - 1 + '/' + 31 + '/' + year;
+                        getdates(startdate, enddate, timeperiod);
+                    }
+                    if (value == "4") {
+                        timeperiod = 4;
+                        $("#ddlwsrdates").empty();
+                        startdate = 1 + '/' + 1 + '/' + year;
+                        enddate = month + '/' + day + '/' + year;
+                        getdates(startdate, enddate, timeperiod);
+                    }
+                }
+                LoadSearchReportResult();
+            });
+        });
+
+
+        function getdates(startdate,enddate,timeperiod) {
+            var payload = { franchiseID: SiteBlue.franchiseId, from: startdate, to: enddate, timeperiod: timeperiod };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("getDates")',
+                data: JSON.stringify(payload),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    $.each(result, function (key, value) {
+                     
+                        var myDate = new Date(parseInt(value.substr(6)));
+                        var strDate = (myDate.getMonth() + 1) + "/" + myDate.getDate() + "/" + myDate.getFullYear() + " " + myDate.toLocaleTimeString();
+                        $("#ddlwsrdates").append($('<option></option>').val(strDate).html(strDate));
+                    });
+                    $("#ddlwsrdates").prepend($('<option></option>').val(-1).html('Select Date'));
+                    LoadSearchReportResult();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+
+            });
+        }
+        
+    function BindCalendar() {
+        var Calendar = new dhtmlXCalendarObject(["txtStartDate", "txtEndDate"]);
+        Calendar.setWeekStartDay(7);
+        Calendar.setDateFormat("%m/%d/%Y");
+    }
+
+    function downloadWSRReportToExcel() {
+        var Id = $('input[name="reportfilter"]:checked').val();
+        if (Id < 2) {
+            var startdate = $("#txtStartDate").val();
+            var enddate = $("#txtEndDate").val();
+        } else {
+
+            var startdate = $("#ddlwsrdates").val();
+            var enddate = $("#ddlwsrdates").val();
+        }
+        var filter = $('input[name="reportfilter"]:checked').val();
+        var timeperiod = (filter == 0) ? $("#ddltimeperiods").val() : "-1";
+        if (startdate == "" || enddate == "") return;
+        var date1 = new Date(startdate);
+        var date2 = new Date(enddate);
+        if (date1 > date2) {
+            alert("Start Date should be less than End Date");
+            return false;
+        } else {
+            var params = "bMaxLimitExceeded=" + maxLimitExceeded + "&franchiseID=" + SiteBlue.franchiseId + "&from=" + startdate + "&to=" + enddate + "&timeperiod=" + timeperiod+ "&flag=" + Id;
+
+            gridWSRList.toExcel("../Reporting/DownloadWSRReportToExcel?" + params);
+        }
+    }
+        
+    function InitializeGrid() {
+        gridWSRList = new dhtmlXGridObject('divgridbox');
+        gridWSRList.setImagePath("../../codebase/imgs/");
+        gridWSRList.setHeader("Ticket Number, Call Completed Date, WSR Completed Date, Status, Service Name, Total Sales, Tax Amount, Sub Total, Balance, Tax Description, Business Type, Customer Name, Job Address, Job City, Job State, Job Postal Code, Technician, Job Priority");
+        gridWSRList.setColTypes("link,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,link,txt");
+        gridWSRList.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");
+        gridWSRList.setInitWidths("60,150,150,100,100,75,75,75,75,100,75,120,120,75,60,75,75,80");
+        gridWSRList.setColAlign("right,left,left,left,left,right,right,right,right,left,left,left,left,left,center,right,right,left");
+        gridWSRList.setColSorting("int,date,date,str,str,str,str,str,str,str,str,str,str,str,str,str,int,str");
+        gridWSRList.setSkin("dhx_skyblue");
+        gridWSRList.enablePaging(true, 20, 3, "divPaging", false);
+        gridWSRList.setPagingSkin("bricks");
+        gridWSRList.init();
+    }
+        
+    function LoadSearchReportResult() {
+        var Id = $('input[name="reportfilter"]:checked').val();
+
+        if ($("#ddlwsrdates").val() != null && $("#ddlwsrdates").val() != -1) {
+            var startdate = $("#ddlwsrdates").val();
+            var enddate = $("#ddlwsrdates").val();
+             }
+        else {
+            var startdate = $("#txtStartDate").val();
+            var enddate = $("#txtEndDate").val();
+        }
+        var filter = $('input[name="reportfilter"]:checked').val();
+        var timeperiod = (filter == 0) ? $("#ddltimeperiods").val() : "-1";
+
+        if (startdate == "" || enddate == "") return;
+        var date1 = new Date(startdate);
+        var date2 = new Date(enddate);
+        if (date1 > date2) {
+            alert("Start Date should be less than End Date");
+            return false;
+        } else {
+            var payload = { franchiseID: SiteBlue.franchiseId, from: startdate, to: enddate, timePeriod: timeperiod };
+
+                $.ajax({
+                type: "POST",                
+                url: '@Url.Action("GetWSRReport")',
+                data: JSON.stringify(payload),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    if (result.maxLimitExceeded == true) {
+                        alert("This query resulted in too many records to display on the screen. The system will only display the first 1000 records on the screen. You can either adjust the selection criteria to generate a smaller result-set so all results can be displayed on the screen, or use the <export to excel> button now to download the full record-set to view in Excel");
+                        maxLimitExceeded = result.maxLimitExceeded;
+                    }
+                    else{
+                        maxLimitExceeded = false;
+                    }
+
+                    gridWSRList.clearAll();
+                    gridWSRList.loadXMLString(result.wsrlist);
+
+                    $("#txtSubTotal").val(result.subtotal);
+                    $("#txtTaxTotal").val(result.taxtotal);
+                    $("#txtJobTotal").val(result.jobtotal);
+
+                    //$("#divloading").hide();
+                },                
+                error: function (xhr, status, error) {
+                    ///$("#divloading").hide();
+                  
+                    alert(error);
+                }
+                //this.window.refresh();
+            });
+        }
+    }
+    </script>
+}
+
+<div class="maincontainer">
+    <div class="divsearchpanel">
+        <fieldset>
+            <legend>&nbsp;WSR Report&nbsp;</legend>
+            <div class="searchParam">
+                <span class="rowspan">
+                    <input type="radio" id="rbtntimeperiod" checked="checked" name="reportfilter" value="0" />
+                </span>
+                <label class="rowlabel">@Html.Label("lbltimeperiods", "Time Periods -")&nbsp;:</label>
+                <span class="rowspan">
+                    @Html.DropDownList("ddltimeperiods", (List<SelectListItem>)(@Model.TimePeriod), new { Id = "ddltimeperiods" })
+                </span>
+                <span class="rowspan">
+                    <input type="radio" id="rbtndate" name="reportfilter" value="1" />
+                </span>
+                <label class="rowlabel">@Html.Label("lblstartdate", "Start Date")&nbsp;:</label>
+                <span class="rowspandate">
+                    @Html.TextBox("txtStartDate", @Model.FromDate.ToShortDateString(), new { @class = "reporttextbox" })
+                </span>
+                <label class="rowlabel">@Html.Label("lblenddate", "End Date")&nbsp;:</label>
+                <span class="rowspandate">
+                    @Html.TextBox("txtEndDate", @Model.ToDate.ToShortDateString(), new { @class = "reporttextbox" })
+                </span><br /><br />
+                  <span class="rowspan">
+                    <input type="radio" id="rbtnwsrdates" name="reportfilter" value="2" />
+                </span>
+                <label class="rowlabel">@Html.Label("lblwsrdates", "WSR Dates ")&nbsp;:</label>
+                <span class="rowspan">
+                 &nbsp;&nbsp;&nbsp;   @Html.DropDownList("ddlwsrdates", (SelectList)(@Model.WSRDates), new { Id = "ddlwsrdates" })
+                </span>
+                <span class="rowspan">
+                    <input id="btnsearch" type="button" value="Search" />
+                </span>
+            </div>
+            <div class="searchresult">
+               <div class="div" id="ajaxindicator" align="center">
+            <img src="../../../../Images/ajax-loader.gif" alt="Please wait..." />
+        </div>
+                <div id="divgridbox" style=" width:100%; height:370px; overflow:hidden;">
+                </div>
+                <div id="divPaging">
+                </div>
+                
+                <div id="divexportpanel" class="exportpanel">
+                    <input id="btnExportExcel" type="button" onclick="downloadWSRReportToExcel()" value="Export to Excel" />
+                    <div style="float: right" >
+                        JobSubTotal:&nbsp;@Html.TextBox("txtSubTotal", "", new { @readonly = "readonly" })
+                        &nbsp;&nbsp;
+                        Total Tax:&nbsp;@Html.TextBox("txtTaxTotal", "", new { @readonly = "readonly" })
+                        &nbsp;&nbsp;
+                        JobTotal:&nbsp;@Html.TextBox("txtJobTotal", "", new { @readonly = "readonly" })
+                    </div>
+                </div>
+                <div style="float: right; margin-top: 20px; margin-right: 30px;">
+                    <a href="/Reporting/Reporting">Back to Parent Section</a>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>

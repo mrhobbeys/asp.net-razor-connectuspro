@@ -1,0 +1,177 @@
+﻿@model SiteBlue.Areas.PriceBook.Models.TaskDetail1
+           
+@using (Html.BeginForm("CreateTaskDetail", "PriceBook", FormMethod.Post, new { id = "datafrm" }))
+{
+    @Html.HiddenFor(d => d.JobCodeDetailsID)
+    @Html.Hidden("JobCodeID", (int?)ViewBag.jobcodeid)
+    <div style="width:125px;position:absolute;top:75px;right:65px;font-size:90%;text-align:center;cursor:pointer" id="recalcPrices">
+    <img alt="" title="Recalculate Standard Markup" id="RefImg" src="/Areas/PriceBook/images/refresh.png" width="30" style="cursor: pointer;" />
+    <br />
+    Recalc Using Standard Sliding-Scale Markup
+    </div>
+    <table cellpadding="2">
+        <tr>
+            <td>Part</td>
+            @if (ViewBag.action == "create")
+            {
+            <td>
+                @*Html.DropDownListFor(d => d.PartID, (IEnumerable<SelectListItem>)ViewBag.partlist, "--Select Part--")*@
+                <span id="PartName"></span><input type="hidden" id="PartID" name="PartID" />
+                <input type="button" class="selectpartbtn" value="Select Part" />
+            </td>
+            }
+            else
+            {
+            <td>@Html.DisplayFor(d => d.PartName)</td>
+            }
+        </tr>
+        <tr>
+            <td>Quantity</td>
+            <td>@Html.TextBoxFor(d => d.Qty)</td>
+        </tr>
+        <tr>
+            <td>Cost</td>
+            <td>@Html.TextBoxFor(d => d.PartCost)</td>
+        </tr>
+        <tr>
+            <td>Markup Factor</td>
+            <td> <span id="StandardMarkup"></span></td>
+        </tr>
+        <tr>
+            <td>Retail Price</td>
+            <td>@Html.TextBoxFor(d => d.PartStdPrice)</td>
+        </tr>
+        <tr>
+            <td>Member Discount</td>
+            <td><span id="MemberDiscount"></span>%</td>
+        </tr>
+        <tr>
+            <td>Member Price</td>
+            <td>@Html.TextBoxFor(d => d.PartMemberPrice)</td>
+        </tr>
+        <tr>
+            <td>Add-On Retail Price</td>
+            <td>@Html.TextBoxFor(d => d.PartAddonStdPrice)</td>
+        </tr>
+        <tr>
+            <td>Add-On Member Price</td>
+            <td>@Html.TextBoxFor(d => d.PartAddonMemberPrice)</td>
+        </tr>
+    </table>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        calcMarkupAndDiscount();
+        
+        $('#PartID').change(function () {
+            $.ajax({
+                url: '@Url.Action("GetPartPrices")',
+                data: { partid: $(this).val() },
+                success: function (result) {
+                    if (result != "") {
+                        var arr = result.split(",");
+                        $('#PartCost').val(arr[0]);
+                        $('#PartStdPrice').val(arr[1]);
+                        $('#PartAddonStdPrice').val(arr[2]);
+                        $('#PartMemberPrice').val(arr[3]);
+                        $('#PartAddonMemberPrice').val(arr[4]);
+                        calcMarkupAndDiscount();
+                    }
+                }
+            });
+        });
+
+        function calcMarkupAndDiscount() {
+            var cost = parseFloat($('#PartCost').val());
+            var stdPrice = parseFloat($('#PartStdPrice').val());
+            var memberPrice = parseFloat($('#PartMemberPrice').val());
+
+            var disc = Math.round((((stdPrice - memberPrice) / stdPrice) * 100) * 100) / 100;
+            var mkup = Math.round(stdPrice / cost * 100) / 100;
+            $('#MemberDiscount').text(isNaN(disc) ? 0 : disc);
+            $('#StandardMarkup').text(isNaN(mkup) ? 0 : mkup);
+        }
+
+        $('#PartCost').keyup(function (event) {
+            calcMarkupAndDiscount();
+        });
+        $('#PartStdPrice').keyup(function (event) {
+            calcMarkupAndDiscount();
+        });
+        $('#PartMemberPrice').keyup(function (event) {
+            calcMarkupAndDiscount();
+        });
+
+        $('#recalcPrices').click(function () {
+            var c = $('#PartCost').val();
+            var qty = $('#Qty').val();
+            var jid = $('#JobCodeID').val();
+
+            if (qty == "" || qty == "0") {
+                alert('Input the Quantity!');
+            } else if (c == "") {
+                alert('Input the Cost!');
+            } else {
+                $('#RefImg').attr('src', '/Areas/PriceBook/images/ajax-loader.gif');
+
+                $.ajax({
+                    url: '@Url.Action("CalcPartPrices")',
+                    data: { jobcodeid: jid, cost: c, qty: qty },
+                    success: function (result) {
+                        $('#RefImg').attr('src', '/Areas/PriceBook/images/refresh.png');
+
+                        if (result == "-1") {
+                            alert("Input the cost correctly.");
+                            return;
+                        }
+                        if (result == "0") {
+                            alert("Cannot find markup");
+                            return;
+                        }
+
+                        var retail = result.split(",")[0];
+                        var member = result.split(",")[1];
+
+                        $('#PartCost').val(c);
+                        $('#PartStdPrice').val(retail);
+                        $('#PartAddonStdPrice').val(retail);
+                        $('#PartMemberPrice').val(member);
+                        $('#PartAddonMemberPrice').val(member);
+
+                        calcMarkupAndDiscount();
+
+                    }
+                });
+            }
+        });
+
+        $('.selectpartbtn').click(function () {
+            var pbid = $('#PriceBookID').val();
+
+            $('<div id="partdlg">').dialog({
+                modal: true,
+                open: function () {
+                    $(this).empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+
+                    var dlg = $(this);
+                    $.ajax({
+                        url: '@Url.Action("PartList")',
+                        data: { pbid: pbid },
+                        success: function (result1) {
+                            dlg.empty().html(result1);
+                        }
+                    });
+                },
+                close: function () {
+                    $(this).remove();
+                },
+                height: 650,
+                width: 980,
+                title: 'Select Part'
+            });
+        });
+
+    });
+</script>

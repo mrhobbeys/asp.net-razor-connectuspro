@@ -1,0 +1,95 @@
+﻿@model List<SiteBlue.Data.EightHundred.Training>
+@{
+    ViewBag.Title = "Training PriceBook";
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+<div class="header-label">
+    Training
+</div>
+<br />
+<p>
+    @*We can put a description here or something else*@
+</p>
+<table class="data-table">
+    <tbody>
+        @if (Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+        
+            <tr>
+                <td rowspan="3" style="width: 25px; vertical-align: middle">
+                    <a href="@Url.Content(item.NavigateUrl)" target="_blank">
+                        @if (item.TrainingType.Icon != null){
+                            <img src="@Url.Content(item.TrainingType.Icon)" alt="" title="@item.TrainingType.TrainingTypeName" width="20" />   
+                        }
+                    </a>
+                </td>
+                <th>
+                    <strong>@item.Title</strong>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Raw(item.Description)
+                </td>
+            </tr>
+            <tr>
+                
+                    @if ((User.IsInRole("Administrator")) || (User.IsInRole("TrainingManager")))
+                    {
+                            <td style="text-align: right">
+                                @Html.ActionLink("Edit course", "Edit", "ManageTrainings", new { area = "Admin", id = item.TrainingId }, null) | 
+                                <a href="javascript:deleteCourse(@item.TrainingId)">Delete course</a> | 
+                                <a href="@Url.Content(item.NavigateUrl)" target="_blank">
+                                    @item.TrainingType.ViewText</a>
+                            </td>
+                    }
+                    else
+                    {
+                        <td style="text-align: right">
+                                <a href="@Url.Content(item.NavigateUrl)" target="_blank">
+                                    @item.TrainingType.ViewText</a>
+                            </td>   
+                    }
+            </tr> 
+            }
+        }
+        else
+        {
+            <tr>
+                <td style="width:5%;vertical-align:middle";>
+                    <img src="@Url.Content("~/Content/Images/failed.png")" alt="" />
+                </td>
+                <td style="width:95%">
+                    <strong>No training course found!</strong>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p>
+@if ((User.IsInRole("Administrator")) || (User.IsInRole("TrainingManager")))
+{
+    @Html.ActionLink("Add a new course", "Create", "ManageTrainings", new { area = "Admin" }, null)<text> | </text>
+}
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard", new { area = "LandingPage" }, null)
+</p>
+<script type="text/javascript">
+    function deleteCourse(courseId) {
+        if (confirm("Delete training course?")) {
+            $.ajax({
+                cache:false,
+                url: '@Url.Content("~/LandingPage/Dashboard/DeleteTraining")',
+                type: 'POST',
+                data: { id: courseId },
+                success: function () {
+                    window.location.reload();
+                },
+                error: function () {
+                    alert("An error occured while trying to delete the selected training course, try again!");
+                }
+            });
+        }
+    }
+</script>

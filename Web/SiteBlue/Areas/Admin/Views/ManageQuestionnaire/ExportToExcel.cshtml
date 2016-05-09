@@ -1,0 +1,561 @@
+﻿@inherits System.Web.Mvc.ViewPage<List<SiteBlue.Views.VW_Questionnaire>>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>ExportToExcel</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>
+                Email
+            </th>
+            <th>
+                FirstName
+            </th>
+            <th>
+                LastName
+            </th>
+            <th>
+                BusinessName
+            </th>
+            <th>
+                OIHomeAddress
+            </th>
+            <th>
+                OICity
+            </th>
+            <th>
+                OIState
+            </th>
+            <th>
+                OIZipCode
+            </th>
+            <th>
+                OICellPhone
+            </th>
+            <th>
+                OIHomePhone
+            </th>
+            <th>
+                OIEmail
+            </th>
+            <th>
+                BusinessInformationId
+            </th>
+            <th>
+                OfficePhone
+            </th>
+            <th>
+                CellPhone
+            </th>
+            <th>
+                Website
+            </th>
+            <th>
+                BusinessAddress
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                StateId
+            </th>
+            <th>
+                BSState
+            </th>
+            <th>
+                ZipCode
+            </th>
+            <th>
+                TrucksService
+            </th>
+            <th>
+                TrucksCommercial
+            </th>
+            <th>
+                TrucksInstallation
+            </th>
+            <th>
+                TechniciansService
+            </th>
+            <th>
+                TechniciansCommercial
+            </th>
+            <th>
+                TechniciansInstallation
+            </th>
+            <th>
+                GPS
+            </th>
+            <th>
+                GPSSystemId
+            </th>
+            <th>
+                OtherGPSSystem
+            </th>
+            <th>
+                Estimators
+            </th>
+            <th>
+                MondayFridayST
+            </th>
+            <th>
+                MondayFridayET
+            </th>
+            <th>
+                SaturdayST
+            </th>
+            <th>
+                SaturdayET
+            </th>
+            <th>
+                SundayST
+            </th>
+            <th>
+                SundayET
+            </th>
+            <th>
+                ServiceTripFees
+            </th>
+            <th>
+                ServiceTripFeesDescription
+            </th>
+            <th>
+                TechniciansAvailabilityNights
+            </th>
+            <th>
+                TechniciansAvailabilityWeekend
+            </th>
+            <th>
+                TechniciansAvailabilityHolidays
+            </th>
+            <th>
+                TechniciansAvailability
+            </th>
+            <th>
+                AdditionalDetails
+            </th>
+            <th>
+                AfterHoursHolidaysFees
+            </th>
+            <th>
+                AfterHoursHolidaysFeesDescription
+            </th>
+            <th>
+                ServiceCenterAgentsAnswer
+            </th>
+            <th>
+                FlateRate
+            </th>
+            <th>
+                TimeAndMaterial
+            </th>
+            <th>
+                DoWarrantyWork
+            </th>
+            <th>
+                ServicePlansOffer
+            </th>
+            <th>
+                ServicePlanMembersDiscount
+            </th>
+            <th>
+                ServicePlanMembersMaintenance
+            </th>
+            <th>
+                ServicePlanMembersTime
+            </th>
+            <th>
+                KeyOfficeFirstName
+            </th>
+            <th>
+                KeyOfficeLastName
+            </th>
+            <th>
+                KeyOfficeTitle
+            </th>
+            <th>
+                KeyOfficeCellPhone
+            </th>
+            <th>
+                KeyOfficeOfficePhone
+            </th>
+            <th>
+                ServicePlanName
+            </th>
+            <th>
+                ServicePlanComment
+            </th>
+            <th>
+                TrucksSales
+            </th>
+            <th>
+                TechniciansSales
+            </th>
+            <th>
+                GPSExpirationDate
+            </th>
+            <th>
+                ServicePlanPayTrip
+            </th>
+            <th>
+                AccountingInformationId
+            </th>
+            <th>
+                CurrentAccountingSoftware
+            </th>
+            <th>
+                CurrentAccountingSoftwareUsingTime
+            </th>
+            <th>
+                LastCompletedDate
+            </th>
+            <th>
+                ChargeSalesTax
+            </th>
+            <th>
+                SalesTaxCharge
+            </th>
+            <th>
+                TaxId
+            </th>
+            <th>
+                RegistredMunicipality
+            </th>
+            <th>
+                UseQuickBooks
+            </th>
+            <th>
+                FiscalYearEnd
+            </th>
+            <th>
+                CalendarType
+            </th>
+            <th>
+                OtherCalendarType
+            </th>
+            <th>
+                ReconciledBankDate
+            </th>
+            <th>
+                ReconsiledClosedMonthEnd
+            </th>
+            <th>
+                QuickBooksTransitionName
+            </th>
+            <th>
+                QuickBooksTransitionPhone
+            </th>
+            <th>
+                AccountingKnowledgeRate
+            </th>
+            <th>
+                FinancialTransactionRecord
+            </th>
+            <th>
+                OtherFinancialTransactionRecord
+            </th>
+            <th>
+                AccountsChart
+            </th>
+            <th>
+                GeneralJourneyEntries
+            </th>
+            <th>
+                AccountingSystemAddons
+            </th>
+            <th>
+                AccountingSystemAddonsList
+            </th>
+            <th>
+                AchWithdrawls
+            </th>
+            <th>
+                OwnerInformationId
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BusinessName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OIHomeAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OICity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OIState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OIZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OICellPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OIHomePhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OIEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BusinessInformationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficePhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CellPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Website)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BusinessAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StateId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BSState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrucksService)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrucksCommercial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrucksInstallation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechniciansService)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechniciansCommercial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechniciansInstallation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GPS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GPSSystemId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OtherGPSSystem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estimators)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MondayFridayST)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MondayFridayET)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SaturdayST)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SaturdayET)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SundayST)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SundayET)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceTripFees)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceTripFeesDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechniciansAvailabilityNights)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechniciansAvailabilityWeekend)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechniciansAvailabilityHolidays)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechniciansAvailability)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdditionalDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AfterHoursHolidaysFees)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AfterHoursHolidaysFeesDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceCenterAgentsAnswer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlateRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeAndMaterial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoWarrantyWork)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePlansOffer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePlanMembersDiscount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePlanMembersMaintenance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePlanMembersTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeyOfficeFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeyOfficeLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeyOfficeTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeyOfficeCellPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeyOfficeOfficePhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePlanName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePlanComment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrucksSales)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechniciansSales)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GPSExpirationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePlanPayTrip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountingInformationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentAccountingSoftware)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentAccountingSoftwareUsingTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastCompletedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChargeSalesTax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalesTaxCharge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaxId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistredMunicipality)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UseQuickBooks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FiscalYearEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CalendarType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OtherCalendarType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReconciledBankDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReconsiledClosedMonthEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuickBooksTransitionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuickBooksTransitionPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountingKnowledgeRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinancialTransactionRecord)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OtherFinancialTransactionRecord)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountsChart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GeneralJourneyEntries)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountingSystemAddons)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountingSystemAddonsList)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AchWithdrawls)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerInformationId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

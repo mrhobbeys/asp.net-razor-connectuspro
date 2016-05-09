@@ -1,0 +1,99 @@
+﻿@{
+    		ViewBag.Title = "Call Scripts";
+    		Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css">
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxcalendar.css"></link>
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css"></link>
+    <link href="../../../../codebase/dhtmlxchart.css" rel="stylesheet" type="text/css" /> 
+}
+@section ScriptIncludes {
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"> </script>
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"> </script>  
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"> </script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"> </script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"> </script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js"></script>
+    <script src="../../../../codebase/dhtmlxchart.js" type ="text/javascript"></script>
+}
+@section InlineScript {
+     <script type="text/javascript">
+         $('document').ready(function () {
+             SiteBlue.renderMenu(true);
+             $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnDataLoad(); });
+
+             doOnDataLoad();
+         });
+
+         function doOnDataLoad() {
+             mygrid = new dhtmlXGridObject('gridbox');
+             mygrid.setImagePath("../../../../codebase/imgs/");
+             mygrid.setHeader("Booked,Call Back,Cancelled Call,Corporate Transfer,Hand Up,Not Booked,Owner ,Prank Call,Sales Call,Tech Call,Test,Transfer, Total");
+             mygrid.setInitWidths("80,80,120,80,80,80,80,80,80,80,80,80,80");
+             mygrid.setColAlign("center,center,center,center,center,center,center,center,center,center,center,center,center");
+             mygrid.setColTypes("ed,ed,ed,ed,ed,ed,ed,ed,ed,ed,ed,ed,ed");
+             mygrid.setColSorting("txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt,txt");
+             mygrid.init();
+
+             mygrid.setSkin("dhx_skyblue");
+             mygrid.setDateFormat("%Y-%m-%d %H:%i");
+
+             mygrid.loadXML("../../../../common/Xgriddata.xml");
+             myCalendar = new dhtmlXCalendarObject(["calendarfirst", "CalendarSecond", "calendar3"]);
+             myCalendar.setWeekStartDay(7);
+             myCalendar.setDateFormat("%m/%d/%Y");
+
+         }
+         
+       </script>
+    
+
+
+}
+      @*<script src="@Url.Content("~/Scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>*@
+
+        <div style="float: left; width: 100%;height:100%; background-color: #d5f1ff">
+     <fieldset style="margin-top:20px;color: #1a3b69;font-size: 20px;height:80px">
+    @*<legend style="color:#1a3b69">Call Stats</legend>*@
+    <div style="color: #d5f1ff;width:100%">
+    
+    <div style="float:left">   
+    </div>
+    @*<div style="float:left;padding-top:30px">
+       @Html.DropDownList("FranchiseID", new SelectList((List<SiteBlue.Areas.OwnerPortal.Models.Locations>)ViewBag.locations, "LocationID", "LocationName"), "Select a Location Name", new { id = "LocationID" })
+    </div>*@
+    <div style="margin-left:0px;margin-top:30px">
+                        <span style="color: #1a3b69;margin-left:10px" >Call Stats</span>
+
+     <label style="color: #1a3b69;margin-left:400px">
+                                Start Date</label>
+                            <input type="text" id="calendarfirst" />
+                            <label style="color: #1a3b69">
+                                End Date</label><input type="text" id="CalendarSecond" />
+   
+    </div>
+    </div>
+    </fieldset>
+    <div style="padding-top:60px;padding-left :30px; ">
+   
+    <div id="gridbox"  style="width: 100%; height: 90px; background-color: white; overflow: hidden">
+     </div>
+    
+    </div>
+  
+    <div style="margin-top:10px;margin-left :260px; ">
+    <img src="@Url.Action("InvoiceAging", "CallStatistic")" alt="SimpleChart" />
+    <img src="@Url.Action("Legend", "CallStatistic")" alt="SimpleChart"/>
+    </div>
+    
+     @*<iframe src="testdata" width="530px" height="330" style="border: 0px solid black;">
+                            </iframe>*@
+                   
+<div style="height: 150px; margin-left: 15px; font-weight: bold;">
+            <a href="@Url.Content("~/MasterData/LandingPage/MyCalls")" title="Back to Dashboard">Back to Dashboard</a>
+        </div>
+     </div>

@@ -1,0 +1,36 @@
+﻿@model Plumber.Models.Management
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="shade-common">
+                <table width="100%" border="0" cellpadding="5" cellspacing="0">
+                    <tr>
+                        <td align="center" valign="top">
+                            <div class="ceo">
+                                <img src="@Url.Content(Model.ImageUrl != "" ? Model.ImageUrl : "~/Images/no-image.jpg")" alt="@Model.AlternativeText" height="150" width="150" border="0" />
+                            </div>
+                            <div class="bluelinks">
+                                <font size="2" face="Arial,Helvetica,Geneva,Swiss,SunSans-Regular"><a href="@Url.Content("~/Admin/Management")"><span class="emaillink">Return to Team Listing</span></a></font>
+                            </div>
+                        </td>
+                        <td align="left" valign="top">
+                            <div class="rowtitle">
+                                @Html.Raw(Model.FirstName + " " + Model.LastName) - @Html.Raw(Model.Title)</div>
+                            <div class="privacy">
+                                @Html.Raw(Model.Description)
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+@section Title{
+    <h2>
+        What is ConnectusPro?</h2>
+}
+@section Comments{
+    <div id="comments">
+        “ConnectusPro offers owners a level of control they could never experience on their
+        own. There is not a service company in North America that would not benefit from
+        the Pulse running as the engine under their hood.” <span class="comment-by">L.S.</span>
+        @*“ConnectusPro gives real time visibility of every aspect of the business, which
+        equals great control. “ <span class="comment-by">N.K.</span>*@
+    </div>
+}
+<div class="content">
+    <p class="psecond">
+        For most it is a fresh start. For some, it is a way to take their business to the
+        next level.
+    </p>
+    <p>
+        ConnectusPro spent several years with industry leaders researching the major challenges
+        in growing profits and building value for commercial and residential service companies.</p>
+    <p>
+        As a result, we built an all-in-one, turn key solution from the ground up to specifically
+        address these challenges in a way that up until now has not been available.
+    </p>
+    <p>
+        We took a new (and much needed) approach to the industry. Now we are leading the
+        way.
+    </p>
+    <p>
+        We are moving forward, will you join us?
+    </p>
+    <div class="link">@Html.ActionLink("LEARN MORE", "Index", "How", new { area = "" }, null)</div>
+</div>
+
+<script type="text/javascript">
+    var height = screen.height;
+
+    if (height > 800) {
+        $("#main").css("height", 655);
+    } else {
+        $("#main").css("height", 475);
+    }
+</script>

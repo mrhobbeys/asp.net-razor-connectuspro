@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Sale Tax Liability Report";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+        <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+        
+        <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+
+        
+        
+}
+@section ScriptIncludes {
+        
+        
+        <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+        <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+         <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+        
+}
+@section InlineScript {
+<script type="text/javascript">
+
+    
+    $('document').ready(function () {
+        SiteBlue.renderMenu(true);
+        $(SiteBlue).bind("FranchiseChanged", function (e, data) { doonload(); });
+        doonload();
+
+    });
+    function doonload() {
+        var xmlstring = "";
+        document.getElementById("loader").style.display = "block";
+        var fid = { franchisid: SiteBlue.franchiseId }
+     
+        mygrid = new dhtmlXGridObject('gridbox');
+        mygrid.setImagePath("../../codebase/imgs/");
+        
+        mygrid.setHeader("City,Total Sales,Non-Taxable Sales,Taxable Sales, Tax Rate, Tax Collected,Sales Tax Payable");
+        mygrid.setColAlign("left,right,right,right,right,right,right");
+        mygrid.setColTypes("txt,txt,txt,txt,txt,txt,txt");
+        mygrid.enableEditEvents(false, false, false, false, false, false,false);
+        mygrid.setColSorting("str,str,str,str,str,str,str");
+        mygrid.init();
+        
+        mygrid.setSkin("dhx_skyblue");
+
+        var jsondata = $.ajax({
+            url: "../MyFinances/TaxSaleReportData",
+            data: JSON.stringify(fid),
+            contentType: "application/json; charset=utf-8",
+            success: function (msg) {
+     
+                mygrid.loadXMLString(msg);
+                document.getElementById("loader").style.display = "none";
+
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (e) {
+
+            }
+        });
+    }
+
+    function downloadTaxLiabilityToExcel() {
+        mygrid.toExcel("../MyFinances/DownloadMyFinances");
+    }                 
+                    </script>
+}
+<h2>Sale Tax Liability Report</h2>
+ <div><img id="loader"  src="../../../../Images/ajax-loader.gif" alt="Processing........." /></div>
+  &nbsp;&nbsp;&nbsp;&nbsp; <input id="btnRTExcel" type="button" onclick="downloadTaxLiabilityToExcel()"  value="Export to Excel" />
+
+                <div id="gridbox" style="float: left; height: 500px; width: 90%; margin-top: 20px;margin-left: 2%">
+                    
+                </div>

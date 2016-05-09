@@ -1,0 +1,72 @@
+﻿@model List<SiteBlue.Questionnaire.Data.Address>
+
+@if ((Model != null) && (Model.Count > 0))
+{
+    <table cellpadding="0" cellspacing="0" class="data-table">
+        <thead>
+            <tr>
+                <th class="actions edit">
+                    Edit
+                </th>
+                <th class="actions delete">
+                    Delete
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    City
+                </th>
+                <th>
+                    State
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="actions edit">
+                    @Ajax.ImageActionLink("../../../Content/images/edit.png", "AddressesTable", new { id = item.AddressId }, new AjaxOptions { UpdateTargetId = "addressForm", OnBegin = "beginAddress('ds" + item.AddressId + "')" }, new { itemid = item.AddressId, id = "ds" + item.AddressId })
+                </td>
+                <td class="actions delete">
+                    @Ajax.ImageActionLink("../../../Content/images/delete.png", "DeleteAddress", new { id = item.AddressId }, new AjaxOptions { Confirm = "Delete address?", HttpMethod = "Delete", UpdateTargetId = "zoneAddresses", OnComplete = "deleteAddress" }, null)
+                </td>
+                <th style="width:100px">
+                    @Html.DisplayFor(modelItem => item.AddressType.AddressTypeName)
+                </th>
+                <td style="width: 300px">
+                    @Html.Raw(item.Address1)
+                    @if ((item.Address2 != null) && (item.Address2 != ""))
+                    {
+                        <br />
+                        @Html.Raw(item.Address2)
+                    }
+                    <br />@Html.DisplayFor(modelItem => item.ZipCode)
+                </td>
+                <td style="width: 80px">
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State.StateName)
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <table cellpadding="0" cellspacing="0" class="data-table">
+        <tbody>
+            <tr>
+                <td colspan="4" style="height: 40px; width: 900px; vertical-align: middle">
+                    <span class="notification">No row returned</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}

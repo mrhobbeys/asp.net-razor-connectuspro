@@ -1,0 +1,424 @@
+﻿@model SiteBlue.Questionnaire.Data.AccountingInformation
+@{
+    ViewBag.Title = "Owner Information";
+    Layout = "~/Views/Shared/QuestionnaireLayout.cshtml";
+}
+<h2>
+    Questionnaire</h2>
+<div class="wizard-steps">
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>1</span> Welcome</a></div>
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire/OwnerInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>2</span> Owner Information</a></div>
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire/BusinessInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>3</span> Business Information</a></div>
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire/TechnicianInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>4</span> Technician Information</a></div>
+    <div class="active-step" id="accounting">
+        <a href="@Url.Content("~/Questionnaire/AccountingInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>5</span> Accounting Information</a></div>
+    <div id="complete">
+        <a href="#"><span>6</span> Complete</a></div>
+</div>
+<div class="content">
+    @using (Html.BeginForm("AccountingInformation", "Questionnaire", new { qid = Request.QueryString["qid"] != null ? Request.QueryString["qid"].ToString() : null }, FormMethod.Post, new { id = "form", @class = "form" }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="formSection" id="accounting-section">
+            <div class="fields">
+                <div class="formComponent formComponentSingleLineText">
+                    <label for="CurrentAccountingSoftware" class="formComponentLabel">
+                        Accounting Information<span class="labelRequiredStar"> *</span></label><div class="containerDiv">
+                            @Html.LabelFor(model => model.CurrentAccountingSoftware)
+                            @Html.TextBoxFor(model => model.CurrentAccountingSoftware, new { @class = "large validate[required,maxSize[255]]" })
+                            @Html.LabelFor(model => model.CurrentAccountingSoftwareUsingTime)
+                            @Html.TextBoxFor(model => model.CurrentAccountingSoftwareUsingTime, new { @class = "large validate[required,maxSize[50]]" })
+                            @Html.LabelFor(model => model.LastCompletedDate)
+                            @Html.TextBoxFor(model => model.LastCompletedDate, new { @readonly = true })
+                            <div id="lastcompleteddate-tooltip" class="ui-tooltip message-shadow" style="display: none">
+                                <label>
+                                    Accepted date format: MM/DD/YYYY</label>
+                            </div>
+                        </div>
+                </div>
+                <div class="formComponent formComponentMultipleChoice" style="display: none">
+                    <label for="PlumbingWork" class="formComponentLabel">
+                        Tax Information</label><div class="containerDiv">
+                            <label for="ChargeSalesTax" class="checkboxlabel">
+                                Do you charge sales tax?</label>
+                            @Html.RadioButton("ChargeSalesTax", true, new { id = "chargeSalesTaxYes", @class="validate[maxSize[50]]" })<label
+                                for="chargeSalesTaxYes" class="checkbox">Yes</label>
+                            @Html.RadioButton("ChargeSalesTax", false, new { id = "chargeSalesTaxNo" })<label
+                                for="chargeSalesTaxNo" class="checkbox">No</label><br />
+                            @Html.LabelFor(model => model.SalesTaxCharge)
+                            @Html.TextBoxFor(model => model.SalesTaxCharge, new { @class = "large" })
+                            @Html.LabelFor(model => model.TaxId)
+                            @Html.TextBoxFor(model => model.TaxId, new { @class="large validate[maxSize[50]]" })
+                            @Html.LabelFor(model => model.RegistredMunicipality)
+                            @Html.TextBoxFor(model => model.RegistredMunicipality, new { @class = "large validate[maxSize[255]]" })</div>
+                </div>
+                <div class="formComponent formComponentSingleLineText">
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.UseQuickBooks)
+                        @Html.DropDownList("UseQuickBooks", new SelectList(ViewBag.State), new { @class = "verylarge-list" })
+                        @*@Html.LabelFor(model => model.FiscalYearEnd)*@
+                        <label for="FiscalYearEnd" id="uiFiscalYearEnd">When is your fiscal year end?</label>
+                        @Html.TextBoxFor(model => model.FiscalYearEnd, new { @class = "large" })
+                        <div id="FiscalYearEnd-tooltip" class="ui-tooltip message-shadow" style="display: none">
+                            <label>
+                                Accepted date format: MM/DD/YYYY</label>
+                        </div>
+                        @*@Html.LabelFor(model => model.CalendarType)*@
+                        <label for="CalendarType" id="uiCalendarType">Do you use a standard calendar month or a retail period (4/4/5) calendar?</label>
+                        @Html.DropDownList("CalendarType", new SelectList(ViewBag.CalendarTypes), new { @class = "medium-list" })
+                        @Html.TextBoxFor(model => model.OtherCalendarType, new { @class = "validate[maxSize[50]]" })
+                        @*@Html.LabelFor(model => model.ReconciledBankDate)*@
+                        <label for="ReconciledBankDate" id="uiReconciledBankDate">What is the date of your last fully reconciled bank statement?</label>
+                        @Html.TextBoxFor(model => model.ReconciledBankDate, new { @class = "large" })
+                        <div id="ReconciledBankDate-tooltip" class="ui-tooltip message-shadow" style="display: none">
+                            <label>
+                                Accepted date format: MM/DD/YYYY</label>
+                        </div>
+                        @*@Html.LabelFor(model => model.ReconsiledClosedMonthEnd)*@
+                        <label for="ReconsiledClosedMonthEnd" id="uiReconsiledClosedMonthEnd">What is the date of your last fully reconciled/closed month end?</label>
+                        @Html.TextBoxFor(model => model.ReconsiledClosedMonthEnd, new { @class = "large" })
+                        <div id="ReconsiledClosedMonthEnd-tooltip" class="ui-tooltip message-shadow" style="display: none">
+                            <label>
+                                Accepted date format: MM/DD/YYYY</label>
+                        </div>
+                        @*@Html.LabelFor(model => model.QuickBooksTransitionName)*@
+                        <label for="QuickBooksTransitionName" id="uiQuickBooksTransitionName">What is the name and contact number of the individual who will be managing your transition to QuickBooks?</label>
+                        @Html.TextBoxFor(model => model.QuickBooksTransitionName, new { @class = "medium validate[maxSize[50]]" })
+                        @Html.TextBoxFor(model => model.QuickBooksTransitionPhone, new { @class = "validate[maxSize[50]]" })
+                        @Html.LabelFor(model => model.AccountingKnowledgeRate)
+                        @Html.DropDownList("AccountingKnowledgeRate", new SelectList(ViewBag.AccountingKnowledgeRates), new { @class = "verylarge-list" })
+                        @Html.LabelFor(model => model.FinancialTransactionRecord)
+                        @Html.DropDownList("FinancialTransactionRecord", new SelectList(ViewBag.FinancialTransactions), new { @class = "medium-list" })
+                        @Html.TextBoxFor(model => model.OtherFinancialTransactionRecord, new { @class = "validate[maxSize[50]]" })
+                        @Html.LabelFor(model => model.AccountsChart)
+                        @Html.DropDownList("AccountsChart", new SelectList(ViewBag.State), new { @class = "verylarge-list" })
+                        @Html.LabelFor(model => model.GeneralJourneyEntries)
+                        @Html.DropDownList("GeneralJourneyEntries", new SelectList(ViewBag.State), new { @class = "verylarge-list" })
+                        @Html.LabelFor(model => model.AccountingSystemAddons)
+                        @Html.DropDownList("AccountingSystemAddons", new SelectList(ViewBag.State), new { @class = "medium-list" })
+                        @Html.TextBoxFor(model => model.AccountingSystemAddonsList)
+                        @Html.LabelFor(model => model.AchWithdrawls)
+                        @Html.DropDownList("AchWithdrawls", new SelectList(ViewBag.State), new { @class = "verylarge-list" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div id="but" style="height: 60px; width: 100%; display: block">
+    <ul class="control">
+        <li>@*<a class="formbutton" id="back">< Back</a>*@<a href="javascript:document.getElementById('form').submit()"
+            class="formbutton" id="next">Complete ></a></li><li></li>
+    </ul>
+</div>
+<div class="content" id="complete-section">
+    <div class="fields">
+        <div class="formSection" id="complete-subsection">
+            <div class="formComponent formComponentSingleLineText">
+                <label for="TechnicianName" class="formComponentLabel">
+                    Thank you for completing the questionnaire.</label><br />
+                <br />
+                <label>
+                    Your Integration Team will contact you soon.</label><br />
+                <br />
+                <label>
+                    Please direct any questions to <a href="mailto:integration@connectuspro.com" style="font-size: 12pt">
+                        integration@connectuspro.com</a></label>
+            </div>
+        </div>
+    </div>
+</div>
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Owner Portal", "Dashboard", "LandingPage", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // apply masks
+        $("#LastCompletedDate").mask("99/99/9999");
+        $("#FiscalYearEnd").mask("99/99/9999");
+        $("#ReconciledBankDate").mask("99/99/9999");
+        $("#ReconsiledClosedMonthEnd").mask("99/99/9999");
+        $("#QuickBooksTransitionPhone").mask("999-999-9999");
+        $('#LastCompletedDate').datepicker({ showOn: "focus", changeYear: true, yearRange: '-100:+0' });
+        $('#FiscalYearEnd').datepicker({ showOn: "focus", changeYear: true, yearRange: '-10:+1' });
+        $('#ReconciledBankDate').datepicker({ showOn: "focus", changeYear: true, yearRange: '-100:+0' });
+        $('#ReconsiledClosedMonthEnd').datepicker({ showOn: "focus", changeYear: true, yearRange: '-100:+0' });
+        $('#LastCompletedDate').addClass("large validate[required,custom[date]]");
+
+        //        if ($("#LastCompletedDate").val() == "")
+        //            $("#LastCompletedDate").val() = @DateTime.Now.ToShortDateString();
+
+        var myDate = new Date();
+        var prettyDate = (myDate.getMonth() + 1) + '/' + myDate.getDate() + '/' + myDate.getFullYear();
+        $("#LastCompletedDate").val(prettyDate);
+
+        if ($("#UseQuickBooks").val() == "No") {
+
+            $("#FiscalYearEnd").val("");
+            $("#FiscalYearEnd").prop("disabled", "disabled");
+            $("#FiscalYearEnd").hide();
+            $("#uiFiscalYearEnd").hide();
+
+            $("#QuickBooksTransitionName").val("");
+            $("#QuickBooksTransitionName").prop("disabled", "disabled");
+            $("#QuickBooksTransitionName").hide();
+            $("#uiQuickBooksTransitionName").hide();
+
+            $("#QuickBooksTransitionPhone").val("");
+            $("#QuickBooksTransitionPhone").prop("disabled", "disabled");
+            $("#QuickBooksTransitionPhone").hide();
+
+            $("#CalendarType").val("");
+            $("#CalendarType").prop("disabled", "disabled");
+            $("#CalendarType").hide();
+            $("#uiCalendarType").hide();
+
+            $("#OtherCalendarType").val("");
+            $("#OtherCalendarType").prop("disabled", "disabled");
+            $("#OtherCalendarType").hide();
+
+            $("#ReconciledBankDate").val("");
+            $("#ReconciledBankDate").prop("disabled", "disabled");
+            $("#ReconciledBankDate").hide();
+            $("#uiReconciledBankDate").hide();
+
+            $("#ReconsiledClosedMonthEnd").val("");
+            $("#ReconsiledClosedMonthEnd").prop("disabled", "disabled");
+            $("#ReconsiledClosedMonthEnd").hide();
+            $("#uiReconsiledClosedMonthEnd").hide();
+        }
+
+        $("#UseQuickBooks").change(function () {
+
+            if ($("#UseQuickBooks").val() == "No") {
+
+                $("#FiscalYearEnd").val("");
+                $("#FiscalYearEnd").prop("disabled", "disabled");
+                $("#FiscalYearEnd").hide();
+                $("#uiFiscalYearEnd").hide();
+
+                $("#QuickBooksTransitionName").val("");
+                $("#QuickBooksTransitionName").prop("disabled", "disabled");
+                $("#QuickBooksTransitionName").hide();
+                $("#uiQuickBooksTransitionName").hide();
+
+                $("#QuickBooksTransitionPhone").val("");
+                $("#QuickBooksTransitionPhone").prop("disabled", "disabled");
+                $("#QuickBooksTransitionPhone").hide();
+
+                $("#CalendarType").val("");
+                $("#CalendarType").prop("disabled", "disabled");
+                $("#CalendarType").hide();
+                $("#uiCalendarType").hide();
+
+                $("#OtherCalendarType").val("");
+                $("#OtherCalendarType").prop("disabled", "disabled");
+                $("#OtherCalendarType").hide();
+
+                $("#ReconciledBankDate").val("");
+                $("#ReconciledBankDate").prop("disabled", "disabled");
+                $("#ReconciledBankDate").hide();
+                $("#uiReconciledBankDate").hide();
+
+                $("#ReconsiledClosedMonthEnd").val("");
+                $("#ReconsiledClosedMonthEnd").prop("disabled", "disabled");
+                $("#ReconsiledClosedMonthEnd").hide();
+                $("#uiReconsiledClosedMonthEnd").hide();
+
+            } else {
+                $("#FiscalYearEnd").prop("disabled", "");
+                $("#QuickBooksTransitionName").prop("disabled", "");
+                $("#QuickBooksTransitionPhone").prop("disabled", "");
+                $("#CalendarType").prop("disabled", "");
+                $("#OtherCalendarType").prop("disabled", "");
+                $("#ReconciledBankDate").prop("disabled", "");
+                $("#ReconsiledClosedMonthEnd").prop("disabled", "");
+                // Display controls
+                // Labels
+                $("#uiFiscalYearEnd").show();
+                $("#uiQuickBooksTransitionName").show();
+                $("#uiCalendarType").show();
+                $("#uiReconciledBankDate").show();
+                $("#uiReconsiledClosedMonthEnd").show();
+                // TextBoxes and Dropdown lists
+                $("#FiscalYearEnd").show();
+                $("#QuickBooksTransitionName").show();
+                $("#QuickBooksTransitionPhone").show();
+                $("#CalendarType").show();
+                $("#OtherCalendarType").show();
+                $("#ReconciledBankDate").show();
+                $("#ReconsiledClosedMonthEnd").show();
+            }
+        });
+
+        if ($("#CalendarType").val() != "Other") {
+            $("#OtherCalendarType").val("");
+            $("#OtherCalendarType").prop("disabled", "disabled");
+        }
+
+        $("#CalendarType").change(function () {
+            if ($("#CalendarType").val() != "Other") {
+                $("#OtherCalendarType").val("");
+                $("#OtherCalendarType").prop("disabled", "disabled");
+            } else {
+                $("#OtherCalendarType").prop("disabled", "");
+            }
+        });
+
+        if ($("#FinancialTransactionRecord").val() != "Other") {
+            $("#OtherFinancialTransactionRecord").val("");
+            $("#OtherFinancialTransactionRecord").prop("disabled", "disabled");
+        }
+
+        $("#FinancialTransactionRecord").change(function () {
+            if ($("#FinancialTransactionRecord").val() != "Other") {
+                $("#OtherFinancialTransactionRecord").val("");
+                $("#OtherFinancialTransactionRecord").prop("disabled", "disabled");
+            } else {
+                $("#OtherFinancialTransactionRecord").prop("disabled", "");
+            }
+        });
+
+        if ($("#AccountingSystemAddons").val() != "Yes") {
+            $("#AccountingSystemAddonsList").val("");
+            $("#AccountingSystemAddonsList").prop("disabled", "disabled");
+        }
+
+        $("#AccountingSystemAddons").change(function () {
+            if ($("#AccountingSystemAddons").val() != "Yes") {
+                $("#AccountingSystemAddonsList").val("");
+                $("#AccountingSystemAddonsList").prop("disabled", "disabled");
+            } else {
+                $("#AccountingSystemAddonsList").prop("disabled", "");
+            }
+        });
+
+        // binds form submission and fields to the validation engine
+        $(".form").validationEngine();
+
+        // highlights the parent div when focus a child field
+        $("input").focus(function () {
+            $('.formComponent').removeClass('formComponentHighlight');
+            $(this).parents('.formComponent').addClass('formComponentHighlight');
+        });
+
+        $("textarea").focus(function () {
+            $('.formComponent').removeClass('formComponentHighlight');
+            $(this).parents('.formComponent').addClass('formComponentHighlight');
+        });
+
+        $("#accounting-section").fadeIn("slow");
+        $("#complete-section").hide("fast");
+
+        $("#back").click(function () {
+            var $accountingstep = $(".formSection:visible");
+            if ($accountingstep.prev().hasClass("formSection")) {
+                $accountingstep.hide().prev().fadeIn(1000);
+            }
+            // disable back step button
+            //if (!$accountingstep.prev().prev().hasClass("formSection")) $("#back").hide();
+        });
+        $("#next").click(function () {
+            $('.formComponent').removeClass('formComponentHighlight ');
+            $('.formComponent').removeClass('formComponentValidationFailed');
+            var $step = $(".formSection:visible"); // Get current step
+            var validator = $("form").validate(); // Obtain validator
+            var anyError = false;
+
+            $step.find("input").each(function () {
+                if (!validator.element(this)) {
+                    // apply error style
+                    $(this).parents('.formComponent').addClass('formComponentValidationFailed');
+                    anyError = true;
+                }
+            });
+
+            $step.find("textarea").each(function () {
+                if (!validator.element(this)) {
+                    // apply error style
+                    $(this).parents('.formComponent').addClass('formComponentValidationFailed');
+                    anyError = true;
+                }
+            });
+
+            if (anyError) return false; // Exit if any error found
+
+            if ($step.next().hasClass("formSection")) { // is there any next step?
+                $step.hide().next().fadeIn(1000);  // show it and hide current step
+                $("#back").show();   // recall to show backStep button
+            }
+
+            else {
+                var aForm = $("#form");
+                var aAction = aForm.attr("action");
+                var aSerializedForm = aForm.serialize();
+                $.post(aAction,
+                    aSerializedForm,
+                    function () {
+                        $("#confirmation-message").val("Accounting information updated with succes!");
+                    });
+                return false;
+            }
+        });
+
+        $("#form").ajaxStart(function () {
+            $("#form").fadeOut("slow");
+            $("#but").fadeOut("slow");
+        });
+
+        $("#form").ajaxStop(function () {
+            $("#complete").addClass("active-step");
+            $("#accounting").removeClass("active-step");
+            $("#accounting").addClass("completed-step");
+            $("#complete-subsection").fadeIn();
+            $("#complete-section").fadeIn();
+        });
+
+        // ToolTips
+
+        $("#LastCompletedDate").focusin(function () {
+            $("#lastcompleteddate-tooltip").show('fast');
+        });
+        $("#LastCompletedDate").focusout(function () {
+            $("#lastcompleteddate-tooltip").hide('slow');
+        });
+        $("#FiscalYearEnd").focusin(function () {
+            $("#FiscalYearEnd-tooltip").show('fast');
+        });
+        $("#FiscalYearEnd").focusout(function () {
+            $("#FiscalYearEnd-tooltip").hide('slow');
+        });
+        $("#ReconciledBankDate").focusin(function () {
+            $("#ReconciledBankDate-tooltip").show('fast');
+        });
+        $("#ReconciledBankDate").focusout(function () {
+            $("#ReconciledBankDate-tooltip").hide('slow');
+        });
+        $("#ReconsiledClosedMonthEnd").focusin(function () {
+            $("#ReconsiledClosedMonthEnd-tooltip").show('fast');
+        });
+        $("#ReconsiledClosedMonthEnd").focusout(function () {
+            $("#ReconsiledClosedMonthEnd-tooltip").hide('slow');
+        });
+    });
+</script>

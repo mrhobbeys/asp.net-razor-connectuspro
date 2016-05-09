@@ -1,0 +1,11 @@
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\bin\Debug\app.config
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\bin\Debug\SiteBlue.Business.dll.config
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\bin\Debug\SiteBlue.Business.dll
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\bin\Debug\SiteBlue.Business.pdb
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\bin\Debug\SiteBlue.Core.dll
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\bin\Debug\SiteBlue.Data.dll
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\bin\Debug\SiteBlue.Core.pdb
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\bin\Debug\SiteBlue.Data.pdb
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\obj\Debug\SiteBlue.Business.dll
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\obj\Debug\SiteBlue.Business.pdb
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Business\obj\Debug\SiteBlue.Business.csprojResolveAssemblyReference.cache

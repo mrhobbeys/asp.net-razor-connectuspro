@@ -1,0 +1,118 @@
+﻿@model List<SiteBlue.Questionnaire.Data.LicenseNumber>
+<div class="form" id="licenseNumberForm">
+    <div class="formComponent formComponentSingleLineText">
+        <label class="formComponentLabel">
+            Please list the license numbers under which you operate.</label>
+        <label>
+            (ex. Master Plumber’s License, State of Ohio, 7462848) Is these license numbers
+            are predefined?</label>
+        <br />
+    </div>
+    <div class="formComponent formComponentMultipleChoice">
+        <input type="hidden" id="uiLicenseNumberId" name="uiLicenseNumberId" />
+        <label for="uiLicenseNumberName">
+            License number</label>
+        <input type="text" id="uiLicenseNumberName" name="uiLicenseNumberName" />
+        <label for="uiLicenseNumberComment">
+            Issuing Agency</label>
+        <textarea id="uiLicenseNumberComment" name="uiLicenseNumberComment" rows="3" cols="30"></textarea>
+        <br />
+        <label>Is this number required on your invoices?</label>
+        <input type="radio" name="InvoicesRequired" id="uiInvoicesRequiredYes" /><label for="InvoicesRequiredYes" class="checkbox">Yes</label>
+        <input type="radio" name="InvoicesRequired" id="uiInvoicesRequiredNo" /><label for="InvoicesRequiredNo" class="checkbox">No</label>
+    </div>
+    <div class="buttons">
+        <ul class="jquerycontrol">
+            <li><a onclick="saveLicenseNumber()" class="formbutton" id="save">Add New Number</a></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+<div class="formComponent formComponentSingleLineText" id="zoneLicenseNumbers">
+    @Html.Partial("Partial/LicenseNumbersTable", Model)
+</div>
+<script type="text/javascript">
+
+    var _licenseNumber = -1;
+
+    function saveLicenseNumber() {
+        var name = $("#uiLicenseNumberName").val();
+        var comment = $("#uiLicenseNumberComment").val();
+        var bid = $("#uiBusinessInformationId").val();
+        var id = $("#uiLicenseNumberId").val();
+        var invoicesRequired;
+        if ($("#uiInvoicesRequiredYes").prop('checked')){
+            invoicesRequired = true;}
+        else{
+            invoicesRequired = false;}        
+        if (name == "") {
+            $("#error-div").html("Some fields are required!");
+            $("#error-div").fadeIn("fast");
+            $("#uiLicenseNumberName").parents('.formComponent').addClass('formComponentValidationFailed');
+            $("#error-div").fadeOut(5000);
+            return false;
+        } else {
+        $.ajax({
+            cache: false,
+            url: '@Url.Content("~/Questionnaire/SaveLicenseNumber")',
+            type: 'POST',
+            data: { bid: bid, id: id, name: name, comment: comment, invoicesRequired: invoicesRequired },
+            success: function (r) {
+                $("#zoneLicenseNumbers").html(r.data);
+                $("#message-div").html("item saved with success!");
+                $("#message-div").fadeIn("fast");
+                $("#uiLicenseNumberId").val("");
+                $("#uiLicenseNumberName").val("");
+                $("#uiLicenseNumberComment").val("");
+                $('input[id="uiInvoicesRequiredYes"]').prop('checked', false);
+                $('input[id="uiInvoicesRequiredNo"]').prop('checked', false);
+                $("#uiLicenseNumberName").parents('.formComponent').removeClass('formComponentHighlight');
+                $("#uiLicenseNumberName").parents('.formComponent').removeClass('formComponentValidationFailed');
+                $("#message-div").fadeOut(4000);
+            },
+            error: function () {
+                $("#error-div").html("An error occured while trying to save the selected item, try again!");
+                $("#error-div").fadeIn("fast");
+                $("#uiLicenseNumberName").parents('.formComponent').addClass('formComponentValidationFailed');
+                $("#error-div").fadeOut(5000);
+            }
+        });
+        }
+    }
+
+    function deleteLicenseNumber() {
+        $("#message-div").html("item deleted with success!");
+        $("#message-div").fadeIn("fast");
+        $("#message-div").fadeOut(4000);
+    }
+
+    function selectLicenseNumber(itemId) {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Content("~/Questionnaire/GetLicenseNumber")',
+            type: 'POST',
+            data: { id: itemId },
+            success: function (data) {
+                $("#uiLicenseNumberId").val(data.licenseNumberId);
+                $("#uiLicenseNumberName").val(data.licenseNumberName);
+                $("#uiLicenseNumberComment").val(data.licenseNumberComment);
+                if (data.invoicesRequired == true) {
+                    $('input[id="uiInvoicesRequiredYes"]').prop('checked', true);
+                } else {
+                    $('input[id="uiInvoicesRequiredNo"]').prop('checked', true);
+                }
+            },
+            error: function () {
+                $("#error-div").html("An error occured while trying to load the selected item, try again!");
+                $("#error-div").fadeIn("fast");
+                $("#error-div").fadeOut(5000);
+            }
+        });
+    }
+
+    function beginLicenseNumber(name) {
+        _licenseNumber = $(name).attr("itemid");
+        selectLicenseNumber(_licenseNumber);
+    }
+</script>

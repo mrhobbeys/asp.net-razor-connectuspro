@@ -1,0 +1,16 @@
+﻿@{
+    Layout = null;
+    Response.ContentType = "text/xml";
+}
+@model IEnumerable<SiteBlue.Areas.CallCenter.Models.CustomerInformation>
+<rows>
+    @foreach (var customerInformation in Model)
+    {
+        <row id="@customerInformation.CustomerID">
+            <cell><![CDATA[@customerInformation.CustomerName]]></cell>
+            <cell><![CDATA[@customerInformation.ContactName]]></cell>
+            <cell><![CDATA[@customerInformation.PhoneNumber]]></cell>
+            <cell><![CDATA[@customerInformation.Address]]></cell>
+        </row>
+    }
+</rows>

@@ -1,0 +1,691 @@
+﻿@model SiteBlue.Questionnaire.Data.BusinessInformation
+@{
+    ViewBag.Title = "Business Information";
+    Layout = "~/Views/Shared/QuestionnaireLayout.cshtml";
+}
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Owner Portal", "Dashboard", "LandingPage", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+<h2>
+    Questionnaire</h2>
+<div class="wizard-steps">
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>1</span> Welcome</a></div>
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire/OwnerInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>2</span> Owner Information</a></div>
+    <div class="active-step">
+        <a href="@Url.Content("~/Questionnaire/BusinessInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>3</span> Business Information</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/TechnicianInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>4</span> Technician Information</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/AccountingInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>5</span> Accounting Information</a></div>
+    <div>
+        <a href="#"><span>1</span> Complete</a></div>
+</div>
+<div class="content">
+    @using (Html.BeginForm("BusinessInformation", "Questionnaire", new { qid = Model.QuestionnaireId }, FormMethod.Post, new { id = "form", @class = "form" }))
+    {
+        @Html.ValidationSummary(true)
+        <div id="message-div" class="success-message" style="display: none">
+        </div>
+        <div id="error-div" class="error-message" style="display: none">
+        </div>
+        <div class="formSection">
+            <div class="fields">
+                <div class="formComponent formComponentMultipleChoice">
+                    @Html.EditorFor(model => model.SameAsOwnerInfo)
+                    <label for="SameAsOwnerInfo" class="checkbox">
+                        Same as owner address / phone</label>
+                </div>
+                <div class="formComponent formComponentAddress">
+                    @Html.HiddenFor(model => model.BusinessInformationId, new { id = "uiBusinessInformationId" })
+                    <label for="OfficePhone" class="formComponentLabel">
+                        Contact<span class="labelRequiredStar"> *</span></label>
+                    <div class="phoneDiv">
+                        @Html.LabelFor(model => model.CellPhone)
+                        @Html.TextBoxFor(model => model.CellPhone, new { @class = "cellPhone validate[required,maxSize[20]]" })
+                    </div>
+                    <div class="phoneDiv">
+                        @Html.LabelFor(model => model.OfficePhone)
+                        @Html.TextBoxFor(model => model.OfficePhone, new { @class = "homePhone validate[required,maxSize[20]]" })
+                    </div>
+                    <div class="emailDiv">
+                        @Html.LabelFor(model => model.Website)
+                        @Html.TextBoxFor(model => model.Website, new { @class = "large validate[custom[url],maxSize[255]]" })
+                        <div id="website-tooltip" class="ui-tooltip" style="display: none">
+                            <label>
+                                Valid URLs:</label>
+                            <label>
+                                www.connectuspro.com</label>
+                            <label>
+                                mail.connectuspro.com</label>
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("Addresses", Model.Addresses)
+                @Html.Partial("OfficePersonnels", Model.OfficePersonnels)
+            </div>
+        </div>
+        <div class="formSection">
+            <div class="fields">
+                @Html.Partial("LicenseNumbers", Model.LicenseNumbers)
+            </div>
+        </div>
+        <div class="formSection">
+            <div class="fields">
+                <div class="formComponent formComponentMultipleChoice">
+                    <label for="TrucksService" class="formComponentLabel">
+                        Operations Information<span class="labelRequiredStar"> *</span></label><div class="containerDiv">
+                            @{
+        SelectList list = new SelectList(ViewBag.ItemList);
+                            }
+                                <label for="TrucksService" class="formComponentLabel">
+                                    Trucks number</label>
+                                <div class="sleftDiv">
+                                    @Html.LabelFor(model => model.TrucksService)
+                                    @Html.DropDownList("TrucksService", list, new { @class = "validate[required,custom[integer],min[0],max[75]]" })
+                                </div>
+                                <div class="sleftDiv">
+                                    @Html.LabelFor(model => model.TrucksCommercial)
+                                    @Html.DropDownList("TrucksCommercial", list, new { @class = "validate[required,custom[integer],min[0],max[75]]" })
+                                </div>
+                                <div class="sleftDiv">
+                                    @Html.LabelFor(model => model.TrucksInstallation)
+                                    @Html.DropDownList("TrucksInstallation", list, new { @class = "validate[required,custom[integer],min[0],max[75]]" })
+                                </div>
+                                <div class="sleftDiv">
+                                    @Html.LabelFor(model => model.TrucksSales)
+                                    @Html.DropDownList("TrucksSales", list, new { @class = "validate[required,custom[integer],min[0],max[75]]" })
+                                </div>
+                        </div>
+                </div>
+                <div class="formComponent formComponentMultipleChoice">
+                    <label for="TrucksService" class="formComponentLabel">
+                        Technicians number</label>
+                    <div class="sleftDiv">
+                        @Html.LabelFor(model => model.TechniciansService)
+                        @Html.DropDownList("TechniciansService", list, new { @class = "validate[required,custom[integer],min[0],max[75]]" })
+                    </div>
+                    <div class="sleftDiv">
+                        @Html.LabelFor(model => model.TechniciansCommercial)
+                        @Html.DropDownList("TechniciansCommercial", list, new { @class = "validate[required,custom[integer],min[0],max[75]]" })
+                    </div>
+                    <div class="sleftDiv">
+                        @Html.LabelFor(model => model.TechniciansInstallation)
+                        @Html.DropDownList("TechniciansInstallation", list, new { @class = "validate[required,custom[integer],min[0],max[75]]" })
+                    </div>
+                    <div class="sleftDiv">
+                        @Html.LabelFor(model => model.TechniciansSales)
+                        @Html.DropDownList("TechniciansSales", list, new { @class = "validate[required,custom[integer],min[0],max[75]]" })
+                    </div>
+                </div>
+                <div class="formComponent formComponentMultipleChoice">
+                    <label for="GPS" class="formComponentLabel">
+                        GPS</label>
+                    <label>
+                        Do you have GPS?</label>
+                    @Html.RadioButton("GPS", true, new { id = "gpsYes" })<label for="gpsYes" class="checkbox">Yes</label>
+                    @Html.RadioButton("GPS", false, new { id = "gpsNo" })<label for="gpsNo" class="checkbox">No</label>
+                    <br />
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.GPSSystemId)
+                        @Html.DropDownList("GPSSystemId", (IEnumerable<SelectListItem>)ViewBag.GPSSystems, new { @class = "large-list validate[required]" })</div>
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.OtherGPSSystem)
+                        @Html.TextBoxFor(model => model.OtherGPSSystem, new { @class = "large validate[maxSize[255]]" })</div>
+                    @*<div class="containerDiv">
+                        @Html.LabelFor(model => model.GPSExpirationDate)
+                        @Html.TextBoxFor(model => model.GPSExpirationDate, new { @class = "large", @readonly = true })</div>*@
+                </div>
+                @{
+                    SelectList hoursList = new SelectList(ViewBag.HoursList);
+                }
+                <div class="formComponent formComponentMultipleChoice">
+                    <label for="Estimators" class="formComponentLabel">
+                        Hours of Operation</label>
+                    <div class="containerDiv">
+                        <label for="MondayFridayST" class="formComponentLabel">
+                            Monday - Friday</label>
+                        <div class="leftDiv">
+                            @Html.LabelFor(model => model.MondayFridayST)
+                            @Html.DropDownList("MondayFridayST", hoursList)
+                        </div>
+                        <div class="rightDiv">
+                            @Html.LabelFor(model => model.MondayFridayET)
+                            @Html.DropDownList("MondayFridayET", hoursList)
+                        </div>
+                    </div>
+                </div>
+                <div class="formComponent formComponentMultipleChoice">
+                    <div class="containerDiv">
+                        <label for="SaturdayST" class="formComponentLabel">
+                            Saturday</label>
+                        <div class="leftDiv">
+                            @Html.LabelFor(model => model.SaturdayST)
+                            @Html.DropDownList("SaturdayST", hoursList)
+                        </div>
+                        <div class="rightDiv">
+                            @Html.LabelFor(model => model.SaturdayET)
+                            @Html.DropDownList("SaturdayET", hoursList)
+                        </div>
+                    </div>
+                </div>
+                <div class="formComponent formComponentMultipleChoice">
+                    <div class="containerDiv">
+                        <label for="SundayST" class="formComponentLabel">
+                            Sunday</label>
+                        <div class="leftDiv">
+                            @Html.LabelFor(model => model.SundayST)
+                            @Html.DropDownList("SundayST", hoursList)
+                        </div>
+                        <div class="rightDiv">
+                            @Html.LabelFor(model => model.SundayET)
+                            @Html.DropDownList("SundayET", hoursList)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="formSection">
+            <div class="fields">
+                <div class="formComponent formComponentMultipleChoice">
+                    <label for="ServiceTripFees" class="formComponentLabel">
+                        Sevice Trip Fees</label><div class="containerDiv">
+                            @*@Html.EditorFor(model => model.ServiceTripFees)*@
+                            <label for="ServiceTripFees">
+                                Do you charge service trip fees?</label>
+                            @Html.RadioButton("ServiceTripFees", true, new { id = "serviceTripFeesYes" })<label
+                                for="serviceTripFeesYes" class="checkbox">Yes</label>
+                            @Html.RadioButton("ServiceTripFees", false, new { id = "serviceTripFeesNo" })<label
+                                for="serviceTripFeesNo" class="checkbox">No</label><br />
+                            @Html.LabelFor(model => model.ServiceTripFeesDescription)
+                            @Html.TextAreaFor(model => model.ServiceTripFeesDescription, new { @class = "validate[maxSize[500]]" })</div>
+                </div>
+                <div class="formComponent formComponentMultipleChoice">
+                    <label class="formComponentLabel">
+                        Are technicians available nights, weekend and holidays?</label><div class="containerDiv">
+                            @Html.EditorFor(model => model.TechniciansAvailabilityNights)<label for="TechniciansAvailabilityNights"
+                                class="checkbox">Nights</label>
+                            @Html.EditorFor(model => model.TechniciansAvailabilityWeekend)<label for="TechniciansAvailabilityWeekend"
+                                class="checkbox">Weekend</label>
+                            @Html.EditorFor(model => model.TechniciansAvailabilityHolidays)<label for="TechniciansAvailabilityHolidays"
+                                class="checkbox">Holidays</label>
+                            <br />
+                            @Html.LabelFor(model => model.AdditionalDetails)
+                            @Html.TextAreaFor(model => model.AdditionalDetails, new { @class = "validate[maxSize[50]]" })
+                            <div id="additionalDetails-tooltip" class="ui-tooltip message-shadow" style="display: none">
+                                <label>
+                                    Example:<br />We work nights untill 11pm, but only emergencies after this or on weekends and holidays
+                                </label>
+                            </div><br />
+                            @*<label for="TechniciansAvailability" class="checkboxlabel">
+                                Are technician available nights, weekend and holidays?</label><br />*@
+                            @Html.EditorFor(model => model.AfterHoursHolidaysFees)
+                            <label for="AfterHoursHolidaysFees" class="checkboxlabel">
+                                Do you have extra charges for service afterhours or on holidays?</label>
+                            @Html.LabelFor(model => model.AfterHoursHolidaysFeesDescription)
+                            @Html.TextAreaFor(model => model.AfterHoursHolidaysFeesDescription, new { @class = "validate[maxSize[50]]" })</div>
+                </div>
+            </div>
+        </div>
+        <div class="formSection">
+            <div class="fields" id="divMarketingTypes">
+                @Html.Partial("MarketingTypes", Model.MarketingTypes)
+            </div>
+        </div>
+        <div class="formSection">
+            <div class="fields" id="divDiscounts">
+                @Html.Partial("Discounts", Model.Discounts)
+            </div>
+        </div>
+        <div class="formSection">
+            <div class="fields" id="divDba">
+                <div class="formComponent formComponentSingleLineText">
+                    @Html.LabelFor(model => model.ServiceCenterAgentsAnswer)
+                    @Html.TextAreaFor(model => model.ServiceCenterAgentsAnswer, new { @class = "validate[maxSize[500]]" })
+                    <div id="servicecenteragentsanswer-tooltip" class="ui-tooltip" style="display: none">
+                        <label>
+                            If nothing entered, our default will be: Plumbing Service Department, how may we
+                            help you?</label>
+                    </div>
+                </div>
+                @Html.Partial("Dbas", Model.Dbas)
+            </div>
+        </div>
+        @*<div class="formSection">
+            <div class="fields" id="divAdvertisedPhoneNumber">
+                @Html.Partial("AdvertisedPhoneNumbers", Model.AdvertisedPhoneNumbers)
+            </div>
+        </div>*@
+        <div class="formSection">
+            <div class="fields" id="divWarrantyWork">
+                <div class="formComponent formComponentMultipleChoice">
+                    <label class="formComponentLabel">
+                        Do you bill flat rate or time and material?</label>
+                    <div class="containerDiv">
+                        @Html.EditorFor(model => model.FlateRate)<label for="FlateRate" class="checkbox">Flate
+                            Rate</label>
+                        @Html.EditorFor(model => model.TimeAndMaterial)<label for="TimeAndMaterial" class="checkbox">Time
+                            and Material</label>
+                    </div>
+                </div>
+                <div class="formComponent formComponentMultipleChoice">
+                    @*@Html.EditorFor(model => model.DoWarrantyWork)*@
+                    <label for="DoWarrantyWork" class="checkboxlabel">
+                        Do you do warranty work for any outside provider?</label>
+                    <label>
+                        (AHS, American Warranty, Rheem, etc.)</label>
+                    @Html.RadioButton("DoWarrantyWork", true, new { id = "doWarrantyWorkYes" })<label
+                        for="doWarrantyWorkYes" class="checkbox">Yes</label>
+                    @Html.RadioButton("DoWarrantyWork", false, new { id = "doWarrantyWorkNo" })<label
+                        for="doWarrantyWorkNo" class="checkbox">No</label><br />
+                </div>
+                <br />
+                @Html.Partial("WarrantyWorks", Model.WarrantyWorks)
+            </div>
+        </div>
+        <div class="formSection">
+            <div class="fields" id="divServicePlan">
+                <div class="formComponent formComponentMultipleChoice">
+                    <div class="containerDiv">
+                        <label for="ServicePlansOffer" class="checkboxlabel">
+                            Do you offer service plans?</label>
+                        @Html.RadioButton("ServicePlansOffer", true, new { id = "servicePlansOfferYes" })<label
+                            for="servicePlansOfferYes" class="checkbox">Yes</label>
+                        @Html.RadioButton("ServicePlansOffer", false, new { id = "servicePlansOfferNo" })<label
+                            for="servicePlansOfferNo" class="checkbox">No</label><br />
+                        @Html.LabelFor(model => model.ServicePlanName)
+                        @Html.TextBoxFor(model => model.ServicePlanName, new { @class = "large validate[maxSize[255]]" })
+                        @Html.LabelFor(model => model.ServicePlanComment)
+                        @Html.TextAreaFor(model => model.ServicePlanComment, new { @class = "large validate[maxSize[500]]" })
+                        <div id="serviceplancomment-tooltip" class="ui-tooltip" style="display: none">
+                            <label>
+                            We need to know specifically how you handle periodic inspections – for instance,
+                            does your company send post card reminders? Can periodic inspections be scheduled
+                            only during days, or on nights and weekends as well?</label><br />
+                            <label>Are there specific techs that do these inspections?</label>
+                        </div>
+                    </div>
+                </div>
+                @*@Html.Partial("ServicePlans", Model.ServicePlans)*@
+                      
+                <div class="formComponent formComponentMultipleChoice">
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.ServicePlanMembersDiscount)
+                        @Html.TextBoxFor(model => model.ServicePlanMembersDiscount, new { @class = "large validate[maxSize[50]]" })<br />
+                        @Html.EditorFor(model => model.ServicePlanMembersMaintenance)
+                        <label for="ServicePlanMembersMaintenance" class="checkboxlabel">
+                            Do service plan members receive maintenance visits?</label>
+                        @Html.LabelFor(model => model.ServicePlanMembersTime)
+                        @Html.TextBoxFor(model => model.ServicePlanMembersTime, new { @class = "large validate[maxSize[50]]" })</div>
+                </div> 
+                <div class="formComponent formComponentMultipleChoice">
+                    <label for="ServicePlanPayTrip">
+                        Do service plan members pay trip charges?</label>
+                    @Html.RadioButton("ServicePlanPayTrip", true, new { id = "servicePlanPayTripYes" })
+                    <label for="servicePlanPayTripYes" class="checkbox">
+                        Yes</label>
+                    @Html.RadioButton("ServicePlanPayTrip", false, new { id = "servicePlanPayTripNo" })
+                    <label for="servicePlanPayTripNo" class="checkbox">
+                        No</label>
+                </div>
+            </div>
+        </div>
+        <div class="formSection">
+            <div class="fields" id="divZipCode">
+                @Html.Partial("ZipCodes", Model.ZipCodes)
+            </div>
+        </div>
+    }
+</div>
+<div id="but" style="height: 60px; width: 100%; display: block; text-align: right">
+    <ul class="control">
+        <li>
+            <a class="formbutton" id="back">< Back</a>&nbsp;
+            <a class="formbutton" id="next">Next ></a></li>
+        <li></li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function ($) {
+            // apply masks
+            $("#CellPhone").mask("999-999-9999");
+            $("#OfficePhone").mask("999-999-9999");
+            $("#KeyOfficeCellPhone").mask("999-999-9999");
+            $("#KeyOfficeOfficePhone").mask("999-999-9999");
+            //$("#GPSExpirationDate").mask("99/99/9999");
+            //toogleAdditionalDetails();
+            toogleServiceTripFeesDescription();
+        });
+
+        //scroll the message box to the top offset of browser's scrool bar
+        $(window).scroll(function () {
+            $('#message-div').animate({ top: $(window).scrollTop() + "px" }, { queue: false, duration: 350 });
+        });
+        //scroll the message box to the top offset of browser's scrool bar
+        $(window).scroll(function () {
+            $('#error-div').animate({ top: $(window).scrollTop() + "px" }, { queue: false, duration: 350 });
+        });
+        //$('#GPSExpirationDate').datepicker({ dateFormat: 'mm/dd/yy', showOn: "focus", changeYear: true, yearRange: '-0:+10', minDate: new Date() });
+
+        if ($("#GPSSystemId").val() != "1") {
+            $("#OtherGPSSystem").prop("disabled", "disabled");
+        }
+
+        // binds form submission and fields to the validation engine
+        $(".form").validationEngine();
+
+
+        //$('#buttons').insertBefore('#privacy');
+
+        $(".form .formSection:first").fadeIn(1000); // Show the first div
+
+        // highlights the parent div when focus a child field
+        $("input").focus(function () {
+            $('.formComponent').removeClass('formComponentHighlight');
+            $(this).parents('.formComponent').addClass('formComponentHighlight');
+        });
+
+        $("textarea").focus(function () {
+            $('.formComponent').removeClass('formComponentHighlight');
+            $(this).parents('.formComponent').addClass('formComponentHighlight');
+        });
+
+        // attach back step button handler
+        // hide on first step
+        $("#back").hide().click(function () {
+            var $step = $(".formSection:visible"); // Get current step
+            if ($step.prev().hasClass("formSection")) {
+                $step.hide().prev().fadeIn(1000);
+
+                // disable back step button
+                if (!$step.prev().prev().hasClass("formSection")) $("#back").hide();
+            }
+        });
+
+        // attach next step button handler
+        $("#next").click(function () {
+            $('.formComponent').removeClass('formComponentHighlight ');
+            $('.formComponent').removeClass('formComponentValidationFailed');
+            var $step = $(".formSection:visible"); // Get current step
+            var validator = $("form").validate(); // Obtain validator
+            var anyError = false;
+
+            $step.find("input").each(function () {
+                if (!validator.element(this)) {
+                    // apply error style
+                    $(this).parents('.formComponent').addClass('formComponentValidationFailed');
+                    anyError = true;
+                }
+            });
+
+            $step.find("textarea").each(function () {
+                if (!validator.element(this)) {
+                    // apply error style
+                    $(this).parents('.formComponent').addClass('formComponentValidationFailed');
+                    anyError = true;
+                }
+            });
+
+            // check website URL
+            if ($("#Website").val() != "") {
+                /*if (validateURL($("#Website").val()) == false) {
+                // apply error style
+                $("#Website").parents('.formComponent').addClass('formComponentValidationFailed');
+                anyError = true;
+                }*/
+
+                if ($("#Website").val() != "www.connectuspro.com" && $("#Website").val() != "mail.connectuspro.com") {
+                    $("#Website").parents('.formComponent').addClass('formComponentValidationFailed');
+                    anyError = true;
+                }
+            }
+
+            if (anyError) return false; // Exit if any error found
+
+            if ($step.next().hasClass("formSection")) { // is there any next step?
+                $step.hide().next().fadeIn(1000);  // show it and hide current step
+                $("#back").show();   // recall to show backStep button
+            }
+
+            else { // this is last step, submit form
+                $("#form").submit();
+            }
+        });
+
+        function validateURL(textval) {
+            var urlregex = new RegExp(
+            "^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.){1}([0-9A-Za-z]+\.)");
+            //return urlregex.test(textval);
+
+            if (urlregex.test(textval)) {
+                return (true);
+            }
+            return (false);
+
+        }
+
+        // ToolTips
+
+        $("#Website").focusin(function () {
+            $("#website-tooltip").show('fast');
+        });
+        $("#Website").focusout(function () {
+            $("#website-tooltip").hide('slow');
+        });
+
+        $("#ServiceCenterAgentsAnswer").focusin(function () {
+            $("#servicecenteragentsanswer-tooltip").show('fast');
+        });
+        $("#ServiceCenterAgentsAnswer").focusout(function () {
+            $("#servicecenteragentsanswer-tooltip").hide('slow');
+        });
+
+        $("#serviceTripFeesYes").click(function () {
+            $("#ServiceTripFeesDescription").prop("disabled", "");
+            initializeServiceTripFees();
+        });
+
+        $("#serviceTripFeesNo").click(function () {
+            $("#ServiceTripFeesDescription").prop("disabled", "disabled");
+            $("#ServiceTripFeesDescription").val("");
+        });
+
+        $("#gpsYes").click(function () {
+            $("#GPSSystemId").prop("disabled", "");
+            $("#OtherGPSSystem").prop("disabled", "");
+            initializeGPSSystem();
+        });
+
+        $("#gpsNo").click(function () {
+            $("#GPSSystemId").prop("disabled", "disabled");
+            $("#OtherGPSSystem").prop("disabled", "disabled");
+            $("#GPSSystemId").val("");
+            $("#OtherGPSSystem").val("");
+        });
+
+        $("#GPSSystemId").change(function () {
+            if ($("#GPSSystemId").val() != "1") {
+                $("#OtherGPSSystem").prop("disabled", "disabled");
+            } else {
+                $("#OtherGPSSystem").prop("disabled", "");
+            }
+        });
+
+        $("#TechniciansAvailabilityNights").change(function () {
+            //toogleAdditionalDetails();
+        });
+
+        $("#TechniciansAvailabilityWeekend").change(function () {
+            //toogleAdditionalDetails();
+        });
+
+        $("#TechniciansAvailabilityHolidays").change(function () {
+            //toogleAdditionalDetails();
+        });
+
+        function toogleServiceTripFeesDescription() {
+            if ($("#serviceTripFeesYes").prop('checked')) {
+                $("#ServiceTripFeesDescription").prop("disabled", "");
+            } else {
+                $("#ServiceTripFeesDescription").prop("disabled", "disabled");
+                $("#ServiceTripFeesDescription").val("");
+            }
+        }
+
+        function toogleAdditionalDetails() {
+            if ($("#TechniciansAvailabilityNights").prop('checked') ||
+                $("#TechniciansAvailabilityWeekend").prop('checked') ||
+                $("#TechniciansAvailabilityHolidays").prop('checked')) {
+                $("#AdditionalDetails").prop("disabled", "disabled");
+                $("#AdditionalDetails").val("");
+            } else {
+                $("#AdditionalDetails").prop("disabled", "");
+                //                getAdditionalDetailsFromDB();
+            }
+        }
+
+        function getAdditionalDetailsFromDB() {
+            var businessInformationId = $("#uiBusinessInformationId").val();
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/GetAdditionalDetails")',
+                type: 'POST',
+                data: { id: businessInformationId },
+                success: function (data) {
+                    $("#AdditionalDetails").val(data.additionalDetails);
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to load the requested field, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+
+        $("#SameAsOwnerInfo").change(function () {
+            var $input = $(this);
+            if ($input.prop('checked')) {
+                getOwnerInformations();
+            } else {
+                initialBusinessControls();
+            }
+        });
+
+        function getOwnerInformations() {
+            var businessInformationId = $("#uiBusinessInformationId").val();
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/GetOwnerInformations")',
+                type: 'POST',
+                data: { id: businessInformationId },
+                success: function (data) {
+                    $("#CellPhone").val(data.cellPhone);
+                    $("#OfficePhone").val(data.homePhone);
+                    $("#BusinessAddress").val(data.address);
+                    $("#BusinessCity").val(data.city);
+                    $("#StateId").val(data.state);
+                    $("#BusinessZipCode").val(data.zipCode);
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to load the owner's information, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+
+        function initialBusinessControls() {
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/GetBusinessInformations")',
+                type: 'POST',
+                data: { id: $("#uiBusinessInformationId").val() },
+                success: function (data) {
+                    $("#CellPhone").val(data.cellPhone);
+                    $("#OfficePhone").val(data.officePhone);
+                    $("#BusinessAddress").val(data.address);
+                    $("#BusinessCity").val(data.city);
+                    $("#StateId").val(data.state);
+                    $("#BusinessZipCode").val(data.zipCode);
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to load the owner's information, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+
+        function initializeServiceTripFees() {
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/GetServiceTripFees")',
+                type: 'POST',
+                data: { id: $("#uiBusinessInformationId").val() },
+                success: function (data) {
+                    $("#ServiceTripFeesDescription").val(data.serviceTripFeesDescription);
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to load the owner's information, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+
+        function initializeGPSSystem() {
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/GetGPSSystem")',
+                type: 'POST',
+                data: { id: $("#uiBusinessInformationId").val() },
+                success: function (data) {
+                    $("#GPSSystemId").val(data.gpsSystemId);
+                    $("#OtherGPSSystem").val(data.otherGpsSystem);
+                    if (data.gpsSystemId != "1") {
+                        $("#OtherGPSSystem").prop("disabled", "disabled");
+                    } else {
+                        $("#OtherGPSSystem").prop("disabled", "");
+                    }
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to load the owner's information, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+
+        $("#AdditionalDetails").focusin(function () {
+            $("#additionalDetails-tooltip").show('fast');
+        });
+        $("#AdditionalDetails").focusout(function () {
+            $("#additionalDetails-tooltip").hide('slow');
+        });
+
+        $("#ServicePlanComment").focusin(function () {
+            $("#serviceplancomment-tooltip").show('fast');
+        });
+        $("#ServicePlanComment").focusout(function () {
+            $("#serviceplancomment-tooltip").hide('slow');
+        });
+    });
+</script>

@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Net Promoter";
+    Layout = "~/Areas/MyCalls/Views/Shared/_SecurityGuardLayoutPage.cshtml";
+}
+
+<script type="text/javascript">
+
+    $('document').ready(function () {
+
+        var companycode = "@ViewBag.code"
+        if (companycode != null && companycode != "") {
+            $.post('@Url.Action("databyCompanyCode2")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        }
+
+        $('#test1 > li > a').click(function (index) {
+            var companycode = $(this).text();
+
+            $.post('@Url.Action("databyCompanyCode2")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                    $('#current > a').text(companycode);
+                    $('li a')[2].click();
+                });
+
+
+        });
+
+        $('#current > a').click(function (index) {
+            var companycode = $(this).text();
+            $.post('@Url.Action("databyCompanyCode")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        });
+    });
+
+</script>
+
+<div id="target" >
+
+</div>

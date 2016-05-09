@@ -1,0 +1,62 @@
+﻿@model SiteBlue.Data.LookupScript
+@{
+    Layout = "../Shared/_CallCenterLayout.cshtml";
+    ViewBag.Title = "Edit";
+}
+<h2>
+    Edit</h2>
+@using (Html.BeginForm("Edit", "ScriptManager", FormMethod.Post, new { id = "wizard" }))
+{
+    @Html.ValidationSummary(true)
+    
+    <article style="width: 900px;">
+        <div class="wizard-step">
+            <fieldset class="left">
+                <legend></legend>
+                @Html.HiddenFor(model => model.LookupId)
+                @Html.LabelFor(model => model.LookupPhoneNr)
+                @Html.EditorFor(model => model.LookupPhoneNr)
+                @Html.ValidationMessageFor(model => model.LookupPhoneNr)
+                @Html.LabelFor(model => model.ConnectusCode)
+                @Html.EditorFor(model => model.ConnectusCode)
+                @Html.ValidationMessageFor(model => model.ConnectusCode)
+
+            </fieldset>
+            <fieldset class="right">
+                <legend></legend>
+                @Html.LabelFor(model => model.CallScript)
+                @Html.TextAreaFor(model => model.CallScript, 7, 100, "")
+                @Html.ValidationMessageFor(model => model.CallScript)
+
+            </fieldset>
+        </div>
+    </article>
+    <article style="width: 800px">
+        <label class="btns">
+            @Html.ActionLink("< Back to List", "Index", "ScriptManager", null, new { @class = "button" })
+            <a href="javascript:document.getElementById('wizard').submit()" class="button" id="save">Save</a>
+        </label>
+    </article>  
+}
+    <script src="@Url.Content("~/Scripts/tiny_mce.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(".wizard-step:first").fadeIn(); // Show the first div
+    tinyMCE.init({
+        mode: "textareas",
+        theme: "simple"
+    });
+</script>
+
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}

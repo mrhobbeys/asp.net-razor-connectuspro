@@ -1,0 +1,70 @@
+﻿<html>
+<head>
+    <script type="text/javascript">
+
+        $('document').ready(function () {
+            initHistoryGrid();
+            BindHistory();
+        });
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+
+        function initHistoryGrid() {
+            mygrid = new dhtmlXGridObject(gridviewhistory);
+
+            mygrid.setImagePath("../../codebase/imgs/");
+            mygrid.setHeader("Job ID, Job Type,Status,Date,Gross $,Balance $,Serviced By");
+            mygrid.setColAlign("left,left,left,left,right,right,left");
+            mygrid.enableEditEvents(false, false, false, false, false, false, false);
+            mygrid.setColTypes("txt,txt,txt,ed,txt,txt,txt");
+            mygrid.attachEvent("onRowSelect", "RowClick");
+            mygrid.init();
+            mygrid.setSkin("dhx_skyblue");
+        }
+
+        function BindHistory() {
+            var strxml = "";
+            var iJobId = getUrlVars()["JobId"];
+            var jobid = { jobsid: iJobId };
+
+            $("#HistorygifId").show();
+
+            var jsondata2 = $.ajax({
+                url: "/Invoice/HistoryList",
+                data: JSON.stringify(jobid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg1) {
+                    mygrid.clearAll();
+                    mygrid.loadXMLString(msg1);
+
+                    $("#HistorygifId").hide();
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $("#HistorygifId").hide();
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <b>Customer Work History</b></div>
+    <div>
+        <img id="HistorygifId" src="../../../../Images/ajax-loader.gif" alt="processing..." />
+    </div>
+    <div id="gridviewhistory" style="height: 200px; background-color: white;">
+    </div>
+</body>
+</html>

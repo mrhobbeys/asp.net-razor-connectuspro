@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5B34A654-E360-4B4D-96D6-D2AB933D8CD3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SiteBlue.Business</RootNamespace>
+    <AssemblyName>SiteBlue.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractBusinessService.cs" />
+    <Compile Include="Alerts\AlertDestinationType.cs" />
+    <Compile Include="Alerts\AlertEngine.cs" />
+    <Compile Include="Alerts\AlertType.cs" />
+    <Compile Include="Customer\CustomerService.cs" />
+    <Compile Include="Employee\EmployeeService.cs" />
+    <Compile Include="Invoice\InvoiceService.cs" />
+    <Compile Include="Job\AuditedJobContext.cs" />
+    <Compile Include="Job\JobService.cs" />
+    <Compile Include="Job\JobStatusWorkflow.cs" />
+    <Compile Include="mod_common.cs" />
+    <Compile Include="OperationResult.cs" />
+    <Compile Include="PayrollSetup\PayrollSetup.cs" />
+    <Compile Include="PayrollSetup\PayrollSetupService.cs" />
+    <Compile Include="PayrollSetup\PayrollSipff.cs" />
+    <Compile Include="Payroll\JobPayroll.cs" />
+    <Compile Include="Payroll\Payroll.cs" />
+    <Compile Include="Payroll\PayrollDetail.cs" />
+    <Compile Include="Payroll\PayrollService.cs" />
+    <Compile Include="Payroll\TimeSheetService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\Account.cs" />
+    <Compile Include="Reporting\AccountDetail.cs" />
+    <Compile Include="Reporting\Budget.cs" />
+    <Compile Include="Reporting\CallStates.cs" />
+    <Compile Include="Reporting\CustomerLedger.cs" />
+    <Compile Include="Reporting\CustomerLedgerSummary.cs" />
+    <Compile Include="Reporting\JobCode.cs" />
+    <Compile Include="Reporting\Employee.cs" />
+    <Compile Include="Reporting\SpiffPayType.cs" />
+    <Compile Include="Reporting\OvertimeMethod.cs" />
+    <Compile Include="Reporting\Customer.cs" />
+    <Compile Include="Reporting\Estimate.cs" />
+    <Compile Include="Reporting\Invoice.cs" />
+    <Compile Include="Reporting\InvoiceLine.cs" />
+    <Compile Include="Reporting\Job.cs" />
+    <Compile Include="Reporting\JobOverview.cs" />
+    <Compile Include="Reporting\JobTask.cs" />
+    <Compile Include="Reporting\KeyPerformanceIndicator.cs" />
+    <Compile Include="Reporting\Mapper.cs" />
+    <Compile Include="Reporting\JobTaskPartUsage.cs" />
+    <Compile Include="Reporting\Memberships.cs" />
+    <Compile Include="Reporting\Payment.cs" />
+    <Compile Include="Reporting\PayrollSetup.cs" />
+    <Compile Include="Reporting\PayrollSpiff.cs" />
+    <Compile Include="Reporting\ReportingService.cs" />
+    <Compile Include="Reporting\WSR.cs" />
+    <Compile Include="Reporting\WSRDate.cs" />
+    <Compile Include="Service References\Enterprise.InvoiceGeneration\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\Enterprise.TechnicianBioGeneration\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="TechMessaging\MessagingService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SiteBlue.Core\SiteBlue.Core.csproj">
+      <Project>{2EBBDC47-50F2-418F-8E9F-4A65B93CE451}</Project>
+      <Name>SiteBlue.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SiteBlue.Data\SiteBlue.Data.csproj">
+      <Project>{07829041-B59E-45D7-A00B-0EB969578E61}</Project>
+      <Name>SiteBlue.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\DataSources\SiteBlue.Core.Enterprise.DocumentGeneration.RenderResult.datasource" />
+    <None Include="Service References\Enterprise.InvoiceGeneration\Invoice.wsdl" />
+    <None Include="Service References\Enterprise.InvoiceGeneration\Invoice.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Enterprise.InvoiceGeneration\Invoice1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Enterprise.InvoiceGeneration\Invoice2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Enterprise.InvoiceGeneration\Invoice3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Enterprise.TechnicianBioGeneration\TechBio.wsdl" />
+    <None Include="Service References\Enterprise.TechnicianBioGeneration\TechBio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Enterprise.TechnicianBioGeneration\TechBio1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Enterprise.TechnicianBioGeneration\TechBio2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Enterprise.TechnicianBioGeneration\TechBio3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Enterprise.InvoiceGeneration\" />
+    <WCFMetadataStorage Include="Service References\Enterprise.TechnicianBioGeneration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Enterprise.InvoiceGeneration\Invoice.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Enterprise.InvoiceGeneration\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Enterprise.InvoiceGeneration\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Enterprise.InvoiceGeneration\Invoice4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Enterprise.InvoiceGeneration\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Enterprise.TechnicianBioGeneration\TechBio.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Enterprise.TechnicianBioGeneration\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Enterprise.TechnicianBioGeneration\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Enterprise.TechnicianBioGeneration\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

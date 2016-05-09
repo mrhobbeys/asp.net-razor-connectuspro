@@ -1,0 +1,190 @@
+﻿@model SiteBlue.Areas.HVAC_App.Models.SetupModels.SetupQuestionsModel
+@*<link href="@Url.Content("~/Styles/companyheader.css")" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_skins.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxtabbar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxlayout.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_blue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxdataview.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxform_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Areas/HVAC_App/Content/SetupPages.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Areas/HVAC_App/Content/dhtmlx_custom.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Areas/HVAC_App/Content/site.css" rel="stylesheet" type="text/css" />
+   <script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery-1.6.1.min.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/companyheader.js")" type="text/javascript"> </script>
+
+    <script src="../../../../Scripts/MicrosoftAjax.js" type="text/javascript"> </script>
+    <script src="../../../../Scripts/MicrosoftMvcAjax.js" type="text/javascript"> </script>
+    <script src="../../../../Scripts/modernizr-1.7.js" type="text/javascript"> </script>
+    <script src="../../../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"> </script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"> </script>
+    <script src="../../../../codebase/dhtmlxdataprocessor.js" type="text/javascript"> </script>
+    <script src="../../../../codebase/dhtmlxlayout.js" type="text/javascript"> </script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_form.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxdataview.js" type="text/javascript"></script>*@
+    
+<script>
+    var questions;
+    var selectedQuestions;
+    var notReorderList = @Html.Raw(Json.Encode(Model.NotReorderIds));
+    var notDeleteList = @Html.Raw(Json.Encode(Model.NotDeleteIds));
+    $(document).ready(function () {
+        
+        questions = new dhtmlXDataView({
+            container: "Questions",
+            height: "auto",
+            select: 'multiselect',
+            drag: true,
+            type: {
+                template: "Text:<br/>#QuestionText# ",
+                width: 300,
+                height: 'auto',
+                margin: 0,
+                padding: 10
+            }
+        });
+
+        questions.attachEvent("onAfterDrop", function (context, e) {
+            questions.refresh();
+        });
+
+        questions.attachEvent("onAfterSelect", function(id) {
+            questions.show(id);
+        });
+
+        selectedQuestions = new dhtmlXDataView({
+            container: "SelectedQuestions",
+            height: "auto",
+            select: "multiselect",
+            drag: true,
+            type: {
+                template: "Index: {common.viewSelection()} <br/> Text: #QuestionText#",
+                viewSelection: function (obj) {
+                    var index = selectedQuestions.indexById(obj.id);
+                    if ($.inArray(obj.Id, notReorderList)>-1) {
+                        return index;
+                    }else {
+                        var html = "";
+                        html += "<select id='opt-" + obj.id + "' onchange='changeOrder(" + obj.id + ")'>";
+                        for (var i = 0; i < selectedQuestions.dataCount(); i++) {
+                            html += "<option value='" + obj.id + "' " + (index == i ? "selected='selected'" : "") + ">" + i + "</option>";
+                        }
+
+                        html += "</select>";
+                        return html;
+                    }
+                },
+                getIndexItem: function (obj) {
+                    return selectedQuestions.indexById(obj.id);
+                },
+                width: 300,
+                height: 'auto',
+                margin: 0,
+                padding: 10
+            }
+        });
+        
+        selectedQuestions.attachEvent("onAfterDrop", function (context, e) {
+            selectedQuestions.refresh();
+        });
+        
+        selectedQuestions.attachEvent("onAfterSelect", function(id) {
+            selectedQuestions.show(id);
+        });
+        
+        var qfch = @Html.Raw(Json.Encode(Model.QuestionsForChoose));
+        questions.parse(qfch, "json");
+        var sq =  @Html.Raw(Json.Encode(Model.QuestionsSelected));
+        selectedQuestions.parse(sq, "json");
+
+        $("#listcontent").height($("#listcontent")[0].clientHeight);
+    });
+    
+    function AddQuestion() {
+        var s = questions.getSelected();
+        if (Array.isArray(s)) {
+            for (var i=0; i<s.length; i++) {
+                MoveFromQuestionToSelectedQuestion(s[i]);
+            }
+        } else {
+            MoveFromQuestionToSelectedQuestion(s);
+        }
+    }
+    
+    function MoveFromQuestionToSelectedQuestion(id) {
+        var temp = questions.get(id);
+        questions.remove(id);
+        selectedQuestions.add(temp);
+        selectedQuestions.refresh();
+        questions.refresh();
+    }
+
+    function DeleteQuestion() {
+        var s = selectedQuestions.getSelected();
+        if (Array.isArray(s)) {
+            for (var i=0; i<s.length; i++) {
+                MoveFromSelectedQuestionToQuestion(s[i]);
+            }
+        } else {
+            MoveFromSelectedQuestionToQuestion(s);
+        }
+    }
+    
+    function MoveFromSelectedQuestionToQuestion(id) {
+        
+        var temp = selectedQuestions.get(id);
+        if ($.inArray(temp.Id, notDeleteList)==-1) {
+            selectedQuestions.unselect(id);
+            temp = selectedQuestions.get(id);
+            selectedQuestions.remove(id);
+            questions.add(temp);
+            selectedQuestions.refresh();
+            questions.refresh();
+        }
+    }
+    
+    function changeOrder(id) {
+        selectedQuestions.move(id, $("#opt-"+id+ " option:selected").text());
+        selectedQuestions.refresh();
+        //var d = this.selectedIndex;
+    }
+    
+    function SaveQuestions() {
+        var systems = selectedQuestions.data.order;
+        var params = "";
+        for (var i = 0; i < systems.length - 1; i++) {
+            var tm = selectedQuestions.get(systems[i]);
+            params += i + "=" + tm.Id + "&";
+        }
+        tm = selectedQuestions.get(systems[systems.length - 1]);
+        params += (systems.length - 1) + "=" + tm.Id;
+        dhtmlxAjax.post("../../hvac_app/hvacconfig/SetQuestions",
+            params, afterSetSystems);
+    }
+    function afterSetSystems() {
+        
+    }
+</script>
+<div style="height: auto; width: 100%">
+    <div style="height:auto; width: 321px; text-align: center; float: left; border: 2px solid #A4BED4;">Not Selected</div>
+    <div style="height:auto; width: 721px; text-align: center; border: 2px solid #A4BED4;">Selected</div>
+</div>
+<div id="listcontent" style="height: auto; width: 100%">
+    <div id="Questions" style="height:auto; width: 321px; float: left; border-left: 1px solid #A4BED4;border-right: 1px solid #A4BED4;"></div>
+    <div id="controls" style="float: left;">
+        <button id="btn_add" onclick="AddQuestion()">
+            Add --&gt;</button><br />
+        <button id="btn_delete" onclick="DeleteQuestion()">
+            &lt;-- Delete</button>
+    </div>
+    <div id="SelectedQuestions" style="height:auto; width: 321px; border-left: 1px solid #A4BED4;border-right: 1px solid #A4BED4;"></div>
+</div>
+<div style="clear: both;"></div>
+<button type="submit" onclick="SaveQuestions()">Save</button>

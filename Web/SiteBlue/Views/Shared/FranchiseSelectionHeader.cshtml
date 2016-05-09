@@ -1,0 +1,39 @@
+﻿@using SiteBlue
+@{
+    var img = Model.SwapBranding ? Url.Content("~/Images/800plumber_CMYK_NO tag.png") : Url.Content("~/Images/ConnectusPro logo CMYK 2.png");
+}
+@model SessionContainer
+<div id="franchiseMenu" class="menu" isCorp="@Model.IsCorporate.ToString().ToLower()" isPlumber="@Model.SwapBranding.ToString().ToLower()">
+    <ul>
+        <li id="imgItem"><a href="@Url.Action(string.Empty, "Dashboard", new { Area = "LandingPage" })">
+            <img src='@img' alt="Image not found" style="border:none" />
+        </a></li>
+        @if (Model.Franchises.Count() > 0)
+        {
+            <li id="current" class="current" style="margin-left: 15px;">
+                <a fid="@Model.CurrentFranchise.FranchiseID">
+                    @Model.CurrentFranchise.FranchiseNUmber - @Model.CurrentFranchise.LegalName
+                </a>
+            </li>
+            <li class="dropDownItem">
+                <!-- Do not add any class for links with dropdown -->
+                <a href="#">More<span class="arrow"></span></a>
+                <!-- Drop Down 
+            Items -->
+                <ul id="menuItemContainer">
+                    @foreach (var item in Model.Franchises.Where(f => f.FranchiseStatusID == 7 || Model.ShowInactiveFranchises))
+                    {
+                        <li><a fid="@item.FranchiseID" href="@Url.Action("SetCurrentFranchise")">@item.FranchiseNUmber - @item.LegalName</a></li>
+
+                    }
+                </ul>
+            </li>
+        }
+        <li id="options">
+            <input type="checkbox" id="showInactiveCompanies" @(Model.ShowInactiveFranchises ? "checked='checked'" : string.Empty) url="@Url.Action("SetCurrentFranchise")" />Show
+            Inactive Companies </li>
+        <li style="float: right; color: White; margin-top: 2px; margin-right: 10px;">Welcome
+            <strong>@Model.User.UserName</strong>! [ @Html.ActionLink("Log Off", "LogOff", "SGAccount", new { area = "" }, null)
+            ] </li>
+    </ul>
+</div>

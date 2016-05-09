@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Media";
+}
+@section Meta{
+    <title>Territory Owners of 1800-PLUMBER</title>
+    @*<meta name="description" content="" />
+    <meta name="keywords" content="" />*@
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                Featured Video!
+                <br />
+            </div>
+            <div class="shadeinnerpage">
+                @*<video width="690" controls="controls">
+                  <source src="@Url.Content("~/Content/video/1800 PLUMBER 5.mov")" type="video/mov" />
+                  Your browser does not support the video tag.
+                </video>*@
+                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.#version=5,0,30,0" width="320" height="240">
+                    <param name="movie" value="@Url.Content("~/Content/video/1800 PLUMBER 6.swf")">
+                    <param name="quality" value="best">
+                    <param name="play" value="true">
+                    <embed pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"
+                                    src="@Url.Content("~/Content/video/1800 PLUMBER 6.swf")" type="application/x-shockwave-flash" width="320" height="240"
+                                    quality="best" play="true">
+                </object>
+            </div>
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+        <td width="260" align="right" valign="top">
+            <div class="col-right">
+                @Html.Partial("NearestLocation")
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/to.jpg")" alt="Services" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

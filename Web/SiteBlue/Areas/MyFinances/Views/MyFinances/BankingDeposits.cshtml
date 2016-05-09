@@ -1,0 +1,755 @@
+﻿@{
+    ViewBag.Title = "Banking Deposits";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" />
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+     <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+}   
+@section ScriptIncludes {
+ 
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+     <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+     <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+
+}
+ @section InlineScript {
+    @*<script src="../../../../codebase/dhtmlxgrid_export.js" type="text/javascript"></script>*@
+    <script type="text/javascript">
+        var cell;
+        function getinput() {
+            for (var i = 0; i < mygrid.getRowsNum(); i++) {
+                var cellObj = mygrid.cellByIndex(i, 0).getValue();
+                //get the reference of first column
+                //var cell = mygrid.rows[i].cells[0];
+                //alert(cellObj);
+                //loop according to the number of childNodes in the cell
+                for (j = 0; j < cellObj.childNodes.length; j++) {
+                    //if childNode type is CheckBox                 
+                    if (cellObj.childNodes[j].type == "checkbox") {
+                        //assign the status of the Select All checkbox to the cell checkbox within the grid
+                        cellObj.childNodes[j].checked = document.getElementById(id).checked;
+                    }
+                }
+            }
+
+        }
+    </script>
+    <script type="text/javascript">
+        function CommaFormatted(amount) {
+            try {
+
+                amount = String(Math.round(amount * 100) / 100);
+                var delimiter = ","; // replace comma if desired  
+                var a = String(amount).split('.', 2)
+                var d = '00';
+                if (a[1] != null) {
+                    d = a[1];
+                }
+
+                var i = parseInt(a[0]);
+                if (isNaN(i)) { return '0.00'; }
+                var minus = '';
+                if (i < 0) { minus = '-'; }
+                i = Math.abs(i);
+                var n = new String(i);
+                var a = [];
+                while (n.length > 3) {
+                    var nn = n.substr(n.length - 3);
+                    a.unshift(nn);
+                    n = n.substr(0, n.length - 3);
+                }
+                if (n.length > 0) { a.unshift(n); }
+                n = a.join(delimiter);
+                if (d.length < 1) { amount = n; }
+                else { amount = n + '.' + d; }
+                amount = minus + amount;
+                return amount;
+            } catch (e) {
+                return "0.00";
+            }
+        }
+        $(document).ready(function () {
+             
+            SiteBlue.renderMenu(true);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnLoad(); });
+                doOnLoad();
+        });
+        function doOnLoad() {
+
+            var myCalendar = new dhtmlXCalendarObject(["DepositDate"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+
+            var totalPayments = 0;
+            var xmlstring = "";
+            var xmlstring1 = "";
+            mygrid = new dhtmlXGridObject('gridbox');
+            mygrid.setImagePath("../../../../codebase/imgs/");
+            mygrid.setHeader("Notes,#master_checkbox,Invoice#,Bill To,Job Location,Status,Deposit Date,Payment Amt,Payment Type,Payment ID", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+            mygrid.setInitWidths("0,50,181,181,181,181,181,181,181,0");
+            mygrid.setColAlign("center,center,center,center,center,center,center,right,center,center,center");
+            mygrid.setColTypes("ro,ch,link,ro,ro,ro,ro,ro,ro,ro,ro");
+            mygrid.setColSorting("str,'',str,str,str,str,str,str,str,str");
+            mygrid.attachHeader(",,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,", ",,text-align:center,text-align:center,text-align:center,text-align:center,text-align:center,text-align:center,text-align:center,");
+            mygrid.enablePaging(true, 10, 3, "gridpgn", false);
+            mygrid.setPagingSkin("bricks");
+            mygrid.init();
+            mygrid.setColumnHidden(0, true);
+            mygrid.setColumnHidden(9, true);
+            mygrid.setSkin("dhx_skyblue");
+            mygrid.setDateFormat("%Y-%m-%d %H:%i");
+
+            mygrid.attachEvent("onRowSelect", function (id, ind) {
+
+                var cellObj = mygrid.cellById(id, 0);
+                
+                if (cellObj.getValue() == 'null' || cellObj.getValue() == '') {
+                    document.getElementById("DepositNotes").value = 'No Deposit Notes..';
+                }
+                else {
+                    document.getElementById("DepositNotes").value = cellObj.getValue();
+                }
+            });
+
+            mygrid.attachEvent("onCheck", function (rId, cInd, state) {
+
+                var z = mygrid.getStateOfView();
+
+                var selectedrows;
+                var arrjobid = new Array();
+                var arrjobidType = new Array();
+                var j = 0;
+                var total = 0.0;
+                var Cash = 0.0;
+                var Check = 0.0;
+                var Credit = 0.0;
+                var Other = 0.0;
+
+                selectedrows = mygrid.getCheckedRows(1);
+
+                if (selectedrows != "") {
+                    for (var i = 0; i < z[2]; i++) {
+                        if (selectedrows.indexOf(i) != -1) {
+                            var cellObj = mygrid.cellById(i, 6);
+                            //                            alert("cell value: " + mygrid.cellById(i, 7).getValue());
+                            //alert("checkbox value: " + mygrid.cellById(i, 1).getValue());
+                            if (mygrid.cellById(i, 1).getValue() == 1) {
+                                arrjobid[j] = mygrid.cellById(i, 7).getValue();
+
+                            }
+                            else {
+                                arrjobid[j] = '';
+                            }
+
+
+                            if (arrjobid[j] != '') {
+                                total = total + parseFloat(arrjobid[j].replace('$', '').replace(',', ''));
+                                //alert("total: " + total);
+                                var cellObjType = mygrid.cellById(i, 8);
+                                arrjobidType[j] = cellObjType.getValue();
+                                //alert(arrjobidType[j]);
+                                if (arrjobidType[j] == 'Cash')
+                                    Cash = Cash + parseFloat(arrjobid[j].replace('$', '').replace(',', ''));
+                                else if (arrjobidType[j] == 'Check')
+                                    Check = Check + parseFloat(arrjobid[j].replace('$', '').replace(',', ''));
+                                else if (arrjobidType[j] == 'Mastercard' || arrjobidType[j] == 'Visa' || arrjobidType[j] == 'American Express')
+                                    Credit = Credit + parseFloat(arrjobid[j].replace('$', '').replace(',', ''));
+                                else
+                                    Other = Other + parseFloat(arrjobid[j].replace('$', '').replace(',', ''));
+                            }
+                        }
+                    }
+                }
+
+                //            alert("total payments: " + totalPayments);
+                //            alert("total : " + total);
+
+                document.getElementById("SelectedTotal").innerHTML = "$" + parseFloat(total).toFixed(2);
+                document.getElementById("NonSelectedTotals").innerHTML = "$" + parseFloat(parseFloat(totalPayments).toFixed(2) - parseFloat(total).toFixed(2)).toFixed(2);
+                document.getElementById("CashTotals").value = "$" + parseFloat(Cash).toFixed(2);
+                document.getElementById("CheckTotals").value = "$" + parseFloat(Check).toFixed(2);
+                document.getElementById("CreditCardTotals").value = "$" + parseFloat(Credit).toFixed(2);
+                document.getElementById("OtherTotals").value = "$" + parseFloat(Other).toFixed(2);
+                document.getElementById("DepositTotals").value = "$" + parseFloat(total).toFixed(2);
+            });
+
+
+            //mygrid.loadXML("../../../../common/Banking.xml");
+
+            var xmlstringEmpList1 = "";
+            var DepositId = $("#hdnDepositID").val();
+            
+            
+            var HistoryDeposit = $("#hdnHistoryDeposit").val();
+            
+            var Frid = { frId: SiteBlue.franchiseId,depositID : DepositId, historyDeposit :HistoryDeposit };
+            var jsondata = $.ajax({
+                url: "../MyFinances/BankingDepositsData",
+                data: JSON.stringify(Frid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    var AdForHomePages = msg;
+                    xmlstringEmpList1 = xmlstringEmpList1 + "<rows>";
+                    $.each(AdForHomePages, function (index, Emplist) {
+
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<row id='" + index + "'>";
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + Emplist.DepositNotes + "]]></cell>";
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + '' + "]]></cell>";
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + Emplist.InvoiceNumber + "^/Ownerportal/invoice/invoicedetails?JobId=" + Emplist.InvoiceNumber + "]]></cell>";
+                        //xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + Emplist.InvoiceNumber + "]]></cell>";
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + Emplist.CustomerName + "]]></cell>";
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + Emplist.Address + "]]></cell>";
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + Emplist.DepositStatus + "]]></cell>";
+                        if (Emplist.DepositDate != null) {
+                            xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + new Date(parseInt(Emplist.DepositDate.substr(6))) + "]]></cell>";
+                        }
+                        else {
+                            xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + '' + "]]></cell>";
+                        }
+                        var ratePrice = '';
+                        if (Emplist.PaymentAmount == 'undefined' || Emplist.PaymentAmount == '0') {
+                            ratePrice = "$0.00";
+                        }
+                        else {
+                            ratePrice = "$";
+                            ratePrice += CommaFormatted(Emplist.PaymentAmount);
+                        }
+                        totalPayments = totalPayments + parseFloat(ratePrice.replace('$', ''));
+                        //alert(totalPayments);
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + ratePrice + "]]></cell>";
+
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + Emplist.PaymentType + "]]></cell>";
+                        xmlstringEmpList1 = xmlstringEmpList1 + "<cell><![CDATA[" + Emplist.PaymentID + "]]></cell>";
+                        xmlstringEmpList1 = xmlstringEmpList1 + "</row>";
+
+                    });
+                    xmlstringEmpList1 = xmlstringEmpList1 + "</rows>";
+                    mygrid.loadXMLString(xmlstringEmpList1);
+                    document.getElementById("WindowsTotals").innerHTML = "$" + parseFloat(totalPayments).toFixed(2);
+                    document.getElementById("NonSelectedTotals").innerHTML = "$" + parseFloat(totalPayments).toFixed(2);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+
+                }
+            });
+
+        }
+
+        function downloadBankingDepositesToExcel() {
+            mygrid.toExcel("../MyFinances/DownloadMyFinances");
+        }
+                          
+    </script>
+    <script type="text/javascript">
+        function Next() {
+            
+           
+            var HistoryDepoist = $("#hdnHistoryDeposit").val();
+            var myDepositId = $("#hdnDepositID").val();
+            var Param_Close = { frid: SiteBlue.franchiseId, DepositID: myDepositId, myHistoryDepoist: HistoryDepoist };
+            var xmlstringEmpList1 = "";
+            var jsondata = $.ajax({
+                url: "../MyFinances/Next",
+                data: JSON.stringify(Param_Close),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    
+                    if (msg.BindGrid == 1) {
+                        $("#hdnHistoryDeposit").val(msg.historyDeposit);
+                        $("#hdnDepositID").val(msg.MyDepositID);
+                        
+                        doOnLoad();
+                    }
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+        }
+        function Previous() {
+            
+
+            var HistoryDepoist = $("#hdnHistoryDeposit").val();
+            var myDepositId = $("#hdnDepositID").val();
+            var Param_Close = { frid: SiteBlue.franchiseId, DepositID: myDepositId, myHistoryDepoist: HistoryDepoist };
+            var xmlstringEmpList1 = "";
+            var jsondata = $.ajax({
+                url: "../MyFinances/Previous",
+                data: JSON.stringify(Param_Close),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    
+                    if (msg.BindGrid == 1) {
+                        $("#hdnHistoryDeposit").val(msg.historyDeposit);
+                        $("#hdnDepositID").val(msg.MyDepositID);
+                        
+                        doOnLoad();
+                    }
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+        }
+        function closedeposit() {
+          
+            var z = mygrid.getStateOfView();
+            var selectedrows;
+            var arrjobid = new Array();
+            var j = 0;
+            var totalClose = 0.0;
+            var CashClose = 0.0;
+            var CheckClose = 0.0;
+            var CreditClose = 0.0;
+            var OtherClose = 0.0;
+            selectedrows = mygrid.getCheckedRows(1);
+            //alert("1" + selectedrows);
+            if (selectedrows != "") {
+                for (var i = 0; i < z[2]; i++) {
+                    if (selectedrows.indexOf(i) != -1) {
+                        var cellObj = mygrid.cellById(i, 9);
+                        arrjobid[j] = cellObj.getValue();
+                        j = j + 1;
+                    }
+                }
+
+                var CashAmount = document.getElementById("CashTotals").value;
+                var CheckAmount = document.getElementById("CheckTotals").value;
+                var CreditAmount = document.getElementById("CreditCardTotals").value;
+                var OtherAmount = document.getElementById("OtherTotals").value;
+                var DepositAmount = document.getElementById("DepositTotals").value;
+                var DepositNumber = document.getElementById("DepositNumber").value;
+                var DepositDate = document.getElementById("DepositDate").value;
+                if (document.getElementById("DepositNumber").value != '' && document.getElementById("DepositDate").value != '') {
+                    mygrid = new dhtmlXGridObject('gridbox');
+                    mygrid.setImagePath("../../../../codebase/imgs/");
+                    mygrid.setHeader("Notes,#master_checkbox,Invoice#,Bill To,Job Location,Status,Deposit Date,Payment Amt,Payment Type,Payment ID", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+                    mygrid.setInitWidths("0,50,181,181,181,181,181,181,181,0");
+                    mygrid.setColAlign("center,center,center,center,center,center,center,right,center,center,center");
+                    mygrid.setColTypes("ro,ch,ro,ro,ro,ro,ro,ro,ro,ro,ro");
+                    mygrid.setColSorting("str,'',str,str,str,str,str,str,str,str");
+                    mygrid.enablePaging(true, 10, 3, "gridpgn", false);
+                    mygrid.setPagingSkin("bricks");
+                    mygrid.init();
+                    mygrid.setColumnHidden(0, true);
+                    mygrid.setColumnHidden(9, true);
+                    mygrid.setColumnHidden(1, true);
+                    mygrid.setSkin("dhx_skyblue");
+                    mygrid.setDateFormat("%Y-%m-%d %H:%i");
+                    var param = { paymentids: arrjobid, CashAmount: CashAmount, CheckAmount: CheckAmount, CreditAmount: CreditAmount, OtherAmount: OtherAmount, DepositAmount: DepositAmount, DepositNumber: DepositNumber, DepositDate: DepositDate, FranchiseId: SiteBlue.franchiseId };
+                    
+                    //document.getElementById("load").style.display = 'block';
+                    var xmlstringEmpList = "";
+                    var jsata = $.ajax({
+                        url: "../MyFinances/CloseDeposit",
+                        data: JSON.stringify(param),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (msg) {
+                            var AdForHomePages = msg.XMLpaymentlist;
+                            $("#hdnDepositID").val(msg.DepositID);
+                            $("#hdnHistoryDeposit").val("true");
+                            xmlstringEmpList = xmlstringEmpList + "<rows>";
+                            $.each(AdForHomePages, function (index, Emplist) {
+
+                                xmlstringEmpList = xmlstringEmpList + "<row id='" + index + "'>";
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.DepositNotes + "]]></cell>";
+                                
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.InvoiceNumber + "]]></cell>";
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.CustomerName + "]]></cell>";
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.Address + "]]></cell>";
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.DepositStatus + "]]></cell>";
+                                if (Emplist.DepositDate != null) {
+                                    xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + new Date(parseInt(Emplist.DepositDate.substr(6))) + "]]></cell>";
+                                }
+                                else {
+                                    xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                                }
+                                var ratePrice = '';
+                                if (Emplist.PaymentAmount == 'undefined' || Emplist.PaymentAmount == '0') {
+                                    ratePrice = "$0.00";
+                                }
+                                else {
+                                    ratePrice = "$";
+                                    ratePrice += CommaFormatted(Emplist.PaymentAmount);
+                                }
+                                totalClose = totalClose + parseFloat(ratePrice.replace('$', ''));
+                                //alert(totalPayments);
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + ratePrice + "]]></cell>";
+
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.PaymentType + "]]></cell>";
+
+                                if (Emplist.PaymentType == 'Cash')
+                                    CashClose = CashClose + parseFloat(ratePrice.replace('$', '').replace(',', ''));
+                                else if (Emplist.PaymentType == 'Check')
+                                    CheckClose = CheckClose + parseFloat(ratePrice.replace('$', '').replace(',', ''));
+                                else if (Emplist.PaymentType == 'Mastercard' || Emplist.PaymentType == 'Visa' || Emplist.PaymentType == 'American Express')
+                                    CreditClose = CreditClose + parseFloat(ratePrice.replace('$', '').replace(',', ''));
+                                else
+                                    OtherClose = OtherClose + parseFloat(ratePrice.replace('$', '').replace(',', ''));
+
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.PaymentID + "]]></cell>";
+                                xmlstringEmpList = xmlstringEmpList + "</row>";
+                            });
+                            xmlstringEmpList = xmlstringEmpList + "</rows>";
+                            
+                            mygrid.loadXMLString(xmlstringEmpList);
+
+                            document.getElementById("CashTotals").value = "$" + parseFloat(CashClose).toFixed(2);
+                            document.getElementById("CheckTotals").value = "$" + parseFloat(CheckClose).toFixed(2);
+                            document.getElementById("CreditCardTotals").value = "$" + parseFloat(CreditClose).toFixed(2);
+                            document.getElementById("OtherTotals").value = "$" + parseFloat(OtherClose).toFixed(2);
+                            document.getElementById("DepositTotals").value = "$" + parseFloat(totalClose).toFixed(2);
+
+                            document.getElementById("WindowsTotals").style.display = 'none';
+                            document.getElementById("NonSelectedTotals").style.display = 'none';
+                            document.getElementById("SelectedTotal").style.display = 'none';
+                            document.getElementById("lblWindowsTotals").style.display = 'none';
+                            document.getElementById("lblNonSelectedTotals").style.display = 'none';
+                            document.getElementById("lblSelectedTotal").style.display = 'none';
+
+                            document.getElementById("DepositStatus").setAttribute("readonly", "true");
+                            document.getElementById("DepositDate").setAttribute("readonly", "true");
+                            document.getElementById("DepositDate").setAttribute("disabled", "true");
+                            document.getElementById("DepositNumber").setAttribute("readonly", "true");
+                            document.getElementById("DepositStatus").value = 'Close';
+                            document.getElementById("lnkCloseDeposit").style.display = 'none';
+
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        error: function (e) {
+                            alert("Error occured.");
+                        }
+                    });
+                }
+                else {
+                    alert("Please Select Deposit Date and Deposit Number.");
+                }
+                //document.getElementById("load").style.display = 'none';
+
+            } else {
+                alert("Please Select Row.");
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function exportToExcel() {
+            var param = { xmldata: '<?xml version="1.0" encoding="UTF-8"?> ' + xmlstringEmpList };
+            //alert(xmlstringEmpList);
+            var jsata = $.ajax
+            ({
+                url: "../MyFinances/generate",
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    window.location.href = "../MyFinances/test";
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    alert("Error occured.");
+                }
+            });
+        }
+    </script>
+ 
+ }  
+ 
+ @Html.Hidden("hdnHistoryDeposit", (string)@ViewBag.HistoryDeposit)
+ @Html.Hidden("hdnDepositID", "0")
+    <fieldset style="vertical-align: bottom; padding: 5px 0px 5px 0px; width: 99.80%;
+        margin: 0px; background-color: #dfedf3;">
+        <div style="margin-right: 50px; float: left; margin-left: 5px;">
+            <label style="font-size: larger; font-weight: bold;">
+                Daily Deposits</label>
+        </div>
+    </fieldset>
+    <div style="width: 100%; height: 100%; float: left; background-color: #dfedf3;">
+        <table style="margin-top: 5px; margin-bottom: 5px;">
+            <tr>
+                <td style="background-color: #dfedf3">
+                    <label>
+                        Deposit Status:</label>
+                    @Html.TextBox("DepositStatus", "Open")
+                </td>
+                <td style="background-color: #dfedf3">
+                    <label>
+                        Deposit Date:</label>
+                    @Html.TextBox("DepositDate", "", new { @readonly = "readonly" })
+                </td>
+                <td style="background-color: #dfedf3">
+                    <label>
+                        Deposit Number:</label>
+                    @Html.TextBox("DepositNumber", "")
+                </td>
+                <td style="background-color: #dfedf3">
+                    <a href="javascript:Next()" id="lnkNext">Next</a>
+                    @*<input type="button" name="save" value="save" onclick="exportToExcel()"/>*@
+                </td>
+                <td style="background-color: #dfedf3">
+                    <a href="javascript:Previous()" id="lnkNext">Previous</a>
+                    @*<input type="button" name="save" value="save" onclick="exportToExcel()"/>*@
+                </td>
+                <td style="background-color: #dfedf3">
+                    <a href="javascript:closedeposit()" id="lnkCloseDeposit">Close Deposit</a>
+                    @*<input type="button" name="save" value="save" onclick="exportToExcel()"/>*@
+                </td>
+                <td style="background-color: #dfedf3" >
+                <input id="btnRTExcel" type="button" onclick="downloadBankingDepositesToExcel()"  value="Export to Excel" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="background-color: #dfedf3">
+                @if (ViewBag.lastDepositDate != null)
+                {
+                    <label>Date of last : </label>
+                    @Html.TextBox("lastDepositDate", (DateTime)ViewBag.lastDepositDate, new { @readonly = "readonly"});
+                    if (ViewBag.clientname != "")
+                    {    
+                        <label>Performed By @ViewBag.clientname</label>                                                                                          
+                    }
+                }
+                </td>
+            </tr>
+        </table>
+        @* <div class="div">
+            <span style="width: 90%; float: left; margin-top: 30px; margin-left: 10%;"><span
+                style="width: 10%; float: left;">Ddepositeposit Status:</span> <span style="width: 20%;
+                    float: left;">
+                    <input type="text" id="depositStatus" value="open" /></span> <span style="width: 10%;
+                        float: left;">Deposit Date:</span> <span style="width: 20%; float: left;">
+                            <input type="text" id="depositDate" /></span> <span style="width: 10%; float: left;">
+                                Deposit Status:</span> <span style="width: 20%; float: left;">
+                                    <input type="text" id="depositNumber" /></span> </span>
+        </div>*@
+        <div class="div">
+            <div id="gridbox" style="float: left; height: 260px; width: 100%; margin-top: 5px;">
+            </div>
+            <div id="gridpgn">
+            </div>
+        </div>
+        <div>
+        </div>
+        <table>
+            <tr>
+                <td style="background-color: #dfedf3">
+                    <table style="width: 100%">
+                        <tr>
+                            <td colspan="2" style="background-color: #dfedf3">
+                                <label>
+                                    Highlight all items to be included in deposit</label>
+                            </td>
+                            <td style="background-color: #dfedf3">
+                                <label style="font-size: medium;">
+                                    Selected total Breakdown</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #dfedf3; vertical-align: top; width: 40%">
+                                <table>
+                                    <tr>
+                                        <td style="background-color: #dfedf3; vertical-align: top; width: 30%">
+                                            <label>
+                                                Deposit Notes:</label>
+                                        </td>
+                                        <td style="background-color: #dfedf3">
+                                            @*<textarea id="depositNotes" readonly="readonly" cols="30" rows="5">Batch notes go here if you want commit about the batch to remember it later </textarea>*@
+                                            @Html.TextArea("DepositNotes", "", new { style = "height:80px;width:250px;", @readonly = "readonly" })
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="background-color: #dfedf3; vertical-align: top; width: 30%">
+                                <table>
+                                    <tr>
+                                        <td style="background-color: #dfedf3; width: 50%;">
+                                            <label id="lblWindowsTotals">
+                                                Windows Totals:</label>
+                                        </td>
+                                        <td style="background-color: #dfedf3">
+                                            <label id="WindowsTotals">
+                                                $0.00</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #dfedf3">
+                                            <label id="lblSelectedTotal">
+                                                Selected Total:</label>
+                                        </td>
+                                        <td style="background-color: #dfedf3">
+                                            <label id="SelectedTotal">
+                                                $0.00</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #dfedf3">
+                                            <label id="lblNonSelectedTotals">
+                                                Non Selected Totals:</label>
+                                        </td>
+                                        <td style="background-color: #dfedf3">
+                                            <label id="NonSelectedTotals">
+                                                $0.00</label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="background-color: #dfedf3; width: 30%" align="right">
+                                <table>
+                                    <tr>
+                                        <td style="background-color: #dfedf3">
+                                            <label>
+                                                Cash Totals:</label>
+                                        </td>
+                                        <td style="background-color: #dfedf3">
+                                            @Html.TextBox("CashTotals", "$0.00", new { style = "text-align:right", @readonly = "readonly" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #dfedf3">
+                                            <label>
+                                                Check Total:</label>
+                                        </td>
+                                        <td style="background-color: #dfedf3">
+                                            @Html.TextBox("CheckTotals", "$0.00", new { style = "text-align:right", @readonly = "readonly" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #dfedf3">
+                                            <label>
+                                                Credit Card Totals:</label>
+                                        </td>
+                                        <td style="background-color: #dfedf3">
+                                            @Html.TextBox("CreditCardTotals", "$0.00", new { style = "text-align:right", @readonly = "readonly" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #dfedf3">
+                                            <label>
+                                                Other Totals:</label>
+                                        </td>
+                                        <td style="background-color: #dfedf3">
+                                            @Html.TextBox("OtherTotals", "$0.00", new { style = "text-align:right", @readonly = "readonly" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #dfedf3">
+                                            <label>
+                                                Deposit Totals:</label>
+                                        </td>
+                                        <td style="background-color: #dfedf3">
+                                            @Html.TextBox("DepositTotals", "$0.00", new { style = "text-align:right", @readonly = "readonly" })
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        @*  <div style="width: 100%; float: left; margin-top: 10px;">
+        <span style="width: 100%; float: left;">Heighlight all items to be included in deposit</span>*@
+        @*   <div style="width: 40%;float:left;">
+                
+            </div>
+            <div style="width: 30%;float:left;">
+                <div>
+                    
+                </div>
+                <div>
+                    
+                </div>
+                <div>
+                    
+                </div>
+            </div>
+            <div style="width: 30%;float:right;">
+                <div>
+                    
+                </div>
+                <div>
+                    
+                </div>
+                <div>
+                    
+                </div>
+                <div>
+                   
+                </div>
+                <div>
+                   
+                </div>
+                <div>
+                   
+                </div>
+
+            </div>*@ @*      <div style="width: 40%; float: left;">
+                <span style="width: 100%; float: left; margin-top: 10px; text-align: right;"><span
+                    style="width: 20%; font-weight: bold;">Deposit
+                    Notes:</span> <span style="width: 80%;">
+                        <textarea id="depositNotes" readonly="readonly" cols="30" rows="5">Batch notes go here if you want commit about the batch to remember it later </textarea>
+                    </span></span>
+            </div>
+            <div style="width: 30%; float: left;">
+                <span style="width: 100%; float: left; margin-top: 10px; text-align: right;"><span
+                    style="width: 50%; font-weight: bold;">Windows Totals:</span> <span style="width: 48%;
+                        margin-left: 2%">$204.459</span> </span><span style="width: 100%; float: left; margin-top: 10px;
+                            text-align: right;"><span style="width: 50%; text-align: right; font-weight: bold;">
+                                Selected Total:</span> <span style="width: 48%; margin-left: 2%">$0.00</span>
+                        </span><span style="width: 100%; float: left; margin-top: 10px; text-align: right;">
+                            <span style="width: 50%; text-align: right; font-weight: bold;">Non Selected Totals:</span>
+                            <span style="width: 48%; margin-left: 2%">$204.459</span> </span>
+            </div>
+            <div style="width: 30%; float: left; text-align: right; margin-right: 3%;">
+                <span style="width: 100%; float: left; font-weight: bold;">Selected total Breakdown</span>
+                <span style="width: 100%; float: left; margin-top: 10px; text-align: right;"><span
+                    style="width: 20%; font-weight: bold;">Cash Totals:</span> <span style="width: 80%;
+                        text-align: right;">
+                        <input id="cashTotal" type="text" value="$0.00" readonly="readonly" /></span>
+                </span><span style="width: 100%; float: left; margin-top: 10px; text-align: right;">
+                    <span style="width: 20%; font-weight: bold;">Check Total:</span> <span style="width: 80%;
+                        text-align: right;">
+                        <input id="checkTotal" type="text" value="$0.00" readonly="readonly" /></span>
+                </span><span style="width: 100%; float: left; margin-top: 10px; text-align: right;">
+                    <span style="width: 20%; font-weight: bold;">Credit Card Totals:</span> <span style="width: 80%;
+                        text-align: right;">
+                        <input id="creditcardTotal" type="text" value="$0.00" readonly="readonly" /></span>
+                </span><span style="width: 100%; float: left; margin-top: 10px; text-align: right;">
+                    <span style="width: 20%; font-weight: bold;">Other Totals:</span> <span style="width: 80%;
+                        text-align: right;">
+                        <input id="otherTotal" type="text" value="$0.00" readonly="readonly" /></span>
+                </span><span style="width: 100%; float: left; margin-top: 10px; text-align: right;">
+                    <span style="width: 20%; font-weight: bold;">Deposit Totals:</span> <span style="width: 80%;
+                        text-align: right;">
+                        <input id="depositTotal" type="text" value="$0.00" readonly="readonly" /></span>
+                </span>
+            </div>*@ @*</div>*@
+        <div style="width: 98%; float: left; font-family: Verdana; font-weight: bold; margin-left: 2%;
+            height: 25px;">
+            <a href="@Url.Content("~/MasterData/LandingPage/MyFinances")" title="Back to Dashboard">
+                Back to Dashboard</a>
+        </div>
+    </div>

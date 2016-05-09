@@ -1,0 +1,56 @@
+﻿@model Plumber.Models.Appointment
+
+@{
+    ViewBag.Title = "AppointmentDetails";
+}
+
+@section Meta{
+    <title>Our Services -1-800-PLUMBER</title>
+    <meta name="description" content="1-800-PLUMBER provides plumbing, heating, cooling and electrical repairing services in Amarillo, Augusta, Dallas, Danbury, Greenville, Mesa, AZ Pearland and Stamford." />
+    <meta name="keywords" content="1-800-PLUMBER service" />
+}
+<h2>Appointment Details</h2>
+
+<fieldset>
+    <legend>Appointment Information</legend>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.PostalCode)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PostalCode)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Name)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Email)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Phone)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Phone)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.PreferredDate)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PreferredDate)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.PreferredTime)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PreferredTime)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.TypeOfService)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TypeOfService)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Comment)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Comment)
+    </div>
+</fieldset>

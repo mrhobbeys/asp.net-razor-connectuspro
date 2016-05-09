@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SiteBlue.Data.EightHundred.Site>
+
+@{
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+<br />
+<h2>Manage sites</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="data-table">
+    <tr>
+        <th>
+            SiteName
+        </th>
+        <th>
+            Url
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            IsActive
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SiteName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Url)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SiteId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SiteId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SiteId })
+        </td>
+    </tr>
+}
+
+</table>

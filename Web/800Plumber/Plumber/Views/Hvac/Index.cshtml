@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@section Meta{
+    <title>Heating Air Conditioning, Emergency Plumbing Repair Service, Drain Cleaning</title>
+    <meta name="description" content="1-800-PLUMBER offers 24 hour emergency plumbing services, electrical repair, drain cleaning and heating air conditioning repairing service in United States and Canada." />
+    <meta name="keywords" content="plumbing services,heating air conditioning,emergency plumbing service,plumbing repair,drain cleaning,24 hour plumbing service,electrical repair" />
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                HVAC</div>
+            <div class="shadeinnerpage">
+                <div class="maincontent">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+                        euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+                        minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip
+                        ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate
+                        velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero
+                        eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit
+                        augue duis dolore te feugait nulla facilisi.
+                    </p>
+                    <p>
+                        Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming
+                        id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est
+                        usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt
+                        lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus,
+                        qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica,
+                        quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula
+                        quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari,
+                        fiant sollemnes in futurum.
+                    </p>
+                </div>
+                <div class="backbtn">
+                    @Html.ActionLink("Go back to service list", "Index", "Services")</div>
+            </div>
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+        <td width="260" align="right" valign="top">
+            <div class="col-right">
+                @Html.Partial("NearestLocation")
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/services-banner.jpg")" alt="Services" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

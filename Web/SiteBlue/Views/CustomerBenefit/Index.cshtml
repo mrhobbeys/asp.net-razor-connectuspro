@@ -1,0 +1,66 @@
+﻿@using SiteBlue.Models
+@{
+    ViewBag.Title = "Customer Focused";
+    Layout = "~/Views/Shared/SecondaryLayout.cshtml";
+}
+<article>
+    <section class="col-1">
+        <h2>
+            Customer Focused</h2>
+        <p>
+            Your customers are the heart of your business. You have dedicated your time and
+            effort to building your reputation with your clients, are you doing everything you
+            can to take that relationship to the next level? Does you customer service set you
+            apart from the competition? How much of your business is repeat business?
+        </p>
+        <img src="@Url.Content("~/Content/images/service.jpg")" class="p2" alt="" />
+        <p class="p3">
+            With ConnectusPro, your customer service becomes an engine of growth, ensuring that
+            customers return and refer based on their experience with your business. Our approach
+            is focused on building trust with your customers, so that when they need service,
+            they think of you everytime.</p>
+    </section>
+    <section class="col-2">
+        <h2>
+            The ConnectusPro Advantage</h2>
+        <p>
+            <strong class="yellow">Through an intentional process of customer experience management,
+                ConnectusPro helps build your reputation with your clients in a way they have never
+                experienced in the service industry.</strong>
+        </p>
+        <p>
+            At ConnectusPro, we are dedicated to making your customer service stand out from
+            the competition. By keeping your customers informed and soliciting feedback from
+            them on their experience, we build their trust in your business. Customer Service
+            advantages include:</p>
+        <dl class="img-box">
+            <dd>
+                <ul id="listmrk">
+                    <li>Two hour job window with 30 minute call prior to technician arrival</li>
+                    <li>Technician bio and photo emailed to customer for security and safety</a></li>
+                    <li>Onscreen pricing instills confidence in customer and reduces haggling</a></li>
+                    <li>Customer can view product options and pictures on t-Tab</a></li>
+                    <li>All payments and invoicing handled on t-Tab at customer's location</a></li>
+                    <li>Homeguard analysis to identify potential unidentified problems</a></li>
+                    <li>Homeguard sales opportunities</a></li>
+                    <li>Followup customer service calls after each job</a></li>
+                    <li>Thank you cards mailed to each customer</a></li>
+                </ul>
+                <br class="clear">
+            </dd>
+        </dl>
+        <p>
+            <strong class="yellow">Your customers are the most important part of your business.
+                Focus on them by letting ConnectusPro focus on your business. Together, we can ensure
+                that your customer's experience is one that they will want to share with others,
+                driving referrals and repeats.</strong>
+        </p>
+        <p>
+            Find out how ConnectusPro can accelerate your business by clicking the button below!</p>
+        <p>
+        </p>
+        @Html.ActionLink("Contact Us Now", "Index", "ContactUs", null, new { @class = "button" })<br class="clear">
+    </section>
+</article>
+@{ ViewData["PageType"] = PageType.ServiceCenter; }
+@Html.Partial("Banner", null, ViewData)

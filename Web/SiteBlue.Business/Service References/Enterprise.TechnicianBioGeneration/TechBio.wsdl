@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TechBio" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:52445/TechBio.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:52445/TechBio.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:52445/TechBio.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.TechBios" />
+      <xsd:import schemaLocation="http://localhost:52445/TechBio.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGenerateTechBios_RenderBadge_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBadge" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateTechBios_RenderBadge_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBadgeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateTechBios_RenderBio_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBio" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateTechBios_RenderBio_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateTechBios_RenderBioHtml_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBioHtml" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateTechBios_RenderBioHtml_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBioHtmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateTechBios_RenderBioCustom_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBioCustom" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateTechBios_RenderBioCustom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBioCustomResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateTechBios_RenderBioHtmlCustom_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBioHtmlCustom" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateTechBios_RenderBioHtmlCustom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderBioHtmlCustomResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IGenerateTechBios">
+    <wsdl:operation name="RenderBadge">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBadge" message="tns:IGenerateTechBios_RenderBadge_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBadgeResponse" message="tns:IGenerateTechBios_RenderBadge_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenderBio">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBio" message="tns:IGenerateTechBios_RenderBio_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBioResponse" message="tns:IGenerateTechBios_RenderBio_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenderBioHtml">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBioHtml" message="tns:IGenerateTechBios_RenderBioHtml_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBioHtmlResponse" message="tns:IGenerateTechBios_RenderBioHtml_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenderBioCustom">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBioCustom" message="tns:IGenerateTechBios_RenderBioCustom_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBioCustomResponse" message="tns:IGenerateTechBios_RenderBioCustom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenderBioHtmlCustom">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBioHtmlCustom" message="tns:IGenerateTechBios_RenderBioHtmlCustom_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerateTechBios/RenderBioHtmlCustomResponse" message="tns:IGenerateTechBios_RenderBioHtmlCustom_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IGenerateTechBios" type="tns:IGenerateTechBios">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RenderBadge">
+      <soap:operation soapAction="http://tempuri.org/IGenerateTechBios/RenderBadge" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderBio">
+      <soap:operation soapAction="http://tempuri.org/IGenerateTechBios/RenderBio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderBioHtml">
+      <soap:operation soapAction="http://tempuri.org/IGenerateTechBios/RenderBioHtml" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderBioCustom">
+      <soap:operation soapAction="http://tempuri.org/IGenerateTechBios/RenderBioCustom" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderBioHtmlCustom">
+      <soap:operation soapAction="http://tempuri.org/IGenerateTechBios/RenderBioHtmlCustom" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TechBio">
+    <wsdl:port name="BasicHttpBinding_IGenerateTechBios" binding="tns:BasicHttpBinding_IGenerateTechBios">
+      <soap:address location="http://localhost:52445/TechBio.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

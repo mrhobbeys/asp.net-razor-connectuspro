@@ -1,0 +1,284 @@
+﻿@model IEnumerable<SiteBlue.Areas.PriceBook.Models.TaskDetail1>
+           
+<input type="button" class="addtaskdetail" value="Insert" />
+<input type="button" class="addpart" value="New Part" />
+@Html.Hidden("JobCodeID", (int?)ViewBag.jobcodeid)
+
+<table class="tasklist tabledetail" cellpadding="10px" cellspacing="0px" border="1px" align="center">
+    <thead>
+     <tr>
+        <th colspan="6">
+            &nbsp;&nbsp;
+        </th>
+        <th colspan="2">
+            Standard&nbsp;&nbsp;
+        </th>
+        <th colspan="2">
+            Standard AddOn Price&nbsp;&nbsp;
+        </th>
+        <th rowspan="2">Action</th>
+    </tr>
+    <tr>
+        <th>
+            Part&nbsp;&nbsp;
+        </th>
+        <th style="width: 150px">
+            Descriptions&nbsp;&nbsp;
+        </th>
+        <th>
+            PartCode ID&nbsp;&nbsp;
+        </th>
+        <th>
+            Vendor Code&nbsp;&nbsp;
+        </th>
+        <th>
+            Quantity&nbsp;&nbsp;
+        </th>
+        <th>
+            Cost&nbsp;&nbsp;
+        </th>
+        <th>
+            Retail Price&nbsp;&nbsp;
+        </th>
+        <th>
+            Member Price&nbsp;&nbsp;
+        </th>
+        <th>
+            Add-On Retail Price&nbsp;&nbsp;
+        </th>
+        <th>
+            Add-On Member Price&nbsp;&nbsp;
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartCodeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VendorPartID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartStdPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartMemberPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartAddonStdPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartAddonMemberPrice)
+        </td>
+        <td>
+            <input type="button" class="deletetaskdetail" value="Delete" url="@Url.Action("DeleteTaskDetail", new { id = item.JobCodeDetailsID })" />
+            <input type="button" class="updatetaskdetail" value="Edit" url="@Url.Action("TaskDetailDlg", new { id = item.JobCodeDetailsID })" />
+        </td>
+    </tr>
+}
+</tbody>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.addtaskdetail').click(function () {
+            $('<div>').dialog({
+                modal: true,
+                open: function () {
+                    $(this).load('@Url.Action("TaskDetailDlg")', { jid: $('#JobCodeID').val() }, function () {
+                    });
+                },
+                buttons: {
+                    "Save": function () {
+                        if ($('#PartID').val() == "") {
+                            alert("Select Parts");
+                            return;
+                        }
+
+                        $.ajax({
+                            url: $("#datafrm").attr("action"),
+                            type: 'POST',
+                            data: $("#datafrm").serialize(),
+                            context: this,
+                            success: function (result) {
+                                if (result > 0) {
+                                    showTask();
+
+                                    $("#taskdetail").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+                                    $("#taskdetail").load('@Url.Action("TaskDetail")');
+                                }
+
+                                $(this).dialog("close");
+                            }
+                        });
+                    },
+                    "Cancel": function () {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).remove();
+                },
+                height: 370,
+                width: 600,
+                title: 'Insert TaskDetail'
+            });
+        });
+
+        $('.updatetaskdetail').click(function () {
+            var url = $(this).attr("url");
+
+            $('<div>').dialog({
+                modal: true,
+                open: function () {
+                    $(this).load(url, { jid: $('#JobCodeID').val() }, function () {
+                        $('#PartID').attr('disabled', 'disabled');
+                    });
+                },
+                buttons: {
+                    "Save": function () {
+                        if ($('#PartID').val() == "-1") {
+                            alert("Select Parts");
+                            return;
+                        }
+
+                        $.ajax({
+                            url: '@Url.Action("UpdateTaskDetail")',
+                            type: 'POST',
+                            data: $("#datafrm").serialize(),
+                            context: this,
+                            success: function (result) {
+                                if (result > 0) {
+                                    showTask();
+
+                                    $("#taskdetail").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+                                    $("#taskdetail").load('@Url.Action("TaskDetail")');
+                                }
+
+                                $(this).dialog("close");
+                            }
+                        });
+                    },
+                    "Cancel": function () {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).remove();
+                },
+                height: 370,
+                width: 600,
+                title: 'Update TaskDetail'
+            });
+        });
+
+        $('.deletetaskdetail').click(function () {
+            var url = $(this).attr("url");
+
+            prettyPrompt({
+                title: "Delete TaskDetail",
+                message: "Are you sure you want to delete this?",
+                onOkay: function () {
+                    $.ajax({
+                        url: url,
+                        success: function (result) {
+                            showTask();
+
+                            $("#taskdetail").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+                            $("#taskdetail").load('@Url.Action("TaskDetail")');
+                        }
+                    });
+                }
+            });
+        });
+
+        $('.addpart').click(function () {
+            $('<div>').dialog({
+                modal: true,
+                open: function () {
+                    $(this).load('@Url.Action("MasterPartDlg")', { fid: $('.franchpostback').val() }, function () {
+                    });
+                },
+                buttons: {
+                    "Save": function () {
+                        if ($('#PartCodeID').val() == "") {
+                            alert("Select PartCodes");
+                            return;
+                        }
+                        if ($('#PartName').val() == "") {
+                            alert("Input PartName");
+                            return;
+                        }
+
+                        $.ajax({
+                            url: $("#datafrm").attr("action") + "/" + $('#PriceBookID').val(),
+                            type: 'POST',
+                            data: $("#datafrm").serialize(),
+                            context: this,
+                            success: function (result) {
+                                $(this).dialog("close");
+                            }
+                        });
+                    },
+                    "Cancel": function () {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
+                    $(this).remove();
+                },
+                height: 300,
+                width: 500,
+                title: 'Insert Part'
+            });
+        });
+
+    });
+
+    function showTask() {
+
+        var nlevel = $("#taskgrid #nlevel").val();
+        var nid = $("#taskgrid #nid").val();
+
+        if (nlevel == null || nid == null)
+            return;
+
+        var mflag = $("#MFlag").val();
+
+        var actionurl = "";
+
+        if (nlevel == 1) actionurl = '@Url.Action("AllTaskList")';
+        if (nlevel == 2) actionurl = '@Url.Action("TaskList")';
+        if (nlevel == 3) actionurl = '@Url.Action("SingleTask")';
+
+        actionurl += "/" + nid;
+
+        $("#taskgrid").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+        $.ajax({
+            url: actionurl,
+            data: { mflag: mflag },
+            success: function (result1) {
+                $("#taskgrid").empty().html(result1);
+            }
+        });
+    }
+
+</script>
+

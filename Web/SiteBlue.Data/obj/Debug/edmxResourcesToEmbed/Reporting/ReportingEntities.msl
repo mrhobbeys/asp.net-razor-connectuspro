@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ReportingModelStoreContainer" CdmEntityContainer="ReportingEntities">
+    <EntitySetMapping Name="vRpt_JobDetails">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_JobDetail">
+        <MappingFragment StoreEntitySet="vRpt_JobDetail">
+          <ScalarProperty Name="JobTaskID" ColumnName="JobTaskID" />
+          <ScalarProperty Name="IsAddOn" ColumnName="IsAddOn" />
+          <ScalarProperty Name="JobCodeDescription" ColumnName="JobCodeDescription" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_Jobs">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_Job">
+        <MappingFragment StoreEntitySet="vRpt_Job">
+          <ScalarProperty Name="EstimateDate" ColumnName="EstimateDate" />
+          <ScalarProperty Name="ReferralType" ColumnName="ReferralType" />
+          <ScalarProperty Name="ReferralID" ColumnName="ReferralID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+          <ScalarProperty Name="JobPriority" ColumnName="JobPriority" />
+          <ScalarProperty Name="JobPriorityID" ColumnName="JobPriorityID" />
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="JobPostalCode" ColumnName="JobPostalCode" />
+          <ScalarProperty Name="JobState" ColumnName="JobState" />
+          <ScalarProperty Name="JobCity" ColumnName="JobCity" />
+          <ScalarProperty Name="JobAddress" ColumnName="JobAddress" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+          <ScalarProperty Name="BusinessTypeID" ColumnName="BusinessTypeID" />
+          <ScalarProperty Name="TaxDescription" ColumnName="TaxDescription" />
+          <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+          <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+          <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="CallCompleted" ColumnName="CallCompleted" />
+          <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_Customer">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_Customer">
+        <MappingFragment StoreEntitySet="vRpt_Customer">
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="Payments" ColumnName="Payments" />
+          <ScalarProperty Name="AverageJob" ColumnName="AverageJob" />
+          <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+          <ScalarProperty Name="JobCount" ColumnName="JobCount" />
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="LastVisit" ColumnName="LastVisit" />
+          <ScalarProperty Name="BillToCountry" ColumnName="BillToCountry" />
+          <ScalarProperty Name="BillToPostalCode" ColumnName="BillToPostalCode" />
+          <ScalarProperty Name="BillToState" ColumnName="BillToState" />
+          <ScalarProperty Name="BillToCity" ColumnName="BillToCity" />
+          <ScalarProperty Name="BillToAddress" ColumnName="BillToAddress" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="PrimaryPhone" ColumnName="PrimaryPhone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_Payroll">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_Payroll">
+        <MappingFragment StoreEntitySet="vRpt_Payroll">
+          <ScalarProperty Name="LockDate" ColumnName="LockDate" />
+          <ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+          <ScalarProperty Name="LockedYN" ColumnName="LockedYN" />
+          <ScalarProperty Name="PayrollDate" ColumnName="PayrollDate" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_PayrollDetail">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_PayrollDetail">
+        <MappingFragment StoreEntitySet="vRpt_PayrollDetail">
+          <ScalarProperty Name="LockDate" ColumnName="LockDate" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+          <ScalarProperty Name="OTAdditCommission" ColumnName="OTAdditCommission" />
+          <ScalarProperty Name="CommissionOTMultiplier" ColumnName="CommissionOTMultiplier" />
+          <ScalarProperty Name="CommissionRateHour" ColumnName="CommissionRateHour" />
+          <ScalarProperty Name="AdjustmentReason" ColumnName="AdjustmentReason" />
+          <ScalarProperty Name="Adjustment" ColumnName="Adjustment" />
+          <ScalarProperty Name="JobCount" ColumnName="JobCount" />
+          <ScalarProperty Name="SaturdayHours" ColumnName="SaturdayHours" />
+          <ScalarProperty Name="FridayHours" ColumnName="FridayHours" />
+          <ScalarProperty Name="ThursdayHours" ColumnName="ThursdayHours" />
+          <ScalarProperty Name="WednesdayHours" ColumnName="WednesdayHours" />
+          <ScalarProperty Name="TuesdayHours" ColumnName="TuesdayHours" />
+          <ScalarProperty Name="MondayHours" ColumnName="MondayHours" />
+          <ScalarProperty Name="SundayHours" ColumnName="SundayHours" />
+          <ScalarProperty Name="TotalCommission" ColumnName="TotalCommission" />
+          <ScalarProperty Name="CommissionSpifs" ColumnName="CommissionSpifs" />
+          <ScalarProperty Name="CommissionLabor" ColumnName="CommissionLabor" />
+          <ScalarProperty Name="CommissionParts" ColumnName="CommissionParts" />
+          <ScalarProperty Name="OTPay" ColumnName="OTPay" />
+          <ScalarProperty Name="OTRate" ColumnName="OTRate" />
+          <ScalarProperty Name="OTHours" ColumnName="OTHours" />
+          <ScalarProperty Name="RegularPay" ColumnName="RegularPay" />
+          <ScalarProperty Name="RegularRate" ColumnName="RegularRate" />
+          <ScalarProperty Name="RegularHours" ColumnName="RegularHours" />
+          <ScalarProperty Name="WeeklySalary" ColumnName="WeeklySalary" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+          <ScalarProperty Name="PayrollDetailID" ColumnName="PayrollDetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_AccountingSummary">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_AccountingSummary">
+        <MappingFragment StoreEntitySet="vRpt_AccountingSummary">
+          <ScalarProperty Name="WSRCompletedDate" ColumnName="WSRCompletedDate" />
+          <ScalarProperty Name="LastJobDate" ColumnName="LastJobDate" />
+          <ScalarProperty Name="FirstJobDate" ColumnName="FirstJobDate" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+          <ScalarProperty Name="JOBCOUNT" ColumnName="JOBCOUNT" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="uID" ColumnName="uID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_PartUsagePerJob">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_PartUsagePerJob">
+        <MappingFragment StoreEntitySet="vRpt_PartUsagePerJob">
+          <ScalarProperty Name="PartTotalPrice" ColumnName="PartTotalPrice" />
+          <ScalarProperty Name="PartUnitPrice" ColumnName="PartUnitPrice" />
+          <ScalarProperty Name="PartTotalCost" ColumnName="PartTotalCost" />
+          <ScalarProperty Name="PartCost" ColumnName="PartCost" />
+          <ScalarProperty Name="PartQty" ColumnName="PartQty" />
+          <ScalarProperty Name="PartName" ColumnName="PartName" />
+          <ScalarProperty Name="PartCode" ColumnName="PartCode" />
+          <ScalarProperty Name="TaskQty" ColumnName="TaskQty" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="JobPostalCode" ColumnName="JobPostalCode" />
+          <ScalarProperty Name="JobState" ColumnName="JobState" />
+          <ScalarProperty Name="JobCity" ColumnName="JobCity" />
+          <ScalarProperty Name="JobAddress" ColumnName="JobAddress" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CallCompleted" ColumnName="CallCompleted" />
+          <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRPT_MembershipInfo">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRPT_MembershipInfo">
+        <MappingFragment StoreEntitySet="vRPT_MembershipInfo">
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="Payments" ColumnName="Payments" />
+          <ScalarProperty Name="AverageJob" ColumnName="AverageJob" />
+          <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+          <ScalarProperty Name="JobCount" ColumnName="JobCount" />
+          <ScalarProperty Name="CountCustomerVisits" ColumnName="CountCustomerVisits" />
+          <ScalarProperty Name="LastCustomerVisit" ColumnName="LastCustomerVisit" />
+          <ScalarProperty Name="LastDateInspected" ColumnName="LastDateInspected" />
+          <ScalarProperty Name="CountOfInspections" ColumnName="CountOfInspections" />
+          <ScalarProperty Name="req_TotalInspectionsPerYear" ColumnName="req_TotalInspectionsPerYear" />
+          <ScalarProperty Name="MembershipEndDate" ColumnName="MembershipEndDate" />
+          <ScalarProperty Name="MembershipStartDate" ColumnName="MembershipStartDate" />
+          <ScalarProperty Name="MemberType" ColumnName="MemberType" />
+          <ScalarProperty Name="MemberTypeID" ColumnName="MemberTypeID" />
+          <ScalarProperty Name="BillToCountry" ColumnName="BillToCountry" />
+          <ScalarProperty Name="BillToPostalCode" ColumnName="BillToPostalCode" />
+          <ScalarProperty Name="BillToState" ColumnName="BillToState" />
+          <ScalarProperty Name="BillToCity" ColumnName="BillToCity" />
+          <ScalarProperty Name="BillToAddress" ColumnName="BillToAddress" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="PrimaryPhone" ColumnName="PrimaryPhone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="MembershipID" ColumnName="MembershipID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_PayrollSetup">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_PayrollSetup">
+        <MappingFragment StoreEntitySet="vRpt_PayrollSetup">
+          <ScalarProperty Name="OvertimeMethod" ColumnName="OvertimeMethod" />
+          <ScalarProperty Name="OTMultiplier" ColumnName="OTMultiplier" />
+          <ScalarProperty Name="OvertimeMethodID" ColumnName="OvertimeMethodID" />
+          <ScalarProperty Name="OvertimeStarts" ColumnName="OvertimeStarts" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="PayrollSetupID" ColumnName="PayrollSetupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_PayrollSpiff">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_PayrollSpiff">
+        <MappingFragment StoreEntitySet="vRpt_PayrollSpiff">
+          <ScalarProperty Name="Employee" ColumnName="Employee" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="AddonYN" ColumnName="AddonYN" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="DateExpires" ColumnName="DateExpires" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="PayType" ColumnName="PayType" />
+          <ScalarProperty Name="PayTypeID" ColumnName="PayTypeID" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+          <ScalarProperty Name="JobCodeDescription" ColumnName="JobCodeDescription" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+          <ScalarProperty Name="PayrollSetupID" ColumnName="PayrollSetupID" />
+          <ScalarProperty Name="PayrollSpiffID" ColumnName="PayrollSpiffID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_OvertimeMethod">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_OvertimeMethod">
+        <MappingFragment StoreEntitySet="vRpt_OvertimeMethod">
+          <ScalarProperty Name="OvertimeMethod" ColumnName="OvertimeMethod" />
+          <ScalarProperty Name="OvertimeMethodID" ColumnName="OvertimeMethodID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_Employee">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_Employee">
+        <MappingFragment StoreEntitySet="vRpt_Employee">
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="ServiceProYN" ColumnName="ServiceProYN" />
+          <ScalarProperty Name="CommissionRate" ColumnName="CommissionRate" />
+          <ScalarProperty Name="Employee" ColumnName="Employee" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="FranchiseLegalName" ColumnName="FranchiseLegalName" />
+          <ScalarProperty Name="FranchiseNUmber" ColumnName="FranchiseNUmber" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_JobCode">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_JobCode">
+        <MappingFragment StoreEntitySet="vRpt_JobCode">
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="JobCodeDescription" ColumnName="JobCodeDescription" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+          <ScalarProperty Name="PriceBookActiveYN" ColumnName="PriceBookActiveYN" />
+          <ScalarProperty Name="PriceBookName" ColumnName="PriceBookName" />
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_SpiffPayType">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_SpiffPayType">
+        <MappingFragment StoreEntitySet="vRpt_SpiffPayType">
+          <ScalarProperty Name="SpiffPayType" ColumnName="SpiffPayType" />
+          <ScalarProperty Name="SpiffPayTypeID" ColumnName="SpiffPayTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_AccountingDetail">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_AccountingDetail">
+        <MappingFragment StoreEntitySet="vRpt_AccountingDetail">
+          <ScalarProperty Name="WSRCompletedDate" ColumnName="WSRCompletedDate" />
+          <ScalarProperty Name="JobDate" ColumnName="JobDate" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+          <ScalarProperty Name="JOBCOUNT" ColumnName="JOBCOUNT" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="uID" ColumnName="uID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_WSR">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_WSR">
+        <MappingFragment StoreEntitySet="vRpt_WSR">
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+          <ScalarProperty Name="JobPriority" ColumnName="JobPriority" />
+          <ScalarProperty Name="JobPriorityID" ColumnName="JobPriorityID" />
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="JobPostalCode" ColumnName="JobPostalCode" />
+          <ScalarProperty Name="JobState" ColumnName="JobState" />
+          <ScalarProperty Name="JobCity" ColumnName="JobCity" />
+          <ScalarProperty Name="JobAddress" ColumnName="JobAddress" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+          <ScalarProperty Name="BusinessTypeID" ColumnName="BusinessTypeID" />
+          <ScalarProperty Name="TaxDescription" ColumnName="TaxDescription" />
+          <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+          <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+          <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="CallCompleted" ColumnName="CallCompleted" />
+          <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+          <ScalarProperty Name="WSRCompletedDate" ColumnName="WSRCompletedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_WSR_Dates">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_WSR_Dates">
+        <MappingFragment StoreEntitySet="vRpt_WSR_Dates">
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="WSRCompletedDate" ColumnName="WSRCompletedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_CustomerLedger">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_CustomerLedger">
+        <MappingFragment StoreEntitySet="vRpt_CustomerLedger">
+          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+          <ScalarProperty Name="RunningBalance" ColumnName="RunningBalance" />
+          <ScalarProperty Name="IsOutstanding" ColumnName="IsOutstanding" />
+          <ScalarProperty Name="RecordedDate" ColumnName="RecordedDate" />
+          <ScalarProperty Name="StoredBalance" ColumnName="StoredBalance" />
+          <ScalarProperty Name="ActualBalance" ColumnName="ActualBalance" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ReferenceId" ColumnName="ReferenceId" />
+          <ScalarProperty Name="LineId" ColumnName="LineId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vRpt_CustomerLedgerSummary">
+      <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_CustomerLedgerSummary">
+        <MappingFragment StoreEntitySet="vRpt_CustomerLedgerSummary">
+          <ScalarProperty Name="OutstandingBalance" ColumnName="OutstandingBalance" />
+          <ScalarProperty Name="Payments" ColumnName="Payments" />
+          <ScalarProperty Name="Invoices" ColumnName="Invoices" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

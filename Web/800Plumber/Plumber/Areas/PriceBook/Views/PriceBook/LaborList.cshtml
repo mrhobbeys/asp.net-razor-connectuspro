@@ -1,0 +1,200 @@
+﻿@model List<SiteBlue.Areas.PriceBook.Models.Labor>
+
+<style type="text/css">
+    .buttonself
+    {
+        font-size:10pt;
+        padding:6px;
+        margin-right:5px;
+        margin-left:5px;
+        float:right;
+    }
+
+    .lbuttonself
+    {
+        font-size:10pt;
+        padding:6px;
+        margin-right:5px;
+        margin-left:5px;
+        float:right;
+       border-radius:7px 0px 0px 7px;  
+    }
+
+    .rbuttonself
+    {
+        font-size:10pt;
+        padding:6px;
+        margin-right:5px;
+        margin-left:5px;
+        float:right;
+        border-radius:0px 7px 7px 0px;  
+    }
+
+    .t1
+    {
+        display:none;
+    }
+    
+    .dataTables_info
+    {
+        float: left;
+    }
+    
+    .dataTables_paginate
+    {
+        float: right;
+    }
+    
+    .dataTables_filter
+    {
+        text-align: center;
+    }
+    
+</style>
+
+<div class="resultmsg" style="color: Red; font-weight: bold;"></div>
+@using (Ajax.BeginForm("SubmitLabor", "PriceBook", new AjaxOptions() { UpdateTargetId = "taskgrid"}, new { id = "laborFrm" }))
+{
+<table id="laborlist" cellpadding="10px" cellspacing="0px" border="1px">
+    <thead>
+        <tr>
+            <th>
+                Labor Description&nbsp;&nbsp;
+            </th>
+            <th>
+                Cost&nbsp;&nbsp;
+            </th>
+            <th>
+                Retail Standard&nbsp;&nbsp;
+            </th>
+            <th>
+                Member Standard&nbsp;&nbsp;
+            </th>
+            <th>
+                Retail AddOn&nbsp;&nbsp;
+            </th>
+            <th>
+                Member AddOn&nbsp;&nbsp;
+            </th>
+            <th style="display: none;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {    
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartName)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.PartCost)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.PartStdPrice)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.PartMemberPrice)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.PartAddonStdPrice)
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => item.PartAddonMemberPrice)
+            </td>
+            <td style="display: none;">
+                @Html.HiddenFor(modelItem => item.PartID)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<div style="height: 50px; text-align: center;">
+    <input type="button" class="submitchange" value="Submit Change" style="margin-top: 10px" /><span class="loaddiv"></span>
+    <input type="hidden" name="codeid" id="codeid" value="@ViewBag.codeid" />
+    <input type="hidden" name="pricebookid" id="pricebookid" value="@ViewBag.PriceBookId" />
+    <input type="hidden" name="tlevel" id="tlevel" value="@ViewBag.tlevel" />
+</div>
+}
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        $('#laborlist').dataTable({
+            "bJQueryUI": true,
+            "bPaginate": false,
+            "bProcessing": true,
+            "sScrollX": "100%",
+            "sDom": 'T<"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"<"top-toolbar"if>r>t<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"p>',
+            "oTableTools": {
+                "sSwfPath": "Areas/PriceBook/Content/media/swf/copy_cvs_xls_pdf.swf",
+                "aButtons": [
+                    {
+                        "sExtends": "pdf",
+                        "sButtonClassHover": "rbuttonself",
+                        "sButtonClass": "rbuttonself"
+                    },
+                    {
+                        "sExtends": "csv",
+                        "sButtonClassHover": "buttonself",
+                        "sButtonClass": "buttonself"
+                    },
+                    {
+                        "sExtends": "xls",
+                        "sButtonClassHover": "buttonself",
+                        "sButtonClass": "buttonself"
+                    },
+                    {
+                        "sExtends": "copy",
+                        "sButtonClassHover": "buttonself",
+                        "sButtonClass": "buttonself"
+                    },
+                    {
+                        "sExtends": "print",
+                        "sButtonClassHover": "lbuttonself",
+                        "sButtonClass": "lbuttonself"
+                    }
+                ]
+            }
+        });
+
+        $(".submitchange").click(function () {
+            var oTable = $('#laborlist').dataTable();
+
+            if (oTable.fnGetData().length > 0) {
+                prettyPrompt({
+                    title: "Submit Change",
+                    message: "This will make price adjustments to <no> jobcodes. Are you sure?",
+                    onOkay: function () {
+                        $(".loaddiv").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+                        $(".submitchange").attr("disabled", true);
+                        var form = $('#laborFrm');
+
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: form.attr('method'),
+                        data: form.serialize(),
+                        success: function (result) {
+                            $(".resultmsg").text("Submitted Successfully!");
+                            $(".resultmsg").fadeOut(2500, "linear");
+
+                            $(".loaddiv").empty();
+                            $(".submitchange").attr("disabled", false);
+
+                            var cid = $("#JobCodeID").val();
+                            if (cid != null) {
+                                $("#taskdetail").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+                                $("#taskdetail").load('@Url.Action("TaskDetail")' + '/' + cid);
+                            }
+
+                                //$('#searchFrm').submit();
+                            }
+                        });
+                    }
+                });
+            } else {
+                alert("No data available in table");
+            }
+        });
+    });
+
+</script>

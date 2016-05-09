@@ -1,0 +1,46 @@
+﻿@model Plumber.Models.Testimonial
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    Details</h2>
+<fieldset>
+    <legend>Testimonial details</legend>
+    <div class="display-label">
+        <strong>Title</strong></div>
+    <div class="display-field">
+        <p>@Html.DisplayFor(model => model.Title)</p>
+    </div>
+    @if (!string.IsNullOrEmpty(Model.Content))
+    {
+        <div class="display-label">
+            <strong>Content</strong></div>
+        <div class="display-field">
+            @Html.Raw(Model.Content)
+        </div>
+    }
+    @if (Model.MediaType.HasValue)
+    {
+        <div class="display-field">
+            @if (Model.MediaType.Value == 1)
+            { <strong>Audio file</strong><br />
+                <audio controls="controls">
+                    <source src="@Url.Content(Model.MediaPath)" type="@( "audio/" + Model.MediaExtension.MediaExtensionName)" />
+                    Your browser does not support the audio element, <a href="@Url.Content(Model.MediaPath)">play it in an external player.</a>
+                </audio>
+            }
+            else if (Model.MediaType.Value == 2)
+            { <strong>Video file</strong><br />
+                <video width="320" height="240" controls="controls">
+                    <source src="@Url.Content(Model.MediaPath)" type="@( "video/" + Model.MediaExtension.MediaExtensionName)" />
+                    Your browser does not support the video tag, <a href="@Url.Content(Model.MediaPath)">play it in an external player.</a>
+                </video>
+            }
+        </div>
+    }
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TestimonialId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

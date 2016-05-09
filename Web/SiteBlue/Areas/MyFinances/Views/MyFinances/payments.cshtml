@@ -1,0 +1,396 @@
+﻿@using SiteBlue.Areas.OwnerPortal.Models;
+@using SiteBlue.Data.EightHundred;
+@{
+ViewBag.Title = "payments";
+}
+
+<html>
+<head><title>Banking Deposits</title>
+<link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+<link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+<script src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+<link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+<link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+<script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+<script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+<script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css" />
+<link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" />
+<script src="../../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+<style>
+.span{width:100%; float:left;margin-top:10px;}
+.sapn1{width:20%; float:left; font-weight:bold;}
+.sapn2{width:80%; text-align:right;}
+</style>
+<script type="text/javascript">
+    function goback() {
+
+        //window.history.back();
+        var iJobId = getUrlVars()["jobid"];
+        window.location.href = "../Invoice/InvoiceDetails?JobId=" + iJobId;
+    }
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+    function CloseWindow() {
+        window.opener.location.reload();
+        window.close();
+    }
+    function doOnRowselect(rId, cInd) {
+        document.getElementById("txtdate").value = mygrid1.cellById(rId, 0).getValue();
+        var e = document.getElementById("ddlpayment");
+        if (mygrid1.cellById(rId, 1).getValue() != "N/A") {
+            if (mygrid1.cellById(rId, 1).getValue() == "Cash")
+                document.getElementById("ddlpayment").value = 1;
+            if (mygrid1.cellById(rId, 1).getValue() == "Check")
+                document.getElementById("ddlpayment").value = 2;
+            if (mygrid1.cellById(rId, 1).getValue() == "Visa")
+                document.getElementById("ddlpayment").value = 3;
+            if (mygrid1.cellById(rId, 1).getValue() == "Mastercard")
+                document.getElementById("ddlpayment").value = 4;
+            if (mygrid1.cellById(rId, 1).getValue() == "American Express")
+                document.getElementById("ddlpayment").value = 5;
+            if (mygrid1.cellById(rId, 1).getValue() == "Discover")
+                document.getElementById("ddlpayment").value = 6;
+            if (mygrid1.cellById(rId, 1).getValue() == "Bill To")
+                document.getElementById("ddlpayment").value = 7;
+        } else {
+            e.options[e.selectedIndex].text = "";
+        }
+
+
+        document.getElementById("txtdriverlic").value = mygrid1.cellById(rId, 2).getValue();
+        document.getElementById("txtcheckno").value = mygrid1.cellById(rId, 3).getValue();
+        document.getElementById("txtamount").value = mygrid1.cellById(rId, 4).getValue().replace("$", "").replace(",", "");
+        document.getElementById("hdnpaymentid").value = mygrid1.cellById(rId, 5).getValue();
+
+        document.getElementById("UpdateButton").style.display = "block";
+        document.getElementById("DeleteButton").style.display = "block";
+        document.getElementById("NewButton").style.display = "block";
+        document.getElementById("SaveButton").style.display = "none";
+        document.getElementById("CancelButton").style.display = "none";
+
+        $("#ddlpayment").removeAttr("disabled");
+        $("#txtdriverlic").removeAttr("disabled");
+        $("#txtcheckno").removeAttr("disabled");
+        $("#txtamount").removeAttr("disabled");
+        $("#txtdate").removeAttr("disabled");
+    }
+    function LoadPaymentList() {
+        
+        myCalendar = new dhtmlXCalendarObject(["txtdate"]);
+        myCalendar.setWeekStartDay(7);
+        myCalendar.setDateFormat("%m/%d/%Y");
+
+        var xmlstring = "";
+        var iJobId = getUrlVars()["jobid"];
+        
+        var xmlstring1 = "";
+        document.title = iJobId;
+
+        var jid = { jobid: iJobId };
+        document.getElementById("PaymentgifId").style.display = "block";
+        document.getElementById("txttotal").value = "";
+        var total = 0;
+        var jsondata = $.ajax({
+            url: "/MyFinances/MyFinances/PaymentList/",
+            data: JSON.stringify(jid),
+            contentType: "application/json; charset=utf-8",
+            success: function (msg) {
+                mygrid1 = new dhtmlXGridObject('gridbox');
+                mygrid1.setImagePath("../../../../codebase/imgs/");
+                mygrid1.setHeader("Date,Payment Type,Drivers Lic.#,Check#/Ref#,Amount,Payment ID", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+                mygrid1.setInitWidths("150,150,150,150,150,150");
+                mygrid1.setColAlign("center,left,right,center,right,right");
+                mygrid1.setColTypes("ed,ed,ed,ed,ed,ed");
+                mygrid1.setColSorting("str,str,str,str,str,str");
+                mygrid1.enableEditEvents(false, false, false, false, false, false);
+                mygrid1.attachEvent("onRowSelect", doOnRowselect);
+                mygrid1.init();
+                mygrid1.setSkin("dhx_skyblue");
+                mygrid1.setDateFormat("%Y-%m-%d %H:%i");
+                
+
+                var d = msg;
+
+                xmlstring = xmlstring + "<rows>";
+                $.each(d, function (index, Pay_ments) {
+
+                    xmlstring = xmlstring + "<row id='" + index + "'>";
+                    xmlstring = xmlstring + "<cell><![CDATA[" + Pay_ments.paydate + "]]></cell>";
+                    xmlstring = xmlstring + "<cell><![CDATA[" + Pay_ments.paytype + "]]></cell>";
+                    if (Pay_ments.paydrivelicno == null) {
+                        xmlstring = xmlstring + "<cell><![CDATA[</cell>";
+                    } else {
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Pay_ments.paydrivelicno + "]]></cell>";
+                    }
+                    if (Pay_ments.paycheckno == null || Pay_ments.paycheckno == "null") {
+                        xmlstring = xmlstring + "<cell><![CDATA[</cell>";
+                    }
+                    else {
+                        xmlstring = xmlstring + "<cell><![CDATA[" + Pay_ments.paycheckno + "]]></cell>";
+                    }
+
+                    xmlstring = xmlstring + "<cell><![CDATA[" + Pay_ments.payamt + "]]></cell>";
+                    xmlstring = xmlstring + "<cell><![CDATA[" + Pay_ments.paymentid + "]]></cell>";
+                    xmlstring = xmlstring + "</row>";
+                    document.getElementById("txttotal").value = Pay_ments.paytotal;
+                });
+                xmlstring = xmlstring + "</rows>";
+                mygrid1.clearAll();
+                mygrid1.loadXMLString(xmlstring);
+
+                document.getElementById("PaymentgifId").style.display = "none";
+            },
+            type: "POST",
+            dataType: "json",
+            error: function (e) {
+
+            }
+        });
+
+        
+
+              
+
+        $("#txtamount").keydown(function (event) {
+            var e = event || evt; // for trans-browser compatibility
+            var charCode = e.which || e.keyCode;
+
+            if ((charCode < 47 || charCode > 57) && (charCode < 96 || charCode > 105) && (charCode != 190) && (charCode != 110) && (charCode != 8)) {
+                //alert("Only numbers are allowed in this field.");
+                return false;
+            }
+
+            return true;
+        });
+    }
+
+    function DisableButtononClick(command) {
+        var bln = false;
+
+        if (command == "New") {
+            document.getElementById("SaveButton").style.display = "block";
+            document.getElementById("CancelButton").style.display = "block";
+            document.getElementById("NewButton").style.display = "none";
+            document.getElementById("UpdateButton").style.display = "none";
+            document.getElementById("DeleteButton").style.display = "none";
+
+            document.getElementById("txtdate").value = "";
+            document.getElementById("ddlpayment").value = "";
+            document.getElementById("txtdriverlic").value = "";
+            document.getElementById("txtcheckno").value = "";
+            document.getElementById("txtamount").value = "";
+            document.getElementById("hdnpaymentid").value == "";
+            $("#ddlpayment").removeAttr("disabled");
+            $("#txtdriverlic").removeAttr("disabled");
+            $("#txtcheckno").removeAttr("disabled");
+            $("#txtamount").removeAttr("disabled");
+            $("#txtdate").removeAttr("disabled");
+        }
+        if (command == "Update" || command == "Submit") {
+            if (document.getElementById("txtdate").value == "") {
+                alert("Enter Date");
+            }
+            else if (document.getElementById("ddlpayment").value == "") {
+                alert("Select Payment Type");
+            }
+            else if (document.getElementById("txtamount").value == "") {
+                alert("Enter Amount");
+            }
+            else {
+                bln = true;
+            }
+        }
+        if (command == "Clear") {
+            document.getElementById("SaveButton").style.display = "none";
+            document.getElementById("CancelButton").style.display = "none";
+            document.getElementById("NewButton").style.display = "block";
+            document.getElementById("hdnpaymentid").value == "";
+            document.getElementById("ddlpayment").setAttribute("disabled", "true");
+            document.getElementById("txtdriverlic").setAttribute("disabled", "true");
+            document.getElementById("txtcheckno").setAttribute("disabled", "true");
+            document.getElementById("txtamount").setAttribute("disabled", "true");
+            document.getElementById("txtdate").setAttribute("disabled", "true");
+            bln = false;
+        }
+        if (command == "Delete") {
+
+            if (document.getElementById("hdnpaymentid").value == "") {
+                alert("Please Select Row");
+            }
+            else {
+                var flag;
+                flag = confirm("Are you sure you want to delete the selected payment of ?")
+                if (flag == true) {
+                    bln = true;
+                }
+
+            }
+
+        }
+
+        if (bln == true) {
+            var txtdate = document.getElementById("txtdate").value;
+            var txtpay = document.getElementById("ddlpayment").value;
+            var txtdrive = document.getElementById("txtdriverlic").value;
+            var txtcheck = document.getElementById("txtcheckno").value;
+            var txtamt = document.getElementById("txtamount").value;
+            var paymentid = document.getElementById("hdnpaymentid").value;
+            document.getElementById("PaymentgifId").style.display = "block";
+
+            var param = { payid: paymentid, cmd: command, JobId: getUrlVars()["jobid"], Paydate: txtdate, PayType: txtpay, DriveLic: txtdrive, Checkno: txtcheck, PayAmount: txtamt };
+
+            var jsata = $.ajax({
+                url: "/MyFinances/MyFinances/PaymentProcess/",
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    if (command == "Submit") {
+                        alert("Record save successfully.");
+                    } else if (command == "Update") {
+                        alert("Record update successfully.");
+                    }
+                    else if (command == "Delete") {
+                        alert("Record delete successfully.");
+                    }
+                    //                                        window.location.reload();
+                    LoadPaymentList();
+                    document.getElementById("txtdate").value = "";
+                    document.getElementById("ddlpayment").value = "";
+                    document.getElementById("txtdriverlic").value = "";
+                    document.getElementById("txtcheckno").value = "";
+                    document.getElementById("txtamount").value = "";
+                    document.getElementById("ddlpayment").setAttribute("disabled", "true");
+                    document.getElementById("txtdriverlic").setAttribute("disabled", "true");
+                    document.getElementById("txtcheckno").setAttribute("disabled", "true");
+                    document.getElementById("txtamount").setAttribute("disabled", "true");
+                    document.getElementById("txtdate").setAttribute("disabled", "true");
+                    document.getElementById("SaveButton").style.display = "none";
+                    document.getElementById("CancelButton").style.display = "none";
+                    document.getElementById("NewButton").style.display = "block";
+                    document.getElementById("UpdateButton").style.display = "none";
+                    document.getElementById("DeleteButton").style.display = "none";
+                    
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+
+                }
+            });
+            document.getElementById("PaymentgifId").style.display = "none";
+            bln = false;
+            document.getElementById("hdnpaymentid").value = "";
+        }
+
+    }
+
+        
+
+    </script>
+</head>
+<body onload="LoadPaymentList();" style=" margin: 0px; background-color: rgb(213, 241, 255);">
+
+    @Html.Hidden("hdnpaymentid")
+<div style="width:100%; float:left; font-family:Verdana;margin-top:10px; ">
+    <div style="width: 15%; float: left;">
+        <div style="float: left; font-family: Verdana; margin-left: 2%; margin-top: 2px;  padding-bottom: 11px;">
+            <span style="width: 30%; float: left; font-weight: bold;"><a href="@Url.Content("~/MyFinances/MyFinances/SampleInvoice")" style="color:#4C7ECD;">
+                Back</a></span>
+            <br />
+            <br />
+            <span style="width: 100%; float: left; font-weight: bold;">
+            <a href="javascript:DisableButtononClick('Submit');" id="SaveButton" style="color: #4C7ECD;display: none;">Submit</a>
+            </span>
+            <br />
+            <br />
+            <span style="float: left; font-weight: bold; width: 100%; ">
+            <a href="javascript:DisableButtononClick('Clear');" id="CancelButton" style="color: #4C7ECD;display: none;">Clear</a>
+            </span>
+            <br />
+            <br />
+            <span style="float: left; font-weight: bold; width: 100%;">
+            <a href="javascript:DisableButtononClick('New');" id="NewButton"  style="color: #4C7ECD;">New</a></span>
+            <br />
+           <br />
+            <span style="float: left; font-weight: bold; width: 100%; ">
+            <a  href="javascript:DisableButtononClick('Update');" id="UpdateButton" style="color: #4C7ECD;display: none;">Update</a>
+            </span>
+            <br />
+            <br />
+            <span style="float: left; font-weight: bold; width: 100%; ">
+            <a href="javascript:DisableButtononClick('Delete');" id="DeleteButton" style="color: #4C7ECD;display: none;">Delete</a>
+            </span>
+            
+            
+        </div>
+       
+    </div>
+     <img id="PaymentgifId" src="../../../../Images/ajax-loader.gif" alt="processing..." />
+<div style="width:80%;float:left;">
+<div style="float:left;width:100%">
+<div style="float:left;margin-top: 16px;">
+Date
+<div>
+@*<select><option>12/29/2011</option></select>*@
+@Html.TextBox("txtdate", null, new { @class = "calendar", @readonly = "readonly", @disabled = "disabled" })
+</div>
+</div>
+<div style="float:left;margin-top: 16px; margin-left: 25px;">
+Payment Type
+<div>
+@*<select style="width: 115px;"><option>Payment Type</option><option>Payment Type2</option></select>*@
+@Html.DropDownList("ddlpayment", (new SelectList((List<tbl_Payment_Types>)ViewBag.PaymentTypeList, "PaymentTypeId", "PaymentType",(string)ViewBag.paymentid)), new { @disabled = "disabled" })
+
+</div>
+</div>
+<div style="float:left;margin-top: 16px;margin-left: 25px;">
+Drivers Lic. #
+<div>
+@Html.TextBox("txtdriverlic", "", new { @disabled = "disabled" })
+</div>
+</div>
+<div style="float:left;margin-top: 16px;margin-left: 25px;">
+Check#/Ref#
+<div>
+ @Html.TextBox("txtcheckno", "", new { @disabled = "disabled" })
+</div>
+</div>
+<div style="float:left;margin-top: 16px;margin-left: 25px;">
+Amount
+<div>
+@Html.TextBox("txtamount", "", new { @disabled = "disabled" })
+</div>
+</div>
+
+</div>
+<div style="float:left;width:100%">
+<div id="gridbox" style="float: left; height: 257px; width: 752.1px; margin-top: 5px;">
+
+</div>
+</div>
+<div style="float:left;margin-top: 16px;margin-left: 569px;">
+
+<div>
+@*Total:<input type="text" value="382.00" style="text-align:right" />*@
+Total: &nbsp;&nbsp;&nbsp;<input type="text" id="txttotal" />
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

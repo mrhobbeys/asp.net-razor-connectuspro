@@ -1,0 +1,261 @@
+﻿@model IEnumerable<SiteBlue.Questionnaire.Data.QuestionnaireInformation>
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@section Scripts{
+    <script src="../../../../Content/themes/DhtmlX/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../Content/themes/DhtmlX/grid/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../Content/themes/DhtmlX/grid/dhtmlxgrid_start.js" type="text/javascript"></script>
+    <script src="../../../../Content/themes/DhtmlX/grid/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../Content/themes/DhtmlX/grid/excells/dhtmlxgrid_excell_sub_row.js" type="text/javascript"></script>
+    <script src="../../../../Content/themes/DhtmlX/grid/ext/dhtmlxgrid_rowspan.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <link href="../../../../Content/themes/DhtmlX/grid/dhtmlxgrid.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../../../../Content/themes/DhtmlX/grid/dhtmlxgrid_skins.css" rel="stylesheet"
+        type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/grid/skins/dhtmlxgrid_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+}
+@section Styles{
+    <style type="text/css">
+        .headerTag
+        {
+            text-align: center;
+            font-weight: bold;
+        }
+        .data-table th
+        {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+}
+<h1>
+    Questionnaire List
+</h1>
+@{
+    SiteBlue.Questionnaire.Data.QuestionnaireContext db = new SiteBlue.Questionnaire.Data.QuestionnaireContext();
+    var technicians = db.TechnicianInformation.ToList();
+}
+<p>
+    @*To view Owner Information details, click into the "Name" link, to view Business
+    Information details, click into "Cell Phone" link.*@
+</p>
+<p>
+    <input id="btnRTExcel" type="button" value="Export to Excel" />
+</p>
+<div id="gridbox"  style="width: 100%; height: 450px; background-color: white; overflow: hidden;"></div>
+<div id="subgridbox"></div>
+<p>
+    
+</p>
+<script type="text/javascript">
+    $(document).ready(function () { // 1, 1, 6, 31, 16
+    
+        var subgrid = new dhtmlXGridObject("subgridbox");
+        subgrid.setImagePath("../../../../codebase/imgs/");
+        subgrid.setSkin("dhx_skyblue");
+
+        mygrid = new dhtmlXGridObject('gridbox');
+        mygrid.setImagePath("../../../../codebase/imgs/");
+        mygrid.setSkin("dhx_skyblue");
+
+        var xml = '<rows>' +
+            '<head>' +
+                '<column width="20" type="sub_row" align="left"></column>' +
+                '<column width="100" type="co" align="center" sort="str">User Name</column>' +
+                '<column width="100" type="co" align="center" sort="str">Name</column>' +
+                '<column width="150" type="co" align="center" sort="str">Business Name</column>' + 
+                '<column width="200" type="co" align="center" sort="str">Address</column>' +
+                '<column width="100" type="co" align="center" sort="str">Cell Phone</column>' +
+                '<column width="100" type="co" align="center" sort="str">Home Phone</column>' +
+                '<column width="150" type="co" align="center" sort="str">Email</column>' +
+                '<column width="100" type="co" align="center" sort="str">Cell Phone</column>' +
+                '<column width="150" type="co" align="center" sort="str">Office Phone</column>' +
+                '<column width="100" type="co" align="center" sort="str">Website</column>' +
+                '<column width="100" type="co" align="center" sort="str">Service</column>' +
+                '<column width="100" type="co" align="center" sort="str">Commercial</column>' +
+                '<column width="100" type="co" align="center" sort="str">Installation</column>' +
+                '<column width="100" type="co" align="center" sort="str">Sales</column>' +
+                '<column width="100" type="co" align="center" sort="str">Service</column>' +
+                '<column width="100" type="co" align="center" sort="str">Commercial</column>' +
+                '<column width="100" type="co" align="center" sort="str">Installation</column>' +
+                '<column width="100" type="co" align="center" sort="str">Sales</column>' +
+                '<column width="100" type="co" align="center" sort="str">GPS</column>' +
+                '<column width="100" type="co" align="center" sort="str">GPS System</column>' +
+                '<column width="100" type="co" align="center" sort="str">Estimators</column>' +
+                '<column width="150" type="co" align="center" sort="str">Start Hours</column>' +
+                '<column width="150" type="co" align="center" sort="str">End hours</column>' +
+                '<column width="150" type="co" align="center" sort="str">Start Hours</column>' +
+                '<column width="150" type="co" align="center" sort="str">End hours</column>' +
+                '<column width="150" type="co" align="center" sort="str">Start Hours</column>' +
+                '<column width="150" type="co" align="center" sort="str">End hours</column>' +
+                '<column width="150" type="co" align="center" sort="str">Service Trip Fees</column>' +
+                '<column width="150" type="co" align="center" sort="str">Technicians Availability</column>' +
+                '<column width="200" type="co" align="center" sort="str">Additional Details</column>' +
+                '<column width="200" type="co" align="center" sort="str">After Hours/Holidays Fees</column>' +
+                '<column width="200" type="co" align="center" sort="str">Phone Answer</column>' +
+                '<column width="200" type="co" align="center" sort="str">Flate Rate/Time and Material</column>' +
+                '<column width="150" type="co" align="center" sort="str">Do Warranty Work</column>' +
+                '<column width="150" type="co" align="center" sort="str">Do Offer Service Plans</column>' +
+                '<column width="150" type="co" align="center" sort="str">Service Plan Discount</column>' +
+                '<column width="150" type="co" align="center" sort="str">Receive Maintenance Visits</column>' +
+                '<column width="150" type="co" align="center" sort="str">Pay Trip Changes</column>' +
+                '<column width="200" type="co" align="center" sort="str">Current Accounting Software</column>' +
+                '<column width="200" type="co" align="center" sort="str">For How Long have you been using it</column>' +
+                '<column width="150" type="co" align="center" sort="str">Last Completed Month</column>' +
+                '<column width="150" type="co" align="center" sort="str">Plan Using Quickbooks</column>' +
+                '<column width="150" type="co" align="center" sort="str">Fiscal Year End</column>' +
+                '<column width="200" type="co" align="center" sort="str">Standard Calendar Month/Retail Period</column>' +
+                '<column width="200" type="co" align="center" sort="str">Last Fully Reconcilied Bank Date</column>' +
+                '<column width="250" type="co" align="center" sort="str">Last Fully Reconcilied/Closed Month End</column>' +
+                '<column width="250" type="co" align="center" sort="str">Transition To Quickbooks Manager Name</column>' +
+                '<column width="300" type="co" align="center" sort="str">Transition To Quickbooks Manager Phone Number</column>' +
+                '<column width="150" type="co" align="center" sort="str">Accounting Knowledge Rate</column>' +
+                '<column width="150" type="co" align="center" sort="str">Financial Transition Record</column>' +
+                '<column width="200" type="co" align="center" sort="str">Familiar with Chart of Accounts</column>' +
+                '<column width="200" type="co" align="center" sort="str">Familiar with General Journal Entries</column>' +
+                '<column width="150" type="co" align="center" sort="str">Do Use Software Add-ons</column>' + 
+                '<column width="150" type="co" align="center" sort="str">ACH Withdrawals</column>' +
+                '<afterInit>' + //Actions, // Actions, // #rspan,
+                '<call command="attachHeader"><param>,User Information,Owner Information,#cspan,#cspan,#cspan,#cspan,#cspan,Business Information,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,Accounting Information,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan</param></call>' +
+                '<call command="attachHeader"><param>#rspan,User Name,Name,Business Name,Address,Cell Phone,Home Phone,Email,Cell Phone,Office Phone,Website,Trucks Number,#cspan,#cspan,#cspan,Technician Number,#cspan,#cspan,#cspan,GPS,GPS System,Estimators,Monday - Friday,#cspan,Saturday,#cspan,Sunday,#cspan,Service Trip Fee,Technicians Availability,Additional Details,After Hours/Holidays Fees,Phone Answer,Flate Rate/Time and Material,Do Warranty Work,Do Offer Service Plans,Service Plan Discount,Receive Maintenance Visits,Pay Trip Changes,Current Accounting Software,For How Long have you been using it,Last Completed Month,Plan Using Quickbooks,Fiscal Year End,Standard Calendar Month/Retail Period,Last Fully Reconcilied Bank Date,Last Fully Reconcilied/Closed Month End,Transition To Quickbooks Manager Name,Transition To Quickbooks Manager Phone Number,Accounting Knowledge Rate,Financial Transition Record,Familiar with Chart of Accounts,Familiar with General Journal Entries,Do Use Software Add-ons,ACH Withdrawals</param></call>' +
+                '<call command="attachHeader"><param>#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,Service,Commercial,Installation,Sales,Service,Commercial,Installation,Sales,#rspan,#rspan,#rspan,Start Hours,End hours,Start Hours,End hours,Start Hours,End hours,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan</param></call>' +
+                '</afterInit>' +
+            '</head>' +
+                @foreach (var row in Model)
+                {
+                    <text>
+                        '<row id="@row.QuestionnaireId" style="background-color:#FFF1CC;">'+
+                        '<cell align="left"><![CDATA[Details: @Html.ActionLink("Owner Information", "OwnerInformation", "ManageQuestionnaire", new { area = "Admin", id = row.OwnerInformationId }, null) | @Html.ActionLink("Business Information", "BusinessInformation", "ManageQuestionnaire", new { area = "Admin", id = row.BusinessInformationId }, null) | @Html.ActionLink("Accounting Information", "AccountingInformation", "ManageQuestionnaire", new { area = "Admin", id = row.AccountingInformationId }, null)]]></cell>'+
+                        //'<cell><![CDATA[' + my_grid.LoadXML("<tech><name>Anis</name><phone>555-565-5432</phone></tech>") + ']]></cell>' +
+                        //'<cell><![CDATA[@Url.Content("~/common/grid2.xml")]]></cell>' +
+                        '<cell align="left"><![CDATA[@row.UserName]]></cell>'+
+                        // Owner Information
+                        '<cell align="left"><![CDATA[@row.FirstName @row.LastName]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.BusinessName]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.OIHomeAddress != null ? row.OIHomeAddress.Replace("\r\n", " ") : "") @row.OIZipCode @row.OICity]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.OICellPhone]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.OIHomePhone]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.OIEmail]]></cell>'+
+                        // Business Information
+                        '<cell align="left"><![CDATA[@row.CellPhone]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.OfficePhone]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.Website]]></cell>'+
+                        '<cell align="center"><![CDATA[@row.TrucksService]]></cell>'+
+                        '<cell align="center"><![CDATA[@row.TrucksCommercial]]></cell>'+
+                        '<cell align="center"><![CDATA[@row.TrucksInstallation]]></cell>'+
+                        '<cell align="center"><![CDATA[@row.TrucksSales]]></cell>'+
+                        '<cell align="center"><![CDATA[@row.TechniciansService]]></cell>'+
+                        '<cell align="center"><![CDATA[@row.TechniciansCommercial]]></cell>'+
+                        '<cell align="center"><![CDATA[@row.TechniciansInstallation]]></cell>'+
+                        '<cell align="center"><![CDATA[@row.TechniciansSales]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.GPS == true ? "Yes" : "No")]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.GPSSystemId == 1 ? row.OtherGPSSystem : row.GPSSystemName)]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.Estimators]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.MondayFridayST]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.MondayFridayET]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.SaturdayST]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.SaturdayET]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.SundayST]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.SundayET]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.ServiceTripFees == true ? row.ServiceTripFeesDescription.Replace("  ", "") : "No")]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.TechniciansAvailabilityNights == true ? "Nights," : "") @(row.TechniciansAvailabilityWeekend == true ? "Weekend," : "") @(row.TechniciansAvailabilityHolidays == true ? "Holidays." : "")]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.AdditionalDetails]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.AfterHoursHolidaysFees == true ? row.AfterHoursHolidaysFeesDescription : "")]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.ServiceCenterAgentsAnswer != null ? row.ServiceCenterAgentsAnswer.Replace("\r\n", " ") : "")]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.FlateRate == true ? "Flate Rate," : "") @(row.TimeAndMaterial == true ? "Time and Material." : "")]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.DoWarrantyWork == true ? "Yes" : "No")]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.ServicePlansOffer == true ? "Service Name: " + row.ServicePlanName + " - Plan Description: " + (row.ServicePlanComment != null ? row.ServicePlanComment.Replace("\r\n", "") : " ") : "No")]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.ServicePlanMembersDiscount]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.ServicePlanMembersMaintenance == true ? "Yes, " + row.ServicePlanMembersTime : "No")]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.ServicePlanPayTrip == true ? "Yes" : "No")]]></cell>'+
+                        // Accounting Information
+                        '<cell align="left"><![CDATA[@row.CurrentAccountingSoftware]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.CurrentAccountingSoftwareUsingTime]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.LastCompletedDate]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.UseQuickBooks]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.FiscalYearEnd]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.CalendarType @row.OtherCalendarType]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.ReconciledBankDate != null ? row.ReconciledBankDate.Value.ToShortDateString() : "")]]></cell>'+
+                        '<cell align="left"><![CDATA[@(row.ReconsiledClosedMonthEnd != null ? row.ReconsiledClosedMonthEnd.Value.ToShortDateString() : "")]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.QuickBooksTransitionName]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.QuickBooksTransitionPhone]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.AccountingKnowledgeRate]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.FinancialTransactionRecord @row.OtherFinancialTransactionRecord]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.AccountsChart]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.GeneralJourneyEntries]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.AccountingSystemAddons @row.AccountingSystemAddonsList]]></cell>'+
+                        '<cell align="left"><![CDATA[@row.AchWithdrawls]]></cell>'+
+                        '</row>'+
+//                        // Details grid
+                        @{
+                    var techniciansByQuestionnaire = technicians.Where(t => t.QuestionnaireId == row.QuestionnaireId).ToList();
+                    if ((techniciansByQuestionnaire != null) && (techniciansByQuestionnaire.Count > 0))
+                    {
+                                <text>
+                                    '<row style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"))">' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"))"></cell><cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Technician Name</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Birthday</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Address</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Email</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Phone Number</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Plumbing</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">HVAC</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Years of experience</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Training received</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Technician Bio</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Name</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Phone Number</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Upset Ability Rating</cell>' +
+                                        '<cell style="background-image:url(@Url.Content("~/Content/themes/DhtmlX/grid/imgs/skin_light_header.png"));font-weight:bold" align="left">Regular Daily Schedule</cell>' +
+                                    '</row>' +
+                                </text>
+                        foreach (var technician in techniciansByQuestionnaire)
+                        {
+                                    <text>'<row><cell></cell>' +
+                                        '<cell align="left"><![CDATA[@technician.FirstName @technician.LastName]]></cell>' +
+                                        '<cell align="left"><![CDATA[@(technician.BirthDay.HasValue ? technician.BirthDay.Value.ToShortDateString() : "")]]></cell>' +
+                                        '<cell align="left"><![CDATA[@technician.HomeAddress @technician.HomeZipCode, @technician.HomeCity - @technician.State.StateName]]></cell>' +
+                                        '<cell align="left"><![CDATA[@technician.TechnicianEmail]]></cell>' +
+                                        '<cell align="left"><![CDATA[@technician.TechnicianPhone]]></cell>' +
+                                        '<cell align="left"><![CDATA[@(technician.PlumbingWork == true ? "Yes" : "No")]]></cell>' +
+                                        '<cell align="left"><![CDATA[@(technician.HVACWork == true ? "Yes" : "No")]]></cell>' +
+                                        '<cell align="left"><![CDATA[@technician.PlumbingHVACWorkTime]]></cell>' +
+                                        '<cell align="left"><![CDATA[@technician.TrainingReceived]]></cell>' +
+                                        '<cell align="left"><![CDATA[@(technician.TechnicianBio != null ? technician.TechnicianBio.Replace("\r\n", " ") : "")]]></cell>' +
+                                        '<cell align="left"><![CDATA[@technician.EmergencyContactName]]></cell>' +
+                                        '<cell align="left"><![CDATA[@technician.EmergencyContactPhone]]></cell>' +
+                                        '<cell align="left"><![CDATA[@technician.Level.LevelName]]></cell>' +
+                                        '<cell align="left"><![CDATA[@(technician.RegularSchedule != null ? technician.RegularSchedule.Replace("\r\n", " ") : "")]]></cell>' +
+                                        '</row>' +
+                                    </text>
+                        }
+                    }
+                        }
+//                        '<row id="details_@row.QuestionnaireId">' +
+//                        '<cell></cell>' +
+//                        '<cell align="left" colspan="19"><![CDATA[' +
+//                            '<table class="dhtmlxGrid" style="width:100%">' +
+//                                '<tr style="height:25px"><th colspan="2">Contact Information</th><th colspan="3">Address</th><th colspan="2">Contact</th><th colspan="5">Plumping/HVAC</th><th colspan="4">Technician Emergency Contact</th></tr>' +
+//                                '<tr style="height:25px"><th style="width="150px">Technician Name</th><th style="width="100px">Birthday</th><th style="width="200px">Home Address</th><th style="width="100px">City</th><th style="width="50px">State</th><th style="width="150px">Email</th><th style="width="100px">Cell Phone</th><th style="width="100px">Does Plumbing</th><th style="width="100px">Does HVAC</th><th style="width="100px">Years of experience</th><th style="width="200px">Training Received</th><th style="width="200px">Technician Bio</th><th style="width="150px">Contact Name</th><th style="width="100px">Contact Phone</th><th style="width="150px">Upsell Ability Training</th><th style="width="150px">Regular Daily Schedule</th></tr>' +
+//                            '</table>' +
+//                        ']]></cell>' +
+//                        '<cell align="left" colspan="35">Other details</cell>' +
+//                        '</row>' +
+                    </text>
+                }
+        '</rows>';
+
+        mygrid.enableRowspan();
+        mygrid.enableColSpan(true);
+        mygrid.parse(xml);
+        mygrid.detachHeader(0);
+
+        $("#btnRTExcel").click(function () {
+            mygrid.toExcel('@Url.Content("~/ManageQuestionnaire/ExportToExcel")');
+        });
+
+    });
+
+</script>

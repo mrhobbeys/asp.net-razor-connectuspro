@@ -1,0 +1,84 @@
+﻿@model Plumber.Models.CareerApplication
+
+@{
+    ViewBag.Title = "ApplicationDetails";
+}
+@section Meta{
+    <title>Heating Air Conditioning, Emergency Plumbing Repair Service, Drain Cleaning</title>
+    <meta name="description" content="1-800-PLUMBER offers 24 hour emergency plumbing services, electrical repair, drain cleaning and heating air conditioning repairing service in United States and Canada." />
+    <meta name="keywords" content="plumbing services,heating air conditioning,emergency plumbing service,plumbing repair,drain cleaning,24 hour plumbing service,electrical repair" />
+}
+
+<h2>Application Details</h2>
+
+<fieldset>
+    <legend><b>Contact Information</b></legend>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.FirstLastName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FirstLastName)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Address)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.City)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.City)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.State)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.State)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Zip)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Zip)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Phone)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Phone)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.MobilePhone)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MobilePhone)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.Email)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+</fieldset>
+<fieldset>
+    <legend><b>Applicant profile</b></legend>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.PositionDesired)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PositionDesired)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.ExperienceYears)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ExperienceYears)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.PlumbingLicense)</div>
+    <div class="display-field">
+        @(Model.PlumbingLicense.HasValue && Model.PlumbingLicense.Value == true ? "Yes" : "No")
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.DesiredSalary)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DesiredSalary)
+    </div>
+
+    <div class="display-label" style="font-weight: bold">@Html.LabelFor(model => model.BestTimeToContact)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BestTimeToContact)
+    </div>
+</fieldset>

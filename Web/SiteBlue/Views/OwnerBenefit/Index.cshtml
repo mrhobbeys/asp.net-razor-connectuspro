@@ -1,0 +1,73 @@
+﻿@using SiteBlue.Models
+@{
+    ViewBag.Title = "Your Benefit";
+    Layout = "~/Views/Shared/SecondaryLayout.cshtml";
+}
+<article>
+    <section class="col-1">
+        <h2>
+            Your Benefit</h2>
+        <p>
+            With your name and reputation on the line, you need instant access to the information
+            that drives your business. When you don't have to worry about trusting the numbers
+            behind the business, you can start to focus on building your customers trust in
+            the business.</p>
+        <p>
+            How much time do you spend managing your business? How quickly and easily can you
+            access the information critical to your business? Operations data? Technician close
+            rate? Sales by Technician? Up to the minute revenue data? Marketing effectiveness?
+            Inventory reporting?</p>
+        <img src="@Url.Content("~/Content/images/service.jpg")" class="p2" alt="" />
+        <p class="p3">
+            If the answer to any of those questions is that you cannot quickly or easily access
+            that information, then ConnectusPro is the solution for you. ConnectusPro empowers
+            you to grow your business by taking the hassle out of managing your business.
+        </p>
+    </section>
+    <section class="col-2">
+        <h2>
+            The ConnectusPro Advantage</h2>
+        <p>
+            <strong class="yellow">Run your business from the office, the house or the beach with
+                ConnectusPro. By giving you instant access to the information critical to your business,
+                ConnectusPro allows you to spend your time making business decisions, not sifting
+                through notebooks and piles of invoices.</strong>
+        </p>
+        <p>
+            At ConnectusPro, we have developed an advanced system for managing your business
+            which takes time off the back-end and gives it you to run the front-end. With ConnectusPro
+            you will spend far less time crunching the numbers and more time crushing the competition.
+            Key advantages include:</p>
+        <dl class="img-box">
+            <dd>
+                <ul id="listmrk">
+                    <li>Reduction of fixed expenses - reduce or re-orient office staff</li>
+                    <li>Key Performance Indicator tracking - run your business by fact, not feel</a></li>
+                    <li>Phones answered 24/7, nights and weekends, by professionals here in America</a></li>
+                    <li>Marketing referrals tracked so you know which campaign is working</a></li>
+                    <li>Real-Time inventory reports keep you informed</a></li>
+                    <li>Real-Time sales and invoice tracking</a></li>
+                    <li>GPS technology tells you where your technicians are right now</a></li>
+                    <li>Followup customer service calls after each job</a></li>
+                    <li>Accept credit cards on site from customers - jobs closed as they are completed</a></li>
+                    <li>Technology support 24/7 with no upgrade fees</a></li>
+                    <li>Paperless office - access your information anytime, anywhere</a></li>
+                </ul>
+                <br class="clear">
+            </dd>
+        </dl>
+        <p>
+            <strong class="yellow">When you join the ConnectusPro team, you aren't just becoming
+                a more profitable business, you are becoming a better business. We are dedicated
+                to giving you back the time you need to take your business to the place you dreamed
+                of when you first started. </strong>
+        </p>
+        <p>
+            Find out how ConnectusPro can accelerate your business by clicking the button below!</p>
+        <p>
+        </p>
+        @Html.ActionLink("Contact Us Now", "Index", "ContactUs", null, new { @class = "button" })<br class="clear">
+    </section>
+</article>
+@{ ViewData["PageType"] = PageType.Technology; }
+@Html.Partial("Banner", null, ViewData)

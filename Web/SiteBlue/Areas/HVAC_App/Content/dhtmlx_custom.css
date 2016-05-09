@@ -1,0 +1,85 @@
+﻿.dhx_view .p_background
+{
+    background-color: #7F7F7F
+}
+            
+.dhx_view 
+{
+    background-color: transparent;
+}
+
+.dhx_window 
+{
+    background-color: white;
+}
+            
+.dhx_list__item
+{
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+            
+.dhx_slider_label
+{
+    padding:0px;    
+}
+
+.dhx_list__item_selected .itemlist_img_answered,
+.dhx_list__item_selected .itemlist_img_not_answered
+{
+    background-image: url('../../../Areas/hvac_app/Scripts/codebase/imgs/list_group_icon.png');
+    height:22px;
+                
+}
+            
+.dhx_list_item_selected,
+.dhx_list__item_selected
+{
+    background-color: transparent;
+    background: transparent none no-repeat;
+    color: Black;
+    text-shadow: none;
+}
+            
+.dhx_slider_bar 
+{
+    background: #06a4f4;
+}
+            
+.dhx_all_segments div 
+{
+    padding: 0 8px;
+}
+
+.dhx_el_label {
+    line-height: 32px;
+    height: auto;
+}
+
+.dhx_el_label div{
+    padding-top: 5px;
+}
+
+.dhx_radio {
+    float: none;
+    padding: 5px;
+    border-bottom: 1px solid lightGrey;
+}
+.dhx_radio div {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.dhx_inp_radio_border{
+    margin-right: 10px;
+}
+
+.dhx_inp_radio_label {
+    float: none;
+    height: auto;
+}
+
+.inp_counter div {
+    font-weight: bold;
+    font-size: 22px;
+}

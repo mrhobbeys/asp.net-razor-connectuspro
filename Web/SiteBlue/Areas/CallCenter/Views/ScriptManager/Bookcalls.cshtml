@@ -1,0 +1,77 @@
+﻿
+﻿@model IEnumerable<SiteBlue.Data.LookupScript>
+            
+@{
+    ViewBag.Title = "Bookcalls";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+
+@section Styles
+{
+
+ <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/themes/base/style.css")" rel="stylesheet" type="text/css" />
+
+}
+
+@section InlineScript {
+    <script type="text/javascript">
+        var myCalendar;
+        $('document').ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { });
+                });
+</script>
+       }
+
+    <h2 style="padding-left:200px;  font-weight:bold;" >
+    Call center</h2>
+<p style="padding-left:200px;">
+    @Html.ActionLink("Create New", "Create", null, new { @class = "button" })
+    <br />
+</p>
+
+<div id="dialog-confirm"></div>
+<article style="width: 900px; padding-left:200px;">
+    <table class="wizard-table">
+        <tr>
+            <th class="ui-action-links">
+
+            </th>
+            <th class="lookup-phone">
+                Lookup Phone Nr
+            </th>
+            <th class="code">
+                Connectus Code
+            </th>
+            <th class="script">
+                Call Script
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLinkUI(model => item.LookupId, "Edit", "ScriptManager", "CallCenter", "ui-icon-pencil")
+                    @Html.ActionLinkUI(model => item.LookupId, "Details", "ScriptManager", "CallCenter", "ui-icon-note")
+                    @Html.ActionLinkUI(model => item.LookupId, "Delete", "ScriptManager", "CallCenter", "ui-icon-close",
+                     new {
+                            onclick = "return confirm('Are you sure you wish to delete this article?');"
+                     })
+                     <a href="@Url.Action("Incoming", new { id = item.LookupPhoneNr, id2 = ""})" class="ui-corner-all ui-state-default ui-widget actionLinkUI" target="_blank" title="Receive Call">
+                        <span class="ui-icon-star ui-icon">Incoming</span>
+                     </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LookupPhoneNr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConnectusCode)
+                </td>
+                <td>
+                    @Html.Raw(item.CallScript)
+                </td>
+            </tr>
+        }
+    </table>
+</article><br />

@@ -1,0 +1,75 @@
+﻿body
+{
+    background-color: #000000;
+    color: #ffffff;
+    margin: 0;
+    overflow: hidden;
+    font-family: Helvetica;
+    margin: 10px;
+}
+h1
+{
+    font-size: 250%;
+}
+h2
+{
+    font-size: 200%;
+}
+
+#clock
+{
+    display: inline;
+    width: 300px;
+    text-align: center;
+    vertical-align: top;
+}
+#QContainer1, #QContainer2
+{
+    display: inline;
+    text-align: center;
+    vertical-align: top;
+}
+#clock
+{
+    width:600px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    padding-top: 10px;
+    margin-left: -300px;
+
+}
+.sub
+{
+    width: 100%;
+    text-align: left;
+}
+div.sub div.hdg
+{
+    width: 31%;
+    display: inline;
+    font-size: 60%;
+    display: inline;
+    margin-bottom: 10px;
+    border: 1px solid #ffffff;
+    text-align: center;
+    padding: 10px;
+    margin: 5px;
+}
+
+.sub .val
+{
+    display: block;
+    font-size: 250%;
+    text-align: center;
+}
+
+.warm
+{
+    background-color: #ffff00;
+    color: #000000;
+}
+.hot
+{
+    background-color: #ff0000;
+}

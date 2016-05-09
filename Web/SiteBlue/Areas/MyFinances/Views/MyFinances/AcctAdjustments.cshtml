@@ -1,0 +1,148 @@
+﻿@model int
+@if (Model != 0)
+{
+<html>
+<head><title>BankingDeposits</title></head>
+ <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />   
+     <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+<link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+<link href="../../../../codebase/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet"type="text/css" />
+<script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <style type="text/css">
+    .div{
+    width:100%; float:left;
+    
+    }
+    .span{width:100%; float:left;margin-top:10px;}
+.sapn1{width:20%; float:left; font-weight:bold;}
+.sapn2{width:80%; text-align:right;}
+    </style>
+ <script type="text/javascript">
+     var myCalendar = new dhtmlXCalendarObject(["depositDate"]);
+     myCalendar.setWeekStartDay(7);
+     myCalendar.setDateFormat("%m/%d/%Y");
+</script>
+
+
+<body>
+
+<div style="width:100%; float:left;font-size:14px; font-family:Verdana;margin-top:10px;">
+<span style=" font-weight:bold;margin-left:2%">All A/R</span></div>
+<div style="width:100%; float:left;background-color:#D5F1FF;">
+
+<div class="div">
+<div class="div" id="loader" align="center" style="background-color:White;"><img src="../../../../Images/3.gif" alt="Processing........." /></div>
+ <div id="gridbox" style="float: left; height: 200px; width: 98%; margin-top: 5px; margin-left:2%">
+                <script type="text/javascript">
+                    var xmlstring = "";
+                    var xmlstring1 = "";
+                    document.getElementById("loader").style.display = "block";
+
+                    mygrid = new dhtmlXGridObject('gridbox');
+                    mygrid.setImagePath("../../../../codebase/imgs/");
+                    mygrid.setHeader("Invoice#,BillTo,JobLocation,Age,DepositDate,PaymentAmt,Type,Type,Type", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+                    mygrid.setInitWidths("140,140,140,140,140,140,140,140,140");
+                    mygrid.setColAlign("center,center,center,center,center,center,center,center,center");
+                    mygrid.setColTypes("ed,ed,ed,ed,ed,ed,ed,ed,ed");
+                    mygrid.setColSorting("str,str,str,str,str,str,str,str,str");
+                    mygrid.init();
+                    mygrid.setSkin("dhx_skyblue");
+                    mygrid.setDateFormat("%Y-%m-%d %H:%i");
+                    mygrid.loadXML("../../../../common/Account.xml");
+                    document.getElementById("loader").style.display = "none";
+                </script>
+            </div>
+            
+
+
+
+</div>
+
+
+<div style="width:98%; float:left; margin-top:10px; margin-left:2%; ">
+<div style="width:50%; float:left;">
+<span style="width:100%; float:left; margin-top:10px;">
+<span style="width:25%; font-weight:bold;float:left;text-align:right;">Invoice:</span>
+<span style="width:73%; margin-left:2%;float:left;"><input id="invoice" type="text" value="11447" readonly="readonly" /></span>
+</span>
+
+
+<span style="width:100%; float:left; margin-top:10px;">
+<span style="width:25%; font-weight:bold;float:left;text-align:right;">Adjustment Amount:</span>
+<span style="width:73%; margin-left:2%;float:left;"><input id="adjustmentAmount" type="text" value="382.00" readonly="readonly" /></span>
+</span>
+
+
+
+<span style="width:100%; float:left; margin-top:10px;">
+<span style="width:25%; font-weight:bold;float:left;text-align:right;">Adjustment Account:</span>
+<span style="width:73%; margin-left:2%;float:left;">
+<select id="adjustmentAccount" style="Width:160px;">
+<option>Plumbing</option>
+<option>Electric</option>
+<option>HVAC Discount</option>
+<option>Write Off</option>
+</select>
+</span>
+</span>
+
+
+<span style="width:100%; float:left; margin-top:10px;">
+<span style="width:25%; font-weight:bold;float:left;text-align:right;">Adjustment Comments#:</span>
+<span style="width:73%; margin-left:2%;float:left;">
+<textarea id="adjustmentComments" readonly="readonly" cols="45" rows="5">
+Batch notes go here if you want commit about the batch to remember it later
+</textarea>
+</span>
+</span>
+
+
+
+
+
+
+</div>
+
+
+<div style="width:47%; float:left;text-align:right; margin-right:3%; margin-top:150px;px;">
+<span style=" width:100%; float:left;margin-top:10px; text-align:right;">
+<span style="width:20%;font-weight:bold;">Balance:</span>
+<span  style="width:80%; text-align:right;"><input id="balance" type="text" value="$104587.83" readonly="readonly" /></span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+ <div style="width: 98%; float: left; font-family: Verdana;font-weight: bold; margin-left:2%;height:25px; margin-top:20px;">
+                 <a href="@Url.Content("~/MyFinances/MyFinances/AccountsReceivableFunction")" title="Back">Back to Dashboard</a>
+             
+            </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+    }
+else
+{
+    @:<text>No information available</text>
+}

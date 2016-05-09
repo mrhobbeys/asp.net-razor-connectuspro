@@ -1,0 +1,15 @@
+﻿@model Plumber.Models.Management
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Confirm delete</h2>
+
+<h3>Are you sure you want to delete @Model.FirstName @Model.LastName?</h3>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" />
+    </p>
+}

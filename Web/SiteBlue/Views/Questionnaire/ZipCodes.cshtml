@@ -1,0 +1,148 @@
+﻿@model List<SiteBlue.Questionnaire.Data.ZipCode>
+<div class="form" id="zipCodeForm">
+    <div class="formComponent formComponentSingleLineText">
+        <label class="formComponentLabel">
+            Please list ALL zip codes you are willing to service. List each code individually.</label>
+        <label>
+            (Ex. 77584, 77844, 77653…)</label>
+        <br />
+    </div>
+    <div class="formComponent formComponentName">
+        <input type="hidden" id="uiZipCodeId" name="uiZipCodeId" />
+        <div class="firstNameDiv" style="padding-right: 10px">
+            <label for="uiZipCodeNumber">
+                ZIP</label>
+            <input type="text" id="uiZipCodeNumber" name="uiZipCodeNumber" />
+        </div>
+        <div class="lastNameDiv">
+            <label for="uiExpirationDate">
+                Tax rate</label>
+            <input type="text" id="uiTaxRateZIP" name="uiTaxRateZIP" class="referralCode" />
+        <div id="taxRateZIP-tooltip" class="ui-tooltip message-shadow" style="display: none">
+            <label>
+                Please enter tax rates as a percentage.<br />For example 6.5.
+            </label>
+        </div>
+        </div>
+        <br />
+    </div>
+    <div class="formComponent formComponentSingleLineText">
+        <label for="uiZipCodeComment">
+            City Name</label>
+        <textarea id="uiZipCodeComment" name="uiZipCodeComment" rows="3" cols="30"></textarea>
+    </div>
+    <div class="buttons">
+        <ul class="jquerycontrol">
+            <li><a onclick="saveZipCode()" class="formbutton" id="save">Add zip code </a></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+<div class="formComponent formComponentSingleLineText" id="zoneZipCodes">
+    @Html.Partial("Partial/ZipCodesTable", Model)
+</div>
+<script type="text/javascript">
+    $(function ($) {
+        // apply masks
+        $("#uiZipCodeNumber").mask("99999");
+    });
+
+    var _zipCode = -1;
+
+    getLastTaxRate($("#uiBusinessInformationId").val());
+
+    function saveZipCode() {
+        var name = $("#uiZipCodeNumber").val();
+        var comment = $("#uiZipCodeComment").val();
+        var taxRateZIP = $("#uiTaxRateZIP").val();
+        var bid = $("#uiBusinessInformationId").val();
+        var id = $("#uiZipCodeId").val();
+        if (name == "") {
+            $("#error-div").html("Some fields are required!");
+            $("#error-div").fadeIn("fast");
+            $("#uiZipCodeNumber").parents('.formComponent').addClass('formComponentValidationFailed');
+            $("#error-div").fadeOut(5000);
+            return false;
+        } else {
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/SaveZipCode")',
+                type: 'POST',
+                data: { bid: bid, id: id, name: name, taxRateZIP: taxRateZIP, comment: comment },
+                success: function (r) {
+                    getLastTaxRate(bid);
+                    $("#zoneZipCodes").html(r.data);
+                    $("#message-div").html("item saved with success!");
+                    $("#message-div").fadeIn("fast");
+                    $("#uiZipCodeId").val("");
+                    $("#uiZipCodeNumber").val("");
+                    $("#uiTaxRateZIP").val("");
+                    $("#uiZipCodeComment").val("");
+                    $("#uiZipCodeNumber").parents('.formComponent').removeClass('formComponentHighlight');
+                    $("#uiZipCodeNumber").parents('.formComponent').removeClass('formComponentValidationFailed');
+                    $("#message-div").fadeOut(4000);
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to save the selected item, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#uiZipCodeNumber").parents('.formComponent').addClass('formComponentValidationFailed');
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+    }
+
+    function deleteZipCode() {
+        $("#message-div").html("item deleted with success!");
+        $("#message-div").fadeIn("fast");
+        $("#message-div").fadeOut(4000);
+    }
+
+    function selectZipCode(itemId) {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Content("~/Questionnaire/GetZipCode")',
+            type: 'POST',
+            data: { id: itemId },
+            success: function (data) {
+                $("#uiZipCodeId").val(data.zipCodeId);
+                $("#uiZipCodeNumber").val(data.zipCodeNumber);
+                $("#uiTaxRateZIP").val(data.zipCodeTaxRate);
+                $("#uiZipCodeComment").val(data.zipCodeComment);
+            },
+            error: function () {
+                $("#error-div").html("An error occured while trying to load the selected item, try again!");
+                $("#error-div").fadeIn("fast");
+                $("#error-div").fadeOut(5000);
+            }
+        });
+    }
+
+    function beginZipCode(name) {
+        _zipCode = $(name).attr("itemid");
+        selectZipCode(_zipCode);
+    }
+
+    function getLastTaxRate(businessId) {
+        $.ajax({
+            cache: false,
+            url: '@Url.Content("~/Questionnaire/GetLastTaxRate")',
+            data: { bid: businessId },
+            success: function (data) {
+                $("#uiTaxRateZIP").val(data.TaxRate);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+
+        $("#uiTaxRateZIP").focusin(function () {
+            $("#taxRateZIP-tooltip").show('fast');
+        });
+        $("#uiTaxRateZIP").focusout(function () {
+            $("#taxRateZIP-tooltip").hide('slow');
+        });
+
+    });
+</script>

@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Testimonials";
+}
+<!-- content -->
+<aside>
+    <h2>
+        Testimonials</h2>
+    <div class="boxset-2">
+        <dl>
+            <dd>
+                I knew we did a good job with customer service, but we were inconsistent at best
+                with all the follow up after the service or follow up with estimates. . .I knew
+                to grow we needed investment in this area.
+            </dd>
+            <dt>G.S - <i>Client in Arizona</i></dt>
+        </dl>
+        <dl>
+            <dd>
+                I really like that your technicians have all the information they need to talk to
+                a customer.
+            </dd>
+            <dt>Vicki - <i>Customer in Georgia</i></dt>
+        </dl>
+        <dl>
+            <dd>
+                I was blown away when he (the technician) said he would email me the invoice right
+                there and could also take my credit card on the spot!
+            </dd>
+            <dt>Christopher - <i>Customer in Pennsylvania</i></dt>
+        </dl>
+        <dl>
+            <dd>
+                We just want to thank you for an excellent job and say that both Mike and your telephone
+                support people were very professional, on time, and thorough.
+            </dd>
+            <dt>Breck - <i>Customer in Georgia</i></dt>
+        </dl>
+    </div>
+</aside>
+<article>
+    <section>
+        <h2>
+            A Few Words About Us</h2>
+        <p>
+            <strong class="yellow">Growing your business should not take second place to managing
+                it. ConnectusPro offers real solutions for real business owners.</strong></p>
+        <p>
+            ConnectusPro was created with one thing in mind, providing home service business
+            owners the opportunity to manage their business, not just keep up with it. With
+            ConnectusPro business systems and the cutting edge technology of the t-Tab the ability
+            to grow is placed in your hands.
+        </p>
+        <p>
+            We have now done what most said could not be done. We have developed a national
+            platform to enable independent home and commercial services companies to have a better back office
+            than any of the largest companies. 24/7 live call reception, dispatch, technology,
+            performance tracking, accounting, etc.</p>
+        <img src="@Url.Content("~/Content/images/page2-img1.jpg")" alt="" class="img-indent">
+        <div class="extra-wrap">
+            <p>
+                <strong class="yellow">There is no reason for you to not be successful. ConnectusPro
+                    is revolutionizing the way technicians do business where you are.</strong></p>
+            <p>
+                Our platform is national to save you money, but modern technology allows us to have
+                every advantage of being local. We pride ourselves on providing better service to
+                our partners and their customers than they get anywhere else, period. We have the
+                most knowledgeable, friendliest service people in the industry, living right here
+                in America, answering calls from customers every minute of every hour every day,
+                24/7.</p>
+            @Html.ActionLink("Contact Us Now", "Index", "ContactUs", null, new { @class = "button" })
+        </div>
+        <div class="clear">
+        </div>
+    </section>
+</article>
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+            <li class="active">@Html.ActionLink("About Us", "Index", "Testimonials")</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing")</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription")</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical")</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs")</li>
+        </ul>
+    </nav>
+}

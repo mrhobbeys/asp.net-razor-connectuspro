@@ -1,0 +1,63 @@
+﻿@model SiteBlue.Questionnaire.Data.Questionnaire
+@{
+    ViewBag.Title = "Questionnaire";
+}
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+<link href="@Url.Content("~/Content/themes/base/questionnaire.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/themes/base/validationEngine.jquery.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/languages/jquery.validationEngine-en.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validationEngine.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/Questionnaire.js")" type="text/javascript"></script>
+<h2>
+    Questionnaire</h2>
+@using (Html.BeginForm("Index", "Questionnaire", FormMethod.Post, new { id = "form", @class = "form" }))
+{
+    @Html.ValidationSummary(true)
+    <div id="navigation">
+        <ul id="steps">
+            <li class="link" id="owner">Owner Information</li>
+            <li class="link" id="business">Business Information</li>
+            <li class="link" id="technician">Technician Information</li>
+            <li class="link" id="accounting">Accounting Information</li>
+        </ul>
+    </div>
+    <div class="content" id="fields">
+        <div class="formSection" id="start-wizard">
+            <div class="formComponent formComponentName">
+                <label class="formComponentLabel">
+                    To start the questionnaire, please click the start button.
+                </label><br />
+            </div>
+        </div>
+        @Html.Partial("OwnerInformation", (((Model.OwnerInformations != null) && (Model.OwnerInformations.Count > 0)) ? Model.OwnerInformations[0] : new SiteBlue.Questionnaire.Data.OwnerInformation()))
+        @Html.Partial("BusinessInformation", (((Model.BusinessInformations != null) && (Model.BusinessInformations.Count > 0)) ? Model.BusinessInformations[0] : new SiteBlue.Questionnaire.Data.BusinessInformation()))
+        @Html.Partial("TechnicianInformation", (((Model.TechnicianInformations != null) && (Model.TechnicianInformations.Count > 0)) ? Model.TechnicianInformations[0] : new SiteBlue.Questionnaire.Data.TechnicianInformation()))
+        @Html.Partial("AccountingInformation", (((Model.AccountingInformations != null) && (Model.AccountingInformations.Count > 0)) ? Model.AccountingInformations[0] : new SiteBlue.Questionnaire.Data.AccountingInformation()))
+        <div class="formSection" id="complete-wizard">
+            <div class="formComponent formComponentName">
+                <label class="formComponentLabel">
+                    To submit your questionnaire please click the complete button</label>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <label class="btns">
+            <a class="formbutton" id="back">< Back</a><a class="formbutton" id="next">Next
+                ></a>
+        </label>
+    </div>
+}

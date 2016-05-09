@@ -1,0 +1,112 @@
+﻿@model List<SiteBlue.Questionnaire.Data.MarketingType>
+<div class="form" id="marketingTypeForm">
+    <div class="formComponent formComponentSingleLineText">
+        <label class="formComponentLabel">
+            Please list the types of marketing you use: (Mail, Internet, Phone, Billboard, etc…)</label>
+        <br />
+    </div>
+    <div class="formComponent formComponentName">
+        <input type="hidden" id="uiMarketingTypeId" name="uiMarketingTypeId" />
+        <div class="firstNameDiv" style="padding-right: 10px">
+            <label for="uiMarketingTypeName">
+                Marketing type</label>
+            <input type="text" id="uiMarketingTypeName" name="uiMarketingTypeName" />
+        </div>
+        <div class="lastNameDiv">
+            <label for="uiReferralCode">
+                Associated Referral/Tracking Code</label>
+            <input type="text" id="uiReferralCode" name="uiReferralCode" class = "referralCode" />
+        </div>
+    </div>
+    <div class="formComponent formComponentSingleLineText">
+        <label for="uiMarketingTypeComment">
+            Comment</label>
+        <textarea id="uiMarketingTypeComment" name="uiMarketingTypeComment" rows="3" cols="30"></textarea>
+    </div>
+    <div class="buttons">
+        <ul class="jquerycontrol">
+            <li><a onclick="saveMarketingType()" class="formbutton" id="save">Add New Marketing
+                Item</a></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+<div class="formComponent formComponentSingleLineText" id="zoneMarketingTypes">
+    @Html.Partial("Partial/MarketingTypesTable", Model)
+</div>
+<script type="text/javascript">
+
+    var _marketingType = -1;
+
+    function saveMarketingType() {
+        var name = $("#uiMarketingTypeName").val();
+        var comment = $("#uiMarketingTypeComment").val();
+        var referralCode = $("#uiReferralCode").val();
+        var bid = $("#uiBusinessInformationId").val();
+        var id = $("#uiMarketingTypeId").val();
+        if (name == "") {
+            $("#error-div").html("Some fields are required!");
+            $("#error-div").fadeIn("fast");
+            $("#uiMarketingTypeName").parents('.formComponent').addClass('formComponentValidationFailed');
+            $("#error-div").fadeOut(5000);
+            return false;
+        } else {
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/SaveMarketingType")',
+                type: 'POST',
+                data: { bid: bid, id: id, name: name, referralCode: referralCode, comment: comment },
+                success: function (r) {
+                    $("#zoneMarketingTypes").html(r.data);
+                    $("#message-div").html("item saved with success!");
+                    $("#message-div").fadeIn("fast");
+                    $("#uiMarketingTypeId").val("");
+                    $("#uiMarketingTypeName").val("");
+                    $("#uiReferralCode").val("");
+                    $("#uiMarketingTypeComment").val("");
+                    $("#uiMarketingTypeName").parents('.formComponent').removeClass('formComponentHighlight');
+                    $("#uiMarketingTypeName").parents('.formComponent').removeClass('formComponentValidationFailed');
+                    $("#message-div").fadeOut(4000);
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to save the selected item, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#uiMarketingTypeName").parents('.formComponent').addClass('formComponentValidationFailed');
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+    }
+
+    function deleteMarketingType() {
+        $("#message-div").html("item deleted with success!");
+        $("#message-div").fadeIn("fast");
+        $("#message-div").fadeOut(4000);
+    }
+
+    function selectMarketingType(itemId) {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Content("~/Questionnaire/GetMarketingType")',
+            type: 'POST',
+            data: { id: itemId },
+            success: function (data) {
+                $("#uiMarketingTypeId").val(data.marketingTypeId);
+                $("#uiMarketingTypeName").val(data.marketingTypeName);
+                $("#uiReferralCode").val(data.marketingTypeReferralCode);
+                $("#uiMarketingTypeComment").val(data.marketingTypeComment);
+            },
+            error: function () {
+                $("#error-div").html("An error occured while trying to load the selected item, try again!");
+                $("#error-div").fadeIn("fast");
+                $("#error-div").fadeOut(5000);
+            }
+        });
+    }
+
+    function beginMarketingType(name) {
+        _marketingType = $(name).attr("itemid");
+        selectMarketingType(_marketingType);
+    }
+</script>

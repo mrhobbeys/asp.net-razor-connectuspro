@@ -1,0 +1,121 @@
+﻿@model Plumber.Models.Location
+<table width="100%" border="0" cellpadding="6" cellspacing="0">
+    <tr>
+        @foreach (var coupon in Model.LocationCoupons.Take(3).ToList())
+        {
+            <td>
+                <a href="@Url.Content("~/Special/Offer/" + coupon.Offer.OfferId)">
+                    <img src="@Url.Content(coupon.Offer.ImageUrl != null ? coupon.Offer.ImageUrl : "~/Content/images/noimage.jpg")" alt="coupon" width="316" height="175" border="0" />
+                </a>
+            </td>
+        }
+    </tr>
+</table>
+<br />
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                Special Services Offered:
+            </div>
+            <div class="shade-common">
+                <div class="maincontent">
+                    <table width="100%" border="0" cellpadding="15" cellspacing="0">
+                        <tr>
+                            <td align="left" valign="top">
+                                <span class="greytitle">Service Feedback</span><br />
+                                <a class="greytitle"></a>
+                                <div class="memebership">
+                                    <p>
+                                        See more reviews and leave feedback at any of the following sites:</p>
+                                </div>
+                                <div class="memebership">
+                                    <table width="100%" border="0" cellpadding="5" cellspacing="0">
+                                        <tr>
+                                            <td align="center" valign="middle">
+                                                <a href="@Model.GoogleLink" target="_blank">
+                                                    <img src="@Url.Content("~/Content/images/google.gif")" alt="google" width="142" height="64" />
+                                                </a>
+                                            </td>
+                                            <td align="center" valign="middle">
+                                                <img src="@Url.Content("~/Content/images/sep.gif")" alt="sep" width="3" height="76" border="0" />
+                                            </td>
+                                            <td align="center" valign="middle">
+                                                @*<img src="@Url.Content("~/Content/images/yahoo.gif")" alt="yahoo" width="142" height="64" />*@
+                                                <a href="@Url.Content(Model.FacebookLink != null && Model.FacebookLink != "" ? Model.FacebookLink : "#")" target="_blank">
+                                                    <img src="@Url.Content("~/Content/images/facebook-icon.png")" alt="facebook" />
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="memebership">
+                                    <p>
+                                        If you any other questions please contact us. We would be pleased to help you and
+                                        answer any questions you have.</p>
+                                </div>
+                                <table width="100%" border="0" align="center" cellpadding="2" cellspacing="0" class="form"
+                                    style="margin: auto;" cellpading="0">
+                                    <tr class="required">
+                                        <td width="69%" height="30" align="left" valign="middle">
+                                            <input class="specialtfield" type="text" id="uiName" name="uiName" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <td height="30" align="left" valign="middle">
+                                            <input class="specialtfield" type="text" id="uiEmail" name="uiEmail" value="" />
+                                        </td>
+                                    </tr>
+                                    <tr class="required">
+                                        <td align="left" valign="middle">
+                                            <textarea name="heard" class="specialtarea" id="uiComment" rows="5"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-right: 10px;" align="right" valign="middle">
+                                            <label>
+                                                <input type="submit" name="SubmitServiceFeedback" id="SubmitServiceFeedback" value="Submit" />
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td align="left" valign="top">
+                                @Html.Partial("List", Model.LocationServices.OrderBy(ls => ls.Service.ServiceName).ToList())
+                            </td>
+                            <td width="300px" align="left" valign="top">
+                                <span class="blue-title">@Html.Raw(Model.Title) </span>
+                                <br />
+                                <span class="greytitle">Local Phone Number: </span>
+                                <br />
+                                <a class="greytitle"><strong>@Html.Raw(Model.LocalPhoneNumber)</strong></a>
+                                <div class="memebership">
+                                    <br />
+                                    <span class="blue-title">Territory:</span><br />
+                                    @Html.Raw(Model.LocationName), @Html.Raw(Model.State)
+                                    <p>
+                                        <span class="blue-title">Cities Served:</span><br />
+                                        @foreach (var item in Model.Cities)
+                                        {
+                                            @item.City<text>, </text>
+                                        }
+                                    </p>
+                                    <p>
+                                        <span class="blue-title">Address:</span><br />
+                                        @Html.Raw(Model.Address)<br />
+                                        @Html.Raw(Model.City), @Html.Raw(Model.State) @Html.Raw(Model.ZipCode)</p>
+                                    @Html.Raw(Model.Description)
+                                    <p class="memebership">
+                                        &nbsp;</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+    </tr>
+</table>

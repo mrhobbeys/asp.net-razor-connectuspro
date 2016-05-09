@@ -1,0 +1,28 @@
+﻿@model List<SiteBlue.Areas.PriceBook.Models.PartCodes>
+           
+@using (Html.BeginForm("CreateMasterPart", "PriceBook", FormMethod.Post, new { id = "datafrm" }))
+{
+    @Html.Hidden("FranchiseID", (int?)ViewBag.franchiseid)
+    <table cellpadding="2">
+        <tr>
+            <td>PartCode ID</td>
+            <td>@Html.DropDownList("PartCodeID", new SelectList(Model, "PartCodeID", "PartCode"), new { style = "width: 300px;" })</td>
+        </tr>
+        <tr>
+            <td>Part Code</td>
+            <td>@Html.TextBox("PartCode")</td>
+        </tr>
+        <tr>
+            <td>Part Name</td>
+            <td>@Html.TextBox("PartName")</td>
+        </tr>
+        <tr>
+            <td>Part Cost</td>
+            <td>@Html.TextBox("PartCost")</td>
+        </tr>
+        <tr>
+            <td>VendorPart ID</td>
+            <td>@Html.TextBox("VendorPartID")</td>
+        </tr>
+    </table>
+}

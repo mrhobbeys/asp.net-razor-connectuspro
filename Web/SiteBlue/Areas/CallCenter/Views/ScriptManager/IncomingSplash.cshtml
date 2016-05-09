@@ -1,0 +1,248 @@
+﻿@model SiteBlue.Areas.CallCenter.Models.Incoming
+@{
+    ViewBag.Title = "Incoming Call Scriptonator";
+    Layout = "~/Areas/CallCenter/Views/Shared/_ScriptLayout.cshtml";
+    const string fullRender = "&fullRender=true";
+    var url = Request.Url.ToString().Substring(0, Request.Url.ToString().Length - Server.UrlDecode(Request.Url.Query).Length) + "?id=" + Model.RawDialInNumber + "&id2=" + Model.CustomerPhone;
+}
+    <div style="width: 800px">
+        <label class="btns">
+            <a class="button" href="@(url + fullRender)" target="_blank" style="display:none">Launch Call Taker</a>
+        </label>
+    </div>
+    <div style="width: 900px;">
+            <fieldset>
+                <legend></legend>
+                <div class="display-field">
+                    @Html.Raw(Model.CallScript)
+                </div>
+                <label class="label">
+                    ConnectUs Code</label>
+                <div class="display-field">
+                    @Html.DisplayFor(model => model.CPCode)
+                </div>
+                    <label class="label">Customer Number</label>
+                    <div class="display-field">
+                    @try
+                    {
+                        @(Request.QueryString["id2"] ?? "")
+                    }
+                    catch {<p>Customer caller id blocked?</p> }
+                    
+                    </div>
+                <input type="text" style="width:800px" id="copyPasteUrl" />
+                <div>
+                    <button title="End Call" id="btnEndCall" onclick="click_btnEndCall()">End Call</button>
+                </div>
+                <div>
+                    <div style="float: left; ">
+                        <div style="padding-left: 60px;">My Completion percentage</div>                                       
+                        <div id="chart_container" style="width: 300px; height: 200px;"></div>  
+                        <div style="padding: 10px;">@Html.ActionLink("Resolve Uncompleted Calls", "ShowStat24")</div>
+                    </div>
+                    <div style="float: left; ">
+                        <div style="padding-left: 30px;">Team Completion percentage</div>       
+                        <div id="teamChart_container" style="width: 500px; height: 200px;"></div>
+                    </div>
+                </div>
+            </fieldset>
+        <div style="display: none;">
+            <div id="window" class="stat_window">
+                <div id="radiobuttons" style="font-size: 100%;">
+                </div>
+                <div style="clear: both">
+                    <input type="submit" onclick="SetEndOfCall()"/>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+<style type="text/css">
+    .stat_window {
+        font-size: 14px;
+    }
+    .item_option {
+        float: left;
+        padding: 10px;
+        width: 120px;
+    }
+    .item_option input 
+    {
+        margin-right: 5px;
+    }
+</style>
+    <script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/codebase/dhtmlxcontainer.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/codebase/dhtmlxlayout.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/codebase/dhtmlxwindows.js")" type="text/javascript"></script>
+ <script src="@Url.Content("~/codebase/dhtmlxchart.js")" type ="text/javascript"></script>
+<link href="@Url.Content("~/Content/themes/DhtmlX/windows/dhtmlxwindows.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/themes/DhtmlX/windows/skins/dhtmlxwindows_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+ <link href="@Url.Content("~/codebase/dhtmlxchart.css")" rel="stylesheet" type="text/css" /> 
+
+<script type="text/javascript" language="javascript">
+    var trackId = 0;
+    var dhxWins;
+    var w1;
+    var datetimeEnd;
+    var datetimeStart;
+    var pieChart;
+    var pieChartTeam;
+    $(document).ready(function () {
+        datetimeStart = new Date();
+        $.ajax({
+            cache: false,
+            async: true,
+            url: '@Url.Action("SetStatisticTrack")',
+            type: 'POST',
+            data: { id: "@Model.DialInNumber", id2: "@Model.CustomerPhone" },
+            success: function (r) {
+                if (r.result) {
+                    trackId = r.trackId;
+                }
+
+                var url = "@Html.Raw(url + fullRender)&calltracker=" + trackId;
+                $("#copyPasteUrl").val(url);
+                if ("@Model.CustomerPhone" == "ManualEntry")
+                    location.href = url;
+            },
+            error: function () {
+                alert("error sending post");
+            }
+        });
+        dhxWins = new dhtmlXWindows();
+        w1 = dhxWins.createWindow("w1", 20, 30, 600, 350);
+        w1.setText("List of Options for end call");
+        w1.button("close").hide();
+        w1.button("minmax1").hide();
+        w1.button("park").hide();
+        w1.center();
+        w1.attachObject('window');
+        w1.hide();
+        $.ajax({
+            cache: false,
+            async: true,
+            url: '@Url.Action("GetEndOptions")',
+            type: 'POST',
+            data: null,
+            success: function (r) {
+                if (r.result) {
+                    for (var i = 0; i < r.data.length; i++) {
+                        $("#radiobuttons").append('<div class="item_option"><input type="radio" name="option"  value="' + r.data[i].id + '">' + r.data[i].name + '</div>');
+                    };
+                }
+            },
+            error: function () {
+                alert("error sending post");
+            }
+        });
+        pieChart = new dhtmlXChart({
+            view: "pie3D",
+            container: "chart_container",
+            value: "#value#",
+            color: "#color#",
+            radius:100,
+            pieInnerText: function (obj) {
+                var sum = pieChart.sum("#value#");
+                if (sum.toString() == "0")
+                    return "" + obj.text;
+                return "" + Math.round(obj.value / sum * 100) + "%";
+            }
+        });
+
+        pieChartTeam = new dhtmlXChart({
+            view: "pie3D",
+            container: "teamChart_container",
+            value: "#value#",
+            color: "#color#",
+            radius:100,
+            legend: {
+                width: 250,
+                align: "right",
+                valign: "middle",
+                marker: {
+                    type: "round",
+                    width: 20
+                },
+                template: function (obj) {
+                    return obj.text;
+                }
+            },
+            pieInnerText: function (obj) {
+                var sum = pieChartTeam.sum("#value#");
+                if (sum.toString() == "0")
+                    return "" + obj.text;
+                return "" + Math.round(obj.value / sum * 100) + "%";
+            }
+        });
+        $.ajax({
+            cache: false,
+            async: true,
+            url: '@Url.Action("GetSummaryDataPer24Hours")',
+            type: 'POST',
+            data: { id: "@Model.DialInNumber" },
+            success: function (r) {
+                pieChart.parse(r.userstat, "json");
+                pieChartTeam.parse(r.teamstat, "json");
+            },
+            error: function () {
+                alert("error sending post");
+            }
+        });
+    });
+    
+    function click_btnEndCall() {
+        w1.show();
+        w1.setModal(true);
+        datetimeEnd = new Date();
+    }
+    
+    function SetEndOfCall() {
+        var selectedOptionId;
+        $("#radiobuttons input").each(function(index) {
+            if (this.checked)
+                selectedOptionId = this.value;
+        });
+        //alert(trackId+"<br/>"+selectedOptionId+"<br>"+datetime); 
+        $.ajax({
+            cache: false,
+            async: false,
+            url: '@Url.Action("UpdateStatisticAfterEnd")',
+            type: 'POST',
+            data: {trackId: trackId, endTime:datetimeEnd-datetimeStart, optionId:selectedOptionId},
+            success: function(r) {
+                if (r.result) {
+                    w1.setModal(false);
+                   w1.hide();
+                }
+            },
+            error: function() {
+                alert("error sending post");
+            }
+        });
+       
+    }
+    
+    function formatdDate(date) {
+    var currdate = date.getDate();
+    var currmonth = date.getMonth();
+    currmonth++;
+    var curryear = date.getFullYear();
+    return (currmonth + "/" + currdate + "/" + curryear +" "+ date.getHours()+":"+date.getMinutes()+":"+date.getSeconds());
+}
+</script>

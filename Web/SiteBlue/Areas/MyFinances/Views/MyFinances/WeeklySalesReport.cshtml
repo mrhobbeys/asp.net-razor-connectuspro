@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "Weekly Sales Report";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxchart.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxtabbar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxchart.js" type="text/javascript"></script>
+    <script src="../../../../Content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        dhtmlx.skin = "dhx_skyblue";
+
+        $('document').ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnLoad(); });
+            doOnLoad();
+        });
+
+        function RowClick(rId, cInd) {
+            var cellObj = mygridRCodes.cellById(rId, 1);
+            window.open("../myfinances/PopupWeeklySalesDetail");
+        }
+        function abc() {
+            window.location.reload();
+        }
+
+        function doOnLoad() {
+            myCalendar = new dhtmlXCalendarObject(["txtstartdate"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+            mygridRCodes = new dhtmlXGridObject('gridbox');
+            mygridRCodes.setImagePath("../../../../codebase/imgs/");
+            mygridRCodes.setHeader("#master_checkbox, WSR <br>DATE,SUB-TOTAL <BR> SALES,SALES TAX<BR> COLLECTED, GROSS <BR>SALES,TOTAL FEES <BR>AND ADJ,FEE <BR>TYPE 1,FEE<BR> TYPE 2,FEE<BR> TYPE 3,FEE<BR> TYPE 4,TOTAL <BR>ADJ,FEE <BR> TYPE 1<BR>ADJ,FEE<BR> TYPE 2<BR> ADJ,FEE<BR> TYPE 3<BR>ADJ,FEE<BR> TYPE 4<BR>ADJ", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+            mygridRCodes.setColAlign("center,center,right,right,right,right,right,right,right,right,right,right,right,right,right");
+            mygridRCodes.setColTypes("ch,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro");
+            mygridRCodes.setInitWidths("50,80,100,100,100,100,100,90,80,80,80,80,80,80,80");
+            //mygridRCodes.attachEvent("onRowDblClicked", "RowDblClick");
+            mygridRCodes.attachEvent("onRowSelect", "RowClick");
+            mygridRCodes.setColSorting("str,str,str,str,str,str,str,str,str,str,str,str,str,str,str");
+            mygridRCodes.init();
+            mygridRCodes.setSkin("dhx_skyblue");
+            var xmlstringEmpList = "";
+            var Weekdate = document.getElementById("txtstartdate").value;
+            var frId = SiteBlue.franchiseId;
+            var empid = { WeekDate: Weekdate, frId: frId };
+            var jsondata = $.ajax({
+                url: "../MyFinances/WeekSalReportData",
+                data: JSON.stringify(empid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    var AdForHomePages = msg;
+                    xmlstringEmpList = xmlstringEmpList + "<rows>";
+                    $.each(AdForHomePages, function (index, Emplist) {
+                        xmlstringEmpList = xmlstringEmpList + "<row id='" + index + "'>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        if (Emplist.WSRDate != null) {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + new Date(parseInt(Emplist.WSRDate.substr(6))) + "]]></cell>";
+                        }
+                        else {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        }
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.TotalSales + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.TotalRoyalty + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.RoyaltyFees + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.MGMTFees + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.TECHFees + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.MRKTFees + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.RoyaltyAdj + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.MGMTAdj + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.TECHAdj + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.MRKTAdj + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "</row>";
+                    });
+                    xmlstringEmpList = xmlstringEmpList + "</rows>";
+                    mygridRCodes.loadXMLString(xmlstringEmpList);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+        }
+
+        function downloadWeeklyClosingToExcel() {
+            mygridRCodes.toExcel("../MyFinances/DownloadMyFinances");
+        }
+    </script>
+}
+@{Html.BeginForm("MyWeeklySalesReport", "MyFinances");}
+<div style="width: 100%; float: left; vertical-align: top;">
+    <div style="width: 100%; height: 631px; float: right; vertical-align: top;">
+        <div style="margin-left: 30px; margin-top: 15px;">
+            <span style="font-family: 18px; font-size: 18px; font-weight: bold; margin-top: 0px;
+                color: Black;">Weekly Sales Report </span>
+        </div>
+        <div style="vertical-align: top;">
+            <div style="float: left; padding-left: 30px; height: 10px; margin-top: 10px; font-weight: bold;">
+                @Html.Label("lblstartdate", "Week Ending")&nbsp;
+                @Html.TextBox("txtstartdate", (string)ViewBag.WeekDate, new { @class = "calendar", @readonly = "readonly" })
+                <a href="javascript:doOnLoad()">Refresh</a>
+            </div>
+            <br />
+            <div>
+            </div>
+            <div style="margin-left: 30px; float: left;">
+            </div>
+            <br />
+            <div style="margin-top: 30px; margin-left: 600px;">
+             &nbsp;&nbsp;&nbsp;&nbsp; <input id="btnRTExcel" type="button" onclick="downloadWeeklyClosingToExcel()"  value="Export to Excel" />
+                <span style="font-family: 18px; font-weight: bold; color: Orange; vertical-align: middle;">
+                    History</span>
+            </div>
+            <br />
+            <div style="clear: both; height: 400px; width: 1300px; padding-left: 30px; margin-top: 0px;">
+                <div id="gridbox" style="width: 1290px; height: 300px; background-color: white; overflow: hidden;">
+                </div>
+                <div style="margin-top: 20px;">
+                    <a href="@Url.Content("~/MasterData/LandingPage/MyFinances")" title="Back to Dashboard">
+                        Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+@{Html.EndForm();}

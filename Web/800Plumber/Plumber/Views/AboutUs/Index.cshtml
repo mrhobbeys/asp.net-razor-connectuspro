@@ -1,0 +1,93 @@
+﻿@model List<Plumber.Models.Management>
+@{
+    ViewBag.Title = "Index";
+}
+@section Meta{
+    <title>Know more about 1800-PLUMBER</title>
+    <meta name="description" content="We provide contractor services in plumbing, heating/cooling, electrical and drain cleaning services since last 15 years" />
+    <meta name="keywords" content="about 1800-PLUMBER" />
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                About Us</div>
+            <div class="shadeinnerpage">
+                <div class="maincontent">
+                    <p>
+                        1-800-Plumber® partners with local services company owners in the United States
+                        and Canada serving residential and commercial customers. We provide contractor services
+                        in plumbing, heating/cooling, electrical and drain cleaning through our 1-800-PLUMBER®
+                        brand, providing consistent high quality service with a local feel and pricing.
+                    </p>
+                    <p>
+                        We have invested tremendous resources and several years with leading experts in
+                        the industry focused on one thing: building the systems, technology and services
+                        needed to transform the way Plumbing and HVAC companies take care of their customers
+                        and manage and grow their business: 24/7 live call reception and dispatch, the industry’s
+                        most advanced technology, technician performance tracking, marketing referral tracking,
+                        accounting, etc.
+                    </p>
+                    <p>
+                        Through our strong foundation, the industry’s most desired and unforgettable brand,
+                        and our commitment to excellence in everything we do, 1-800-PLUMBER has set out
+                        to build the dominant residential and commercial services business in North America.
+                    </p>
+                </div>
+            </div>
+            @*<div class="shadeinnerpage">
+                @foreach (var item in Model)
+                {
+                    <div class="names">
+                        <div>
+                            <strong>@Html.Raw(item.FirstName + " " + item.LastName)</strong></div>
+                        <div>
+                            @Html.Raw(item.Title)</div>
+                        <div>@Html.ActionLink("More Info", "Details", new { id = item.ManagementId })</div>
+                    </div>
+                }
+            </div>*@
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+        <td width="260" align="right" valign="top">
+            <div class="col-right">
+                @Html.Partial("NearestLocation")
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/about-us.jpg")" alt="About Us" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations"><span class="menu_ar">
+                    Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li class="highlight"><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span
+                    class="menu_ar">About us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span class="menu_ar">
+                    Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

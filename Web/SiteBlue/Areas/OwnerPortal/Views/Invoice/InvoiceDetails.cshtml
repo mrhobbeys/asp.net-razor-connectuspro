@@ -1,0 +1,1319 @@
+﻿@model SiteBlue.Areas.OwnerPortal.Models.InvoiceDetailInfo
+@{
+    ViewBag.Title = "Invoice Details";
+}
+@if (Model.Authorized)
+{
+    <html>
+    <head>
+        <title>@ViewBag.Title</title>
+        <link href="../../../../codebase/dhtmlxtabbar.css" rel="Stylesheet" type="text/css" />
+        <link href="../../../../Content/Tablestyle.css" rel="Stylesheet" type="text/css" />
+        <link href="../../../../codebase/dhtmlxgrid.css" rel="Stylesheet" type="text/css" />
+        <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="Stylesheet"
+            type="text/css" />
+        <link href="../../../../codebase/dhtmlxwindows.css" rel="Stylesheet" type="text/css" />
+        <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="Stylesheet"
+            type="text/css" />
+        <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+        <script src="../../../../Scripts/jquery-1.5.1.min.js" type="text/javascript"></script>
+        <script src="../../../../content/json2.js" type="text/javascript"> </script>
+        <style type="text/css">
+            #tabinvoice1 tbody tr:hover, tbody tr.odd:hover
+            {
+                background: #fff;
+            }
+            
+            #tabinvoice2 tbody tr:hover, tbody tr.odd:hover
+            {
+                background: #fff;
+            }
+            
+            #tblFinance tbody tr:hover, tbody tr.odd:hover
+            {
+                background: #fff;
+            }
+           
+            #printInvoice
+            {
+                font-family: Arial, sans-serif;
+                padding:10px;
+                font-size:14px;
+            }
+           
+            #printInvoice .btns
+            {
+                text-align:center;
+                margin-top:30px;
+            }
+            
+            #printInvoice button
+            {
+                width:80px;
+                margin-right:10px;
+            }
+            
+        </style>
+        <script type="text/javascript">
+            dhtmlx.skin = "dhx_skyblue";
+        </script>
+        <script type="text/javascript">
+            var bln = false;
+
+            function ConfirmPassword() {
+                bln = SiteBlue.isCorporate;
+
+                document.getElementById("txtPassword").value = "";
+                if (document.getElementById("flag").value == "true") {
+                    alert("You Can't Update the Status Of Invoice because Some of Job Task has not authorized.");
+
+                } else {
+                    if (bln == false) {
+                        document.getElementById("confirmupdate").style.display = "block";
+                        document.getElementById("btnUpdate").value = "Cancel";
+                        bln = true;
+                    } else {
+                        document.getElementById("confirmupdate").style.display = "none";
+                        document.getElementById("btnUpdate").value = "Update";
+                        bln = false;
+                    }
+                }
+            }
+
+            function LoadJobStatusHistory() {
+                var iJobId = getUrlVars()["JobId"];
+
+                var params = { jobid: iJobId };
+                $("#JobStatusHistorygifId").show();
+
+                var jsondata = $.ajax({
+                    url: "/Invoice/JobStatusHistory",
+                    data: JSON.stringify(params),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        mygrid1 = new dhtmlXGridObject(GvJobStatusHistory);
+
+                        mygrid1.setImagePath("../../codebase/imgs/");
+                        mygrid1.setHeader("Status,Date,Time,Tablet?,ByWhom,Field,Changed To");
+                        mygrid1.setColAlign("left,left,left,left,left,left,left");
+                        mygrid1.setColTypes("txt,ed,txt,txt,txt,txt,txt");
+                        mygrid1.enableEditEvents(false, false, false, false, false, false, false);
+                        mygrid1.init();
+                        mygrid1.setSkin("dhx_skyblue");
+
+                        var xmlstring = "<rows>";
+                        $.each(result, function (index, itemData) {
+
+                            xmlstring += "<row id='" + index + "'>";
+                            xmlstring += "<cell><![CDATA[" + itemData.statuses + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + itemData.statuschangeddate + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + itemData.time + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + itemData.tablet + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + itemData.bywhom + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + itemData.field + "]]></cell>";
+                            xmlstring += "<cell><![CDATA[" + itemData.changedto + "]]></cell>";
+                            xmlstring += "</row>";
+                        });
+                        xmlstring += "</rows>";
+
+                        mygrid1.clearAll();
+
+                        mygrid1.loadXMLString(xmlstring);
+
+                        $("#JobStatusHistorygifId").hide();
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+
+                    }
+                });
+            }
+
+            function doWindowLoadAmountPaid() {
+                if ($("#paymentSection").is(":hidden")) {
+                    $("#paymentSection").show("slow");
+                } else {
+                    $("#paymentSection").hide();
+                }
+            }
+
+            function doWindowLoadPaymentType() {
+                var iJobId = getUrlVars()["JobId"];
+                var PopUpWindow = window.open("PaymentType?jobid=" + iJobId, "_blank", "resizable=1,width=300,height=200");
+            }
+
+            function doWindowLoad() {
+                var iJobId = getUrlVars()["JobId"];
+                var PopUpWindow = window.open("TaxRate?jobid=" + iJobId, "_blank", "resizable=1,width=450,height=350");
+            }
+
+            function CommaFormatted(amount) {
+                try {
+                    amount = String(Math.round(amount * 100) / 100);
+                    var delimiter = ","; // replace comma if desired
+                    var a = String(amount).split('.', 2);
+                    var flag = false;
+                    if (a.length > 1) {
+                        flag = true
+                    }
+                    else {
+                        flag = false;
+                    }
+                    var d = a[0];
+                    var d1 = a[1];
+                    var i = parseInt(a[0]);
+                    if (isNaN(i)) { return '0.00'; }
+                    var minus = '';
+                    if (i < 0) { minus = '-'; }
+                    i = Math.abs(i);
+                    var n = new String(i);
+                    var a = [];
+                    while (n.length > 3) {
+                        var nn = n.substr(n.length - 3);
+                        a.unshift(nn);
+                        n = n.substr(0, n.length - 3);
+                    }
+
+                    if (n.length > 0) { a.unshift(n); }
+                    n = a.join(delimiter);
+                    if (flag) {
+                                amount = n + '.' + d1;
+                            }
+                            else {
+                                amount = n;
+                            }
+                    amount = minus + amount;
+
+                    return amount;
+
+                } catch (e) {
+                    return "0.00";
+                }
+            }
+
+            function RowClick(rId, cInd) {
+                var cellObj = mygrid.cellById(rId, 0);
+                window.open("../invoice/invoicedetails?JobId=" + cellObj.getValue());
+            }
+
+            function ShowCustomerSignature() {
+                document.getElementById("trservice").style.display = "none";
+                document.getElementById("trcustomersignature").style.display = "block";
+            }
+
+            function ShowService() {
+                document.getElementById("trservice").style.display = "block";
+                document.getElementById("trcustomersignature").style.display = "none";
+            }
+
+            function getUrlVars() {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+
+                return vars;
+            }
+
+            function roundVal(val) {
+                var dec = 2;
+                var result = Math.round(val * Math.pow(10, dec)) / Math.pow(10, dec);
+                return result;
+            }
+
+            function ddltaxrateselected() {
+                var tax_rateid = document.getElementById("ddltaxrate").value;
+
+                if (tax_rateid == 0 || tax_rateid == "") {
+                    document.getElementById("txt_TaxPartPercentage").value = 0;
+                    document.getElementById("txt_TaxLaborPercentage").value = 0;
+                    document.getElementById("txtTax").value = 0;
+                    document.getElementById("txtJobTotal").value = 0;
+                    document.getElementById("txtBalance").value = 0;
+                    return;
+                }
+
+                var taxrid = { TaxRateID: tax_rateid };
+
+                $("#ddltaxrate").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+
+                var jsata = $.ajax({
+                    url: "/Invoice/GetTaxRateByid",
+                    data: JSON.stringify(taxrid),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+
+                        $.each(msg, function (index, TaxRates) {
+
+                            document.getElementById("txt_TaxPartPercentage").value = TaxRates.PartsAmount;
+                            document.getElementById("txt_TaxLaborPercentage").value = TaxRates.LaborAmount;
+
+
+
+                            document.getElementById("txtTax").value = CommaFormatted(roundVal(parseFloat(document.getElementById("txtJobSubTotal").value.replace(",", "")) * TaxRates.PartsAmount).toFixed(2));
+
+                            document.getElementById("txtJobTotal").value = roundVal(parseFloat(document.getElementById("txtTax").value.replace(",", "")) + parseFloat(document.getElementById("txtJobSubTotal").value.replace(",", ""))).toFixed(2);
+
+                            document.getElementById("txtBalance").value = (roundVal(parseFloat(document.getElementById("txtJobTotal").value.replace(",", ""))) - roundVal(parseFloat(document.getElementById("txtAmtPaid").value.replace(",", "")))).toFixed(2);
+                        });
+
+                        $("#loadingimg").remove();
+
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $("#loadingimg").remove();
+                        $('#output').innerHtml(e);
+                    }
+                });
+            }
+
+            function UpdateStatus() {
+                var newStatus = document.getElementById("ddlstatus").value;
+
+                var financeparam = null;
+
+                if (newStatus == 7) {
+                    var jobsub = $("#txtJobSubTotal").val().replace(",", "");
+                    var tax = $("#txtTax").val().replace(",", "");
+                    var taxp = $("#txt_TaxPartPercentage").val().replace(",", "");
+                    var taxl = $("#txt_TaxLaborPercentage").val().replace(",", "");
+                    var jobtot = $("#txtJobTotal").val().replace(",", "");
+                    var bal = $("#txtBalance").val().replace(",", "");
+
+                    financeparam = { SubTotal: jobsub, Tax: tax, TaxPartPercent: taxp, TaxLaborPercent: taxl, Total: jobtot, Balance: bal };
+                }
+
+                var param = { Status: newStatus, JobId: getUrlVars()["JobId"], FinanceDatas: financeparam };
+
+                $("#btnUpdate").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+                $("#btnUpdate").attr("disabled", "disabled");
+
+                var jsata = $.ajax({
+                    url: "/Invoice/UpdateStatus",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg1) {
+                        if (newStatus == 7) {
+                            document.getElementById("btnUpdate").style.display = "none";
+                            document.getElementById("ddlstatus").disabled = true;
+                            $("#lnkJobTasks").slideUp();
+                        }
+                        document.getElementById("confirmupdate").style.display = "none";
+                        document.getElementById("btnUpdate").value = "Update";
+                        bln = false;
+                        alert("Status updated successfully.");
+                        document.getElementById("txtPassword").value = "";
+
+                        $("#loadingimg").remove();
+                        $("#btnUpdate").removeAttr("disabled");
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $("#loadingimg").remove();
+                        $("#btnUpdate").removeAttr("disabled");
+
+                        alert("Error occured while updating status.");
+                    }
+                });
+            }
+
+            function UpdateFinancialinfo() {
+                var jobsub = document.getElementById("txtJobSubTotal").value.replace(",", "");
+                var tax = document.getElementById("txtTax").value.replace(",", "");
+                var taxp = document.getElementById("txt_TaxPartPercentage").value.replace(",", "");
+                var taxl = document.getElementById("txt_TaxLaborPercentage").value.replace(",", "");
+                var jobtot = document.getElementById("txtJobTotal").value.replace(",", "");
+                var bal = document.getElementById("txtBalance").value.replace(",", "");
+
+                var param = { JobId: getUrlVars()["JobId"], JobSubTotal: jobsub, Taxrate: tax, TaxPP: taxp, TaxLP: taxl, JobTotal: jobtot, Balance: bal };
+
+                $("#btnUpdateFinance").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+                $("#btnUpdateFinance").attr("disabled", "disabled");
+
+                var jsata = $.ajax({
+                    url: "/Invoice/UpdateFinancial",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        //window.location.reload();
+
+                        if (msg != null)
+                            $("#txtBal").val(msg);
+
+                        $("#loadingimg").remove();
+                        $("#btnUpdateFinance").removeAttr("disabled");
+
+                        BindHistory();
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $("#loadingimg").remove();
+                        $("#btnUpdateFinance").removeAttr("disabled");
+
+                        $('#output').innerHtml(e);
+                    }
+                });
+            }
+
+            function UpdateServicePro() {
+                var SP = document.getElementById("ddlEmployee").value;
+                var param = { EmployeeID: SP, JobId: getUrlVars()["JobId"] };
+
+                $("#btnUpdateServicePro").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+                $("#btnUpdateServicePro").attr("disabled", "disabled");
+
+                var jsata = $.ajax({
+                    url: "/Invoice/UpdateServicePro",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        $("#loadingimg").remove();
+                        $("#btnUpdateServicePro").removeAttr("disabled");
+
+                        alert("Primary Service Pro updated successfully.");
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $("#loadingimg").remove();
+                        $("#btnUpdateServicePro").removeAttr("disabled");
+
+                        alert("Error occured while updating Service Pro.");
+                    }
+                });
+            }
+
+            function UpdateJobType() {
+                var jobtype = document.getElementById("ddljobtype").value;
+                var param = { JobType: jobtype, JobId: getUrlVars()["JobId"] };
+
+                $("#btnUpdatejobtype").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+                $("#btnUpdatejobtype").attr("disabled", "disabled");
+
+                var jsata = $.ajax({
+                    url: "/Invoice/UpdateJobType",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        $("#loadingimg").remove();
+                        $("#btnUpdatejobtype").removeAttr("disabled");
+
+                        alert("Job Type updated successfully.");
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $("#loadingimg").remove();
+                        $("#btnUpdatejobtype").removeAttr("disabled");
+
+                        alert("Error occured while updating status.");
+                    }
+                });
+            }
+
+            function SendInvoicePop() {
+                sendWin.show();
+            }
+
+            function SendInvoice() {
+                $("#sendBtn").val("Sending....");
+                $("#sendBtn").attr("disabled", "disabled");
+                var param = { id: getUrlVars()["JobId"], to: $("#sendTo").val() };
+
+                $.ajax({
+                    url: '@Url.Action("SendInvoice")',
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (r) {
+                        if (r.Success) {
+                            alert("Invoice sent via email.");
+                            sendWin.hide();
+                        }
+                        else
+                            alert(r.Message);
+
+                        $("#sendBtn").removeAttr("disabled");
+                        $("#sendBtn").val("Send Now");
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        alert("Unknown error sending invoice.");
+                        $("#sendBtn").removeAttr("disabled");
+                        $("#sendBtn").val("Send Now");
+                    }
+                });
+            }
+
+            function UpdateDiagnosis() {
+                var params = { id: getUrlVars()["JobId"], note: $("#txtDiagnosis").text() };
+
+                $("#btnDiagnosisUpdate").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+                $("#btnDiagnosisUpdate").attr("disabled", "disabled");
+
+                $.ajax({
+                    url: '@Url.Action("UpdateDiagnosis")',
+                    data: JSON.stringify(params),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        $("#loadingimg").remove();
+                        $("#btnDiagnosisUpdate").removeAttr("disabled");
+                    },
+                    type: "POST",
+                    error: function (e) {
+                        $("#loadingimg").remove();
+                        $("#btnDiagnosisUpdate").removeAttr("disabled");
+                    }
+                });
+            }
+
+            function UpdateComments() {
+                var params = { id: getUrlVars()["JobId"], note: $("#txtComments").text() };
+
+                $("#btnCommentUpdate").after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+                $("#btnCommentUpdate").attr("disabled", "disabled");
+
+                $.ajax({
+                    url: '@Url.Action("UpdateComments")',
+                    data: JSON.stringify(params),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        $("#loadingimg").remove();
+                        $("#btnCommentUpdate").removeAttr("disabled");
+                    },
+                    type: "POST",
+                    error: function (e) {
+                        $("#loadingimg").remove();
+                        $("#btnCommentUpdate").removeAttr("disabled");
+                    }
+                });
+            }
+
+            function ResetFinance(result) {
+                $("#txtBal").val(result.CustomerBalance);
+                $("#txtJobSubTotal").val(result.SubTotal);
+                $("#txtJobTotal").val(result.Total);
+                $("#txtBalance").val(result.Balance);
+                $("#txtAmtPaid").val(result.TotalPaid);
+            }
+
+            function RefreshDetail(result) {
+                ResetFinance(result);
+                BindJobTask();
+                BindHistory();
+            }
+
+            var sendWin;
+            var printWin;
+
+            $(document).ready(function () {
+                $('div[tab_id="jobhistory"]').live('click', function (event) {
+                    var jobid = "@Model.CurrentJobID";
+                    BindJobHistory(jobid);
+                });
+
+                $("#btnSaveScore").attr("disabled", "disabled");
+
+                var isCorporate = "@Model.IsCorporate";
+                var isOwner = "@Model.isOwner";
+
+                loadPaymentList();
+                LoadJobStatusHistory();
+
+                var wins = new dhtmlXWindows();
+                sendWin = wins.createWindow("send", 0, 0, 400, 200);
+                sendWin.hide();
+                sendWin.attachObject("sendInvoice");
+                sendWin.centerOnScreen();
+                sendWin.setText("Send Invoice To Customer");
+                sendWin.attachEvent("onClose", function (win) {
+                    sendWin.hide();
+                    return false;
+                });
+
+                printWin = wins.createWindow("print", 0, 0, 400, 200);
+                printWin.hide();
+                printWin.attachObject("printInvoice");
+                printWin.centerOnScreen();
+                printWin.setText("Print Invoice");
+                printWin.attachEvent("onClose", function (win) {
+                    printWin.hide();
+                    return false;
+                });
+
+                $('#printicon').click(function (event) {
+                    var wins = new dhtmlXWindows();
+
+                    printWin.show();
+                    event.preventDefault();
+                    return false;
+                });
+
+                // Detect for 'Corporate' user.
+                if (isCorporate == "True") {
+                    $("#btnSaveScore").removeAttr("disabled");
+                    $('#btnSaveScore').live('click', function () {
+                        $("#btnSaveScore").val("Saving...");
+                        $("#btnSaveScore").attr("disabled", "disabled");
+
+                        var payload = { jobid: getUrlVars()["JobId"], npsScore: $("#txt_NPS").val(), npsComment: $("#txt_NPSMsg").val(), techScore: $("#txttechnicains").val(), techComment: $("#txttechcmt").val(), scheduleScore: $("#txtSched").val(), scheduleComment: $("#txtschedcmt").val(), ipadScore: $("#txtipad").val(), ipadComment: $("#txtipadcmt").val() };
+
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("SaveInvoiceDetailsScore")',
+                            data: JSON.stringify(payload),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (result) {
+                                if (result.Success) {
+                                    alert(result.Message);
+                                }
+                                else {
+                                    alert(result.Message);
+                                }
+
+                                $("#btnSaveScore").removeAttr("disabled");
+                                $("#btnSaveScore").val("Save");
+                            },
+                            error: function (xhr, status, error) {
+                                alert('An error has occurred, please try again later.');
+                                $("#btnSaveScore").removeAttr("disabled");
+                                $("#btnSaveScore").val("Save");
+                            }
+                        });
+
+                    });
+                }
+                else {
+                    $("#btnSaveScore").attr("disabled", "disabled");
+                }
+
+                // Detect for 'CompanyOwner' user.
+                if (isOwner == "True") {
+                    $("#btnUpdateServiceType").removeAttr("disabled");
+                    $('#btnUpdateServiceType').live('click', function () {
+                        $("#btnUpdateServiceType").val("Updating...");
+                        $("#btnUpdateServiceType").attr("disabled", "disabled");
+
+                        var payload = { jobId: getUrlVars()["JobId"], serviceId: $('#ddlServiceType').val() };
+
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("UpdateServiceType")',
+                            data: JSON.stringify(payload),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (result) {
+                                if (result.Success) {
+                                    alert(result.Message);
+                                }
+                                else {
+                                    alert(result.Message);
+                                }
+
+                                $("#btnUpdateServiceType").removeAttr("disabled");
+                                $("#btnUpdateServiceType").val("Update");
+                            },
+                            error: function (xhr, status, error) {
+                                alert('An error has occurred, please try again later.');
+                                $("#btnUpdateServiceType").removeAttr("disabled");
+                                $("#btnUpdateServiceType").val("Update");
+                            }
+                        });
+                    });
+                }
+                else {
+                    $("#btnUpdateServiceType").attr("disabled", "disabled");
+                }
+
+                $('#linkCustomerBillTo').live('click', function (event) {
+                    event.preventDefault();
+                    window.open('@Url.Action("CustomerInformation", "AllCustomers", new { Custid = Model.JobInfo.CustomerID })');
+                });
+            });
+
+            function print(setInvoiceDate)
+            {
+                if (setInvoiceDate != null)
+                    window.location.href = '@Url.Action("PrintInvoice")?id=@(Model.CurrentJobID)&forCustomer=' + setInvoiceDate;
+                
+                printWin.hide();
+            }
+            
+        </script>
+    </head>
+    <body>
+        @*<a href='@Url.Action(string.Empty, "Dashboard", new { Area = "LandingPage" })'>*@
+        @Html.Partial("../Shared/LogoHeader")@*</a>*@
+        <div style="float: right">
+            <div style="float: left">
+                @{ Html.BeginForm("InvoiceDetails", "Invoice", new { JobId = (string)@Model.PreviousJobID, btnclicknext = "0" }); }
+                @if (Model.StyleFlag == "0")
+                {
+                    <input type="submit" value="<< Previous" style="display: none" />
+                }
+                else
+                {
+                    <input type="submit" value="<< Previous" />
+                }
+                @{ Html.EndForm(); }
+            </div>
+            <div style="float: left;">
+                @{ Html.BeginForm("InvoiceDetails", "Invoice", new { JobId = (string)@Model.NextJobID, btnclicknext = "1" }); }
+                @if (Model.StyleFlag1 == "0")
+                {
+                    <input type="submit" value="Next >>" style="display: none" />
+                }
+                else
+                {
+                    <input type="submit" value="Next >>" />
+                }
+                @{ Html.EndForm(); }
+
+                <a id="printicon" href="#">Print Invoice</a><br />
+                <a href="javascript:SendInvoicePop();">Send Invoice</a>
+            </div>
+        </div>
+        <div style="clear: both; float: left">
+            <table cellpadding="0" cellspacing="0" width="900px">
+                <tr style="background-color: #dfedf3">
+                    <td style="width: 100px;">
+                        <b>Question</b>
+                    </td>
+                    <td style="width: 60px;">
+                        <b>Score</b>
+                    </td>
+                    <td style="width: 300px;">
+                        <b>Comments</b>
+                    </td>
+                    <td style="width: 100px;">
+                        <b>Question</b>
+                    </td>
+                    <td style="width: 60px;">
+                        <b>Score</b>
+                    </td>
+                    <td style="width: 200px;">
+                        <b>Comments</b>
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        NPS
+                    </td>
+                    <td>
+                        @Html.TextBox("txt_NPS", Model.Head.NPS_Score, new { @style = "width:50px;" })
+                    </td>
+                    <td>
+                        @Html.TextBox("txt_NPSMsg", Model.Head.NPS_Comment, new { @style = "width:250px;" })
+                    </td>
+                    <td>
+                        Technician
+                    </td>
+                    <td>
+                        @Html.TextBox("txttechnicains", Model.Head.Technician_Score, new { @style = "width:50px;" })
+                    </td>
+                    <td>
+                        @Html.TextBox("txttechcmt", Model.Head.Technician_Comment, new { @style = "width:250px;" })
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Scheduling
+                    </td>
+                    <td>
+                        @Html.TextBox("txtSched", Model.Head.Sched_Score, new { @style = "width:50px;" })
+                    </td>
+                    <td>
+                        @Html.TextBox("txtschedcmt", Model.Head.Sched_Comment, new { @style = "width:250px;" })
+                    </td>
+                    <td>
+                        iPad
+                    </td>
+                    <td>
+                        @Html.TextBox("txtipad", Model.Head.IPad_Score, new { @style = "width:50px;" })
+                    </td>
+                    <td>
+                        @Html.TextBox("txtipadcmt", Model.Head.IPad_Comment, new { @style = "width:250px;" })
+                    </td>
+                    <td>
+                        <input id="btnSaveScore" type="button" value="Save" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="tabinvoice1" style="clear: both;">
+            <div id="a_tabbar1" class="dhtmlxTabBar" imgpath="../../../../codebase/imgs/" style="width: 100%;
+                height: 520px;" select="jobinfo">
+                <div id="jobinfo" name="Job Info" style="background-color: #dfedf3; height: 520px">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tr style="background-color: #dfedf3">
+                            <td style="vertical-align: top;">
+                                <div style="height: 472px; background-color: White;">
+                                    <table style="width: 100%;" cellpadding="0" cellspacing="0">
+                                        <tr style="background-color: #dfedf3">
+                                            <td>
+                                                <b>Job Info</b>
+                                            </td>
+                                            <td>
+                                                @Html.Label("", Model.JobInfo.DBAName)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top">
+                                                <div style="padding-top: 3px;">
+                                                    Inv #/ Status
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div style="float: left">
+                                                    @Html.TextBox("txtinvstatus", Model.JobInfo.InvoiceNum, new { @readonly = "readonly" })
+                                                </div>
+                                                <div style="padding-left: 5px; max-height: 12px;">
+                                                    @{ Html.BeginForm("InvoiceDetails", "Invoice", new { JobId = Model.CurrentJobID, btnclicknext = "2" }); }
+                                                    @if (Model.IsItClose == "1")
+                                                    {
+                                                        @Html.DropDownList("ddlstatus", (SelectList)Model.JobInfo.InvoiceStatusList, new { @disabled = "disabled" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownList("ddlstatus", (SelectList)Model.JobInfo.InvoiceStatusList)
+                                                    }
+                                                    @if (Model.CloseTicketflag == "1")
+                                                    {
+                                                        <input type="submit" value="Update" style="display: none" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="button" id="btnUpdate" value="Update" onclick="UpdateStatus();" />
+                                                    }
+                                                    @{ Html.EndForm(); }
+                                                </div>
+                                                <div id="confirmupdate" style="padding-left: 5px; float: left; display: none;">
+                                                    Enter Password: @Html.Password("txtPassword")
+                                                    <input id="btnclick" value="Update" type="button" onclick="UpdateStatus();" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Business Type
+                                            </td>
+                                            <td>
+                                                @Html.DropDownList("ddljobtype", (SelectList)Model.JobInfo.BusinessTypeList)
+                                                <input type="button" value="Update" id="btnUpdatejobtype" onclick="UpdateJobType();" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Lock Date
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txtLockDate", Model.JobInfo.LockDate, new { @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Service Type
+                                            </td>
+                                            <td>
+                                                @*@Html.TextBox("txtjobtype", Model.JobInfo.JobType, new {@readonly = "readonly"})*@
+                                                @Html.DropDownList("ddlServiceType", (SelectList)Model.JobInfo.ServiceTypeList, new { style = "width:156px;" })
+                                                <input type="button" value="Update" id="btnUpdateServiceType" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Service Pro
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txtservicepro", Model.JobInfo.ServicePro, new { @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Select New ServicePro
+                                            </td>
+                                            <td>
+                                                @Html.DropDownList("ddlEmployee", (SelectList)Model.EmployeeList, new { })
+                                                <input type="button" value="Update" id="btnUpdateServicePro" onclick="UpdateServicePro();" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Warranty
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txt_WarrantyType1", Model.JobInfo.WarrantyType1, new { @readonly = "readonly" })
+                                                @Html.TextBox("txt_WarrantyLen1", Model.JobInfo.WarrantyLength1, new { @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Type/Length
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txt_WarrantyType2", Model.JobInfo.WarrantyType2, new { @readonly = "readonly" })
+                                                @Html.TextBox("txt_WarrantyLen2", Model.JobInfo.WarrantyType2, new { @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Call Reason
+                                            </td>
+                                            <td>
+                                                @Html.TextArea("txtCallReason", Model.JobInfo.CallReason, new { @style = "height:135px; width:314px", @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                            <td colspan="2" style="vertical-align: top;">
+                                <table cellpadding="0" cellspacing="0" width="100%">
+                                    <tr style="background-color: #dfedf3">
+                                        <td style="vertical-align: top; padding-top: 0px;">
+                                            <div style="height: 323px; background-color: White;">
+                                                <table width="100%" cellpadding="0" cellspacing="0" style="vertical-align: top;">
+                                                    <tr style="background-color: #dfedf3">
+                                                        <td colspan="2">
+                                                            <b>&nbsp;</b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <a id="linkCustomerBillTo" href="#">Customer Bill To</a>
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextArea("txtcustomer", Model.JobInfo.CustomerBillTo, new { @style = "height:112px; width:300px;", @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Job Location
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextArea("txtjoblocation", Model.JobInfo.JobLocation, new { @style = "height:112px; width:300px;", @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align: top; padding-top: 0px;">
+                                            <div style="height: 323px; background-color: White;">
+                                                <table cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr style="background-color: #dfedf3">
+                                                        <td colspan="2">
+                                                            <b>Call Info&nbsp;</b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Call Received
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox("txtCallReceived", Model.JobInfo.CallReceived, new { @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Received By
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox("txtReceivedBy", Model.JobInfo.ReceivedBy, new { @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Call Minutes
+                                                        </td>
+                                                        <td>@Html.TextBox("txtCallMinutes", "", new { @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Referral
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox("txtReferral", Model.JobInfo.Referral, new { @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Requested
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox("txtRequested", Model.JobInfo.Requested, new { @style = "width:65px;", @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Dispatched By
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox("txtDispatchedBy", Model.JobInfo.DispatchedBy, new { @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Sched Time
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox("txtschedtime", Model.JobInfo.ScheduleTime, new { @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color: #dfedf3">
+                                        <td style="vertical-align: top">
+                                            <div style="height: 177px; background-color: White;">
+                                                <table cellpadding="0" cellspacing="0" width="100%" style="vertical-align: top;">
+                                                    <tr style="background-color: #dfedf3">
+                                                        <td colspan="2">
+                                                            <b>Service Plan Information</b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 35%">
+                                                            Membership Plan Type
+                                                        </td>
+                                                        <td>
+                                                            @Html.DropDownList("ddlMembershipType", (SelectList)Model.MemberInfo.MemberTypeList, "No Membership", new { style = "width:260px;", @disabled = "disabled" })
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Start Date
+                                                        </td>
+                                                        <td>
+                                                            @if (Model.MemberInfo.StartDate != null)
+                                                            {
+                                                                @Html.TextBox("txtStartDate", Model.MemberInfo.StartDate, new { style = "width:150px;", @disabled = "disabled" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBox("txtStartDate", "", new { style = "width:150px;", @disabled = "disabled" })
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Expiration Date
+                                                        </td>
+                                                        <td>
+                                                            @if (Model.MemberInfo.ExpiryDate != null)
+                                                            {
+                                                                @Html.TextBox("txtExpirationDate", Model.MemberInfo.ExpiryDate, new { style = "width:150px;", @disabled = "disabled" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBox("txtExpirationDate", "", new { style = "width:150px;", @disabled = "disabled" })
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align: top">
+                                            <div style="height: 177px; background-color: White;">
+                                                <table style="vertical-align: top;" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td style="width: 38%">
+                                                            Dispatched
+                                                        </td>
+                                                        <td>
+                                                            @if (Model.JobInfo.Dispatched != "")
+                                                            {
+                                                                @Html.TextBox("txtDispatched", Model.JobInfo.Dispatched, new { @readonly = "readonly" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBox("txtDispatched", "", new { @readonly = "readonly" })
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Job Completed
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox("txt_Completed", Model.JobInfo.JobCompleted, new { @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Last Invoiced
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox("txtLastInvoiced", null, new { @readonly = "readonly" })
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="statushistory" name="Status History" style="height: 100%; overflow: auto;">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td>
+                                <img id="JobStatusHistorygifId" src="../../../../Images/ajax-loader.gif" alt="processing..." />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="GvJobStatusHistory" style="width: 100%; height: 700px; background-color: white;">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="jobhistory" name="Job History" style="height: 100%; overflow: auto;">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td>
+                                @Html.Partial("../Shared/JobHistoryList")
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="tabinvoice2" style="clear: both;">
+            <div id="a_tabbar" class="dhtmlxTabBar" imgpath="../../../../codebase/imgs/" style="width: 100%;
+                height: 180px;" select="Tab1">
+                <div id="Tab1" name="Service Comments" style="height: 100%">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td>
+                                Diagnosis
+                            </td>
+                            <td>
+                                @Html.TextArea("txtDiagnosis", Model.ServiceComment.Diagnosis, new { @style = "height:130px;width:400px;" })
+                                <input type="button" id="btnDiagnosisUpdate" value="Update" onclick="UpdateDiagnosis()" />
+                            </td>
+                            <td>
+                                Recommended Actions
+                            </td>
+                            <td>
+                                @Html.TextArea("txtRecommanded", Model.ServiceComment.Recommendations, new { @style = "height:130px;width:400px;", @readonly = "readonly" })
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="Tab2" name="Customer Signatures" style="height: 100%">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td>
+                                Authorization To Start
+                            </td>
+                            <td>
+                                <img src="@Url.Action("GetImage", new { id = Model.CurrentJobID, PictureID = 0 })" alt="Authorization To Start" style="height: 130px; width: 400px;"/>
+                            </td>
+                            <td>
+                                Accepted By
+                            </td>
+                            <td>
+                                <img src="@Url.Action("GetImage", new { id = Model.CurrentJobID, PictureID = 1 })" alt="Accepted By" style="height: 130px; width: 400px;"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="Tab3" name="Owner and Call Notes" style="height: 100%">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td>
+                                Comments
+                            </td>
+                            <td>
+                                @Html.TextArea("txtComments", Model.ServiceComment.CustomerComments, new { @style = "height:130px;width:400px;" })
+                                <input type="button" id="btnCommentUpdate" value="Update" onclick="UpdateComments()" />
+                            </td>
+                            <td>
+                                Call Notes
+                            </td>
+                            <td>
+                                @Html.TextArea("txtCallNotes", Model.ServiceComment.CallNotes, new { @style = "height:130px;width:400px;", @readonly = "readonly" })
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr style="background-color: #dfedf3">
+                    <td colspan="3">
+                        @Html.Partial("../Shared/JobTaskList")
+                    </td>
+                </tr>
+                <tr style="background-color: #dfedf3">
+                    <td colspan="3">
+                        <table width="100%" cellpadding="0" cellspacing="0" id="tblFinance">
+                            <tr style="background-color: #dfedf3">
+                                <td>
+                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                        <tr style="background-color: #dfedf3">
+                                            <td colspan="4" style="text-align: center;">
+                                                <b>Financial</b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Terms
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txtTerms", Model.Financial.Term, new { @readonly = "readonly" })
+                                            </td>
+                                            <td>
+                                                Job Sub Total
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txtJobSubTotal", Model.Financial.SubTotal, new { @style = "width:70px;text-align:right;", @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                &nbsp;
+                                            </td>
+                                            <td>
+                                                Select Tax:&nbsp;@Html.DropDownList("ddltaxrate", (SelectList)Model.Financial.TaxRateList, new { onchange = "ddltaxrateselected();" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Limit / Bal
+                                            </td>
+                                            <td>
+                                                @if (Model.Financial.CreditLimit != null)
+                                                {
+                                                    @Html.TextBox("txtLimit", Model.Financial.CreditLimit, new { @style = "width:70px;text-align:right;", @readonly = "readonly" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBox("txtLimit", "", new { @style = "width:70px;", @readonly = "readonly" })
+                                                }
+                                                @Html.TextBox("txtBal", Model.Financial.CustomerBalance, new { @style = "width:70px;text-align:right;", @readonly = "readonly" })
+                                            </td>
+                                            <td>
+                                                Tax / Rate
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txtTax", Model.Financial.Tax, new { @style = "width:70px;text-align:right;", @readonly = "readonly" })
+                                                @Html.TextBox("txt_TaxPartPercentage", Model.Financial.TaxPartPercent, new { @style = "width:50px;text-align:right;", @readonly = "readonly" })
+                                                @Html.TextBox("txt_TaxLaborPercentage", Model.Financial.TaxLaborPercent, new { @style = "width:50px;text-align:right;", @readonly = "readonly" })
+                                                <input type="button" value="Update" id="btnUpdateFinance" onclick="UpdateFinancialinfo();" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Payment Type
+                                            </td>
+                                            <td rowspan="2">
+                                                @Html.TextArea("txtPaymentType", Model.Financial.PaymentType, new { @style = "width:200px; height:75px;", @readonly = "readonly" })
+                                            </td>
+                                            <td>
+                                                Job Total
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txtJobTotal", Model.Financial.Total, new { @style = "width:70px;text-align:right;", @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <a href="javascript:doWindowLoadAmountPaid();" style="color: Blue; font-weight: bold;
+                                                    text-decoration: underline">Amt Paid</a>
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txtAmtPaid", Model.Financial.TotalPaid, new { @style = "width:70px;text-align:right;", @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" id="paymentSection" style="display: none;">
+                                                <div style="width: 85%;">
+                                                    @Html.Hidden("hjobid", Model.CurrentJobID)
+                                                    @Html.Partial("../Shared/PaymentList", Model.Payment)
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                Balance
+                                            </td>
+                                            <td>
+                                                @Html.TextBox("txtBalance", Model.Financial.Balance, new { @style = "width:70px;text-align:right;", @readonly = "readonly" })
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="background-color: #dfedf3">
+                    <td colspan="3">
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tr style="background-color: #dfedf3">
+                                <td style="text-align: center;">
+                                    @Html.Partial("../Shared/HistoryList")
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="sendInvoice" style="padding: 10px">
+            Send to:
+            <input type="text" id="sendTo" value="@Model.CustomerEmail" style="width:100%;" /><br />
+            <button type="button" onclick="SendInvoice()" id="sendBtn">
+                Send Now</button><br />
+            <span style="font-size: 12px">Note: Separate multiple addresses with a comma (,) or
+                semicolon (;)</span>
+        </div>
+        <div id="printInvoice">
+            Do you plan to send this invoice to the customer?<br /><br />If yes, the invoice date on this job will be set to the current date.<br />
+            <div class="btns">
+            <button type="button" onclick="print(true)">Yes</button><button type="button" onclick="print(false)">No</button><button type="button" onclick="print(null)">Cancel</button>
+            </div>
+        </div>
+    </body>
+    </html>
+}
+else
+{
+    <p>
+        You are not authorized to view this invoice.</p>
+}

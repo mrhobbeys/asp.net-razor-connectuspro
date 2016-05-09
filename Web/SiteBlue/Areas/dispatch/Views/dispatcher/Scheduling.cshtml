@@ -1,0 +1,762 @@
+﻿@{
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+    ViewBag.Title = "Technician Scheduling";
+}
+@section MetaTags{
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    
+}
+@section Styles {
+    
+    <!--must be in place for drag/drop to work properly!!!!-->
+    <link href="@Url.Content("~/Content/jquery-ui-1.8.7.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/grid/dhtmlxgrid.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/themes/DhtmlX/grid/skins/dhtmlxgrid_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxwindows.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxtabbar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/skins/dhtmlxwindows_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/skins/dhtmlxlayout_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxscheduler.css")" type="text/css" charset="utf-8" rel="stylesheet" >
+    <link href="@Url.Content("~/codebase/dhtmlxlayout.css")" rel="stylesheet" type="text/css" >
+    <style type="text/css" media="screen">
+        html, body
+        {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            overflow: hidden;
+            background-color: #b2c6e1;
+        }
+        
+        .dhx_scale_holder_now.custom_color, .dhx_scale_holder.custom_color
+        {
+            background-image: url(../../../../common/databg.png);
+            background-position: 0px -252px;
+        }
+        .dhx_scale_holder_now.weekday, .dhx_scale_holder.weekday
+        {
+            background-image: url(../../../../common/hour_bg.png);
+        }
+        
+        
+        .dhx_scale_hour
+        {
+            line-height: 20px;
+        }
+        body
+        {
+            font-family: Tahoma;
+            font-size: 11px;
+        }
+        
+        
+        div.gridbox .objbox
+        {
+            background-color: #ffffff;
+        }
+        .dhx_cal_event .dhx_title
+        {
+            height: auto;
+        }
+        div.gridbox table.obj td.group_row
+        {
+            font-size: 10px;
+        }
+    </style>
+}
+@section ScriptIncludes {
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxwindows.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxcontainer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxlayout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgrid.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/ext/dhtmlxgrid_group.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/ext/dhtmlxgrid_filter.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgridcell.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/ext/dhtmlxgrid_drag.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/jquery.dateFormat-1.0.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/themes/DhtmlX/combo/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxscheduler.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/codebase/ext/dhtmlxscheduler_units.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/codebase/ext/dhtmlxscheduler_collision.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/codebase/ext/dhtmlxscheduler_editors.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/codebase/ext/dhtmlxscheduler_limit.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@Url.Content("~/codebase/ext/dhtmlxscheduler_editors.js")" type="text/javascript" charset="utf-8"></script>
+    <script src='@Url.Content("~/codebase/ext/dhtmlxscheduler_outerdrag.js")' type="text/javascript" charset="utf-8"></script>
+    <script src='@Url.Content("~/codebase/ext/dhtmlxscheduler_minical.js")' type="text/javascript" charset="utf-8"></script>
+    <script src='@Url.Content("~/codebase/dhtmlxtabbar.js")' language="javascript" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript" charset="utf-8">
+            
+        var console=console||{"log":function(){}};
+        var refreshTimer = null;
+
+        window.onerror = function(msg, url, linenumber) {
+                alert('An unhandled exception has occurred.  Please refresh this page to prevent inconsistent data.\n\nMessage: ' + msg + '\nLine: ' + linenumber);
+        }; 
+
+        $(document).ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) {
+                $("#contentWrapper").fadeIn();
+                init(SiteBlue.franchiseId);
+            });
+
+             $("#contentWrapper").fadeIn();
+            init(SiteBlue.franchiseId);
+            
+
+            if (!SiteBlue.isCorporate)
+             $("#inputFld").fadeOut();
+
+             $("#ddlQueueType").change(function() {
+                loadQueueView();
+             });
+
+            $("#sendToTech").click(function() { sendTechMessage(); });
+            $(document).mousemove(function() {resetTimer();});
+            $(document).keypress(function() {resetTimer();});
+            setAutoRefresh(true); 
+        });
+
+        var mgd = null;
+        var qgd = null;
+        var msggd = null;
+        var dhxWins = null;
+        var firstInit = true;
+        var dhxLayout = null;
+        var btmLayout = null;
+        var msgLoop = null;
+        var statusBar = null;
+        var detailWin = null;
+        var detailStatus = null;
+
+        function refreshScreen()
+        {
+            loadScheduler(false);
+            loadUnassigned();
+            loadQueueView();
+        }
+
+        function resetTimer()
+        {
+            console.log("reset");
+            setAutoRefresh(false);
+            setAutoRefresh(true);
+        }
+
+        function setAutoRefresh(flag)
+        {
+            if (flag)
+                refreshTimer = setInterval(refreshScreen, 45000);
+            else if(refreshTimer != null)
+            {
+                clearInterval(refreshTimer);
+                refreshTimer = null;
+            }
+        }
+
+        function init(franchiseId) {
+
+            var wasFirstInit = firstInit;
+            if (firstInit) {
+                dhxLayout = new dhtmlXLayoutObject("mainLayout","3U", "dhx_skyblue");
+                statusBar = dhxLayout.attachStatusBar();
+
+                dhxLayout.cells("b").attachObject("queueContainer");
+                dhxLayout.cells("b").hideHeader();
+
+                dhxLayout.cells("a").setText("Technician Messaging");
+                dhxLayout.cells("a").setWidth(500);
+                dhxLayout.cells("a").attachObject("techMsgs");
+                dhxLayout.cells("a").setHeight(260);
+
+                dhxLayout.cells("c").hideHeader();
+                dhxLayout.cells("c").attachObject("bottomLayout");
+                dhxLayout.setEffect("resize", true);
+                dhxLayout.attachEvent("onPanelResizeFinish", function(){ btmLayout.setSizes();
+                var height =  btmLayout.cells("a").offsetHeight;
+                    mgd.entBox.style.height = height + "px";
+                
+                mgd.setSizes();});
+
+                btmLayout = new dhtmlXLayoutObject("bottomLayout","2U", "dhx_skyblue");
+                btmLayout.cells("a").attachObject("mygrid_container");
+                btmLayout.cells("a").setWidth(150);
+                btmLayout.cells("b").attachObject("schWrapper");
+                btmLayout.cells("a").setText("Unassigned Jobs");
+                btmLayout.cells("b").hideHeader();
+                btmLayout.setEffect("resize", true);
+                btmLayout.attachEvent("onPanelResizeFinish", function(){ scheduler.update_view();mgd.setSizes();});
+                btmLayout.attachEvent("onCollapse", function(itemId){ scheduler.update_view();});
+                btmLayout.attachEvent("onExpand", function(itemId){ scheduler.update_view();});
+
+                dhxWins = new dhtmlXWindows();
+                dhxWins.setImagePath("");
+                dhxWins.attachEvent("onClose", 
+                    function(closedWin){
+                        var state = scheduler.getState();
+                        loadScheduler(false);
+                        return true;
+                            });
+                
+                mgd = new dhtmlXGridObject('mygrid_container');
+                mgd.setImagePath("@Url.Content("~/codebase/imgs/")");
+                mgd.setHeader("Unassigned Jobs, ServiceDate");
+                mgd.setNoHeader(true);
+                mgd.attachEvent("onRowDblClicked", function(rId,cInd){
+                    var status = mgd.getRowAttribute(rId, "status");
+                    popDetails(rId, status, "unassigned");
+                
+                });  
+                mgd.setInitWidths("*, 0");
+                mgd.setColAlign("left");
+                mgd.setSkin("light");
+                mgd.setStyle("dhx_scale_bar");
+                mgd.enableDragAndDrop(!@ViewBag.Locked.ToString().ToLower());
+                mgd.enableTooltips("true,false");
+                 mgd.attachEvent("onResizeEnd", function(cInd,cWidth,obj){alert('resized!')});
+
+                //temporarily allow create in the scheduler during drag operations.
+                //from the unassigned grid.
+                mgd.attachEvent("onDragOut", function(dId, tId, sObj, tObj) {
+                    lockDownScheduler(true);
+                });
+                
+                mgd.attachEvent("onXLS", function (){ btmLayout.cells("a").progressOn();});
+                mgd.attachEvent("onXLE", function (){ btmLayout.cells("a").progressOff();});
+                mgd.setSizes();
+                mgd.init();
+                
+
+
+                qgd = new dhtmlXGridObject('queueGrid');
+                qgd.setImagePath("@Url.Content("~/codebase/imgs/")");
+                qgd.setHeader("Customer Name,Address,Status,Scheduled Date,Technician");
+                qgd.setColAlign("left");
+                qgd.setSkin("dhx_skyblue");
+                qgd.setStyle("dhx_scale_bar");
+                qgd.setColSorting("str,str,str,date,str");
+                qgd.setEditable(false);
+                qgd.attachEvent("onRowDblClicked", function(rId,cInd){
+                    var status = qgd.getRowAttribute(rId, "status");
+                    popDetails(rId, status, "queue");
+                
+                });  
+                qgd.attachHeader("#text_filter,#text_filter,#text_filter,#text_filter,#text_filter");
+                qgd.init();
+                qgd.setSizes();
+                
+                var dhxResize = function(itemId) { dhxLayout.setSizes();qgd.setSizes();};
+                dhxLayout.attachEvent("onCollapse", dhxResize);
+                dhxLayout.attachEvent("onExpand", dhxResize);
+                dhxLayout.attachEvent("onPanelResizeFinish", dhxResize);
+                
+                msggd = new dhtmlXGridObject('msgs');
+                msggd.setImagePath('@Url.Content("~/Content/themes/DhtmlX/grid/imgs/")');
+                msggd.setHeader("MessageText");
+                msggd.setNoHeader(true);
+                msggd.setSkin("dhx_skyblue");
+                msggd.setStyle("dhx_scale_bar");
+                msggd.setEditable(false);
+                msggd.enableMultiline(true);
+                msggd.init();
+                msggd.setSizes();           
+         
+                msgLoop = setInterval(getTechMessages, 30000);
+                getTechMessages();
+                
+                scheduler.locale.labels.unit_tab = "Tech";
+                scheduler.locale.labels.section_assignedto = "Assigned To";
+                scheduler.locale.labels.section_customerdetails = "Customer Details";
+                scheduler.locale.labels.section_location = "Location";
+                scheduler.config.details_on_create = true;
+                scheduler.config.details_on_dblclick = true;
+                scheduler.config.prevent_cache = true; //VERY IMPORTANT for support in IE.
+                lockDownScheduler(false);
+                scheduler.config.wide_form = true;
+                scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+                scheduler.config.hour_date="%h:%i%a";
+                scheduler.xy.scale_width = 50;
+                scheduler.xy.scale_height = 30;
+                scheduler.config.cascade_event_display = true; // enable rendering, default value = false
+                scheduler.config.cascade_event_count = 4; // how many events events will be displayed in cascade style (max), default value = 4
+                scheduler.config.cascade_event_margin = 30; // margin between events, default value = 30
+                scheduler.config.start_on_monday=false;
+                scheduler.locale.labels.section_checkme = "Technician A";
+                scheduler.locale.labels.section_checkme1 = "Technician B";
+                scheduler.locale.labels.icon_delete = "Delete/Unassign";
+                scheduler.locale.labels.dhx_delete_btn = "Delete/Unassign";
+                scheduler.locale.labels.confirm_deleting = "Job will be placed back in the Unassigned queue.  Are you sure?";
+
+                //scheduler.config.multi_day = true;
+                // scheduler.config.limit_start = new Date(2011, 12, 1);
+                //scheduler.config.limit_end = new Date(2012, 1, 10);
+                //scheduler.config.first_hour = 6;
+                //scheduler.config.last_hour = 19;
+                scheduler.config.readonly = @ViewBag.Locked.ToString().ToLower();
+                scheduler.config.drag_resize = true;
+                scheduler.config.drag_move = true;
+                scheduler.config.drag_create = false;
+                scheduler.config.scroll_hour = 6;
+                //scheduler.attachEvent("onClick",function(){ return false; });
+                //scheduler.xy.menu_width = 0;
+                scheduler.config.hour_size_px = 25;
+                scheduler.config.time_step = 60;
+                scheduler.config.collision_limit = 2;
+                scheduler.attachEvent("onEventCollision", function (ev, evs) {
+                    alert('The maximum number of jobs already occupy this time slot.');
+                    return false;
+                });
+
+                scheduler.attachEvent("onEventSave", saveEvent);
+                scheduler.attachEvent("onEventChanged", updateEvent);
+                scheduler.attachEvent("onEventCreated", assignEvent);
+                scheduler.attachEvent("onAfterLightbox", function () { lockDownScheduler(false); });
+                scheduler.attachEvent("onEventDeleted", unassignJob);
+                scheduler.attachEvent("onBeforeEventDelete", captureToDelete);
+                scheduler.attachEvent("onLimitViolation", function (){alert('limit errors!');});
+                scheduler.attachEvent("onBeforeLightbox", function(event_id) {
+                var job = scheduler.getEvent(event_id); popDetails(event_id, job.status, "schedule")
+                });
+                //scheduler.attachEvent("onViewChange", function() {loadScheduler(false);});
+
+                scheduler.attachEvent("onXLS", function (){ btmLayout.cells("b").progressOn();});
+                scheduler.attachEvent("onXLE", function (){ btmLayout.cells("b").progressOff();});
+  
+                scheduler.templates.event_header = function(start, end, event) {
+                    return "<img src='@Url.Content("~/Content/images/jobstatus/")" + event.status + ".jpg' alt='" + event.statustext + "' title='" + event.statustext + "' /> " + scheduler.templates.hour_scale(start) + " - " + scheduler.templates.hour_scale(end);
+                };
+                scheduler.templates.tooltip_text = function(start,end,event) {
+                	return event.statustext;
+                };
+                
+                scheduler.init('schSchedule', new Date(), "week");
+                firstInit = false;
+            }
+            window.dhx_globalImgPath = "../../../../codebase/imgs/";
+                dhtmlx.skin = "dhx_skyblue";
+
+            loadScheduler(wasFirstInit);
+        }
+
+        var viewChangedId = null;
+        var dragMappings = [];
+        var skipSave = false;
+
+        function lockDownScheduler(canAcceptNewEvents) {
+            if (scheduler.config.dblclick_create != canAcceptNewEvents) {
+                scheduler.config.dblclick_create = canAcceptNewEvents;
+                console.log("Scheduler: " + (canAcceptNewEvents ? "open for events" : "closed for events"));
+            }
+        }       
+
+        function getFullJob(jobId) {
+                var job = $.parseJSON($.ajax( { url: "./GetJob/" + jobId,  
+                                            async: false,  
+                                            dataType: 'json' }
+                                               ).responseText); 
+            
+                if (job != null) {
+                    job.Start = new Date(parseInt(job.Start.substr(6)));
+                    job.End = new Date(parseInt(job.End.substr(6)));
+                    job.TimeString = $.format.date(job.Start, 'HH:mm') + " - " + $.format.date(job.End, 'HH:mm');
+                }
+
+            return job;
+        }
+
+        function getTechMessages() {
+            var selected = msggd.getSelectedId();
+            $("#msgs").fadeOut('fast', function () { 
+            msggd.clearAll();
+            var url = "@Url.Action("GetTechMessages")" + "/" + (SiteBlue.isCorporate ? "" : SiteBlue.franchiseId)
+            msggd.load(url, function() { msggd.selectRowById(selected, false, true, false); $("#msgs").fadeIn('slow') }, 'json')
+            });               
+       }
+        
+        function sendTechMessage() {
+            var msgId = msggd.getSelectedId();
+            var msg = $("#msgToSend").val();
+            var markProcessed = $("#markProcessed").is(":checked");
+            
+            if (msgId == null) {
+                alert("Please select the message you wish to respond to.");
+                return;
+            }
+            $.ajax({
+                    url: '@Url.Action("RespondToTechMessage")',
+                    async: false,
+                    dataType: 'json',
+                    type : 'POST',
+                    data: { id: msgId, msg: msg, markProcessed: markProcessed },
+                    success: function(data) {
+                            if (data.Success)
+                            {
+                                alert("Message queued for delivery.");
+                                $("#markProcessed").removeAttr("checked");
+                                $("#msgToSend").val("");
+                                
+                                if (!markProcessed)
+                                    msggd.clearSelection();
+                                else
+                                    msggd.deleteSelectedRows();
+                            }
+                            else
+                                alert(data.Message);
+                    },
+                    error: function(d, status, thrown) { alert("Error sending message to server: " + status + " - " + thrown);}
+                });
+            
+        }
+        
+        function assignEvent(id, e) {
+            if (mgd._dragged) {
+                var jobId = mgd._dragged[0].idd;
+                var jobObj = getFullJob(jobId);
+                var job = scheduler.getEvent(id);
+                job.text = jobObj.CallReason;
+                job.status = jobObj.StatusID;
+
+                dragMappings[id] = jobId;
+
+                var targetDate = $.format.date(job.start_date, 'MM/dd/yyyy');
+                var requestedDate = $.format.date(jobObj.Start, 'MM/dd/yyyy'); 
+                
+                if (targetDate != requestedDate)
+                {
+                    alert('You are attempting to schedule this job on ' + targetDate +
+                        " but the original service date requested was " + requestedDate +
+                        ".  Are you sure you want to continue?");
+                }
+                
+                job.start_date = new Date(targetDate + " " + $.format.date(jobObj.Start, 'HH:mm')); 
+                job.end_date = new Date(targetDate + " " + $.format.date(jobObj.End, 'HH:mm')); 
+                
+                if (job.start_date < new Date())
+                {
+                    //do this in a timeout to give enough time for the scheduler to 
+                    //finish all of the internal events it runs through when an event
+                    //is added to the schedule.  If we delete the event too early it will flip out.
+                    setTimeout(function() {
+                        alert('A job cannot be scheduled in the past!  This job will be returned to the unassigned queue.');
+                        scheduler.deleteEvent(id);}, 100);
+
+                    skipSave = true;
+                    return;
+                }
+                
+            }
+        }
+      
+        function loadQueueView()
+        {
+            qgd.clearAll();
+            var franchiseId = SiteBlue.franchiseId;
+            $(qgd.hdr.rows[2]).find(".filter input").val("");
+            qgd.loadXML('@Url.Action("DispatchQueue")?franchiseId=' + franchiseId + "&viewType=" + $("#ddlQueueType").val());
+        }
+        
+        function loadUnassigned()
+        {
+            mgd.clearAll();
+            var franchiseId = SiteBlue.franchiseId;
+            mgd.loadXML('./UnassignedJobs?franchiseId=' + franchiseId);
+            mgd.groupBy(1);
+        }
+
+        function loadScheduler(firstLoad) {
+                      
+            if (viewChangedId != null)
+                scheduler.detachEvent(viewChangedId);
+
+            var state = scheduler.getState();
+            if (firstLoad)
+            {
+                scheduler.setCurrentView(state.date, "unit");
+                state = scheduler.getState();
+            }
+            
+            var mode = state.mode;
+            var date = state.date;
+
+            loadUnassigned();
+            loadQueueView();
+            
+            var franchiseId = SiteBlue.franchiseId;
+            scheduler.clearAll();
+
+            var f = new Date(date.getTime());
+            var to = new Date(date.getTime());
+            
+            
+            switch (mode.split(',')[0]) {
+            case "week" :
+                {
+                    var offset = scheduler.config.start_on_monday ? 1 : 0;
+                    f.setDate(f.getDate() - f.getDay() + offset);
+                    to = new Date(f.valueOf());
+                    to.setDate(to.getDate() + 6);
+                }
+                break;
+            case "month" :
+                {
+                    f.setDate(f.getDate() - f.getDate() + 1);
+                    to = new Date(f.valueOf());
+                    to.setMonth(to.getMonth() + 1);
+                    to.setDate(to.getDate() - 1);
+                }
+                break;
+            case "unit" :
+                {
+                    var dt = $.format.date(date, 'MM/dd/yyyy');
+                    var techs = null;
+                    $.ajax({
+                            url: '@Url.Action("Technicians/")',
+                            async: false,
+                            dataType: 'json',
+                            data: { id: franchiseId, date: dt },
+                            success: function(data) { techs = data }
+                        });
+
+                    //HACK: to prevent flashing and multiple event wireups when this gets called MANY times.
+                    //http://forum.dhtmlx.com/viewtopic.php?f=6&t=16022&start=0
+                    var unitName = "unit," + new Date().valueOf();
+                    
+                    scheduler._mode = unitName;
+
+                    scheduler.createUnitsView(
+                        {
+                            name: unitName,
+                            property: "section_id",
+                            list: techs,
+                            size: 8,
+                            step: 8,
+                            skip_incorrect: true
+                        });
+
+                    if (firstLoad)
+                        scheduler.setCurrentView(state.date, unitName);
+                }
+            }
+
+            f = $.format.date(f, 'MM/dd/yyyy');
+            to = $.format.date(to ? to : f, 'MM/dd/yyyy');
+            
+            console.log("Loading data from " + f + " to " + to);
+            scheduler.clearAll();
+            scheduler.load("./SchedulerData?franchiseId=" + franchiseId + "&from=" + f + "&to=" + to, function() {
+            viewChangedId = scheduler.attachEvent("onViewChange", function (mode, date){loadScheduler(false);})
+            });                       
+        }
+        
+        function saveEvent(id,data,is_new_event) {
+            var jobId = null;
+
+            if (is_new_event) {
+                jobId = parseInt(mgd._dragged[0].idd);
+                mgd.deleteRow(jobId);
+            }
+            else
+                jobId = id;
+            
+            lockDownScheduler(false);
+
+            if (!skipSave)
+            {
+            var details = { JobId: jobId, StartTime: data.start_date.toLocaleString(), EndTime: data.end_date.toLocaleString(), TechnicianId: data.section_id };
+            $.post('./SaveJob', details, function (result) {
+                if (!result.Success)
+                    alert(result.Message);
+                else {
+
+                    var ev = scheduler.getEvent(id);
+                    scheduler._edit_stop_event(ev, true);
+                    scheduler.changeEventId(id, jobId);
+                    scheduler.updateEvent(jobId);
+                    dragMappings[id] = null;
+                    statusBar.setText("Job " + jobId + " saved to schedule - Tech: " + data.section_id + " Start:" + data.start_date.toLocaleString() + " End:" + data.end_date.toLocaleString());
+                }
+            });
+            }
+
+            skipSave = false;  
+            
+            return true;
+        }
+        
+        function updateEvent(event_id,event_object) {
+            var details = { 
+                JobId: event_id,
+                StartTime: $.format.date(event_object.start_date, 'MM/dd/yyyy HH:mm'),
+                EndTime: $.format.date(event_object.end_date, 'MM/dd/yyyy HH:mm'),
+                TechnicianId: event_object.section_id
+            };
+            $.post('./SaveJob', details, function (result) {
+                if (!result.Success) alert(result.Message);
+                else
+                    statusBar.setText("Job " + details.JobId + " updated - Tech: " + details.TechnicianId + " Start:" + details.StartTime + " End:" + details.EndTime);                    
+            });
+        }
+
+        var toDelete = null;
+        function captureToDelete(event_id, event_object) {
+            toDelete = event_object;
+            return true;
+        }
+
+        function unassignJob(id) {
+
+            var isPendingAdd = dragMappings[id] != null;
+            var jobId = isPendingAdd ? dragMappings[id] : id;
+            if (!isPendingAdd)
+                $.post('./UnassignJob/' + jobId, jobId, function (data) {
+                    if (!data.Success)
+                        alert(data.Message);
+                    else
+                    {
+                    loadUnassigned();
+                    statusBar.setText("Job " + jobId + " returned to unassigned queue.");       
+                    }
+                });
+            else {
+                loadUnassigned();
+            }
+        }
+        
+        function show_minical() {
+            if (scheduler.isCalendarVisible())
+                scheduler.destroyCalendar();
+            else
+                scheduler.renderCalendar({
+                        position: "dhx_minical_icon",
+                        date: scheduler._date,
+                        navigation: true,
+                        handler: function(date, calendar) {
+                            scheduler.setCurrentView(date);
+                            scheduler.destroyCalendar();
+                        }
+                    });
+        }
+        
+        function popDetails(event_id, status, source) {
+            if (dragMappings[event_id] != null) {
+                var job = scheduler.getEvent(event_id);
+                saveEvent(event_id, job, true);
+                return false;
+            }
+
+            detailWin = dhxWins.createWindow("jobDetail", 100, 100, 800, 700);
+            detailWin.centerOnScreen();
+
+            var tabbar = dhxWins.window("jobDetail").attachTabbar();
+            tabbar.setImagePath("../../../../codebase/imgs/");
+            tabbar.addTab("a1", "Job Details", "100px");
+            tabbar.addTab("a2", "History", "100px");
+            tabbar.setHrefMode("iframes");
+            tabbar.setContentHref("a1", "./GetJobDetails/" + event_id);
+            tabbar.setContentHTML("a2", "<br/>2");
+            tabbar.setTabActive("a1");
+            detailStatus = tabbar.cells("a1").attachStatusBar();
+
+            var histGrid = tabbar.cells("a2").attachGrid();
+            histGrid.setHeader("Changed By,Changed Field,Changed From/To,Changed On Tablet,Date Changed");
+            histGrid.init();
+
+            tabbar.attachEvent("onSelect", function(id,last_id){
+                if (id == "a2")
+                {
+                    histGrid.clearAll();
+                    histGrid.load('@Url.Action("GetJobHistory/")' + event_id, 'json');
+                }
+                return true;
+            });
+
+            var iconSrc = '@Url.Content("~/Content/images/jobstatus/")' + status + '.jpg';
+
+            detailWin.setText("Job #" + event_id);
+            detailWin.setIcon(iconSrc, iconSrc);
+            detailWin.setModal(true);
+
+            return false;
+        }
+        
+        function respondTechMessage() {
+            var msgId = $("#").val();
+            var markProcessed = $("#markProcessed").attr("checked");
+            var msg = $("#msgToSend").val();
+            var data = new {id : msgId, msg : msg, markProcessed : markProcessed};
+
+            $.post('@Url.Action("RespondToTechMessage")', data, function (result) {
+                    if (!result.Success)
+                        alert(result.Message);
+                });
+        }
+        
+    </script>
+}
+<div id="contentWrapper" style="display: none;">
+    <div id="mainLayout" style="position: absolute; bottom: 0; left: 0; right: 0; top: 30px">
+    </div>
+    <div id="queueContainer">
+    <div style="padding:2px;">
+    Queue Type&nbsp;
+        <select id="ddlQueueType">
+            <option value="current" selected="selected">In Process</option>
+            <option value="queue">Queue</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="booked">Booked</option>
+        </select>
+    </div>
+        <div id="queueGrid" style="position:absolute;width: 100%;top:30px;bottom:0">
+    </div>
+    </div>
+    <div id="techMsgs" style="height: 100%; width: 100%; overflow: auto;">
+        <div id="msgs" style="overflow: auto; position: absolute; top: 0; width: 100%; bottom: 45px">
+        </div>
+        <div id="inputFld" style="position: absolute; bottom: 0; width: 100%;">
+            <input type="text" id="msgToSend" style="width: 90%" />
+            <input type="button" id="sendToTech" value=">" style="width: 3%" />
+            <br />
+            <input id="markProcessed" type="checkbox" value="Mark Processed" />Mark Message
+            Processed
+        </div>
+    </div>
+    <div id="bottomLayout" style="position: absolute; bottom: 0; left: 0; right: 0; top: 0">
+    </div>
+    <div id="mygrid_container" style="position: absolute; bottom: 0; left: 0; right: 0;
+        top: 0">
+    </div>
+    <div id="schWrapper" style="position: absolute; bottom: 0; left: 0; right: 0; top: 0">
+        <div id="schSchedule" class="dhx_cal_container" style="position: absolute; bottom: 0;
+            left: 0; right: 0; top: 0">
+            <div class="dhx_cal_navline">
+                <div class="dhx_cal_prev_button">
+                    &nbsp;</div>
+                <div class="dhx_cal_next_button">
+                    &nbsp;</div>
+                <div class="dhx_cal_today_button">
+                </div>
+                <div class="dhx_cal_date" style="padding-left: 50px;">
+                </div>
+                <div onclick="show_minical()" id="dhx_minical_icon" class="dhx_minical_icon">
+                    &nbsp;</div>
+                <div class="dhx_cal_tab" name="day_tab" style="right: 204px;">
+                </div>
+                <div class="dhx_cal_tab" name="week_tab" style="right: 140px;">
+                </div>
+                <div class="dhx_cal_tab" name="unit_tab" style="right: 270px;">
+                </div>
+                <div class="dhx_cal_tab" name="month_tab" style="right: 76px;">
+                </div>
+            </div>
+            <div class="dhx_cal_header">
+            </div>
+            <div class="dhx_cal_data">
+            </div>
+        </div>
+    </div>
+</div>

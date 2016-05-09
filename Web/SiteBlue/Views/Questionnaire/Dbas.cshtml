@@ -1,0 +1,116 @@
+﻿@model List<SiteBlue.Questionnaire.Data.Dba>
+<div class="form" id="dbaForm">
+    <div class="formComponent formComponentSingleLineText">
+        <label class="formComponentLabel">
+            List any DBA’s under which you will perform service. </label>
+        <label>(This includes all DBA’s, third party numbers, internet marketing numbers, yellow <br /> page numbers and any other phone number a customer might use to schedule service.)</label>
+    </div>
+    <div class="formComponent formComponentName">
+        <input type="hidden" id="uiDbaId" name="uiDbaId" />
+        <div class="firstNameDiv" style="padding-right: 10px">
+            <label for="uiDbaName">
+                DBA</label>
+            <input type="text" id="uiDbaName" name="uiDbaName" class="validate[maxSize[50]]" />
+        </div>
+        <div class="lastNameDiv">
+            <label for="uiExpirationDate">
+                Advertised phone number</label>
+            <input type="text" id="uiAdvertisedPhoneNumberDBA" name="uiAdvertisedPhoneNumberDBA" class = "referralCode" />
+        </div>
+    </div>
+    <div class="formComponent formComponentSingleLineText">
+        <label for="uiDbaComment">
+            Comment</label>
+        <textarea id="uiDbaComment" name="uiDbaComment" rows="3" cols="30"></textarea>
+    </div>
+    <div class="buttons">
+        <ul class="jquerycontrol">
+            <li><a onclick="saveDba()" class="formbutton" id="save">Add New DBA</a></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+<div class="formComponent formComponentSingleLineText" id="zoneDbas">
+    @Html.Partial("Partial/DbasTable", Model)
+</div>
+<script type="text/javascript">
+
+    var _dba = -1;
+
+    $(function ($) {
+        // apply masks
+        $("#uiAdvertisedPhoneNumberDBA").mask("999-999-9999");
+    });
+
+    function saveDba() {
+        var name = $("#uiDbaName").val();
+        var comment = $("#uiDbaComment").val();
+        var advertisedPhoneNumberDBA = $("#uiAdvertisedPhoneNumberDBA").val();
+        var bid = $("#uiBusinessInformationId").val();
+        var id = $("#uiDbaId").val();
+        if (name == "") {
+            $("#error-div").html("Some fields are required!");
+            $("#error-div").fadeIn("fast");
+            $("#uiDbaName").parents('.formComponent').addClass('formComponentValidationFailed');
+            $("#error-div").fadeOut(5000);
+            return false;
+        } else {
+        $.ajax({
+            cache: false,
+            url: '@Url.Content("~/Questionnaire/SaveDba")',
+            type: 'POST',
+            data: { bid: bid, id: id, name: name, advertisedPhoneNumber: advertisedPhoneNumberDBA, comment: comment },
+            success: function (r) {
+                $("#zoneDbas").html(r.data);
+                $("#message-div").html("item saved with success!");
+                $("#message-div").fadeIn("fast");
+                $("#uiDbaId").val("");
+                $("#uiDbaName").val("");
+                $("#uiAdvertisedPhoneNumberDBA").val("");
+                $("#uiDbaComment").val("");
+                $("#uiDbaName").parents('.formComponent').removeClass('formComponentHighlight');
+                $("#uiDbaName").parents('.formComponent').removeClass('formComponentValidationFailed');
+                $("#message-div").fadeOut(4000);
+            },
+            error: function () {
+                $("#error-div").html("An error occured while trying to save the selected item, try again!");
+                $("#error-div").fadeIn("fast");
+                $("#uiDbaName").parents('.formComponent').addClass('formComponentValidationFailed');
+                $("#error-div").fadeOut(5000);
+            }
+        });
+    }
+}
+
+function deleteDba() {
+    $("#message-div").html("item deleted with success!");
+    $("#message-div").fadeIn("fast");
+    $("#message-div").fadeOut(4000);
+}
+
+function selectDba(itemId) {
+
+    $.ajax({
+        cache: false,
+        url: '@Url.Content("~/Questionnaire/GetDba")',
+        type: 'POST',
+        data: { id: itemId },
+        success: function (data) {
+            $("#uiDbaId").val(data.dbaId);
+            $("#uiDbaName").val(data.dbaName);
+            $("#uiAdvertisedPhoneNumberDBA").val(data.dbaAdvertisedPhoneNumber);
+            $("#uiDbaComment").val(data.dbaComment);
+        },
+        error: function () {
+            $("#error-div").html("An error occured while trying to load the selected item, try again!");
+            $("#error-div").fadeIn("fast");
+            $("#error-div").fadeOut(5000);
+        }
+    });
+}
+
+function beginDba(name) {
+    _dba = $(name).attr("itemid");
+    selectDba(_dba);
+}
+</script>

@@ -1,0 +1,153 @@
+﻿.menu
+{
+    width: 100%;
+    font: 12px/33px Arial,sans-serif;
+    color: #3366cc;
+    height: 35px;
+    background: #2D2D2D;
+}
+.current > a
+{
+    cursor: default;   
+}
+.dropDownItem a:hover
+{
+    background-color: #676767;
+    color: #CCCCCC;
+}
+.dropDownItem > a
+{
+ border-top: 2px solid #c0c0c0;  
+ width:100%;height:100%;float:left;padding-left:15px; 
+}
+
+.dropDownItem a
+{
+    text-decoration: none;
+    color: #CCCCCC;
+    outline: none;
+}
+.menu ul
+{
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 10px;
+}
+.menu ul li
+{
+    padding: 0;
+    float: left;
+}
+.menu ul li ul li
+{
+    padding: 0;
+    float: none;
+    margin: 0 0 0 0px;
+    width: 100%;
+    line-height:20px;
+    white-space:nowrap
+}
+.menu ul li ul
+{
+    position: absolute;
+    border-bottom: 1px solid #C3D1EC; 
+    border-left: 1px solid #C3D1EC; 
+    border-right: 1px solid #C3D1EC; 
+    -webkit-box-shadow: 0 1px 5px #CCCCCC;
+    -moz-box-shadow: 0 1px 5px #CCCCCC;
+    box-shadow: 0 1px 5px #CCCCCC;
+    margin-top: -1px;
+    display: none;
+    padding: 0px 0px 0px 0px;
+    z-index:9999;
+}
+.active ul
+{
+    display: block !important;
+}
+.single ul
+{
+    display: block !important;
+}
+.active a
+{
+    display: block;
+    position: relative;
+    z-index: 1;
+    /*background-color: #2D2D2D;*/
+    /*color: #CCC;*/
+    color: #000000;
+    background-color: #ffffff;
+    border-top-color : #3366CC;
+    
+}
+/*Styling for the link of the current page*/
+.current a
+{
+    background-color: #2D2D2D;
+    border-top: 2px solid #DD4B39; /*red ribbon at top*/
+    border-bottom: 0;
+    display: block;
+    height: 25px;
+    padding: 0 8px 0 8px;
+    position: relative;
+    z-index: 1;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+.active a:hover
+{
+    background-color: #2D2D2D;
+    color: #CCC;
+}
+.active ul a:hover
+{
+    background-color: #e4ebf8;
+    color: #3366CC;
+    border-color: #3366CC;
+}
+.active ul a
+{
+    background-color: #ffffff;
+    color: #3366CC;
+    width: 100%;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    padding: 2px;
+}
+#franchiseMenu .arrow
+{
+    border-color: #C0C0C0 transparent #D5F1FF;
+    border-style: solid dashed dashed;
+    margin-left: 5px;
+    position: relative;
+    top: 10px;
+}
+.mid-line
+{
+    background-color: #FFF;
+    border-top: 1px solid #e5e5e5;
+    font-size: 0;
+}
+
+#menuItemContainer
+{
+    height:80%;
+    min-height: 600px;
+    width:330px;
+    overflow-x:hidden;
+    overflow-y: auto;
+    z-index: 999;
+    background-color: #ffffff;
+    top:36px;
+}
+#menuItemContainer li
+{
+    cursor:pointer;
+}
+
+li#options
+{
+    padding-left:40px;
+    color:#ffffff;
+}

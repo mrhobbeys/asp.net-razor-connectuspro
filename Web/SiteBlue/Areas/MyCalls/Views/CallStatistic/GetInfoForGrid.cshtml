@@ -1,0 +1,169 @@
+﻿@using SiteBlue.Business
+@model SiteBlue.Areas.MyCalls.Models.GridModel
+@{                                 
+    var objmodcommon = new mod_common(new Guid());
+    var temp = Model.Header.Options.Select(i => new KeyValuePair<string, int>(i, 0)).ToList();
+    var tdic = Model.GridData.ToDictionary(i => i.Key.PhoneNumber, i => i.Value);
+}
+
+<script type="text/javascript">
+    var dataGrid = new Array(); 
+    dataGrid = @Html.Raw(Json.Encode(tdic));
+    var callOptions = new Array();
+    callOptions = @Html.Raw(Json.Encode(Model.Header.Options));
+    var clearTemp = new Array();
+    clearTemp = @Html.Raw(Json.Encode(temp));
+    var pieChart;
+    var mygrid;
+    
+    if(!Array.indexOf) {
+        Array.prototype.indexOf = function(obj) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] === obj) {
+                    return i;
+                }
+            }
+            return -1;
+        };
+    }
+
+    dhtmlXGridObject.prototype._in_header_master_checkbox = function(t, i, c) {
+        t.innerHTML = c[0] + "<input type='checkbox' />" + c[1];
+        var self = this;
+        t.getElementsByTagName("input")[0].onclick = function(e) {
+            self._build_m_order();
+            var j = self._m_order ? self._m_order[i] : i;
+            var val = this.checked ? 1 : 0;
+            self.forEachRowA(function(id) {
+                var cell = this.cells(id, j);
+                if (cell.isCheckbox()) {
+                    if (cell.getValue()!=val) {
+                        cell.setValue(val);
+                        this.callEvent("onCheck", [id, j, val]);
+                    }
+                }
+            });
+            (e || event).cancelBubble = true;
+        };
+    };
+       
+    $('document').ready(function () {
+        
+
+        mygrid = new dhtmlXGridObject('gridbox');
+        mygrid.setImagePath("../../../../codebase/imgs/");
+        mygrid.setSkin("dhx_skyblue");
+        
+        var xml = '<rows>'+
+            '<head>'+
+                '<column width="50" type="ch" align="center" color="white" sort="str">#master_checkbox</column>'+
+                @if (Model.opt == 2) {
+                <text>'<column width="95" type="co" align="center" color="white" sort="str">UserID</column>'+</text>
+                <text>'<column width="100" type="co" align="center" color="white" sort="str">UserName</column>'+</text>
+                } else {
+                <text>'<column width="95" type="co" align="center" color="white" sort="str">PhoneNumber</column>'+</text>
+                <text>'<column width="100" type="co" align="center" color="white" sort="str">Description</column>'+</text>
+                }
+                @foreach (var str in Model.Header.Options)
+                {
+                    <text>'<column width="60" type="co" align="center" color="white" sort="int">@str</column>'+</text>
+                }
+                        
+        '<column width="60" type="co" align="center" color="white"  sort="int">Total</column>'+
+            '</head>'+
+                @foreach (var row in Model.GridData)
+                    {
+                        var total = 0;
+                            <text>'<row id="@row.Key.PhoneNumber">'+
+                                '<cell><![CDATA[false]]></cell>'+
+                                @if (Model.opt == 2) {
+                                <text>'<cell><![CDATA[@row.Key.UserId]]></cell>'+</text>
+                                <text>'<cell><![CDATA[@objmodcommon.GetCallTalkerNameByUserId(row.Key.UserId)]]></cell>'+</text>
+                                } else {
+                                <text>'<cell><![CDATA[@objmodcommon.Format_PhoneNumber(row.Key.PhoneNumber)]]></cell>'+</text>
+                                <text>'<cell><![CDATA[@row.Key.Description]]></cell>'+</text>
+                                }
+                                @foreach (var opt in Model.Header.Options)
+                                {
+                                    var val = 0;
+                                    if (row.Value.Any(item => item.Key == opt))
+                                    {
+                                        val = row.Value.Single(item => item.Key == opt).Value;
+                                        total += val;
+                                    }
+                                    <text>'<cell><![CDATA[@val]]></cell>'+</text>
+                                }
+                                '<cell><![CDATA[@total]]></cell>'+
+                            '</row>'+</text>
+                        }
+        '</rows>';
+
+        mygrid.parse(xml);
+        
+        mygrid.attachEvent("onCheck", function(rId, cInd, state) {
+            var temp = clearTemp;
+
+            for (var i = 0; i < dataGrid[rId].length; i++) {
+                var opt = dataGrid[rId][i].Key;
+                
+                var index = callOptions.indexOf(opt);
+                if (state)
+                    temp[index].Value += dataGrid[rId][i].Value;
+                else
+                    temp[index].Value -= dataGrid[rId][i].Value;
+            }
+
+            pieChart.parse(temp, "json");
+        });
+
+        dhxLayout.cells("b").progressOff();
+
+        pieChart = new dhtmlXChart({
+            view: "pie3D",
+            container: "chart_container",
+            value: "#Value#",
+            legend: {
+                width: 250,
+                align: "right",
+                valign: "middle",
+                marker: {
+                    type: "round",
+                    width: 20
+                },
+                template: function(obj) {
+                    var sum = pieChart.sum("#Value#");
+                    if (sum.toString()=="0")
+                        return "" + obj.Key;
+                    return "" + obj.Key + " (" + Math.round(obj.Value / sum * 100) + "%)";
+                }
+            },
+            label:function(obj) {
+                var sum = pieChart.sum("#Value#");
+                if (Math.round(obj.Value / sum * 100) > 10)
+                    return "" + obj.Key + "";
+                return "";
+            },
+            //tooltip:"#Key#: #Value#",
+            pieInnerText: function(obj) {
+                var sum = pieChart.sum("#Value#");
+                if (Math.round(obj.Value / sum * 100)>10)
+                    return "<b>" + obj.Value + "</b>";
+                return "";
+            }
+        });
+        
+        document.getElementById("gridcontent").style.overflow = "auto";
+    });
+
+    function downloadPaymentToExcel() {
+        mygrid.toExcel("../../MyCalls/CallStatistic/DownloadDetailStatistic");
+    }
+
+</script>
+
+<div style="clear: both;"></div>
+<div id="gridcontent" style="position:absolute; height: 100%; width: 99.9%;">
+    <input id="btnRTExcel" type="button" onclick="downloadPaymentToExcel()" value="Export to Excel" style="margin-left: 12px; margin-bottom: 10px;" />     
+    <div id="gridbox"  style="width: 100%; height: auto; background-color: white; overflow: hidden;"></div>
+    <div id="chart_container" style="width:700px;height:400px;border:1px solid #A4BED4;"></div>
+</div>

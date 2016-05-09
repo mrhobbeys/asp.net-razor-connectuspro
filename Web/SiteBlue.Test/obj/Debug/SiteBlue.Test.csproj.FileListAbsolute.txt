@@ -1,0 +1,8 @@
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Test\bin\Debug\SiteBlue.Test.dll.config
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Test\bin\Debug\SiteBlue.Test.dll
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Test\bin\Debug\SiteBlue.Test.pdb
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Test\bin\Debug\SiteBlue.Data.dll
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Test\bin\Debug\SiteBlue.Data.pdb
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Test\obj\Debug\SiteBlue.Test.dll
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Test\obj\Debug\SiteBlue.Test.pdb
+E:\ODesk\Robin-Jan(Razor)\Development\TFS\Main\Web\SiteBlue.Test\obj\Debug\SiteBlue.Test.csprojResolveAssemblyReference.cache

@@ -1,0 +1,343 @@
+﻿@{
+    ViewBag.Title = "Write Off Function";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <style type="text/css" media="screen">
+        .link
+        {
+            text-decoration: none;
+            color: Black;
+            cursor: hand;
+            cursor: pointer;
+        }
+        .div
+        {
+            width: 100%;
+            float: left;
+        }
+        .span
+        {
+            width: 100%;
+            float: left;
+            margin-top: 10px;
+        }
+        .sapn1
+        {
+            width: 20%;
+            float: left;
+            font-weight: bold;
+        }
+        .sapn2
+        {
+            width: 80%;
+            text-align: right;
+        }
+    </style>
+    <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxwindows.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="../../../../../../common/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../../../../common/css/style.css" type="text/css"
+        media="screen" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/dhtmlxtabbar.css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+}
+@section ScriptIncludes {
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    @* filter.js script required in order to show checkbox in the header*@
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        dhtmlx.skin = "dhx_skyblue";
+    </script>
+    <script type="text/javascript">
+        //Export to excel functionality of grid
+        function downloadWriteOffToExcel() {
+            mygrid.toExcel("../MyFinances/DownloadMyFinances");
+        }
+        //Doucument ready function for call loading functionality of page.
+        $('document').ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnLoad(); });
+            doOnLoad();
+            var code = document.getElementById("ddlaccounts");
+            code.selectedIndex = 4;
+        });
+        //Apply Adjustment button click event functionality.
+        function ApplyAdjustment() {
+            var code = document.getElementById("ddlaccounts");
+            if (document.getElementById("invoice").value == "" || document.getElementById("adjustmentAmount").value == 0 || code.selectedIndex == 0 || document.getElementById("adjustmentComments").value == "") {
+                alert("Please complete all fields befor applying adjustment.");
+            } else {
+                var jobid = document.getElementById("invoice").value;
+                var amt = document.getElementById("adjustmentAmount").value;
+                var acct = document.getElementById("ddlaccounts").value;
+                var cmt = document.getElementById("adjustmentComments").value;
+                var fid = SiteBlue.franchiseId;
+                var PaymentParameter = { franchiseid: fid, invoiceid: jobid, amount: amt, accountid: acct, comments: cmt };
+                document.getElementById("loader").style.display = "block";
+                var jsata = $.ajax({
+                    url: "/MyFinances/MyFinances/ApplyAdjustment",
+                    data: JSON.stringify(PaymentParameter),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        document.getElementById("invoice").value = "";
+                        document.getElementById("adjustmentAmount").value = "";
+                        var code = document.getElementById("ddlaccounts");
+                        code.selectedIndex = 4;
+                        document.getElementById("adjustmentComments").value = "";
+                        document.getElementById("hrefapply").style.display = "none";
+                        alert(msg);
+                        doOnLoad();
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $('#output').innerHtml(e);
+                    }
+                });
+            }
+        }
+        //On row selected functionality of grid box.
+        function doOnRowselect(rId, cInd) {
+            document.getElementById("hrefapply").style.display = 'block';
+            document.getElementById("invoice").value = mygrid.getSelectedId();
+            if (mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").indexOf("(") != -1) {
+                document.getElementById("adjustmentAmount").value = "-" + mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").substr(0, mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").indexOf("^")).replace("(", "").replace(")", "");
+            }
+            else {
+                document.getElementById("adjustmentAmount").value = mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").substr(0, mygrid.cellById(rId, 7).getValue().replace("$", "").replace(",", "").indexOf("^"));
+            }
+        }
+        //On load functionality of Loading grid data.
+        function doOnLoad() {
+            var param = { FranchiseeId: SiteBlue.franchiseId };
+            document.getElementById("loader").style.display = "block";
+            var jsondata = $.ajax({
+                url: "/MyFinances/MyFinances/BindOpenBalances/",
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    mygrid = new dhtmlXGridObject('gridbox');
+                    mygrid.setImagePath("../../../../codebase/imgs/");
+                    mygrid.setHeader("#master_checkbox,Invoice#,Bill To,Job Location,Age,Closed Date,Tech,Job Amt,Balance,Phone", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+                    mygrid.setColAlign("center,left,left,left,left,left,left,right,right,left");
+                    mygrid.setColTypes("ch,link,link,txt,txt,txt,link,txt,link,txt");
+                    mygrid.setColSorting("str,str,str,str,str,str,str,str,str,str");
+                    mygrid.enableEditEvents(false, false, false, false, false, false, false, false, false, false);
+                    mygrid.attachEvent("onRowSelect", doOnRowselect);
+                    mygrid.init();
+                    mygrid.setSkin("dhx_skyblue");
+                    mygrid.clearAll();
+                    mygrid.loadXMLString(msg.strxml);
+                    document.getElementById("loader").style.display = "none";
+                    //Overwrite the inbuild function of grid header master check box.
+                    dhtmlXGridObject.prototype._in_header_master_checkbox = function (a, b, c) {
+                        a.innerHTML = c[0] + "<input type='checkbox' />" + c[1];
+                        var d = this;
+                        a.getElementsByTagName("input")[0].onclick = function (a) {
+                            d._build_m_order();
+                            var c = d._m_order ? d._m_order[b] : b, g = this.checked ? 1 : 0;
+                            d.forEachRowA(function (a) {
+                                var b = this.cells(a, c);
+                                if (b.isCheckbox()) b.setValue(g), b.cell.wasChanged = !0; this.callEvent("onEditCell", [1, a, c, g])
+                                //Total Amount Calculation of all selected rows in grid. 
+                                var cell = mygrid.cellById(a, 7);
+                                var CellVal = cell.getValue();
+                                var ArrAmount = CellVal.split("^");
+                                var Amount = ArrAmount[0];
+                                Amount = Amount.replace("$", "").replace(",", "").replace("(", "").replace(")", "");
+                                var totalamount = $("#adjustmentAmount").val();
+                                if (g) {
+                                    totalamount = (parseFloat(totalamount) + parseFloat(Amount));
+                                    $('#adjustmentAmount').val(roundNumber(totalamount, 2));
+                                }
+                                else {
+                                    $('#adjustmentAmount').val(0);
+                                }
+                            });
+                            (a || event).cancelBubble = !0
+                        }
+                    }
+                    mygrid.attachEvent("onCheck", function (rId, cInd, state) {
+                        var cell = mygrid.cellById(rId, 7);
+                        var CellVal = cell.getValue();
+                        var ArrAmount = CellVal.split("^");
+                        var Amount = ArrAmount[0];
+                        Amount = Amount.replace("$", "").replace(",", "").replace("(", "").replace(")", "");
+                        if ($("#adjustmentAmount").val() == "") {
+                            var totalamount = 0;
+                        }
+                        else {
+                            var totalamount = $('#adjustmentAmount').val();
+                        }
+                        if (state) {
+                            totalamount = parseFloat(totalamount) + parseFloat(Amount);
+                            $("#adjustmentAmount").val(roundNumber(totalamount, 2));
+                        }
+                        else {
+                            totalamount = parseFloat(totalamount) - parseFloat(Amount)
+                            $("#adjustmentAmount").val(roundNumber(totalamount, 2));
+                        }
+                    });
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    alert("Error occured.");
+                }
+            });
+            // This Function Roundup the decimal no.
+            function roundNumber(num, dec) {
+                var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+                return result;
+            }
+        }
+    </script>
+}
+<div style="height: 730px; margin-top: 10px;" class=" dhx_tabbar_zone_top">
+    <div class="dhx_tabbar_zone dhx_tabbar_zone_dhx_skyblue">
+        <div class="dhx_tablist_zone" style="height: 24px; top: 0px;">
+            <div class="dhx_tabbar_row" style="height: 26px; top: 0px; z-index: 10;">
+                <div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="height: 26px;
+                    background-color: white; z-index: 7; top: 0px; left: 5px; width: 150px;">
+                    <span><a class="link" href="PaymentMethod2">Open Balances</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element  dhx_tab_element_active" style="width: 150px; height: 26px;
+                    top: 0px; left: 303px; background-color: white; z-index: 15;">
+                    <span><a class="link" href="WriteOffDownFunction">Write Off Function</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+                @*<div class="dhx_tab_element dhx_tab_element_active " style="width: 150px; height: 26px;
+                    top: 0px; left: 452px;background-color: white; z-index: 15;">
+                    <span><a class="link" href="WriteOffDownFunction">Write Off Down Function</a> </span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>*@
+                <div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="height: 26px;
+                    top: 0px; left: 154px; width: 150px;">
+                    <span><a class="link" href="AccountsAdjustments">Accounts Adjustments</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+                <div class="dhx_tablist_line" style="top: 22px; z-index: 8; width: 1332px;">
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabcontent_zone" style="background-color: white; height: 700px; width: 99.9%;
+            top: 27px;">
+            <div style="overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px;
+                width: 99.9%; height: 700px;">
+                <div id="dhxMainCont" style="background-color: #D5F1FF; position: relative; left: 0px;
+                    top: 0px; overflow: hidden; width: 100%; height: 800px;">
+                    <div style="width: 100%; float: left; font-size: 14px; font-family: Verdana; margin-top: 15px;">
+                        <span style="font-weight: bold; margin-left: 2%">All A/R</span> &nbsp;&nbsp;<input
+                            id="btnRTExcel" type="button" onclick="downloadWriteOffToExcel()" value="Export to Excel" /><br />
+                    </div>
+                    <div style="width: 100%; float: left; background-color: #D5F1FF;">
+                        <div class="div">
+                            <div class="div" id="loader" align="center">
+                                <img src="../../../../Images/ajax-loader.gif" alt="Processing........." /></div>
+                            <div id="gridbox" style="float: left; height: 200px; width: 97%; margin-top: 5px;
+                                margin-left: 2%">
+                            </div>
+                        </div>
+                        <div style="width: 98%; float: left; margin-top: 10px; margin-left: 2%;">
+                            <div style="width: 50%; float: left;">
+                                <span style="width: 100%; float: left; margin-top: 10px;"><span style="width: 25%;
+                                    font-weight: bold; float: left; text-align: right; visibility: hidden">Invoice:</span>
+                                    <span style="width: 73%; margin-left: 2%; float: left; visibility: hidden;">
+                                        <input id="invoice" type="text" readonly="readonly" /></span> </span><span style="width: 100%;
+                                            float: left; margin-top: 10px;"><span style="width: 25%; font-weight: bold; float: left;
+                                                text-align: right;">Adjustment Amount:$</span> <span style="width: 73%; margin-left: 2%;
+                                                    float: left;">
+                                                    <input id="adjustmentAmount" type="text" value="0" /></span>
+                                </span><span style="width: 100%; float: left; margin-top: 10px;"><span style="width: 25%;
+                                    font-weight: bold; float: left; text-align: right;">Adjustment Account:</span> <span
+                                        style="width: 73%; margin-left: 2%; float: left;">
+                                        @Html.DropDownList("ddlaccounts", new SelectList(ViewBag.AdjustmentAccount), new { @disabled = true })
+                                        @*<select id="adjustmentAccount" style="Width:160px;">
+<option>Plumbing</option>
+<option>Electric</option>
+<option>HVAC Discount</option>
+<option>Write Off</option>
+</select>*@ </span></span><span style="width: 100%; float: left; margin-top: 10px;">
+    <span style="width: 25%; font-weight: bold; float: left; text-align: right;">Adjustment
+        Comments#:</span> <span style="width: 73%; margin-left: 2%; float: left;">
+            <textarea id="adjustmentComments" cols="43" rows="5">
+</textarea>
+            <a href="javascript:ApplyAdjustment();" id="hrefapply" style="color: Red; font-weight: bold; padding-top:5px;
+                text-decoration: underline; display: none;">Apply Adjustment NOW!</a></span>
+</span>
+                            </div>
+                            @*  <div style="width: 47%; float: left; text-align: right; margin-right: 3%; margin-top: 150px;">
+                             <span style="width: 100%; float: left; margin-top: 10px; text-align: right;"><span
+                                    style="width: 20%; font-weight: bold;">Amount $:</span> <span style="width: 80%;
+                                        text-align: right;">
+                                        <input id="balance" type="text" readonly="readonly" value="0" /></span> </span>
+                            </div>*@
+                        </div>
+                        <div style="width: 98%; float: left; font-family: Verdana; font-weight: bold; margin-left: 2%;
+                            height: 25px; margin-top: 20px;">
+                            <a href="@Url.Content("~/MyFinances/MyFinances/AccountsReceivableFunction")" title="Back">
+                                Back to Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

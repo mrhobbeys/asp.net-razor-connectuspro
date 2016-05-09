@@ -1,0 +1,24 @@
+﻿@model Plumber.Models.TerritoryOwner
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.TerritoryOwnerId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+<div>
+    <span class="blue-title">@Html.Raw(Model.Title)'s Details</span><br />
+    </div>
+    @if (Model.ImageUrl != null)
+    {
+        <p style="width: 100%;text-align:center"><img src="@Url.Content(Model.ImageUrl)" alt="" style="width:400px" /></p>
+    }
+    
+<p>
+    <span class="blue-title">Details:</span><br />
+    @Html.Raw(Model.Content)</p>

@@ -1,0 +1,103 @@
+﻿@model List<Plumber.Models.Media>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    Media & Press</h2>
+<p>
+    @Html.ActionLink("Add a new media", "Create")
+</p>
+<table class="data-table" id="mediaTable">
+    <thead>
+    <tr>
+        <th>
+            Media & Press
+        </th>
+        <th>
+            Content
+        </th>
+        <th>
+            PublicationDate
+        </th>
+        <th>
+            Archived
+        </th>
+        <th>
+            Deleted
+        </th>
+        <th style="width: 60px; text-align: center">
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+        <tr>
+            <th>
+                <strong>@Html.Raw(item.Title)</strong>
+                <p>@Html.Raw(item.SubTitle)</p>
+            </th>
+            <td>
+                @Html.Raw(item.Content)
+            </td>
+            <td>
+                @Html.Raw(item.PublicationDate.HasValue ? item.PublicationDate.Value.ToShortDateString() : "")
+            </td>
+            <td class="icons" style="text-align:center">
+                <img src="@(Url.Content(item.IsArchived != null && item.IsArchived ? "~/Content/admin_icons/yes.png" : "~/Content/admin_icons/no.png"))" alt="" />
+            </td>
+            <td class="icons" style="text-align:center">
+                <img src="@(Url.Content(item.IsDeleted != null && item.IsDeleted ? "~/Content/admin_icons/yes.png" : "~/Content/admin_icons/no.png"))" alt="" />
+            </td>
+            <td>
+                @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/edit.png"), "Edit", new { id = item.MediaId }, null, new { title = "Edit selected media" })
+                @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/details.png"), "Details", new { id = item.MediaId }, null, new { title = "View media's details" })
+                @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/delete.gif"), "Delete", new { id = item.MediaId }, null, new { title = "Delete selected media" })
+            </td>
+        </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td style="width: 100%" colspan="6">
+                <img src="../../../../Content/admin_icons/warning.png" alt="" title="No Media found" /><br />
+                <strong>No Media found!</strong>
+            </td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+        <tr id="pager">
+            <td colspan="6">
+                <img src="@Url.Content("~/Content/_assets/img/first.png")" alt="" class="first"/>
+                <img src="@Url.Content("~/Content/_assets/img/prev.png")" alt="" class="prev"/>
+                <input class="pagedisplay" type="text" />
+                <img src="@Url.Content("~/Content/_assets/img/next.png")" alt="" class="next"/>
+                <img src="@Url.Content("~/Content/_assets/img/last.png")" alt="" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                </select>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#mediaTable")
+        .tablesorter({ widgets: ['zebra'] })
+        .tablesorterPager({ container: $("#pager"), positionFixed: false })
+    });
+</script>
+@section Scripts{
+    <link href="@Url.Content("~/Content/_assets/themes/yui/style.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter-2.0.3.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.filer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+}

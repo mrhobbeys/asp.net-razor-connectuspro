@@ -1,0 +1,194 @@
+﻿@model SiteBlue.Questionnaire.Data.OwnerInformation
+@{
+    ViewBag.Title = "Owner Information";
+    Layout = "~/Views/Shared/QuestionnaireLayout.cshtml";
+}
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Owner Portal", "Dashboard", "LandingPage", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+<h2>
+    Questionnaire</h2>
+<div class="wizard-steps">
+    <div class="completed-step">
+        <a href="@Url.Content("~/Questionnaire" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>1</span> Welcome</a></div>
+    <div class="active-step">
+        <a href="@Url.Content("~/Questionnaire/OwnerInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>2</span> Owner Information</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/BusinessInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>3</span> Business Information</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/TechnicianInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>4</span> Technician Information</a></div>
+    <div>
+        <a href="@Url.Content("~/Questionnaire/AccountingInformation" + ((Model != null) && (Model.QuestionnaireId != null) ? "?qid=" + Model.QuestionnaireId : ""))">
+            <span>5</span> Accounting Information</a></div>
+    <div>
+        <a href="#"><span>1</span> Complete</a></div>
+</div>
+<div class="content">
+    @using (Html.BeginForm("OwnerInformation", "Questionnaire", new { qid = Model.QuestionnaireId }, FormMethod.Post, new { id = "form", @class = "form" }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="formSection" id="owner-section">
+            <div class="fields">
+                <div class="formComponent formComponentName">
+                    <label for="FirstName" class="formComponentLabel">
+                        Name<span class="labelRequiredStar"> *</span></label>
+                    <div class="firstNameDiv">
+                        @Html.LabelFor(model => model.FirstName)
+                        @Html.TextBoxFor(model => model.FirstName, new { @class = "firstName singleLineText validate[required,maxSize[50]]" })
+                    </div>
+                    <div class="lastNameDiv">
+                        @Html.LabelFor(model => model.LastName)
+                        @Html.TextBoxFor(model => model.LastName, new { @class = "lastName singleLineText validate[required,maxSize[50]]" })
+                    </div>
+                </div>
+                <div class="formComponent formComponentName">
+                    <div class="emailDiv">
+                        @Html.LabelFor(model => model.BusinessName)
+                        @Html.TextBoxFor(model => model.BusinessName, new { @class = "large validate[required,maxSize[255]]" })
+                    </div>
+                </div>
+                <div class="formComponent formComponentAddress">
+                    <label for="HomeAddress" class="formComponentLabel">
+                        Address<span class="labelRequiredStar"> *</span></label>
+                    <div class="addressDiv">
+                        @Html.LabelFor(model => model.HomeAddress)
+                        @Html.TextAreaFor(model => model.HomeAddress, new { @class = "validate[required,maxSize[255]]" })
+                    </div>
+                    <div class="cityDiv">
+                        @Html.LabelFor(model => model.City)
+                        @Html.TextBoxFor(model => model.City, new { @class = "city validate[required,maxSize[50]]" })
+                    </div>
+                    <div class="stateDiv">
+                        @Html.LabelFor(model => model.State)
+                        @Html.DropDownList("StateId", (IEnumerable<SelectListItem>)ViewBag.States, new { @class = "state validate[required]" })
+                    </div>
+                    <div class="zipDiv">
+                        @Html.LabelFor(model => model.ZipCode)
+                        @Html.TextBoxFor(model => model.ZipCode, new { @class = "zip validate[required,maxSize[10]]" })
+                    </div>
+                </div>
+                <div class="formComponent formComponentAddress">
+                    <label for="CellPhone" class="formComponentLabel">
+                        Contact<span class="labelRequiredStar"> *</span></label>
+                    <div class="phoneDiv">
+                        @Html.LabelFor(model => model.CellPhone)
+                        @Html.TextBoxFor(model => model.CellPhone, new { @class = "cellPhone validate[required,custom[phone],maxSize[20]]" })
+                    </div>
+                    <div class="phoneDiv">
+                        @Html.LabelFor(model => model.HomePhone)
+                        @Html.TextBoxFor(model => model.HomePhone, new { @class = "homePhone validate[required,custom[phone],maxSize[20]]" })
+                    </div>
+                    <div class="emailDiv">
+                        @Html.LabelFor(model => model.EmailAddress)
+                        @Html.TextBoxFor(model => model.EmailAddress, new { @class = "email validate[required,custom[email],maxSize[255]]" })
+                        <div id="emailaddress-tooltip" class="ui-tooltip message-shadow" style="display: none">
+                            <label>
+                                Email format: example@@example.com</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div id="but" style="height: 60px; width: 100%; display: block">
+    <ul class="control">
+        <li><a class="formbutton" id="back">< Back</a><a class="formbutton" id="next">Next ></a></li><li>
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+
+    $(function ($) {
+        // apply masks
+        $("#HomePhone").mask("999-999-9999");
+        $("#CellPhone").mask("999-999-9999");
+    });
+
+    // binds form submission and fields to the validation engine
+    $(".form").validationEngine();
+
+    $(".form .formSection:first").fadeIn(1000); // Show the first div
+
+    // highlights the parent div when focus a child field
+    $("input").focus(function () {
+        $('.formComponent').removeClass('formComponentHighlight');
+        $(this).parents('.formComponent').addClass('formComponentHighlight');
+    });
+
+    $("textarea").focus(function () {
+        $('.formComponent').removeClass('formComponentHighlight');
+        $(this).parents('.formComponent').addClass('formComponentHighlight');
+    });
+
+    // attach back step button handler
+    // hide on first step
+    $("#back").hide().click(function () {
+        var $step = $(".formSection:visible"); // Get current step
+        if ($step.prev().hasClass("formSection")) {
+            $step.hide().prev().fadeIn(1000);
+
+            // disable back step button
+            if (!$step.prev().prev().hasClass("formSection")) $("#back").hide();
+        }
+    });
+
+    // attach next step button handler
+    $("#next").click(function () {
+        $('.formComponent').removeClass('formComponentHighlight ');
+        $('.formComponent').removeClass('formComponentValidationFailed');
+        var $step = $(".formSection:visible"); // Get current step
+        var validator = $("form").validate(); // Obtain validator
+        var anyError = false;
+
+        $step.find("input").each(function () {
+            if (!validator.element(this)) {
+                // apply error style
+                $(this).parents('.formComponent').addClass('formComponentValidationFailed');
+                anyError = true;
+            }
+        });
+
+        $step.find("textarea").each(function () {
+            if (!validator.element(this)) {
+                // apply error style
+                $(this).parents('.formComponent').addClass('formComponentValidationFailed');
+                anyError = true;
+            }
+        });
+
+        if (anyError) return false; // Exit if any error found
+
+        if ($step.next().hasClass("formSection")) { // is there any next step?
+            $step.hide().next().fadeIn(1000);  // show it and hide current step
+            $("#back").show();   // recall to show backStep button
+        }
+
+        else { // this is last step, submit form
+            $("form").submit();
+        }
+    });
+
+    // ToolTips
+
+    $("#EmailAddress").focusin(function () {
+        $("#emailaddress-tooltip").show('fast');
+    });
+    $("#EmailAddress").focusout(function () {
+        $("#emailaddress-tooltip").hide('slow');
+    });
+</script>

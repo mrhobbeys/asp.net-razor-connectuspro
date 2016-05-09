@@ -1,0 +1,179 @@
+﻿@model int
+@if (Model != 0)
+{
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="../../../../Content/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+    <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+    <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css">
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+    @*<script type="text/javascript">
+
+        function cursor_wait() {
+            document.body.style.cursor = 'wait';
+        }
+
+        function cursor_clear() {
+            document.body.style.cursor = 'default';
+        }
+
+        function calc() {
+            var dummy = 0;
+
+            for (var i = 0; i < 1000000; i++) {
+                for (var z = 0; i < 1000000; i++) {
+                    dummy = dummy + z + i;
+                }
+            }
+
+            cursor_clear();
+        }
+    </script>*@
+</head>
+<body style="margin:0px;">
+    <div id="maindiv">
+
+        <fieldset>
+            <legend style="color:#1a3b69">Net Promoter</legend>
+            <div style="width: 100%; float: left; font-family: Verdana;">
+                <img class="hoverable" src="@Url.Content("~/Content/images/landing/bigIcon1.png")" alt="Big Icon" width="100px" height="100px"/>
+                <br /> <span style="color:#1a3b69;padding:10px;font-size:16px;"> Net Promotor  Score
+             </span>
+            </div>
+        </fieldset>
+        <div id="middlediv">
+            <span style="float: left; width: 100%; margin-top: 10px;"><span style="float: left;
+                width: 20%; font-weight: bold;"><a href="#">Back</a></span> <span style="float: left;
+                    width: 40%;">
+                    <select style="float: left; width: 100px;">
+                        <option></option>
+                    </select>
+                </span><span style="float: left; width: 39%;"><span style="float: left; width: 100%;">
+                    <span style="float: left; width: 50%; font-weight: bold; text-align: right;">NPS</span>
+                    <span style="float: left; width: 50%;">
+                        <input type="text" value="" style="width: 64px;" /></span> </span></span>
+            </span>@*    search*@ <span style="float: left; width: 100%; font-weight: bold;"><a
+                href="#">Search</a></span> @*jobs*@ <span class="span1"><span class="span2"><span
+                    class="span1">Job Info</span></span> <span class="span3 "><span style="float: left;
+                        width: 288px; background-color: Gray;">Customer pro Training LLC</span></span></span>
+            <span class="span1 "><span class="span2"><span class="span1 ">Inv#/ Status:</span></span>
+                <span class="span3 "><span class="span1 ">
+                    <input type="text" value="" style="width: 130px;" /><input type="text" value="" style="width: 130px;
+                        margin-left: 17px" /></span></span></span> <span class="span1 "><span class="span2">
+                            <span class="span1 ">Job Type:</span></span> <span class="span3 "><span class="span1 ">
+                                <input type="text" value="" style="width: 283px;" /></span></span></span>
+            <span class="span1 "><span class="span2 "><span class="span1 ">Service Pro:</span></span>
+                <span class="span3 "><span class="span1 ">
+                    <input type="text" value="" style="width: 283px;" /></span></span></span>
+            <span class="span1 "><span class="span2 "><span class="span1 ">Sched Time:</span></span>
+                <span class="span3 "><span class="span1 ">
+                    <input type="text" value="" style="width: 283px;" /></span></span></span>
+            <span class="span1 "><span class="span2 "><span class="span1 ">Warranty:</span></span>
+                <span class="span3 "><span class="span1 ">
+                    <input type="text" value="" style="width: 130px;" /><input type="text" value="" style="width: 130px;
+                        margin-left: 17px;" /></span></span></span> <span class="span1 "><span class="span2 ">
+                            <span class="span1 ">Type/Length:</span></span> <span class="span3 "><span class="span1 ">
+                                <input type="text" value="" style="width: 283px;" /></span></span></span>
+            <span class="span1 "><span class="span2 "><span class="span1 ">Call Reason</span><span
+                style="float: left; width: 100%; color: Red;">Residential:</span></span> <span class="span3 ">
+                    <span class="span1 ">
+                        <input type="text" value="" style="width: 283px; height: 50px;" /></span></span></span>
+            <span style="float: left; width: 100%; margin-top: 2%;"><span class="span2 "><span
+                class="span1 ">Customer Bill To:</span></span> <span class="span3 "><span class="span1 ">
+                    <input type="text" value="" style="width: 283px; height: 100px;" /></span></span></span>
+            <span style="float: left; width: 100%; margin-top: 2%;"><span class="span2 "><span
+                class="span1 ">Job Location:</span></span> <span class="span3 "><span class="span1 ">
+                    <input type="text" value="" style="width: 283px; height: 100px;" /></span></span></span>
+        </div>
+        <div style="width: 3%; float: left; color: #add8e6">
+            khkjhkjh</div>
+        <div id="outerdiv">
+            <span class="span1 "><span style="float: left; width: 68%; font-weight: bold;"><span
+                class="span1 ">
+                <input type="text" value="" style="width: 226px;" /></span></span> <span style="float: left;
+                    width: 29%; font-size: small; position: relative; left: 3%;"><span class="span1 ">
+                        <input type="text" value="" style="width: 100px;" /></span></span></span>
+            <span style="float: left; width: 100%; font-weight: bold; margin-top: 5px;"><a href="">
+                JoB Task</a></span>
+            <div id="gridbox" style="float: left; height: 200px; width: 100%; margin-top: 5px;">
+                <script>
+                    var xmlstring = "";
+                    var xmlstring1 = "";
+                    mygrid = new dhtmlXGridObject('gridbox');
+                    mygrid.setImagePath("../../../../codebase/imgs/");
+                    mygrid.setHeader("QTY,Code,Task Description,Unit$,Price$,Line#,Part Desc,Qty,Price");
+                    mygrid.setInitWidths("70,70,100,70,70,70,70,50,60");
+                    mygrid.setColAlign("center,center,center,center,center,center,center,center,center");
+                    mygrid.setColTypes("ed,ed,ed,ed,ed,ed,ed,ed,ed");
+                    mygrid.setColSorting("str,str,str,str,str,str,str,str,str");
+                    mygrid.init();
+                    mygrid.setSkin("dhx_skyblue");
+                    mygrid.setDateFormat("%Y-%m-%d %H:%i");
+                    mygrid.loadXML("../../../../common/grid3.xml");          
+                </script>
+            </div>
+            <span style="float: left; width: 100%; margin-top: 10px;"><span style="float: left;
+                width: 55%; font-size: 11px; font-weight: bold;"><span class="span1 "><span style="float: left;
+                    width: 48%;"><a href="">Service Comments</a></span> <span style="float: left; width: 50%;">
+                        <a href="">Coustomer Signature</a></span> </span><span style="float: left; width: 100%;
+                            margin-top: 10px;"><span style="float: left; width: 20%;">Diagnosis:</span> <span
+                                style="float: left; width: 50%;">
+                                <input type="text" value="" style="width: 226px; height: 100px;" /></span>
+                </span><span style="float: left; width: 100%; margin-top: 10px;"><span style="float: left;
+                    width: 20%;">Recomended Action:</span> <span style="float: left; width: 50%;">
+                        <input type="text" value="" style="width: 226px; height: 100px;" /></span>
+                </span></span><span style="float: left; width: 45%; font-weight: bold;"><span class="span1 ">
+                    Financials</span> <span style="float: left; width: 100%; margin-top: 5px;"><span
+                        class="span4 ">Terms:</span> <span class="span5 ">
+                            <input type="text" value="" style="width: 183px;" /></span> </span><span class="span1 ">
+                                <span class="span4 ">Limt/Bal:</span> <span class="span5 ">
+                                    <input type="text" value="" style="width: 87px;" />
+                                    <input type="text" value="" style="width: 86px;" /></span> </span>
+                    <span class="span1 "><span class="span4 ">Job sub Total:</span> <span class="span5 ">
+                        <input type="text" value="" style="width: 87px;" />
+                        <label>
+                            P</label><label style="padding: 30px">L</label>
+                    </span></span><span class="span1 "><span class="span4 ">Tax/Rate:</span> <span class="span5 ">
+                        <input type="text" value="" style="width: 88px;" />
+                        <input type="text" value="" style="width: 38px;" />
+                        <input type="text" value="" style="width: 37px;" /></span> </span><span class="span1 ">
+                            <span class="span4 ">Job Total: </span><span class="span5 ">
+                                <input type="text" value="" style="width: 183px;" />
+                            </span></span><span class="span1 "><span class="span4 ">Amt Paid:</span> <span class="span5 ">
+                                <input type="text" value="" style="width: 183px;" />
+                            </span></span><span class="span1 "><span class="span4 ">Payment Type:</span> <span
+                                class="span5 ">
+                                <input type="text" value="" style="width: 183px;" />
+                            </span></span><span class="span1 "><span class="span4 ">Balance:</span> <span class="span5 ">
+                                <input type="text" value="" style="width: 183px;" />
+                            </span></span></span>
+                            
+                            
+                            
+                            </span>
+                            
+                       
+
+        </div>
+         <div style="width: 85%; float: left; font-family: Verdana;font-weight: bold; margin-left:15%;height:25px; margin-top:20px;">
+                 <a href="@Url.Content("~/MasterData/LandingPage/MyCalls")" title="Back to Dashboard">Back to Dashboard</a>
+             
+            </div>
+    </div>
+</body>
+</html>
+}
+else
+{
+    @:<text>No information available</text>
+}

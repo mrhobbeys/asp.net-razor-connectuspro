@@ -1,0 +1,259 @@
+﻿@model List<SiteBlue.Areas.PriceBook.Models.Franchise>
+@{
+    ViewBag.Title = "PriceBook";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="@Url.Content("~/Content/Site.css")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/PriceBook/Content/treeview.css")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/PriceBook/Content/layout-default-latest.css")" rel="Stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Areas/PriceBook/Content/css/jslider.blue.css")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/PriceBook/Content/css/jslider.css")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/PriceBook/Content/css/jslider.plastic.css")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/PriceBook/Content/css/jslider.round.css")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/PriceBook/Content/css/jslider.round.plastic.css")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/PriceBook/Content/css/TableTools.css")" rel="Stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Areas/PriceBook/Content/css/TableTools_JUI.css")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Areas/PriceBook/Content/css/redmond/jquery-ui-1.8.16.custom.css")" rel="stylesheet" type="text/css" />	
+    <link href="@Url.Content("~/Areas/PriceBook/Content/uploadify.css")" rel="Stylesheet" type="text/css" />
+}
+@section ScriptIncludes {
+    <script src="@Url.Content("~/Areas/PriceBook/Scripts/jquery.treeview.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/PriceBook/Scripts/jquery.treeview.edit.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/PriceBook/Scripts/jquery.layout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/PriceBook/Scripts/jquery.ui.all.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/PriceBook/Scripts/jquery.dataTables.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/PriceBook/Scripts/jquery.dependClass.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Areas/PriceBook/Scripts/jquery.slider-min.js")" type="text/javascript"></script>
+   	<script src="@Url.Content("~/Areas/PriceBook/Scripts/TableTools.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/PriceBook/Scripts/ZeroClipboard.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Areas/PriceBook/Scripts/jquery.uploadify.js")" type="text/javascript"></script>
+    @*<script src="@Url.Content("~/Areas/PriceBook/Content/js/jquery-1.6.2.min.js")" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Areas/PriceBook/Scripts/PriceBook.js")" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SiteBlue.renderMenu(true);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) {
+                var url = '@Url.Action("/Index")?frid=' + SiteBlue.franchiseId;
+                document.location.href = url;
+            });
+
+            $("#pbcontainer").layout({ west__size: 400, south__size: 140 });
+        });
+    </script>
+}
+<style type="text/css">
+    select
+    {
+        margin-right: 10px;
+        width       : 100%;
+    }
+    
+    html, body {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+	}
+	
+	#pbcontainer {
+		height:	100%;
+		width: 100%;
+		top: 35px;
+		position: fixed;
+	}
+	
+	.autopostback
+	{
+	    width: 100%;
+	}
+	
+	.renpricebook, .delpricebook
+	{
+	    width: 100%;
+	}
+	
+	#txtRename
+	{
+	    width: 100%;
+	}
+</style>
+
+<div id="pbcontainer">
+
+    <div class="ui-layout-north">
+        @using (Html.BeginForm("Index", "PriceBook", new { area = "PriceBook" }, FormMethod.Post, new { id = "searchFrm" }))
+        { 
+            @Html.DropDownList("PriceBookID", new SelectList(ViewBag.PriceBooks, "PriceBookID", "BookName"), new { @class = "autopostback" })
+            @Html.Hidden("MFlag", true);
+        }
+
+        <input type="text" id="searchtxt" />
+        <input type="button" value="Search" id="searchbtn" url="@Url.Action("TreeSubSectionsSearch", new { id = "id" })" />
+        <input type="button" value="Reset" id="searchcancel" />
+        <input type="button" value="Change Labor Rate" id="laborpricebook" url="@Url.Action("LaborPriceBook")" />
+        <input type="button" value="Part Adjustment" id="PartAdjustbtn" url="@Url.Action("GetPartCategory")" />
+        <input type="button" value="Copy Pricebook" id="copypricebook" />
+        <input type="button" value="Rename Pricebook" id="renpricebook" />
+        <input type="button" value="Delete Pricebook" id="delpricebook" />
+        <input type="checkbox" value="Maintain Mode" id="maintainchk" checked="checked" />Edit Mode
+        <input type="text" id="percenttxt" style="width: 40px;" />%
+        <input type="button" value="Recalculate Membership Prices" id="Recalcbtn" url="@Url.Action("RecalcMemberPrice")" />
+        <input type="button" value="Send To iPad" id="sendtoipad" techurl="@Url.Action("Technicians")"/>
+        <img id="searchprocess" src="/Areas/PriceBook/images/ajax-loader.gif" />
+        <div id="searchmessages"></div>
+        <div id="sidetreecontrol"><a href="#">Collapse All</a></div>
+        <div id="hiddendiv"></div>
+    </div>
+
+    <div class="ui-layout-west">
+        <input type="button" value="Add Section" id="createSection" />
+        <div id="pricebooktree"></div>
+    </div>
+
+    <div class="ui-layout-center">
+        <div id="tasksdiv">
+            <div id="subtaskname"></div>
+            <div id="taskgrid" ></div>
+        </div>
+        <input type="text" id="txtfocus" class="txtfocushide" />
+    </div>
+
+    <div class="ui-layout-south">
+        <div id="partname"></div>
+        <div id="task">
+            <div class="uploadContainer">
+                <div id="uploadimg" url="@Url.Action("Upload")" tmpurl="@Url.Action("DeleteTempImage")"></div>
+                <div id="viewimg" url="@Url.Action("GetTaskImage")"></div>
+            </div>
+            <div id="taskdetail"></div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+</div>
+
+<div id="sectiondlg" url="@Url.Action("CreateSection")">
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>Section Name:</td>
+            <td>@Html.TextBox("SectionName")</td>
+        </tr>
+        <tr>
+            <td>Active:</td>
+            <td>@Html.CheckBox("ActiveYN", true)</td>
+        </tr>
+    </table>
+</div>
+
+<div id="subsectiondlg">
+@using (Html.BeginForm("CreateSubSection", "PriceBook", new { area = "PriceBook" }, FormMethod.Post, new { id = "subsectionFrm" }))
+{
+    @Html.Hidden("hSectionID")
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>SubSection Name:</td>
+            <td>@Html.TextBox("SubSectionName")</td>
+        </tr>
+        <tr>
+            <td>Active:</td>
+            <td>@Html.CheckBox("ActiveYN", true)</td>
+        </tr>
+    </table>
+}
+</div>
+
+<div id="taskdlg">
+@using (Html.BeginForm("CreateTask", "PriceBook", new { area = "PriceBook" }, FormMethod.Post, new { id = "taskFrm" }))
+{
+    @Html.Hidden("hSubSectionID")
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>Job Code:</td>
+            <td>@Html.TextBox("JobCode")</td>
+        </tr>
+        <tr>
+            <td>JobCode Description:</td>
+            <td>@Html.TextArea("JobCodeDescription", new { style = "width: 300px;" })</td>
+        </tr>
+        <tr>
+            <td>Job Cost:</td>
+            <td>@Html.TextBox("JobCost")</td>
+        </tr>
+        <tr>
+            <td>Job Standard Price:</td>
+            <td>@Html.TextBox("JobStdPrice")</td>
+        </tr>
+        <tr>
+            <td>Job Member Price:</td>
+            <td>@Html.TextBox("JobMemberPrice")</td>
+        </tr>
+        <tr>
+            <td>Job Addon Standard Price:</td>
+            <td>@Html.TextBox("JobAddonStdPrice")</td>
+        </tr>
+        <tr>
+            <td>Job Addon Member Price:</td>
+            <td>@Html.TextBox("JobAddonMemberPrice")</td>
+        </tr>
+        <tr>
+            <td>Residential Account Code</td>
+            <td>@Html.DropDownList("ResAccountCode", new SelectList(ViewBag.ac, "AccountCode", "AccountName"), new { style = "width: 200px;" })</td>
+        </tr>
+        <tr>
+            <td>Commerical Account Code</td>
+            <td>@Html.DropDownList("ComAccountCode", new SelectList(ViewBag.ac, "AccountCode", "AccountName"), new { style = "width: 200px;" })</td>
+        </tr>
+    </table>
+}
+</div>
+
+<div id="pricebookdlg" url="@Url.Action("CopyPriceBook", new { id = "id" })">
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>Book Name</td>
+            <td>@Html.TextBox("BookName")</td>
+        </tr>
+    </table>
+</div>
+
+<div id="sendpaddlg" url="@Url.Action("SendToiPad")">
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>Technician</td>
+            <td><select id="techList"></select></td>
+        </tr>
+    </table>
+</div>
+
+<div id="rendlg" url="@Url.Action("RenamePriceBook", new { id = "id" })">
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>PriceBook</td>
+            <td>@Html.DropDownList("ddl_PriceBook", new SelectList(ViewBag.PriceBooks, "PriceBookID", "BookName"), new { @class = "renpricebook" })</td>
+        </tr>
+        <tr>
+            <td>Rename PriceBook</td>
+            <td>@Html.TextBox("txtRename")</td>
+        </tr>
+    </table>
+</div>
+
+<div id="deldlg" url="@Url.Action("DeletePriceBook", new { id = "id" })">
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>PriceBook</td>
+            <td>@Html.DropDownList("ddl_PriceBook1", new SelectList(ViewBag.PriceBooks, "PriceBookID", "BookName"), new { @class = "delpricebook" })</td>
+        </tr>
+    </table>
+</div>
+
+<div id="partadjustdlg" url="@Url.Action("GetPartAdjustList")">
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>Category</td>
+            <td><select id="categoryList"></select></td>
+        </tr>
+    </table>
+</div>

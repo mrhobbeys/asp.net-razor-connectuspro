@@ -1,0 +1,15 @@
+﻿@model SiteBlue.Areas.PriceBook.Models.Section
+
+<li id="@Html.DisplayFor(sectionItem => Model.SectionID)" title="@Url.Action("TreeSubSections", new {id = Model.SectionID })" class="hasChildren sectionli">
+        
+    <span class="section">
+        @Html.CheckBoxFor(sectionItem => Model.ActiveYN, new { id = Model.SectionID, @class = "ActiveYNSection", href = Url.Action("ActivateSection", new {id = Model.SectionID}) }) 
+        <span class="sectiontext">@Ajax.ActionLink(Model.SectionName, "AllTaskList", new { id = Model.SectionID }, new AjaxOptions { UpdateTargetId = "taskgrid" }, new { @class = "subsectionlink" })</span>            
+        <img src="/Areas/PriceBook/images/edittreenode.jpg" id="@Html.DisplayFor(sectionItem => Model.SectionID)" title="@Url.Action("UpdateSection", new { id = Model.SectionID })" class="EditSection"/>
+        <img src="/Areas/PriceBook/images/add.jpg" id="@Html.DisplayFor(sectionItem => Model.SectionID)" title="Add SubSection" class="AddSubSection"/>
+        <img src="/Areas/PriceBook/images/delete.jpg" id="@Html.DisplayFor(sectionItem => Model.SectionID)" title="Delete Section" class="DeleteSection"/>
+    </span>
+
+        <ul id="@Html.DisplayFor(sectionItem => Model.SectionID)SubSections">
+		</ul>
+</li>

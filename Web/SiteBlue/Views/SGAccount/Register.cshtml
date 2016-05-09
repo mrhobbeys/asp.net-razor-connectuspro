@@ -1,0 +1,122 @@
+@model SecurityGuard.ViewModels.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+
+}
+@section Title{
+    <h2>
+    </h2>
+}
+@section Comments{
+    <div id="comments">
+        “ConnectusPro offers owners a level of control they could never experience on their
+        own. There is not a service company in North America that would not benefit from
+        the Pulse running as the engine under their hood.” <span class="comment-by">L.S.</span>
+    </div>
+}
+@section Scripts{
+    <link href="@Url.Content("~/Content/themes/base/validationEngine.jquery.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/languages/jquery.validationEngine-en.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validationEngine.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/SecurityGuard/scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+}
+<div style="margin-left: auto; margin-right: auto; width: 700px; padding-top: 50px">
+    @using (Html.BeginForm("Register", "SGAccount", FormMethod.Post, new { id = "form1", @class = "form" }))
+    {
+        @Html.ValidationSummary(true)
+        <div style="margin-left: auto; margin-right: auto; width: 400px">
+            <h2>
+                Create a New Account</h2>
+            <label for="UserName">
+                Use the form below to create a new account.</label><br />
+            <ul style="font-size: 8pt;list-style:none">
+                <li>To be a minimum of @Membership.MinRequiredPasswordLength characters in length.</li>
+                @if (Membership.MinRequiredNonAlphanumericCharacters > 0)
+                {
+                    <li>To have a minimum of @Membership.MinRequiredNonAlphanumericCharacters non-alpha
+                        numeric characters included, such as &quot;<span style="font-family: Courier New;
+                            font-size: 16px;">(){}-_*&^%$#@@!</span>&quot;.</li>
+                }
+            </ul>
+        </div>
+        <div class="credentials">
+            <label for="UserName">
+                Username:<span class="labelRequiredStar"> *</span></label>
+            @Html.TextBoxFor(m => m.UserName, new { @class = "validate[required]" })
+            <label for="Email">
+                Email address:<span class="labelRequiredStar"> *</span></label>
+            @Html.TextBoxFor(m => m.Email, new { @class = "email validate[required,custom[email]]" })
+            <label for="Password">
+                Password:<span class="labelRequiredStar"> *</span></label>
+            @Html.PasswordFor(m => m.Password, new { @class = "validate[required]", type = "password" })
+            <label for="ConfirmPassword">
+                Confirm password:<span class="labelRequiredStar"> *</span></label>
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "validate[required,equals[Password]]", type = "password" })
+            @if (Model.RequireSecretQuestionAndAnswer)
+            {
+                <label for="SecretQuestion">
+                    Secrete question:<span class="labelRequiredStar"> *</span></label>
+                @Html.TextBoxFor(model => model.SecretQuestion, new { @class = "validate[required]" })
+                <label for="SecretAnswer">
+                    Secrete answer:<span class="labelRequiredStar"> *</span></label>
+                @Html.TextBoxFor(model => model.SecretAnswer, new { @class = "validate[required]" })
+            }
+            <label class="btns">
+                <a class="button" id="register">Register</a>
+            </label>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    var height = screen.height;
+
+    if (height > 800) {
+        $("#main").css("height", 655);
+    } else {
+        $("#main").css("height", 455);
+    }
+
+    $(function () {
+        // binds form submission and fields to the validation engine
+        $("form").validationEngine();
+
+        $("#UserName").focus();
+
+        // highlights the parent div when focus a child field
+        $("input").focus(function () {
+            $('.formComponent').removeClass('formComponentHighlight');
+            $(this).parents('.formComponent').addClass('formComponentHighlight');
+        });
+
+        $("#register").click(function () {
+            $('.formComponent').removeClass('formComponentHighlight ')
+            $('.formComponent').removeClass('formComponentValidationFailed')
+            var $div = $(".formLogIn:visible"); // Get current step
+            var validator = $("form").validate(); // Obtain validator
+            var anyError = false;
+
+            $div.find("input").each(function () {
+                if (!validator.element(this)) {
+                    // apply error style
+                    $(this).parents('.formComponent').addClass('formComponentValidationFailed');
+                    anyError = true;
+                }
+            });
+
+            if (($('#SecretQuestion').val() == "") || ($('#SecretAnswer').val() == "")) {
+                // apply error style
+                $('#SecretQuestion').parents('.formComponent').addClass('formComponentValidationFailed');
+                anyError = true;
+            }
+
+            if (anyError) return false; // Exit if any error found
+
+            else { // this is last step, submit form
+                $("form").submit();
+            }
+
+        });
+    });
+</script>

@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "GrantCompanyCodeToUser";
+    Layout = "~/Areas/OwnerPortal/Views/Shared/_SecurityGuardLayoutPage.cshtml";
+}
+
+<title>Index</title>
+   
+<script type="text/javascript">
+
+    var companycode = "@ViewBag.code"
+
+    $('document').ready(function () {
+
+        if (companycode != null && companycode != "") {
+            $.post('@Url.Action("bindReport")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+            }
+
+        $('#test1 > li > a').click(function (index) {
+            var companycode = $(this).text();
+
+            $.post('@Url.Action("bindReport")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                    $('#current > a').text(companycode);
+                    $('li a')[1].click();
+                });
+
+
+        });
+
+        $('#current > a').click(function (index) {
+            var companycode = $(this).text();
+            $.post('@Url.Action("bindReport")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        });
+    });
+
+</script>
+
+<div id="target" >
+
+</div>

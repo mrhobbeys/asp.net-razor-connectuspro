@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@section Meta{
+    <title>Heating Air Conditioning, Emergency Plumbing Repair Service, Drain Cleaning</title>
+    <meta name="description" content="1-800-PLUMBER offers 24 hour emergency plumbing services, electrical repair, drain cleaning and heating air conditioning repairing service in United States and Canada." />
+    <meta name="keywords" content="plumbing services,heating air conditioning,emergency plumbing service,plumbing repair,drain cleaning,24 hour plumbing service,electrical repair" />
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                Search</div>
+            <div class="shadecenter">
+                <div class="searchbox">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td align="left" valign="top" class="s1">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top" class="s2">
+                                <div class="spacer">
+                                    <div class="search-title">
+                                        ZIP or Postal <span class="condition">*</span></div>
+                                    <input name="TextField" type="text" class="text-field" />
+                                    <div class="search-title">
+                                        Service Type <span class="condition">*</span></div>
+                                    <select name="ServiceType" class="search-list" id="ServiceType">
+                                        <option value="">Please Choose</option>
+                                        <!--option value="plumbing1">Plumbing</option>
+							<option value="plumbing2">Drain Cleaning</option>
+							<option value="heating_cooling1">Cooling</option>
+							<option value="heating_cooling2">Heating</option-->
+                                        <option value="1">Plumbing</option>
+                                        @*<option value="2">HVAC</option>*@
+                                        <option value="3">Heating</option>
+                                        <option value="4">Cooling</option>
+                                        <option value="5">Electrical</option>
+                                        <option value="6">Other</option>
+                                        <option value="7">Handyman</option>
+                                        <option value="8">Drain Cleaning</option>
+                                        <option value="9">Indoor Air Quality</option>
+                                    </select>
+                                    <div class="search-btn">
+                                        <input type="submit" name="Search" value="Search" style="background-image: url(@Url.Content("~/Content/images/submit.png"));
+                                            width: 100px; height: 24px; background-color: #FFFFFF; color: #FFFFFF; border: 0px;
+                                            background-repeat: no-repeat" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top" class="s3">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/search-new.jpg")" alt="Locations" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@section Meta{
+    <title>Territory Owners of 1800-PLUMBER</title>
+    @*<meta name="description" content="" />
+    <meta name="keywords" content="" />*@
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                Information</div>
+            <div class="shadeinnerpage">
+                <div class="left-column-para">
+                    <p>
+                        Our brand is over a decade in the making. When you think of the perfect name for
+                        a home services business, you know it has to be easy to remember and say exactly
+                        what you do. What could be more perfect than 1-800-PLUMBER&reg;. You have the opportunity
+                        to own this brand for your entire market. However, it is more than just a powerful
+                        brand. In perfecting our model, we spent nearly three full years designing specific
+                        systems to address the biggest road blocks to growth for new territory owners.</p>
+                    <p>
+                        <span class="bluelinks">For more information on owning this brand and how we are
+                            <br />
+                            transforming the industry...</span><br />
+                        <a href="@Url.Content("~/TerritoryOwners/Owners")">
+                            <img src="@Url.Content("~/Content/images/ch.gif")" alt="Click" width="84" height="19" border="0" /></a></p>
+                </div>
+                <div class="fi">
+                    <span class="blue-title">Call 1-800-758-6237</span><br />
+                    Send us an&nbsp;<span class="bluelinks"><a href="mailto:franchiseinfo@1800plumber.com">email</a></span><a
+                        href="mailto:franchiseinfo@1800plumber.com"><br />
+                    @*</a>Take our&nbsp;<span class="bluelinks"><a href="@Url.Content("~/TerritoryOwners/Media")">video tour</a></span><a
+                        href="@Url.Content("~/TerritoryOwners/Franchise")"><br />*@
+                    </a>Fill out an&nbsp;<span class="bluelinks"><a href="@Url.Content("~/TerritoryOwners/Application")">application</a></span>
+                </div>
+            </div>
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+        <td width="260" align="right" valign="top">
+            <div class="col-right">
+                @Html.Partial("NearestLocation")
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/to.jpg")" alt="Services" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li class="highlight"><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

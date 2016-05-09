@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Plumber.Models.CareerApplication>
+@{
+    ViewBag.Title = "CareerApplications";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    Career Applications</h2>
+<table class="data-table" id="careerApplicationsTable">
+    <thead>
+        <tr>
+            <th>
+                First and Last name
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr @if (item.MessageStatusId == 1)
+                { <text>style="font-weight:bold"</text> }>
+                <td>
+                    @Html.Raw(item.FirstLastName)
+                </td>
+                <td>
+                    @Html.Raw(item.Address + "<br />" + item.Zip + ", " + item.City + " " + item.State)
+                </td>
+                <td>
+                    @Html.Raw(item.Phone)
+                </td>
+                <td>
+                    @Html.Raw(item.Email)
+                </td>
+                <td>
+                    @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/details.png"), "CareerApplicationDetails", new { id = item.CareerApplicationId }, null, new { title = "View career application's details" })
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr id="pager">
+            <td colspan="5">
+                <img src="@Url.Content("~/Content/_assets/img/first.png")" alt="" class="first"/>
+                <img src="@Url.Content("~/Content/_assets/img/prev.png")" alt="" class="prev"/>
+                <input class="pagedisplay" type="text" />
+                <img src="@Url.Content("~/Content/_assets/img/next.png")" alt="" class="next"/>
+                <img src="@Url.Content("~/Content/_assets/img/last.png")" alt="" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                </select>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#careerApplicationsTable")
+        .tablesorter({ widgets: ['zebra'] })
+        .tablesorterPager({ container: $("#pager"), positionFixed: false })
+    });
+</script>
+@section Scripts{
+    <link href="@Url.Content("~/Content/_assets/themes/yui/style.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter-2.0.3.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.filer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+}

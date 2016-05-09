@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+  
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+<link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css">
+<link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+<script type="text/javascript"  src="../../../../codebase/dhtmlxcommon.js"></script>
+<script type="text/javascript"  src="../../../../codebase/dhtmlxgrid.js"></script>
+<script type="text/javascript"  src="../../../../codebase/dhtmlxgridcell.js"></script>    
+<script type="text/javascript"  src="../../../../codebase/excells/dhtmlxgrid_excell_sub_row.js"></script>  
+  <script type="text/javascript" language="javascript">
+      function Init() {
+          mygrid = new dhtmlXGridObject('gridbox');
+          mygrid.setImagePath("../../../../codebase/imgs/");
+          mygrid.setHeader("&nbsp;,Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+          mygrid.setInitWidths("30,150,100,80,80,80,80,200");
+          mygrid.setColAlign("right,left,left,right,center,left,center,center");
+          mygrid.setColTypes("sub_row,edtxt,ed,price,ch,co,ra,ro");
+          mygrid.init();
+          mygrid.enableAutoHeight(true);
+          mygrid.setSkin("dhx_skyblue");
+          mygrid.loadXML("../../../../common/sgrid.xml", function () {
+              mygrid.cells("2", 0).open();
+          });
+      }
+  </script>
+  
+</head>
+<body onload="Init();">
+<div id="gridbox" style="width:600px;height:500px;background-color:white;"></div>
+</body>
+
+</html>

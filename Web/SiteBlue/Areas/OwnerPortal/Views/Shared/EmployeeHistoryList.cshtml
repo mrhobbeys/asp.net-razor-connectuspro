@@ -1,0 +1,70 @@
+﻿<html>
+<head>
+    <script type="text/javascript">
+
+        $(function () {
+            $('#ajaxindicator').ajaxStart(function () { $(this).show(); });
+            $('#ajaxindicator').ajaxStop(function () { $(this).hide(); });
+            //initEmployeeHistoryGrid();
+        });
+
+        function initEmployeeHistoryGrid() {
+            empgrid = new dhtmlXGridObject('employeehistorygrid');
+
+            empgrid.setImagePath("../../codebase/imgs/");
+            empgrid.setHeader("FieldName,Table,TypeOfChange,Date,Time,On Tablet?,ChangedBy,From,To");
+            //empgrid.setInitWidths("180,160,160,120,120,150,180,150,150");
+            empgrid.setColAlign("left,left,left,left,left,left,left,left,left");
+            empgrid.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro");
+            empgrid.init();
+            empgrid.setSkin("dhx_skyblue");
+        }
+
+        function BindEmployeeHistory(employeeid) {
+            var payload = { employeeID: employeeid };
+            
+            $.ajax({
+                url: "/Employee/EmployeeHistoryList",
+                data: JSON.stringify(payload),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    var xmlstring = "<rows>";
+                    $.each(result, function (index, item) {
+
+                        xmlstring += "<row id='" + index + "'>";
+                        xmlstring += "<cell><![CDATA[" + item.FieldName + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.TableName + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.ChangeType + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.Date + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.Time + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.isTablet + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.ChangedBy + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.From + "]]></cell>";
+                        xmlstring += "<cell><![CDATA[" + item.To + "]]></cell>";
+                        xmlstring += "</row>";
+
+                    });
+                    xmlstring += "</rows>";
+
+                    empgrid.clearAll();
+                    empgrid.loadXMLString(xmlstring);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (xhr, status, error) {
+                    alert(error);                    
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div style="text-align: center;">
+        <img id="ajaxindicator" src="../../../../Images/ajax-loader.gif" alt="processing..." style="display: none;" />
+    </div>
+
+    <div id="employeehistorygrid" style="height: 250px; background-color: white;">
+    </div>
+</body>
+</html>

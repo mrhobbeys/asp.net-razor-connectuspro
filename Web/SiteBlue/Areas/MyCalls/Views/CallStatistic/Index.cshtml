@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="@Url.Content("~/codebase/dhtmlxcombo.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxgrid.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/skins/dhtmlxgrid_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxcalendar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/skins/dhtmlxcalendar_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/dhtmlxchart.css")" rel="stylesheet" type="text/css" /> 
+    <link href="@Url.Content("~/codebase/dhtmlxlayout.css")" rel="stylesheet" type="text/css" />
+    <link rel="Stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxlayout_dhx_skyblue.css" />
+    <style type="text/css" media="screen">
+        html, body
+        {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            overflow: hidden;
+            background-color: #b2c6e1;
+        }
+        #conten div {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+}
+@section ScriptIncludes {
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxcontainer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"> </script>  
+    <script src="@Url.Content("~/codebase/dhtmlxlayout.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxgrid.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/codebase/dhtmlxgridcell.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/common/dhtmlxgrid_excell_link.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxcalendar.js")" type ="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxchart.js")" type ="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        var dhxLayout;
+        $('document').ready(function() {
+            SiteBlue.renderMenu(true);
+            $(SiteBlue).bind("FranchiseChanged", function(e, data) { updateGrid(); });
+
+            createCalendar();
+            doOnDataLoad();
+        });
+        
+        function doOnDataLoad() {
+            dhxLayout = new dhtmlXLayoutObject("parentId", "2E", "dhx_skyblue");
+            dhxLayout.cells("a").attachObject("dateFilter");
+            dhxLayout.cells("b").progressOn();
+            dhxLayout.cells("b").attachURL('@Url.Action("GetInfoForGrid")', true);
+            
+            dhxLayout.cells("a").hideHeader();
+            dhxLayout.cells("b").hideHeader();
+            //dhxLayout.cont.obj._offsetTop = 35;
+            //dhxLayout.cont.obj._offsetHeight = -35;
+            //dhxLayout.setAutoSize("a;b", "a");
+            dhxLayout.setEffect("resize", true);
+            dhxLayout.attachEvent("onPanelResizeFinish", function() {
+                dhxLayout.setSizes();
+            });
+            //dhxLayout.setSizes();
+            dhxLayout.cells("a").setHeight(65);
+        }
+
+        function updateGrid() {
+            var frid = SiteBlue.franchiseId;
+            var opt = 0;
+
+            if (frid == 0) {
+                $("#selDiv").show();
+
+                opt = $("#rdoPhoneNumber").is(":checked") ? 1 : 2;
+            } else {
+                $("#selDiv").hide();
+            }
+
+            var start = $("#clnd_start").val();
+            var end = $("#clnd_end").val();
+
+            dhxLayout.cells("b").progressOn();
+            var url = '@Url.Action("GetInfoForGrid")?start=' + start + '&end=' + end + '&fr=' + SiteBlue.franchiseId + '&opt=' + opt;
+            dhxLayout.cells("b").attachURL(url, true);
+        }
+        
+        $(window).resize(function() {
+            dhxLayout.setSizes();
+        });
+        
+        function downloadFullStat() {
+            location.href = '@Url.Action("DownloadFullStatistic")' + '?fr=' + SiteBlue.franchiseId;
+        }
+
+        function createCalendar() {
+            var myCalendar = new dhtmlXCalendarObject(["clnd_start", "clnd_end"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+        }
+    </script>
+}
+<div id="parentId" style="position: absolute; bottom: 0; left: 0; right: 0; top: 35px; width:100%; height: 100%; overflow: auto;"></div>
+<div id="dateFilter" style="height: auto; padding: 10px;">
+    <label style="color: #1a3b69; float:left;">Start Date</label>
+    <input type="text" style="color: #1a3b69; float:left;" id="clnd_start" />
+    <label style="color: #1a3b69; float:left;">End Date</label>
+    <input type="text" style="color: #1a3b69; float:left;" id="clnd_end" />
+    <div style="float: left; margin: 0 20px; display: none;" id="selDiv">
+        <input type="radio" id="rdoPhoneNumber" checked="checked" name="rdoSel" />PhoneNumber
+        <input type="radio" id="rdoCallTalker" name="rdoSel" />CallTalker
+    </div>
+    <input type="button" onclick="updateGrid()" value="Show Statistic" />
+    <div style="clear: both;"></div>
+    <input id="btnEARtoExcel" type="button" onclick="downloadFullStat();" value="Export All Records to Excel" />     
+</div>
+

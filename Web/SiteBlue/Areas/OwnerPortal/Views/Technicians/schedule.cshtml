@@ -1,0 +1,672 @@
+﻿@model int
+@if (Model != 0)
+{
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html>
+    <head>
+        <style type="text/css">
+            /* css for timepicker */
+            .ui-timepicker-div .ui-widget-header
+            {
+                margin-bottom: 8px;
+            }
+            .ui-timepicker-div dl
+            {
+                text-align: left;
+            }
+            .ui-timepicker-div dl dt
+            {
+                height: 25px;
+                margin-bottom: -25px;
+            }
+            .ui-timepicker-div dl dd
+            {
+                margin: 0 10px 10px 65px;
+            }
+            .ui-timepicker-div td
+            {
+                font-size: 90%;
+            }
+            .ui-tpicker-grid-label
+            {
+                background: none;
+                border: none;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+        <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+        <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" />
+        <link rel="Stylesheet" type="text/css" href="../../../../Content/themes/base/jquery-ui.css" />
+        <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery-ui-1.8.11.min.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/jquery-ui-timepicker-addon.js")" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+        <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" />
+        <script src="../../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+        <script src="../../../../Content/json2.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+        <link href="../../../../codebase/dhtmlxwindows.css" rel="Stylesheet" type="text/css" />
+        <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="Stylesheet"
+            type="text/css" />
+        <style type="text/css">
+            #tabinvoice1 tbody tr:hover, tbody tr.odd:hover
+            {
+                background: #fff;
+            }
+            
+            #tabinvoice2 tbody tr:hover, tbody tr.odd:hover
+            {
+                background: #fff;
+            }
+            
+            #tblFinance tbody tr:hover, tbody tr.odd:hover
+            {
+                background: #fff;
+            }
+            
+            #printInvoice
+            {
+                font-family: Arial, sans-serif;
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            #printInvoice .btns
+            {
+                text-align: center;
+                margin-top: 30px;
+            }
+            
+            #printInvoice button
+            {
+                width: 80px;
+                margin-right: 10px;
+            }
+        </style>
+        <script type="text/javascript">
+            //            var myCalendar = new dhtmlXCalendarObject(["MonStartCal", "MonEndCal", "TueStartCal", "TueEndCal", "WedStartCal", "WedEndCal", "ThruStartCal", "ThruEndCal", "FriStartCal", "FriEndCal", "SatStartCal", "SatEndCal"]);
+            //            myCalendar.setWeekStartDay(7);
+            //            myCalendar.setDateFormat("%h:%i %A");
+        </script>
+        <script>
+
+            //            mygrid = new dhtmlXGridObject('gridbox1');
+            //            mygrid.setImagePath("../../../../codebase/imgs/");
+            //            mygrid.setHeader("Technician", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+            //            mygrid.setInitWidths("218");
+            //            mygrid.setColAlign("center");
+            //            mygrid.setColTypes("ro");
+            //            mygrid.setColSorting("str");
+            //            mygrid.init();
+            //            mygrid.setSkin("dhx_skyblue");
+            //            mygrid.setDateFormat("%Y-%m-%d %H:%i");
+
+            //            mygrid.loadXML("../../common/grid2.xml");
+        </script>
+    </head>
+    <body>
+        <div style="float: left; width: 100%; background-color: #d5f1ff">
+            <div style="float: left; width: 97%; margin-left: 10px; margin-bottom: 5px;">
+                <span style="color: Black; font-weight: bold; margin-bottom: 5px;">Service Pro List</span>
+                <div style="float: left; width: 100%; margin-top: 10px;">
+                    <div id="gridbox" style="width: 100%; height: 350px; background-color: #d5f1ff;">
+                    </div>
+                    <div id="printInvoice" style="height: 730px; margin-top: 10px; display: none;" class="dhx_tabbar_zone_top">
+                        <div style="width: 95%; float: left; background-color: #D5F1FF; font-size: 14px;
+                            font-family: Verdana; color: Black; margin-left: 10px; margin-top: 10px;">
+                            <span style="font-weight: bold;">Technicians Schedule<label id="lblTechName"></label></span>
+                        </div>
+                        <div style="float: left; width: 97%; margin-left: 10px; margin-bottom: 5px;">
+                            <fieldset style="float: left; width: 90%;">
+                                <div style="float: left; width: 100%;">
+                                    <div style="float: left; width: 100%;">
+                                        <table cellspacing="10px">
+                                            <tr>
+                                                <td>
+                                                    <span style="font-weight: bold;">Active</span>
+                                                </td>
+                                                <td>
+                                                    <span style="font-weight: bold;">Weekdays</span>
+                                                </td>
+                                                <td>
+                                                    <span style="font-weight: bold;">Start Time</span>
+                                                </td>
+                                                <td>
+                                                    <span style="font-weight: bold;">End Time</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" id="chkSun" />
+                                                </td>
+                                                <td>
+                                                    <span>Sunday</span>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="SunStartCal" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="SunEndCal" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" checked="checked" id="chkMon" />
+                                                </td>
+                                                <td>
+                                                    <span>Monday</span>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="MonStartCal" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="MonEndCal" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" checked="checked" id="chkTue" />
+                                                </td>
+                                                <td>
+                                                    <span>Tuesday</span>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="TueStartCal" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="TueEndCal" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" checked="checked" id="chkWed" />
+                                                </td>
+                                                <td>
+                                                    <span>Wednesday</span>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="WedStartCal" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="WedEndCal" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" checked="checked" id="chkThru" />
+                                                </td>
+                                                <td>
+                                                    <span>Thursday</span>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="ThruStartCal" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="ThruEndCal" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" checked="checked" id="chkFri" />
+                                                </td>
+                                                <td>
+                                                    <span>Friday</span>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="FriStartCal" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="FriEndCal" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" id="chkSat" checked="checked" />
+                                                </td>
+                                                <td>
+                                                    <span>Saturday</span>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="SatStartCal" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="SatEndCal" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" align="right">
+                                                    <input type="button" id="btnUpdate" value="Update" />
+                                                    <label id="lblId" style=" visibility:hidden;">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div style="float: left; width: 100%; margin-top: 15px;">
+                                    <div style="float: left; width: 25%;">
+                                    </div>
+                                    <div style="float: left; width: 25%;">
+                                    </div>
+                                    <div style="float: left; width: 40%;">
+                                        <span id="pro" style="color: Black; font-weight: bold;"></span>
+                                        <br />
+                                        <span style="color: Black; font-weight: bold;"></span>
+                                    </div>
+                                    @* <div style="float: right; width: 28%;">
+                                        <a href="#" style="color: Green; font-weight: bold;">Set on Call Service Pro</a>
+                                    </div>*@
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+
+                        function LoadGrid() {
+                            var xmlstring = "";
+                            var xmlstring1 = "";
+                            mygrid = new dhtmlXGridObject('gridbox');
+                            mygrid.setImagePath("../../../../codebase/imgs/");
+                            mygrid.setHeader("Schedule Id,Technician,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+                            mygrid.setInitWidths("132,228,132,132,132,132,132,132,132");
+                            mygrid.setColAlign("center,center,center,center,center,center,center,center,center");
+                            mygrid.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro");
+                            mygrid.attachEvent("onRowSelect", function (rowId, cellIndex) {
+                                var wins = new dhtmlXWindows();
+                                var scheduleId = mygrid.cellById(rowId, 0).getValue();
+                                $('#lblId').text(scheduleId);
+                                var name = mygrid.cellById(rowId, 1).getValue();
+                                name = ' (' + name + ')';
+                                var sun = mygrid.cellById(rowId, 2).getValue();
+                                var mon = mygrid.cellById(rowId, 3).getValue();
+                                var monValue = mon.split("-");
+                                mon = '(' + mon + ')';
+                                var tue = mygrid.cellById(rowId, 4).getValue();
+                                var tueValue = tue.split("-");
+                                tue = '(' + tue + ')';
+                                var wed = mygrid.cellById(rowId, 5).getValue();
+                                var wedValue = wed.split("-");
+                                wed = '(' + wed + ')';
+                                var thru = mygrid.cellById(rowId, 6).getValue();
+                                var thruValue = thru.split("-");
+                                thru = '(' + thru + ')';
+                                var fri = mygrid.cellById(rowId, 7).getValue();
+                                var friValue = fri.split("-");
+                                fri = '(' + fri + ')';
+                                var sat = mygrid.cellById(rowId, 8).getValue();
+                                var satValue = sat.split("-");
+                                sat = '(' + sat + ')';
+                                if (sun != '(Off)') {
+                                    $("#chkSun").prop("checked", true);
+                                    $('#lblSun').text(sun);
+                                }
+                                else {
+                                    $("#chkSun").prop("checked", false);
+                                    $('#lblSun').text(" ");
+                                }
+
+                                //Calculation for monday schedule
+                                if (mon != '(Off-Off)') {
+                                    $("#chkMon").prop("checked", true);
+                                    $('#MonStartCal').val(monValue[0]);
+                                    if (monValue[1].indexOf("&gt;") != -1) {
+                                        var splitMon = monValue[1].split("&gt;");
+                                        $('#MonEndCal').val(splitMon[1]);
+                                    }
+                                    else {
+                                        if (monValue[0] != 'Off') {
+                                            $('#MonStartCal').val(monValue[0]);
+                                        }
+                                        else {
+                                            $('#MonStartCal').val(" ");
+                                        }
+                                        if (monValue[1] != 'Off') {
+                                            $('#MonEndCal').val(monValue[1]);
+                                        }
+                                        else {
+                                            $('#MonEndCal').val(" ");
+                                        }
+                                    }
+                                }
+                                else {
+                                    $("#chkMon").prop("checked", false);
+                                    $('#lblMon').text(" ");
+                                    $('#MonStartCal').val(" ");
+                                    $('#MonEndCal').val(" ");
+                                }
+
+                                //Calculation for Tuesday schedule
+                                if (tue != '(Off-Off)') {
+                                    $("#chkTue").prop("checked", true);
+                                    $('#TueStartCal').val(tueValue[0]);
+                                    if (tueValue[1].indexOf("&gt;") != -1) {
+                                        var splitTue = tueValue[1].split("&gt;");
+                                        $('#TueEndCal').val(splitTue[1]);
+                                    }
+                                    else {
+                                        if (tueValue[0] != 'Off') {
+                                            $('#TueStartCal').val(tueValue[0]);
+                                        }
+                                        else {
+                                            $('#TueStartCal').val(" ");
+                                        }
+                                        if (tueValue[1] != 'Off') {
+                                            $('#TueEndCal').val(tueValue[1]);
+                                        }
+                                        else {
+                                            $('#TueEndCal').val(" ");
+                                        }
+                                    }
+                                }
+                                else {
+                                    $("#chkTue").prop("checked", false);
+                                    $('#lblTue').text(" ");
+                                    $('#TueStartCal').val(" ");
+                                    $('#TueEndCal').val(" ");
+                                }
+
+                                //Calculation for Wednesday schedule
+                                if (wed != '(Off-Off)') {
+                                    $("#chkWed").prop("checked", true);
+                                    $('#WedStartCal').val(wedValue[0]);
+                                    if (wedValue[1].indexOf("&gt;") != -1) {
+                                        var splitWed = wedValue[1].split("&gt;");
+                                        $('#WedEndCal').val(splitWed[1]);
+                                    }
+                                    else {
+                                        if (wedValue[0] != 'Off') {
+                                            $('#WedStartCal').val(wedValue[0]);
+                                        }
+                                        else {
+                                            $('#WedStartCal').val(" ");
+                                        }
+                                        if (wedValue[1] != 'Off') {
+
+                                            $('#WedEndCal').val(wedValue[1]);
+                                        }
+                                        else {
+                                            $('#WedEndCal').val(" ");
+                                        }
+                                    }
+                                }
+                                else {
+                                    $("#chkWed").prop("checked", false);
+                                    // $('#lblWed').text(" ");
+                                    $('#WedStartCal').val(" ");
+                                    $('#WedEndCal').val(" ");
+                                }
+
+                                //Calculation for thrusday schedule
+                                if (thru != '(Off-Off)') {
+                                    $("#chkThru").prop("checked", true);
+                                    $('#ThruStartCal').val(thruValue[0]);
+                                    if (thruValue[1].indexOf("&gt;") != -1) {
+                                        var splitThru = thruValue[1].split("&gt;");
+                                    }
+                                    else {
+                                        if (thruValue[0] != 'Off') {
+                                            $('#ThruStartCal').val(thruValue[0]);
+                                        }
+                                        else {
+                                            $('#ThruStartCal').val(" ");
+                                        }
+                                        if (thruValue[1] != 'Off') {
+                                            $('#ThruEndCal').val(thruValue[1]);
+                                        }
+                                        else {
+                                            $('#ThruEndCal').val(" ");
+                                        }
+                                    }
+                                }
+                                else {
+                                    if (thruValue[1] != 'Off') {
+                                        $('#ThruStartCal').val(thruValue[1]);
+                                    }
+                                    else {
+                                        $('#ThruStartCal').val("");
+                                    }
+                                    $("#chkThru").prop("checked", false);
+                                    $('#ThruEndCal').val(" ");
+                                }
+
+
+                                //Calculation for friday schedule
+                                if (fri != '(Off-Off)') {
+                                    $("#chkFri").prop("checked", true);
+                                    $('#FriStartCal').val(friValue[0]);
+                                    if (friValue[1].indexOf("&gt;") != -1) {
+                                        var splitFri = friValue[1].split("&gt;");
+                                        if (splitFri[1] != 'Off') {
+                                            $('#FriStartCal').val(splitFri[1]);
+                                        }
+                                        else {
+                                            $('#FriStartCal').val(" ");
+                                        }
+                                    }
+                                    else {
+                                        if (friValue[0] != 'Off') {
+                                            $('#FriStartCal').val(friValue[0]);
+                                        }
+                                        else {
+                                            $('#FriStartCal').val(" ");
+                                        }
+                                        if (friValue[1] != 'Off') {
+                                            $('#FriEndCal').val(friValue[1]);
+                                        }
+                                        else {
+                                            $('#FriEndCal').val(" ");
+                                        }
+                                    }
+                                }
+                                else {
+                                    $("#chkFri").prop("checked", false);
+                                    $('#FriStartCal').val(" ");
+                                    $('#FriEndCal').val(" ");
+                                }
+
+                                //Calculation for saturday schedule
+                                if (sat != '(Off)') {
+                                    $("#chkSat").prop("checked", true);
+                                    $('#SatStartCal').val(satValue[0]);
+                                                       }
+                                else {
+                                    $("#chkSat").prop("checked", false);
+                                    $('#SatStartCal').val(" ");
+                                    $('#SatEndCal').val(" ");
+                                    }
+
+                                if (sun != 'Off') {
+
+                                    $("#chkSun").prop("checked", true);
+                                    $('#SunStartCal').val(sun);
+                                    // $('#SunEndCal').val(" ");
+                                }
+                                else {
+
+                                    $("#chkSun").prop("checked", false);
+                                    $('#SunStartCal').val(" ");
+                                }
+
+                                $('#lblTechName').text(name);
+
+
+                                sendWin = wins.createWindow("send", 200, 300, 600, 500);
+                                sendWin.attachObject("printInvoice");
+                                sendWin.setText("Technicians Schedule");
+                                sendWin.setModal(true);
+
+                                sendWin.attachEvent("onClose", function (win) {
+                                    sendWin.hide();
+                                    sendWin.setModal(false);
+                                    return false;
+                                });
+
+                                sendWin.center();
+                                sendWin.show();
+                                return false;
+
+                            });
+                            mygrid.setColSorting("str,str,str,str,str,str,str,str");
+                            mygrid.init();
+                            mygrid.setSkin("dhx_skyblue");
+                            mygrid.setDateFormat("%Y-%m-%d %H:%i");
+                            var jsondata = $.ajax
+                    ({
+                        url: '/ownerportal/Technicians/GetTechSchedule/@Model',
+                        contentType: "application/json; charset=utf-8",
+                        success: function (msg) {
+                            var AdForHomePages = msg;
+                            xmlstring = xmlstring + "<rows>";
+                            $.each(AdForHomePages, function (index, customers) {
+                                xmlstring = xmlstring + "<row id='" + index + "'>";
+                                xmlstring = xmlstring + "<cell><![CDATA[" + customers.SchudleId + "]]></cell>";
+                                xmlstring = xmlstring + "<cell><![CDATA[" + customers.Employee + "]]></cell>";
+                                xmlstring = xmlstring + "<cell><![CDATA[" + customers.SunStart + "]]></cell>";
+                                xmlstring = xmlstring + "<cell><![CDATA[" + customers.MonStart + "-" + customers.MonEnd + "]]></cell>";
+                                xmlstring = xmlstring + "<cell><![CDATA[" + customers.TueStart + "-" + customers.TueEnd + "]]></cell>";
+                                xmlstring = xmlstring + "<cell><![CDATA[" + customers.WedStart + "-" + customers.WedEnd + "]]></cell>";
+                                xmlstring = xmlstring + "<cell><![CDATA[" + customers.ThuStart + "-" + customers.ThuEnd + "]]></cell>";
+                                xmlstring = xmlstring + "<cell><![CDATA[" + customers.FriStart + "-" + customers.FriEnd + "]]></cell>";
+                                xmlstring = xmlstring + "<cell><![CDATA[" + customers.SatStart + "]]></cell>";
+                                xmlstring = xmlstring + "</row>";
+                            });
+                            xmlstring = xmlstring + "</rows>";
+                            mygrid.loadXMLString(xmlstring);
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        error: function (e) {
+                            $('#output').innerHtml(e);
+                        }
+                    });
+                        }
+                        $('document').ready(function () {
+                            LoadGrid();
+                            $('#SunStartCal').timepicker({
+                                ampm: true
+                            });
+                            $('#SunEndCal').timepicker({
+                                ampm: true
+                            });
+                            $('#MonStartCal').timepicker({
+                                ampm: true
+                            });
+                            $('#MonEndCal').timepicker({
+                                ampm: true
+                            });
+                            $('#TueStartCal').timepicker({
+                                ampm: true
+                            });
+                            $('#TueEndCal').timepicker({
+                                ampm: true
+                            });
+                            $('#WedStartCal').timepicker({
+                                ampm: true
+                            });
+                            $('#WedEndCal').timepicker({
+                                ampm: true
+                            });
+                            $('#ThruStartCal').timepicker({
+                                ampm: true
+                            });
+                            $('#ThruEndCal').timepicker({
+                                ampm: true
+                            });
+                            $('#FriStartCal').timepicker({
+                                ampm: true
+                            });
+                            $('#FriEndCal').timepicker({
+                                ampm: true
+                            });
+                            $('#SatStartCal').timepicker({
+                                ampm: true
+                            });
+                            $('#SatEndCal').timepicker({
+                                ampm: true
+                            });
+                            $('#printInvoice').hide();
+                            $('#btnUpdate').click(function () {
+                                var $updateButton = $(this);
+                                $updateButton.attr('readonly', 'readonly');
+                                $updateButton.attr('disabled', 'disabled');
+                                $updateButton.val('Updating...');
+                                var monStart = $('#MonStartCal').val();
+                                var monEnd = $('#MonEndCal').val();
+                                var tueStart = $('#TueStartCal').val();
+                                var tueEnd = $('#TueEndCal').val();
+                                var wedStart = $('#WedStartCal').val();
+                                var wedEnd = $('#WedEndCal').val();
+                                var thruStart = $('#ThruStartCal').val();
+                                var thruEnd = $('#ThruEndCal').val();
+                                var friStart = $('#FriStartCal').val();
+                                var friEnd = $('#FriEndCal').val();
+                                var satStart = $('#SatStartCal').val();
+                                var satEnd = $('#SatEndCal').val();
+                                var sunStart = $('#SunStartCal').val();
+                                var sunEnd = $('#SunEndCal').val();
+                                var id = $('#lblId').text();
+                                var params = { scheduleId: id, monStartTime: monStart, monEndTime: monEnd, tueStartTime: tueStart, tueEndTime: tueEnd, wedStartTime: wedStart, wedEndTime: wedEnd,
+                                    thruStartTime: thruStart, thruEndTime: thruEnd, friStartTime: friStart, friEndTime: friEnd, satStartTime: satStart, satEndTime: satEnd, sunStartTime: sunStart, sunEndTime: sunEnd
+                                };
+                                $.ajax({
+                                    type: "POST",
+                                    url: "../Technicians/UpdateSchedule",
+                                    data: JSON.stringify(params),
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function (result) {
+                                        $updateButton.removeAttr("disabled", "disabled");
+                                        $updateButton.removeAttr('readonly', 'readonly');
+                                        $updateButton.val('Update');
+                                        if (result.Success) {
+                                            alert(result.Message);
+                                            sendWin.hide();
+                                            sendWin.setModal(false);
+                                            LoadGrid();
+                                        }
+                                        else {
+                                            alert(result.Message);
+                                        }
+                                    },
+                                    dataType: "json",
+                                    error: function (xhr, status, error) {
+                                        $updateButton.removeAttr("disabled", "disabled");
+                                        $updateButton.removeAttr('readonly', 'readonly');
+                                        $updateButton.val('Update');
+                                        alert(error);
+                                       
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div style="float: left; width: 97%; margin-left: 10px; margin-bottom: 5px;">
+                     <div style="float: left; width: 35%;">
+                <div style="float: left; width: 65%;">
+                   
+                    <br />
+                    <div id="gridbox1" style="width: 60%; height: 150px; background-color: #d5f1ff;">
+                    </div>
+                </div>
+                <div style="float: left; width: 35%; margin-top: 10px;">
+                   
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
+}
+else
+{
+    <text>No information available for this company code</text>
+}

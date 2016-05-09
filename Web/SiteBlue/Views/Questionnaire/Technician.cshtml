@@ -1,0 +1,230 @@
+﻿@model SiteBlue.Questionnaire.Data.TechnicianInformation
+@{
+    ViewBag.Title = "Owner Information";
+    Layout = "~/Views/Shared/QuestionnaireLayout.cshtml";
+}
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Owner Portal", "Dashboard", "LandingPage", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+<h2>
+    Technician information@((Model.LastName != null) & (Model.LastName != "") ? ": " + Model.FirstName + " " + Model.LastName : "")
+</h2>
+<div class="content">
+    @using (Html.BeginForm("Technician", "Questionnaire", new { qid = Model.QuestionnaireId }, FormMethod.Post, new { id = "form", @class = "form" }))
+    {
+        @Html.ValidationSummary(true)
+        if ((Request.QueryString["tid"] != null) && (Request.QueryString["tid"].ToString() != ""))
+        {
+        @Html.HiddenFor(model => model.TechnicianInformationId)
+        }
+        <div class="formSection">
+            <div class="fields">
+                <div class="formComponent formComponentName">
+                    <label for="FirstName" class="formComponentLabel">
+                        Name<span class="labelRequiredStar"> *</span></label>
+                    <div class="firstNameDiv">
+                        @Html.LabelFor(model => model.FirstName)
+                        @Html.TextBoxFor(model => model.FirstName, new { @class = "firstName singleLineText validate[required,maxSize[50]]" })
+                    </div>
+                    <div class="lastNameDiv">
+                        @Html.LabelFor(model => model.LastName)
+                        @Html.TextBoxFor(model => model.LastName, new { @class = "lastName singleLineText validate[required,maxSize[50]]" })
+                    </div>
+                </div>
+                <div class="formComponent formComponentName">
+                    <div class="emailDiv">
+                        @Html.LabelFor(model => model.BirthDay)
+                        @Html.TextBoxFor(model => model.BirthDay, new { @readonly = true})
+                        <div id="birthday-tooltip" class="ui-tooltip message-shadow" style="display: none">
+                            <label>
+                                Accepted date format: MM/DD/YYYY</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="formComponent formComponentAddress">
+                    <label for="HomeAddress" class="formComponentLabel">
+                        Address<span class="labelRequiredStar"> *</span></label>
+                    <div class="addressDiv">
+                        @Html.LabelFor(model => model.HomeAddress)
+                        @Html.TextAreaFor(model => model.HomeAddress, new { @class = "validate[required,maxSize[255]]" })
+                    </div>
+                    <div class="cityDiv">
+                        @Html.LabelFor(model => model.HomeCity)
+                        @Html.TextBoxFor(model => model.HomeCity, new { @class = "city validate[required,maxSize[50]]" })
+                    </div>
+                    <div class="stateDiv">
+                        @Html.LabelFor(model => model.StateId)
+                        @*@Html.TextBoxFor(model => model.HomeState, new { @class = "state validate[required]" })*@
+                        @Html.DropDownList("StateId", (IEnumerable<SelectListItem>)ViewBag.States, new { @class = "state validate[required]" })
+                    </div>
+                    <div class="zipDiv">
+                        @Html.LabelFor(model => model.HomeZipCode)
+                        @Html.TextBoxFor(model => model.HomeZipCode, new { @class = "zip validate[required,maxSize[10]]" })
+                    </div>
+                </div>
+                <div class="formComponent formComponentSingleLineText">
+                    <label for="TechnicianEmail" class="formComponentLabel">
+                        Contact<span class="labelRequiredStar"> *</span></label>
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.TechnicianEmail)
+                        @Html.TextBoxFor(model => model.TechnicianEmail, new { @class = "email validate[required,custom[email],maxSize[255]]" })
+                        <div id="technicianemail-tooltip" class="ui-tooltip message-shadow" style="display: none">
+                            <label>
+                                Email format: example@@example.com</label>
+                        </div>
+                        @Html.LabelFor(model => model.TechnicianPhone)
+                        @Html.TextBoxFor(model => model.TechnicianPhone, new { @class = "large validate[required,maxSize[20]]" })</div>
+                </div>
+            </div>
+        </div>
+        <div class="formSection">
+            <div class="fields">
+                <div class="formComponent formComponentMultipleChoice">
+                    <label for="PlumbingWork" class="formComponentLabel">
+                        Plumbing / HVAC</label>
+                    @Html.EditorFor(model => model.PlumbingWork)
+                    <label for="PlumbingWork" class="checkboxlabel">
+                        Does this technician do PLUMBING work?</label><br />
+                    @Html.EditorFor(model => model.HVACWork)
+                    <label for="HVACWork" class="checkboxlabel">
+                        Does this technician do HVAC work?</label><br />
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.PlumbingHVACWorkTime)
+                        @*@Html.TextBoxFor(model => model.PlumbingHVACWorkTime, new { @class = "large" })*@
+                        @Html.DropDownList("PlumbingHVACWorkTime", new SelectList(ViewBag.PlumbingHVACWorkTimes), new { @class = "large-list" })
+                        @Html.LabelFor(model => model.TrainingReceived)
+                        @Html.TextBoxFor(model => model.TrainingReceived, new { @class = "large validate[maxSize[500]]" })
+                        @Html.LabelFor(model => model.TechnicianBio)
+                        @Html.TextAreaFor(model => model.TechnicianBio)
+                        </div>
+                </div>
+                <div class="formComponent formComponentSingleLineText">
+                    <label for="EmergencyContactName" class="formComponentLabel">
+                        Technician Emergency Contact<span class="labelRequiredStar"> *</span></label>
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.EmergencyContactName)
+                        @Html.TextBoxFor(model => model.EmergencyContactName, new { @class = "name validate[required,maxSize[50]]" })</div>
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.EmergencyContactPhone)
+                        @Html.TextBoxFor(model => model.EmergencyContactPhone, new { @class = "phone validate[required,maxSize[20]]" })</div>
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.LevelId)
+                        @Html.DropDownList("LevelId", (IEnumerable<SelectListItem>)ViewBag.Levels, new { @class = "large-list validate[required]" })</div>
+                    <div class="containerDiv">
+                        @Html.LabelFor(model => model.RegularSchedule)
+                        @Html.TextAreaFor(model => model.RegularSchedule, new { @class = "validate[maxSize[255]]" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div id="but" style="height: 60px; width: 100%; display: block; text-align: right">
+    <ul class="control">
+        <li>@Html.ActionLink("< Back to technician information", "TechnicianInformation", new { qid = Model.QuestionnaireId }, new { @class = "formbutton" })
+            <a class="formbutton" id="back">< Back</a> <a class="formbutton" id="next">Next ></a></li><li>
+            </li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function ($) {
+            // apply masks
+            $("#BirthDay").mask("99/99/9999");
+            $("#TechnicianPhone").mask("999-999-9999");
+            $("#EmergencyContactPhone").mask("999-999-9999");
+        });
+        $('#BirthDay').datepicker({ showOn: "focus", changeYear: true, yearRange: '-100:+0' });
+        $('#BirthDay').addClass("large validate[required]");
+
+        // binds form submission and fields to the validation engine
+        $(".form").validationEngine();
+
+        $(".form .formSection:first").fadeIn(1000); // Show the first div
+
+        // highlights the parent div when focus a child field
+        $("input").focus(function () {
+            $('.formComponent').removeClass('formComponentHighlight');
+            $(this).parents('.formComponent').addClass('formComponentHighlight');
+        });
+
+        $("textarea").focus(function () {
+            $('.formComponent').removeClass('formComponentHighlight');
+            $(this).parents('.formComponent').addClass('formComponentHighlight');
+        });
+
+        // attach back step button handler
+        // hide on first step
+        $("#back").hide().click(function () {
+            var $step = $(".formSection:visible"); // Get current step
+            if ($step.prev().hasClass("formSection")) {
+                $step.hide().prev().fadeIn(1000);
+
+                // disable back step button
+                if (!$step.prev().prev().hasClass("formSection")) $("#back").hide();
+            }
+        });
+
+        // attach next step button handler
+        $("#next").click(function () {
+            $('.formComponent').removeClass('formComponentHighlight ');
+            $('.formComponent').removeClass('formComponentValidationFailed');
+            var $step = $(".formSection:visible"); // Get current step
+            var validator = $("form").validate(); // Obtain validator
+            var anyError = false;
+
+            $step.find("input").each(function () {
+                if (!validator.element(this)) {
+                    // apply error style
+                    $(this).parents('.formComponent').addClass('formComponentValidationFailed');
+                    anyError = true;
+                }
+            });
+
+            $step.find("textarea").each(function () {
+                if (!validator.element(this)) {
+                    // apply error style
+                    $(this).parents('.formComponent').addClass('formComponentValidationFailed');
+                    anyError = true;
+                }
+            });
+
+            if (anyError) return false; // Exit if any error found
+
+            if ($step.next().hasClass("formSection")) { // is there any next step?
+                $step.hide().next().fadeIn(1000);  // show it and hide current step
+                $("#back").show();   // recall to show backStep button
+            }
+
+            else { // this is last step, submit form
+                $("form").submit();
+            }
+        });
+
+        // ToolTips
+
+        $("#BirthDay").focusin(function () {
+            $("#birthday-tooltip").show('fast');
+        });
+        $("#BirthDay").focusout(function () {
+            $("#birthday-tooltip").hide('slow');
+        });
+
+        $("#TechnicianEmail").focusin(function () {
+            $("#technicianemail-tooltip").show('fast');
+        });
+        $("#TechnicianEmail").focusout(function () {
+            $("#technicianemail-tooltip").hide('slow');
+        });
+    });
+</script>

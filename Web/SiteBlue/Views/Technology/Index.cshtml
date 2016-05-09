@@ -1,0 +1,67 @@
+﻿@using SiteBlue.Models
+@{
+    ViewBag.Title = "Technology";
+    Layout = "~/Views/Shared/SecondaryLayout.cshtml";
+}
+<article>
+    <section class="col-1">
+        <h2>
+            What is t-Tab?</h2>
+        <p>
+            ConnectusPro is transforming our industry with advanced, yet intuitive technology.
+            Our industry revolutionizing ConnectusPro t-Tab apps provide full service workflow
+            and sales presentations for your technicians and salesmen in the field.
+        </p>
+        <img src="@Url.Content("~/Content/images/ipad.jpg")" class="p2" alt="" />
+        <p class="p3">
+            With the ConnectusPro t-Tab apps your technicians and salesmen can build tremendous
+            value in the presence of your customers, increasing your closing percentage and
+            average ticket. The ConnectusPro t-Tab apps even provides a way to capture customer
+            equipment history, including make and model giving you the added benefit of future
+            marketing opportunities.</p>
+    </section>
+    <section class="col-2">
+        <h2>
+            The <span class="h2lower">t</span>-Tab Advantage</h2>
+        <p>
+            <strong class="yellow">The t-Tab is revolutionizing the way technicians do business.
+                From dispatch to consistent pricing to direct payroll entry, the t-Tab is taking
+                the work out of your busy schedule. </strong>
+        </p>
+        <p>
+            Each detailed job ticket is sent directly to the appropriate assigned t-Tab in the
+            field. No more phone tag with technicians trying to get their next job. Technicians
+            can find everything they need to know about the job right from the t-Tab such as
+            customer address, detailed job notes, and all necessary contact information. But
+            the t-Tab does so much more:
+        </p>
+        <dl class="img-box">
+            <dd>
+                <ul id="listmrk">
+                    <p>
+                    </p>
+                    <li>Simple touchscreen technology for ease of use </li>
+                    <li>Customized virtual price book that is easy to update</li>
+                    <li>Capture customer signatures on the t-Tab</li>
+                    <li>On-site credit card processing for added customer security</li>
+                    <li>On-site estimating makes getting the job quicker and easier</li>
+                    <li>Email your estimate or invoice direct to your customer</li>
+                    <li>Show your customer pictures of equipment for selection of needed replacements</li>
+                    <li>Show video product demonstrations on the jobsite</li>
+                    <li>Real time accounting means less paperwork and data input for you</li>
+                    <li>Live status updates and messaging with Dispatch through the t-Tab</li>
+                    <li>Real-time performance tracking and Owner Alerts</li>
+                </ul>
+                <br class="clear" />
+            </dd>
+         </dl>
+        <p>
+            Want to get the Connectus Pro t-Tab apps for your business? <a href="@Url.Action("Index", "ContactUs")">
+                <u>Just Click Here</u></a> and one of our development consults will contact you
+            with all the details.
+        </p>
+        @Html.ActionLink("Contact Us Now", "Index", "ContactUs", null, new { @class = "button" })<br class="clear">
+    </section>
+</article>
+@{ ViewData["PageType"] = PageType.Technology; }
+@Html.Partial("Banner", null, ViewData)

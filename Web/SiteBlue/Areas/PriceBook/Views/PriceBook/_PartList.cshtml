@@ -1,0 +1,78 @@
+﻿<style type="text/css">
+    .dataTables_info
+    {
+        float: left;
+    }
+    
+    .dataTables_paginate
+    {
+        float: right;
+    }
+    
+    .dataTables_filter
+    {
+        text-align: center;
+    }
+</style>
+
+<table class="partlist" id="partlisttab" cellpadding="10px" cellspacing="0px" border="1px">
+    <thead>
+        <tr>
+            <th>PartCode</th>
+            <th>PartName</th>
+            <th>Cost</th>
+            <th>Standard Price</th>
+            <th>Member Price</th>
+            <th>Standard AddOn Price</th>
+            <th>Add-On Member Price</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+
+    $(document).ready(function () {
+
+        var oTable = $('#partlisttab').dataTable({
+            "bServerSide": true,
+            "bJQueryUI": true,
+            "bPaginate": true,
+            "sAjaxSource": '@Url.Action("GetAjaxParts", new { pbid = @ViewBag.pbid } )',
+            "bProcessing": true,
+            "fnDrawCallback": function () {
+                $(".partcls").click(function () {
+                    var aData = oTable.fnGetData(this.parentNode.parentNode);
+
+                    $("#PartID").val(aData[7]);
+                    $("#PartName").text("[" + $(this).text() + "]" + aData[1]);
+                    $("#PartCost").val(aData[2]);
+                    $("#PartStdPrice").val(aData[3]);
+                    $("#PartMemberPrice").val(aData[4]);
+                    $("#PartAddonStdPrice").val(aData[5]);
+                    $("#PartAddonMemberPrice").val(aData[6]);
+
+                    $("#partdlg").dialog("close");
+                });
+            },
+            "aoColumns": [
+                        {
+                            "sName": "PartCode",
+                            "fnRender": function (oObj) {
+                                return '<a href="#" class="partcls" >' + oObj.aData[0] + '</a>';
+                            },
+                            "sWidth": "100px"
+                        },
+			            { "sName": "PartName", "sWidth": "400px" },
+			            { "sName": "Cost", "bSearchable": false, "sWidth": "40px" },
+			            { "sName": "Standard Price", "bSearchable": false, "sWidth": "40px" },
+                        { "sName": "Member Price", "bSearchable": false, "sWidth": "40px" },
+                        { "sName": "Standard AddOn Price", "bSearchable": false, "sWidth": "40px" },
+                        { "sName": "Add-On Member Price", "bSearchable": false, "sWidth": "40px" }
+		            ]
+        });
+
+    });
+
+</script>

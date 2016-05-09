@@ -1,0 +1,475 @@
+﻿@{
+    ViewBag.Title = "Payroll History";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Tablestyle.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxtabbar.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .link
+        {
+            text-decoration: none;
+            color: Black;
+            cursor: hand;
+            cursor: pointer;
+        }
+    </style>
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script>
+        dhtmlx.skin = "dhx_skyblue";
+    </script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            SiteBlue.renderMenu(true);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { LoadData(); });
+            LoadData();
+
+        });
+
+        function LoadData() {
+            var myCalendar;
+            myCalendar = new dhtmlXCalendarObject(["txtdate"]);
+            myCalendar.setWeekStartDay(7);
+
+            var jsondata = $.ajax({
+                url: "/Employee/LoadHRReviewData",
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    gridHRReview = new dhtmlXGridObject("gridbox");
+
+                    //gridHRReview.setImagePath("../../../../codebase/imgs/");
+                    gridHRReview.setHeader("Form,Purpose,Usage,Document Name");
+                    gridHRReview.enableEditEvents(false, false, false);
+                    gridHRReview.setColTypes("txt,txt,txt,txt");
+                    gridHRReview.init();
+                    gridHRReview.setSkin("dhx_skyblue");
+
+                    var xmlstringHRReview = "<rows>";
+                    $.each(result, function (index, HR_Forms) {
+                        xmlstringHRReview += "<row id='" + index + "'>";
+                        xmlstringHRReview += "<cell><![CDATA[" + HR_Forms.Form + "]]></cell>";
+                        xmlstringHRReview += "<cell><![CDATA[" + HR_Forms.Purpose + "]]></cell>";
+                        xmlstringHRReview += "<cell><![CDATA[" + HR_Forms.Usage + "]]></cell>";
+                        xmlstringHRReview += "<cell><![CDATA[" + HR_Forms.DocumentName + "]]></cell>";
+                        xmlstringHRReview += "</row>";
+                    });
+                    xmlstringHRReview += "</rows>";
+
+                    gridHRReview.loadXMLString(xmlstringHRReview);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+
+                }
+            });
+
+            var frachiseID = { franchisid: SiteBlue.franchiseId };
+            var jsondata1 = $.ajax({
+                url: "/Employee/LoadReviewHisotryData",
+                data: JSON.stringify(frachiseID),
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    gridHRReview1 = new dhtmlXGridObject("gridReviewHistory");
+
+                    gridHRReview1.setImagePath("../../../../codebase/imgs/");
+                    gridHRReview1.setHeader("Employee,Review Date,Form,Subject,Completed");
+                    gridHRReview1.enableEditEvents(false, false, false);
+                    gridHRReview1.setColTypes("txt,txt,txt,txt,txt");
+                    gridHRReview1.init();
+                    gridHRReview1.setSkin("dhx_skyblue");
+
+                    var xmlstringReviewHistory = "<rows>";
+                    $.each(result, function (index, Employee_Forms) {
+
+                        if (Employee_Forms.Subject != null) {
+                            xmlstringReviewHistory += "<row id='" + Employee_Forms.ReviewID + "'>";
+
+                            xmlstringReviewHistory += "<cell><![CDATA[" + Employee_Forms.Employee + "]]></cell>";
+                            xmlstringReviewHistory += "<cell><![CDATA[" + new Date(parseInt(Employee_Forms.ReviewDate.substr(6))) + "]]></cell>";
+                            xmlstringReviewHistory += "<cell><![CDATA[" + Employee_Forms.Form + "]]></cell>";
+                            xmlstringReviewHistory += "<cell><![CDATA[" + Employee_Forms.Subject + "]]></cell>";
+                            if (Employee_Forms.CompletedYN)
+                                xmlstringReviewHistory += "<cell><![CDATA[" + "yes" + "]]></cell>";
+                            else
+                                xmlstringReviewHistory += "<cell><![CDATA[" + "No" + "]]></cell>";
+                        }
+
+                        xmlstringReviewHistory += "</row>";
+                    });
+                    xmlstringReviewHistory += "</rows>";
+
+                    gridHRReview1.loadXMLString(xmlstringReviewHistory);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                }
+            });
+        }
+
+        function changeFranchisee() {
+            $("form").submit();
+        }
+
+        function SaveReview() {
+            var params = {
+                FranchiseID: SiteBlue.franchiseId,
+                EmployeeID: 68,
+                ReviewDate: $("#txtdate").val(),
+                FormID: 0,
+                CompletedYN: false,
+                Comments: $("#txtComments").val(),
+                Subject: $("#txtSubject").val()
+            };
+
+            $.ajax({
+                url: "/Employee/AddReview",
+                data: JSON.stringify(params),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    alert(msg);
+
+                    //alert(new Date(parseInt(msg.ReviewDate.substr(6))));
+                    //                        var newdate = new Date(parseInt(msg.ReviewDate.substr(6)));
+                    //                        var mydate = new Date(newdate);
+                    //                        var month = mydate.getMonth() + 1;
+                    //                        if (month < 10) month = "0" + month;
+                    //                        var day = mydate.getDate();
+                    //                        if (day < 10) day = "0" + day;
+
+                    //                        var FullDate = day + "/" + month + "/" + mydate.getFullYear();
+
+                    //                        $("#chkCompleted").val(msg.txtdate);
+                    //                        if (msg.CompletedYN == true) {
+
+                    //                            $("#chkCompleted").attr('checked', 'checked')
+                    //                        }
+
+                    //                        $("#txtdate").val(FullDate);
+                    //                        $("#txtSubject").val(msg.Subject);
+                    //                        $("#txtComments").val(msg.Comments);
+
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    alert("Error");
+                }
+            });
+        }
+
+        function AddReview() {
+            $("#hdnAction").val("Add");
+            document.getElementById("panelAddReview").style.display = "";
+        }
+
+        function CancelReview() {
+            document.getElementById("panelAddReview").style.display = "none";
+            $("#hdnAction").val("");
+            $("#hdnReviewID").val();
+        }
+
+        function EditReview() {
+
+            var selectedId = gridHRReview1.getSelectedRowId();
+            $("#hdnAction").val("Edit");
+            $("#txtSubject").val();
+            $("#txtComments").val();
+            $("#chkCompleted").removeAttr('checked')
+
+            $("#hdnReviewID").val(selectedId);
+
+            if (selectedId != null) {
+                document.getElementById("panelAddReview").style.display = "";
+                var reviewID = { ReviewID: selectedId };
+                var jsondata = $.ajax({
+                    url: "/Employee/EditReview",
+                    data: JSON.stringify(reviewID),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        //alert("Success");
+
+                        //alert(new Date(parseInt(msg.ReviewDate.substr(6))));
+                        var newdate = new Date(parseInt(msg.ReviewDate.substr(6)));
+                        var mydate = new Date(newdate);
+                        var month = mydate.getMonth() + 1;
+                        if (month < 10) month = "0" + month;
+                        var day = mydate.getDate();
+                        if (day < 10) day = "0" + day;
+
+                        var FullDate = day + "/" + month + "/" + mydate.getFullYear();
+
+                        $("#chkCompleted").val(msg.txtdate);
+                        if (msg.CompletedYN == true) {
+
+                            $("#chkCompleted").attr('checked', 'checked')
+                        }
+
+                        $("#txtdate").val(FullDate);
+                        $("#txtSubject").val(msg.Subject);
+                        $("#txtComments").val(msg.Comments);
+
+                        //                        document.getElementById("panelAddReview").style.display = "";
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $('#output').innerHtml(e);
+
+                    }
+                });
+            }
+        }
+
+        function downloadToExcel() {
+            gridHRReview.toExcel("/Employee/DownloadEmployeeList");
+        }
+
+    </script>
+}
+
+@{Html.BeginForm("AddReview", "Employee");}
+@*<div style="background-color: #2C2D31; height: 30px; width: 100%">
+            <div style="float: left; padding-right: 30px; padding-left: 10px; height: 25px;">
+                <img src="../../../../Images/ConnectusPro logo CMYK 2.png" width="150px" alt="Connectus Pro"
+                    height="30px" />
+            </div>
+            <div style="padding-left: 30px; padding-top: 5px">
+                @Html.DropDownList("ddlFrenchise", new SelectList(ViewBag.frenchise, "FranchiseID", "FranchiseNumber", ViewBag.FrenchiseID), (string)ViewBag.FrenchiseID, new { onchange = "LoadData()" })
+            </div>
+        </div>*@
+<div style="height: 650px; margin-top: 10px;" class=" dhx_tabbar_zone_top">
+    <div class="dhx_tabbar_zone dhx_tabbar_zone_dhx_skyblue">
+        <div class="dhx_tablist_zone" style="height: 24px; top: 0px;">
+            <div class="dhx_tabbar_row" style="height: 26px; top: 0px; z-index: 10;">
+                <div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="height: 26px;
+                    background-color: white; z-index: 7; top: 0px; left: 5px; width: 150px;">
+                    <span><a class="link" href="../Employee/EmployeeList">Employee List</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive dhx_tab_hover" style="height: 26px;
+                    background-color: white; z-index: 5; top: 0px; left: 154px; width: 150px;">
+                    <span><a class="link" href="../PayrollHistory/PayrollSetup">Payroll Setup</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 150px; height: 26px;
+                    top: 0px; left: 303px;">
+                    <span><a class="link" href="TimeCardSummary">Time Card Summary</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 150px; height: 26px;
+                    top: 0px; left: 452px;">
+                    <span><a class="link" href="../PayrollHistory/PayrollProcessing">Payroll Processing</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="height: 26px; background-color: white;
+                    z-index: 7; top: 0px; left: 601px; width: 150px;">
+                    <span><a class="link" href="../PayrollHistory/GetPayrollHistroy">Payroll History</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 144px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 750px;">
+                    <span><a class="link" href="HR_Form">Forms</a></span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_active dhx_tab_hover" style="height: 26px;
+                    top: 0px; left: 849px; width: 100px; background-color: white; z-index: 17;">
+                    <span>Reviews</span><div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -50px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -140px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -95px;">
+                    </div>
+                </div>
+                <div class="dhx_tab_element dhx_tab_element_inactive" style="width: 100px; height: 26px;
+                    top: 0px; left: 948px;">
+                    <span><a class="link" href="../Employee/EmployeeReminders">Reminders</a></span><div
+                        style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; left: 0px; background-position: 0px -185px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 3px; right: 0px; background-position: 0px -275px;">
+                    </div>
+                    <div style="background-image: url(../../../../codebase/imgs/dhx_skyblue/dhx_skyblue_top.gif);
+                        top: 0px; width: 94px; left: 3px; background-position: 0px -230px;">
+                    </div>
+                </div>
+                <div class="dhx_tablist_line" style="top: 22px; z-index: 8; width: 1332px;">
+                </div>
+            </div>
+        </div>
+        <div style="background-color: white; width: 99.9%; top: 27px;">
+            <!-- class="dhx_tabcontent_zone" height: 621px;-->
+            <div style="overflow: hidden; position: absolute; z-index: 1; left: 0px; top: 0px;
+                width: 99.9%;">
+                <!--height: 621px;-->
+                <div id="dhxMainCont" style="position: relative; left: 0px; top: 0px; overflow: hidden;
+                    width: 100%;">
+                    <!-- height: 800px;-->
+                    <fieldset style="vertical-align: bottom; padding: 5px 0px 5px 0px; width: 100%; margin: 0px;">
+                        <div style="margin-right: 50px; float: left; margin-left: 5px;">
+                            <label style="font-size: larger; font-weight: bold;">
+                                HR Review Form List</label>
+                        </div>
+                    </fieldset>
+                    <div id="gridbox" style="width: 100%; height: 250px; margin-top: 10px;">
+                    </div>
+                     <div style="margin: 10px; float: right;">
+                        <input id="btnCTExcel" type="button" onclick="downloadToExcel()" value="Export" />
+                    </div>
+                    <div style="clear: both; margin-top: 20px; width: 100%;">
+                        <div style="float: left; vertical-align: middle;">
+                            <label style="font-size: larger; font-weight: bold;">
+                                Review History</label>
+                        </div>
+                        <div style="float: right; vertical-align: middle;">
+                            <div id="linkAdd/Edit" style="vertical-align: middle; margin-bottom: 10px;">
+                                <a href="javascript:AddReview()">Add Review</a>&nbsp;&nbsp; <a href="javascript:EditReview()">
+                                    Edit Review</a></div>
+                        </div>
+                    </div>
+                    <div style="width: 100%; height: 250px;" id="gridReviewHistory">
+                    </div>
+                    <div style="display: none; padding: 5px; width: 100%;" id="panelAddReview">
+                        <!-- height: 220px;-->
+                        @Html.Hidden("hdnAction", "")
+                        @Html.Hidden("hdnReviewID")
+                        <table>
+                            <tr>
+                                <td>
+                                    @Html.Label("Review Date")
+                                </td>
+                                <td>
+                                    @Html.TextBox("txtdate", (string)ViewBag.Date)
+                                </td>
+                                <td>
+                                    @Html.CheckBox("chkCompleted", 0)
+                                    @Html.Label("Completed")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Form")
+                                </td>
+                                <td colspan="2">
+                                    @*@Html.DropDownList("ddlForm", new SelectList((List<string>)ViewBag.emptylist))*@
+                                    @Html.DropDownList("ddlForm", (IEnumerable<SelectListItem>)ViewBag.emptylist)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Subject")
+                                </td>
+                                <td colspan="2">
+                                    @Html.TextBox("txtSubject")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.Label("Comments")
+                                </td>
+                                <td colspan="2">
+                                    @Html.TextArea("txtComments")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="button" value="Save" onclick="SaveReview()" />
+                                    <input type="button" onclick="CancelReview()" value="Cancel" />
+                                </td>
+                                <td colspan="2">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+        <div class="dhx_tabbar_lineA" style="top: 24px; width: 100%;">
+        </div>
+        <div class="dhx_tabbar_lineB" style="top: 24px; width: 100%;">
+        </div>
+        <div class="dhx_tabbar_lineC" style="height: 21px;">
+        </div>
+        <div class="dhx_tabbar_lineD">
+        </div>
+    </div>
+</div>
+@{Html.EndForm();}

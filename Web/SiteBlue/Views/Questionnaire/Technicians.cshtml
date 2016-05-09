@@ -1,0 +1,77 @@
+﻿@model IEnumerable<SiteBlue.Questionnaire.Data.TechnicianInformation>
+<div class="form">
+    <div class="formSection" style="display: block; width: 900px">
+        <div class="formComponent formComponentName">
+            <ul class="jquerycontrol">
+                <li>@Html.ActionLink("Add technician", "Technician", new { qid = Request.QueryString["qid"].ToString() }, new { @class = "formbutton" })</li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="formComponent tableform">
+            @if (Model.ToList().Count > 0)
+            {
+                <table cellpadding="0" cellspacing="0" class="data-table">
+                    <tr>
+                        <th class="actions edit">Edit</th>
+                        <th class="actions delete">Delete</th>
+                        <th class="actions edit">HVAC</th>
+                        <th class="actions edit">Plumbing</th>
+                        <th style="width: 200px">
+                            Technician name
+                        </th>
+                        <th style="width: 300px;">
+                            Address
+                        </th>
+                        <th style="width: 200px">
+                            Email address
+                        </th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="actions edit">
+                                <a href="@Url.Content("~/Questionnaire/Technician?tid=" + item.TechnicianInformationId)">
+                                    <img src="@Url.Content("~/Content/images/edit.png")" alt="" />
+                                </a>
+                            </td>
+                            <td class="actions delete">
+                                @Ajax.ImageActionLink("../../../Content/images/delete.png", "DeleteTechnician", new { tid = item.TechnicianInformationId }, new AjaxOptions { Confirm = "Delete technician?", HttpMethod = "Delete", UpdateTargetId = "technicianList" }, null)
+                            </td>
+                            <td class="actions edit">
+                                <a href="@Url.Content("~/Questionnaire/Hvac?tid=" + item.TechnicianInformationId)">
+                                    <img src="@Url.Content("~/Content/images/hvac.jpg")" alt="" />
+                                </a>
+                            </td>
+                            <td class="actions edit">
+                                <a href="@Url.Content("~/Questionnaire/Plumbing?tid=" + item.TechnicianInformationId)">
+                                    <img src="@Url.Content("~/Content/images/plumbing.png")" alt="" />
+                                </a>
+                            </td>
+                            <th>
+                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HomeAddress)<br />
+                                @Html.DisplayFor(modelItem => item.HomeCity), @Html.DisplayFor(modelItem => item.State.StateName)<br />
+                                @Html.DisplayFor(modelItem => item.HomeZipCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TechnicianEmail)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <table cellpadding="0" cellspacing="0" class="data-table">
+                    <tr>
+                        <td colspan="4" style="height: 40px; width: 900px; vertical-align: middle">
+                            <span class="notification">No row returned, @Html.ActionLink("add technician", "Technician", new { qid = Request.QueryString["qid"].ToString() })</span>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+</div>

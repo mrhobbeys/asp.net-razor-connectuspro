@@ -1,0 +1,1306 @@
+﻿@model SiteBlue.Data.EightHundred.tbl_Employee
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EmployeePayroll</title>
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxwindows.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Report.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxtabbar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../content/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxwindows.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcontainer.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxtabbar_start.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_srnd.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.6.1.min.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        dhtmlx.skin = "dhx_skyblue";
+
+        var myCalendar;
+        var LayoutEmpInfo;
+
+        $(function(){
+            var employeeID = "@Model.EmployeeID";
+            if (employeeID == 0 || employeeID == "0" || employeeID == "" || employeeID == null)
+            {
+                  $("#payrollhistorylink").click(function(event) {
+                    event.preventDefault();
+                    alert('Please add the employee first.');
+                  });
+
+                  $("#AddRow").click(function(event) {
+                    event.preventDefault();
+                    alert('Please add the employee first.');
+                  });
+
+                  $("#awardslistlink").click(function(event) {
+                    event.preventDefault();
+                    alert('Please add the employee first.');
+                  });
+            }       
+            
+            $('div[tab_id="employeehistory"]').live('click', function (event) {
+                initEmployeeHistoryGrid();                   
+                BindEmployeeHistory("@Model.EmployeeID");
+            });
+
+            doOnLoad("@Model.EmployeeID");   
+                                
+            LoadTabletList("@Model.FranchiseID");
+
+            $('#tabletLists').change(function(){
+                var selectedItem = $("#tabletLists option:selected").text();                
+                $('#hdnTablet').val(selectedItem);
+            });
+        });
+
+        function LoadTabletList(franchiseID)
+        {            
+            $.ajax({
+                    url: "/Employee/GetTechnicians",
+                    type: 'POST',
+                    data: { id: franchiseID },
+                    success: function (result) {
+                        var select = $('#tabletLists');
+                        select.empty();
+                        select.append($('<option></option>').val("").html("Select Tablet"));
+                        $.each(result, function (index, item) {
+                            select.append($('<option></option>').val(item.key).html(item.label));
+                        });
+                        select.val('@Model.EmployeeID');
+                    },
+                    error: function (xhr,status,error) {
+                        alert('error getting tablet list.');
+                    }
+                });
+        }
+
+        function doOnEditCell(stage, id, index) {
+            var ind = gridEmpInfo.getRowIndex(id);
+            //alert(ind);
+            //alert(stage);
+            //alert(index);
+            if ((index == 0) && (stage == 0))
+            //start edit Shipping column;
+            {
+
+                //alert(combo.value);
+            }
+            if ((index == 0) && (stage == 2)) {
+                var combo = gridEmpInfo.getCombo(0);
+                for (var i = 0; i < combo.keys.length; i++) {
+                    var cellObj = grid.cellById(ind, 0);
+                  
+                    if (combo.get(combo.keys[i] == cellObj)) {
+                        
+                        return;
+                    }
+                }
+                
+            }
+            //for finishing edit;
+            //mygrid.getCombo(5).restore();
+            //restore combo state;
+            return true;
+        }
+
+        function BindCalendar() {
+            myCalendar = new dhtmlXCalendarObject(["BirthDate", "Anniversary", "DLExpDate", "ProLiscExpDate", "HiredDate", "TerminatedDate"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+        }
+        
+        function doOnLoad(Eid) {
+            
+            BindCalendar();
+            toogleCheckbox();
+
+            var xmlstringEmpInfo = "";
+
+            var empid = { id: Eid };
+            var jsondata = $.ajax({
+                url: "/Employee/EmployeeContact",
+                data: JSON.stringify(empid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    gridEmpInfo = new dhtmlXGridObject("gridcontact");
+                    gridEmpInfo.setImagePath("../../../../codebase/imgs/");
+                    gridEmpInfo.setHeader("Phone Type,Phone Number,,");
+                    gridEmpInfo.setInitWidths("190,190,40,50");
+                    //                    gridEmpInfo.enableEditEvents(false, false, false);
+                    //mygrid.setColAlign("left,left");
+                    gridEmpInfo.setColTypes("ro,ro,link,link");
+                    // mygrid.setColSorting("int,str,str");
+                    gridEmpInfo.setSkin("dhx_skyblue");
+                   
+                    gridEmpInfo.init();
+                    
+                    var AdForHomePages = msg;
+                    //xmlstring = xmlstring + "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>";
+                    xmlstringEmpInfo = xmlstringEmpInfo + "<rows>";
+                    //                    xmlstringEmpInfo = xmlstringEmpInfo + "<head>";
+                    //                    xmlstringEmpInfo = xmlstringEmpInfo + "<column type='co' align='left' sort='str'>Phone type";
+                    //                    xmlstringEmpInfo = xmlstringEmpInfo + " <option value='1'>Primary</option>";
+                    //                    xmlstringEmpInfo = xmlstringEmpInfo + " <option value='2'>Office</option>";
+                    //                    xmlstringEmpInfo = xmlstringEmpInfo + "</column>";
+                    //                    xmlstringEmpInfo = xmlstringEmpInfo + "<column width='150' type='ed' align='left' sort='str'>Phone Number</column>";
+                    //                    xmlstringEmpInfo = xmlstringEmpInfo + "</head>";
+
+
+                    $.each(AdForHomePages, function (index, EmployeeContactClass) {
+                    
+                        xmlstringEmpInfo = xmlstringEmpInfo + "<row id='" + EmployeeContactClass.EmpContactID + "'>";
+                        xmlstringEmpInfo = xmlstringEmpInfo + "<cell><![CDATA[" + EmployeeContactClass.PhoneType + "]]></cell>";
+                        xmlstringEmpInfo = xmlstringEmpInfo + "<cell><![CDATA[" + EmployeeContactClass.PhoneNumber + "]]></cell>";
+                        xmlstringEmpInfo = xmlstringEmpInfo + "<cell><![CDATA[Edit" + "^javascript:Edit_Row(" + EmployeeContactClass.EmpContactID + ");^_self" + "]]></cell>";
+                        xmlstringEmpInfo = xmlstringEmpInfo + "<cell><![CDATA[Delete" + "^javascript:Delete_Row(" + EmployeeContactClass.EmpContactID + ");^_self" + "]]></cell>";
+                        xmlstringEmpInfo = xmlstringEmpInfo + "</row>";
+                    });
+                    xmlstringEmpInfo = xmlstringEmpInfo + "</rows>";
+                    gridEmpInfo.loadXMLString(xmlstringEmpInfo);
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+//                    $('#output').innerHtml(e);
+                    alert("An error occured while getting the contact number information, please try again!");
+                }
+            });
+
+            if (@(((bool)Model.HVACSalesYN).ToString().ToLower()))
+                $("#hvacuser").fadeIn();
+
+            $("#HVACSalesYN").change(function(event) {
+                $("#HVACSalesYN").attr("checked") ? $("#hvacuser").fadeIn() : $("#hvacuser").fadeOut();
+            });
+            
+            $("#DLicense").keyup(function (event) {
+                var iChars = "(!#$%^&*+=-[]\\\';,./{}|\":<>?)";
+
+                for (var i = 0; i < document.getElementById("DLicense").value.length; i++) {
+                    if (iChars.indexOf(document.getElementById("DLicense").value.charAt(i)) != -1) {
+                        alert("Drivers License has special characters. \nThese are not allowed.\n Please remove them and try again.");
+                        return false;
+                    }
+                }
+            });
+
+            $("#ProLisc").keyup(function (event) {
+                var iChars = "!#$%^&*()+=-[]\\\';,./{}|\":<>?";
+
+                for (var i = 0; i < document.getElementById("ProLisc").value.length; i++) {
+                    if (iChars.indexOf(document.getElementById("ProLisc").value.charAt(i)) != -1) {
+                        alert("Drivers License has special characters. \nThese are not allowed.\n Please remove them and try again.");
+                        return false;
+                    }
+                }
+            });
+
+            $("#Postal").focusout(function () {
+
+                var postalcode = $("#Postal").val();
+                if (postalcode != "") {
+                    var flag = validateZipCode(postalcode);
+                    if (flag == false) {
+                        alert("Please Enter Postcode in #####-#### Format");
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            });
+            
+            $("#EmerPostal").focusout(function () {
+
+                var postalcode = $("#EmerPostal").val();
+
+                var flag = validateZipCode(postalcode);
+                if (flag == false) {
+                    alert("Please Enter Postcode in #####-#### Format");
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            });
+            
+            $("#EmerPrimaryPhone").focusout(function () {
+
+                var priphno = $("#EmerPrimaryPhone").val();
+                if (priphno != "") {
+//                    if (ecpostalcode != "") {
+                        var flag = validatePhoneNumber(priphno);
+                        if (flag == false) {
+                            alert("Please Enter Primary Phone Number in (###) ###-#### Format");
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+//                    }
+                }
+            });
+
+            $("#EmerSecondaryPhone").focusout(function () {
+
+                var secphno = $("#EmerSecondaryPhone").val();
+                if (secphno != "") {
+                    var flag = validatePhoneNumber(secphno);
+                    if (flag == false) {
+                        alert("Please Enter Secondary Phone Number in (###) ###-#### Format");
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            });
+            
+            $("#SS_").focusout(function () {
+
+                var ssnop = $("#SS_").val();
+                if (ssnop != "") {
+                    var flag = validateSSN(ssnop);
+                    if (flag == false) {
+                        alert("Not a Valid SS Number.Format Should be ###-##-####");
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            });
+
+            $("#IsHourlyRate").change(function(){
+                var $input = $(this);
+                if ($input.prop('checked')) {
+                    $("#HourlyRate").prop("disabled", "");
+                    getHRate();
+                    $("#HourlyRate").focus();
+                } else {
+                    $("#HourlyRate").prop("disabled", "disabled");
+                    $("#HourlyRate").val("0");
+                }
+            });
+
+            $("#IsWeeklySalary").change(function(){
+                var $input = $(this);
+                if ($input.prop('checked')) {
+                    $("#WeeklySalary").prop("disabled", "");
+                    getWSalary();
+                    $("#WeeklySalary").focus();
+                } else {
+                    $("#WeeklySalary").prop("disabled", "disabled");
+                    $("#WeeklySalary").val("0");
+                }
+            });
+
+            function getWSalary(){
+                $.ajax({
+                    cache: false,
+                    url: "/Employee/GetEmployeePayrollInformation",
+                    type: 'POST',
+                    data: { id: Eid },
+                    success: function (data) {
+                        $("#WeeklySalary").val(data.WeeklySalary);
+                    },
+                    error: function () {
+    //                    $("#error-div").html("Doh... an error occured while trying to load the owner's information, try again!");
+    //                    $("#error-div").fadeIn("fast");
+    //                    $("#error-div").fadeOut(4000);
+                    }
+                });
+            }
+
+            function getHRate(){
+                $.ajax({
+                    cache: false,
+                    url: "/Employee/GetEmployeePayrollInformation",
+                    type: 'POST',
+                    data: { id: Eid },
+                    success: function (data) {
+                        $("#HourlyRate").val(data.HourlyRate);
+                    },
+                    error: function () {
+    //                    $("#error-div").html("Doh... an error occured while trying to load the owner's information, try again!");
+    //                    $("#error-div").fadeIn("fast");
+    //                    $("#error-div").fadeOut(4000);
+                    }
+                });
+            }      
+
+            $("#ReceivesCommission").change(function(){
+                var $input = $(this);
+                if ($input.prop('checked')) {
+                    $("#LaborRate").prop("disabled", "");
+//                    $("#PartRate").prop("disabled", "");
+                    getCommission();
+                    $("#LaborRate").focus();
+                } else {
+                    $("#LaborRate").prop("disabled", "disabled");
+//                    $("#PartRate").prop("disabled", "disabled");
+                    $("#LaborRate").val("0");
+//                    $("#PartRate").val("0");
+                }
+            });  
+
+            function getCommission(){
+                $.ajax({
+                    cache: false,
+                    url: "/Employee/GetEmployeePayrollInformation",
+                    type: 'POST',
+                    data: { id: Eid },
+                    success: function (data) {
+                        $("#LaborRate").val(data.LaborRate);
+                    },
+                    error: function () {
+    //                    $("#error-div").html("Doh... an error occured while trying to load the owner's information, try again!");
+    //                    $("#error-div").fadeIn("fast");
+    //                    $("#error-div").fadeOut(4000);
+                    }
+                });
+            }     
+
+            function toogleCheckbox() {
+                if ($("#ReceivesCommission").prop('checked')) {
+                    $("#LaborRate").prop("disabled", "");
+                    $("#PartRate").prop("disabled", "");
+                } else {
+                    $("#LaborRate").prop("disabled", "disabled");
+                    $("#PartRate").prop("disabled", "disabled");
+                    $("#LaborRate").val("0");
+                    $("#PartRate").val("0");
+                }
+                if ($("#IsWeeklySalary").prop('checked')) {
+                    $("#WeeklySalary").prop("disabled", "");
+                } else {
+                    $("#WeeklySalary").prop("disabled", "disabled");
+                    $("#WeeklySalary").val("0");
+                }
+                if ($("#IsHourlyRate").prop('checked')) {
+                    $("#HourlyRate").prop("disabled", "");
+                } else {
+                    $("#HourlyRate").prop("disabled", "disabled");
+                    $("#HourlyRate").val("0");
+                }
+            }
+
+            $("#savebutton").click(function () {
+                  
+                if($("#EmployeeID").val()=="0")
+                    $("#hdnType").val("Add");
+                    
+                if ($("#HVACSalesYN").attr("checked") && ($("#UserKey").val() == null || $("#UserKey").val() == ""))
+                {
+                    alert('Please select a user mapping for HVAC Sales users.');
+                    $("#HVACSalesYN").focus();
+                    $("#hdnType").val("");                        
+                    return false;
+                }
+
+                var postalcode = $("#Postal").val();
+                var ecpostalcode = $("#EmerPostal").val();
+                var priphno = $("#EmerPrimaryPhone").val();
+                var secphno = $("#EmerSecondaryPhone").val();
+                var ssnop = $("#SS_").val();
+
+                if (postalcode != "")
+                    var flag = validateZipCode(postalcode);
+                if (ecpostalcode != "")
+                    var flag1 = validateZipCode(ecpostalcode);
+                if (priphno != "")
+                    var flag2 = validatePhoneNumber(priphno);
+                if (secphno != "")
+                    var flag3 = validatePhoneNumber(secphno);
+                if (ssnop != "")
+                   var flag4 = validateSSN(ssnop);
+
+                if (flag == false) {
+                    alert("Please Enter Postcode in #####-#### Format");
+                    $("#hdnType").text("");
+                    
+                    return false;
+                }
+                else if (flag1 == false) {
+                    alert("Please Enter Postcode in #####-#### Format");
+                    $("#hdnType").val("");
+                   
+                    return false;
+                }
+                else if (flag2 == false) {
+                    alert("Please Enter Primary Phone Number in (###) ###-#### Format");
+                    $("#hdnType").val("");
+                    return false;
+                }
+                else if (flag3 == false) {
+                    alert("Please Enter Secondary Phone Number in (###) ###-#### Format");
+                    $("#hdnType").val("");
+                    return false;
+                }
+                else if (flag4 == false) {
+                    alert("Not a Valid SS Number.Format Should be ###-##-####");
+                    $("#hdnType").val("");
+                    return false;
+                }
+                else {
+                //alert("All validation passed");
+                    return true;
+                }
+            });
+            function validateSSN(elementValue) {
+                var ssnPattern = /^[0-9]{3}\-?[0-9]{2}\-?[0-9]{4}$/;
+
+                return ssnPattern.test(elementValue);
+            }
+            function validatePhoneNumber(elementValue) {
+                var phoneNumberPattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+                return phoneNumberPattern.test(elementValue);
+            }
+            function validateZipCode(elementValue) {
+                var zipCodePattern = /^\d{5}$|^\d{5}-\d{4}$/;
+                return zipCodePattern.test(elementValue);
+            }
+         
+            //            var combo = gridEmpInfo.getCombo(0);
+            //            alert(combo.getKeys());
+
+        }
+
+        function Add_Row() {
+            document.getElementById("popUpTimeAdd").style.display = "block";
+            dhxWinsAdd = new dhtmlXWindows();
+            dhxWinsAdd.enableAutoViewport(false);
+            dhxWinsAdd.attachViewportTo("mainContent");
+            dhxWinsAdd.setImagePath("../../codebase/imgs/");
+            JobWindowAdd = dhxWinsAdd.createWindow("JobWindowAdd", 350, 70, 480, 250);
+            dhxWinsAdd.window("JobWindowAdd").setModal(true);
+            dhxWinsAdd.attachEvent("onClose", function (win) {
+                dhxWinsAdd.window("JobWindowAdd").detachObject("popUpTimeAdd");
+                return true;
+            });
+
+            dhxWinsAdd.window("JobWindowAdd").attachObject("popUpTimeAdd");
+
+            if (document.getElementById("Employee").value != null) {
+                var name = document.getElementById("Employee").value;
+                JobWindowAdd.setText("Add " + name + "'s Contact Details");
+            }
+        }
+
+        function CancelAdd() {
+            dhxWinsAdd.window("JobWindowAdd").close();
+        }
+
+        function SaveData(empid) {
+//            if (empid==0 || empid=="0" || empid==null||empid=="")
+//            {
+//                alert('Please save the employee first.');
+//                return false;
+//            }
+            var priphno = $("#txtPhoneNumberAdd").val();
+            if (priphno != "") {
+                var phoneNumberPattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+                var flag = phoneNumberPattern.test(priphno);
+                if (flag == false) {
+                    alert("Please Enter Phone Number in (###) ###-#### Format");
+                    //return false;
+                }
+                else {
+                    //return true;
+                    json_call(empid);
+                }
+            }
+
+        }
+
+        function json_call(empid) {
+            
+            var phonetype = document.getElementById("ddlPhoneTypeAdd").value;
+            var phonenumber = document.getElementById("txtPhoneNumberAdd").value;
+            var custid = { phonetype: phonetype, phonenumber: phonenumber, Empid: empid };
+            var jsondataCoupon = $.ajax({
+                url: "/Employee/EmployeeContactAdd",
+                data: JSON.stringify(custid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    var AdForHomePages = msg;
+                    window.location.reload();
+                    $.each(AdForHomePages, function (index, tbl_Referral) {
+
+                    });
+                },
+                type: "POST",
+                dataType: "json"
+            });
+        }
+
+        function Delete_Row(selId){
+//            var selId = gridEmpInfo.getSelectedId();
+            if (confirm("Are you sure you want to delete this contact number?")){
+                if (selId != null){
+                    $.ajax({
+                        url: "/Employee/EmployeeContactDelete",
+                        data: { id: selId },
+                        success: function (e) {
+                            if (e.state == true){
+                                gridEmpInfo.deleteRow(selId);
+                            } else {
+                                alert(e.message);
+                                return false;
+                            }
+                        },
+                        type: "POST",
+                        dataType: "json",
+                        error: function (e) {
+                            alert("An error occured while deleting the contact number, please try again!");
+    //                        $('#output').innerHtml(e);
+                        }
+                    });
+                }
+                else {
+                    alert("Please select any Row to delete");
+                }            
+            }
+        }
+
+        function Edit_Row(selectedIndex) {
+            if (selectedIndex != null) {
+                document.getElementById("popUpTime").style.display = "block";
+                dhxWins = new dhtmlXWindows();
+                dhxWins.enableAutoViewport(false);
+                dhxWins.attachViewportTo("mainContent");
+                dhxWins.setImagePath("../../codebase/imgs/");
+                JobWindow = dhxWins.createWindow("JobWindow", 350, 70, 480, 250);
+                dhxWins.window("JobWindow").setModal(true);
+                dhxWins.attachEvent("onClose", function (win) {
+                    dhxWins.window("JobWindow").detachObject("popUpTime");
+                    return true;
+                });
+
+                var clockId = { empcontactID: selectedIndex };
+                var jsondata = $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "/Employee/EmployeeContactEdit",
+                    data: { empcontactID: selectedIndex},
+                    success: function (msg) {
+                        if (document.getElementById("Employee").value != null) {
+                            var name = document.getElementById("Employee").value;
+                            JobWindow.setText("Update " + name + "'s Contact Details");
+                        }
+                        dhxWins.window("JobWindow").attachObject("popUpTime");
+                        document.getElementById("ContactID").value = msg.EmpContactID;
+                        document.getElementById("ddlPhoneType").value = msg.PhoneTypeID;
+                        document.getElementById("txtPhoneNumber").value = msg.PhoneNumber;
+
+                    },
+                    error: function (e) {
+                        alert("An error occured while getting the contact number information, please close the popup window and try again!");
+//                        $('#output').innerHtml(e);
+                    }
+                });
+            }
+            else {
+                alert("Please select any Row to edit");
+            }
+        }
+
+        function Cancel() {
+            dhxWins.window("JobWindow").close();
+        }
+
+        function UpdateData(empid, pid) {
+            var priphno = $("#txtPhoneNumber").val();
+            if (priphno != "") {
+
+                var phoneNumberPattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+                var flag = phoneNumberPattern.test(priphno);
+                if (flag == false) {
+                    alert("Please Enter Phone Number in (###) ###-#### Format");
+                    //return false;
+                }
+                else {
+                    //return true;
+                    //alert("Payroll ID: " + pid);
+                    json_callUpdate(empid, pid);
+                }
+            }
+
+        }
+
+        function json_callUpdate() {
+            var selectedIndex = document.getElementById("ContactID").value;//gridEmpInfo.getSelectedRowId();
+            if (selectedIndex != null) {
+                var phonetype = document.getElementById("ddlPhoneType").value;
+                var phonenumber = document.getElementById("txtPhoneNumber").value;
+                var custid = { phonetype: phonetype, phonenumber: phonenumber, empcontactID: selectedIndex };
+                var jsondataCoupon = $.ajax({
+                    url: "/Employee/EmployeeContactUpdate",
+                    data: JSON.stringify(custid),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        var AdForHomePages = msg;
+                        window.location.reload();
+                        $.each(AdForHomePages, function (index, tbl_Referral) {
+
+                        });
+                    },
+                    type: "POST",
+                    dataType: "json"
+                });
+            }
+        }
+
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode == 46)
+                return true; // decimal point
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
+        function isNumberKeyPostCode(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode != 45) {
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                    return false;
+            }
+            return true;
+        }
+    
+    </script>
+</head>
+<body>
+    @Html.Partial("../Shared/LogoHeader")
+    @using (Html.BeginForm())
+    {
+@*@{Html.BeginForm("EmployeeInformation", "Employee");}*@
+        @Html.Hidden("hdnType")
+        @Html.HiddenFor(model => model.FranchiseID)
+        @Html.HiddenFor(model => model.EmployeeID)
+@*@Html.Hidden("FranchiseID", @Model.FranchiseID.ToString())*@
+@*@Html.Hidden("EmployeeID", @Model.EmployeeID.ToString())*@
+        <div id="mainContent">
+            <table width="100%">
+                <tr>
+                    <td colspan="2" style="text-align: right;">
+                        <input type="submit" id="savebutton" value="Save" style="background-color: #add8e4;
+                            height: 25px; width: 58px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%; vertical-align: top;">
+                        <table width="90%">
+                            <tr style="background-color: #dfedf3">
+                                <td>
+                                    <div style="float: left; width: 50%">
+                                        <label style="font-size: larger; font-weight: bold;">
+                                            Employee Information</label>
+                                    </div>
+                                    <div style="float: right">
+                                        <a  href="@Url.Content("~/Tech/Bio/Preview/" + Model.EmployeeID)">Preview Bio</a>
+                                    </div>
+                                    <div style="float: right">
+                                        <a  href="@Url.Content("~/Tech/Badge/Preview/" + Model.EmployeeID)">Preview Badge</a><span>.
+                                            .</span>
+                                    </div>
+                                    <div style="float: right">
+                                        @Html.ActionLink("Payroll History", "EmployeePayrollSummary", "PayrollHistory", new { id = Model.EmployeeID }, new { id = "payrollhistorylink" })
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="100%" style="margin-top: 5px;">
+                                        <tr>
+                                            <td style="width: 40%">
+                                                <label>
+                                                    Employee Name</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Employee, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Address</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Address, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    City</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.City, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    State Postal</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.State, new { style = "width:50px;", maxlength = 2 })
+                                                @Html.TextBoxFor(model => model.Postal, new { style = "width:150px;margin-left:10px;", onkeypress = "return isNumberKeyPostCode(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Country</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Country, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Birthdate</label>
+                                            </td>
+                                            <td>
+                                                @*@if (Model.BirthDate.HasValue)
+                                            {
+                                                @Html.TextBox("birthdate", ((DateTime)Model.BirthDate.Value).ToString("MM/dd/yyyy"))
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBox("birthdate", "")
+                                            }*@
+                                                @Html.TextBoxFor(model => model.BirthDate)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Anniversary</label>
+                                            </td>
+                                            <td>
+                                                @*@if (Model.Anniversary.HasValue)
+                                            {
+                                                @Html.TextBox("Anniversary", ((DateTime)Model.Anniversary.Value).ToString("MM/dd/yyyy"))
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBox("Anniversary", "")
+                                            }*@
+                                                @Html.TextBoxFor(model => model.Anniversary)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Spouse/SO</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Spouse, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Email</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.Email, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="90%" style="margin-top: 5px;">
+                            <tr style="background-color: #dfedf3">
+                                <td>
+                                    <div style="float: left; width: 50%">
+                                        <label style="font-size: larger; font-weight: bold;">
+                                            Contact Number</label>
+                                    </div>
+                                </td>
+                                <td align="center">
+                                    @*<a href="javascript:Edit_Row()" style="margin-left: 10px; float: right;" id="EditRow">
+                                    Edit</a> *@<a href="javascript:Add_Row()" style="float: right;" id="AddRow">Add</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table style="margin-top: 5px;">
+                                        <tr>
+                                            <td>
+                                                <div id="gridcontact" style="width: 500px; height: 100px; background-color: white;">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="90%" style="margin-top: 5px; margin-bottom: 50px;">
+                            <tr style="background-color: #dfedf3">
+                                <td>
+                                    <label style="font-size: larger; font-weight: bold;">
+                                        Emergency Contact Information</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="100%" style="margin-top: 5px;">
+                                        <tr>
+                                            <td style="width: 40%">
+                                                <label>
+                                                    Contact Name</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EmerContact, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Address</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EmerAddress, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    City</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EmerCity, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    State Postal</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EmerState, new { style = "width:50px;", maxlength = 2 })
+                                                @Html.TextBoxFor(model => model.EmerPostal, new { style = "width:150px;margin-left:10px;", onkeypress = "return isNumberKeyPostCode(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Country</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EmerCountry, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Primary Number</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EmerPrimaryPhone, new { style = "width:250px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Secondary Number</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.EmerSecondaryPhone, new { style = "width:250px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="vertical-align: top;">
+                        <table width="100%">
+                            <tr style="background-color: #dfedf3">
+                                <td>
+                                    <label style="font-size: larger; font-weight: bold;">
+                                        Employee Job Information</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="100%" style="margin-top: 5px;">
+                                        <tr>
+                                            <td style="width: 40%">
+                                                <label>
+                                                    Active?</label>
+                                            </td>
+                                            <td>
+                                                @if (Model.ActiveYN != null)
+                                                {
+                                                    @Html.CheckBox("ActiveYN", Model.ActiveYN)}
+                                                else
+                                                {
+                                                    @Html.CheckBox("ActiveYN", false)
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(model => model.ReceivesCommission, new { id = "ReceivesCommission" })
+                                                <label for="ReceivesCommission">
+                                                    Commmission Rate</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.LaborRate, new { style = "width:250px;", onkeypress = "return isNumberKey(event)" })
+                                                @*@Html.TextBoxFor(model => model.PartRate, new { style = "width:115px;margin-left:10px;", onkeypress = "return isNumberKey(event)" })*@
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.CheckBoxFor(model => model.IsHourlyRate, new { id = "IsHourlyRate" })<label
+                                                    for="IsHourlyRate">Hourly Rate</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.HourlyRate, new { style = "width:250px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.CheckBoxFor(model => model.IsWeeklySalary, new { id = "IsWeeklySalary" })<label
+                                                for="IsWeeklySalary">Weekly Salary</label>
+                                            </td>
+                                            <td>@Html.TextBoxFor(model => model.WeeklySalary, new { style = "width:250px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    ExemptYN?</label>
+                                            </td>
+                                            <td>
+                                                @Html.CheckBoxFor(model => model.ExemptYN)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Drivers License/Exp</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.DriversLic, new { style = "width:115px;" })
+                                                @if (Model.DLExpDate.HasValue)
+                                                {
+                                                    @Html.TextBox("DLExpDate", ((DateTime)Model.DLExpDate).ToString("MM/dd/yyyy"), new { style = "width:115px;margin-left:10px;" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBox("DLExpDate", "", new { style = "width:115px;margin-left:10px;" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    SS#</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.SS_, new { style = "width:250px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Professional Lisc/Exp</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.ProLisc, new { style = "width:115px;" })
+                                                @if (Model.ProLiscExpDate.HasValue)
+                                                {
+                                                    @Html.TextBox("ProLiscExpDate", ((DateTime)Model.ProLiscExpDate.Value).ToString("MM/dd/yyyy"), new { style = "width:115px;margin-left:10px;" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBox("ProLiscExpDate", "", new { style = "width:115px;margin-left:10px;" })
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Level</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.ProLevel, new { style = "width:250px;" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Hired/Terminated</label>
+                                            </td>
+                                            <td>
+                                                @*@Html.TextBoxFor(model => model.HiredDate, new { id = "Hired", style = "width:115px;" })
+                                            @Html.TextBoxFor(model => model.TerminatedDate, new { id = "TerminatedDate", style = "width:115px;margin-left:10px;" })*@
+                                                @if (Model.HiredDate.HasValue)
+                                                {
+                                                    @Html.TextBox("HiredDate", ((DateTime)Model.HiredDate.GetValueOrDefault()).ToString("MM/dd/yyyy"), new { style = "width:115px;" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBox("HiredDate", "", new { style = "width:115px;" })
+                                                }
+                                                @if (Model.TerminatedDate.HasValue)
+                                                {
+                                                    @Html.TextBox("TerminatedDate", ((DateTime)Model.TerminatedDate.Value).ToString("MM/dd/yyyy"), new { style = "width:115px;margin-left:10px;" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBox("TerminatedDate", "", new { style = "width:115px;margin-left:10px;" });
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Roles</label>
+                                            </td>
+                                            <td>
+                                                @Html.CheckBoxFor(model => model.ServiceProYN)<label for="ServiceProYN">Service Pro</label>
+                                                @Html.CheckBoxFor(model => model.HVACSalesYN)<label for="HVACSalesYN">HVAC Sales</label>
+                                            </td>
+                                        </tr>
+                                        <tr id="hvacuser" style="display: none">
+                                            <td>
+                                                <label>
+                                                    HVAC User Mapping</label>
+                                            </td>
+                                            <td>
+                                                @if (ViewBag.ddlFranchiseUsers != null)
+                                                {
+                                                    @Html.DropDownList("UserKey", new SelectList(ViewBag.ddlFranchiseUsers, "ProviderUserKey", "UserName", Model.UserKey), "Select User Mapping...")
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("UserKey", new SelectList("", "", ""), "Select User Mapping...")
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>Display Order Number</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.DisplayOrder, new { style = "width:50px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr id="tabletAssignment">
+                                            <td>
+                                                <label>
+                                                    Assigned Tablet</label>
+                                            </td>
+                                            <td>
+                                                <select id="tabletLists" name="tabletLists"></select>
+                                                <input id="hdnTablet" name="hdnTablet" type="hidden" value="" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%;" style="margin-top: 5px;">
+                            <tr style="background-color: #dfedf3">
+                                <td>
+                                    <label style="font-size: larger; font-weight: bold;">
+                                        Benefits</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="100%" style="margin-top: 5px;">
+                                        <tr>
+                                            <td style="width: 40%">
+                                            </td>
+                                            <td>
+                                                <label style="width: 50px; margin-left: 5px;">
+                                                    Earned</label>
+                                                <label style="width: 50px; margin-left: 30px;">
+                                                    Used</label>
+                                                <label style="width: 50px; margin-left: 25px;">
+                                                    Available</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Vacation Days</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.VacationEarned, new { style = "width:50px;", onkeypress = "return isNumberKey(event)" })
+                                                @Html.TextBoxFor(model => model.VacationUsed, new { style = "width:50px;margin-left:10px;", onkeypress = "return isNumberKey(event)" })
+                                                @Html.TextBox("VADays", (float)(Model.VacationEarned - Model.VacationUsed), new { style = "width:50px;margin-left:10px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Sick Days</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.SickEarned, new { style = "width:50px;", onkeypress = "return isNumberKey(event)" })
+                                                @Html.TextBoxFor(model => model.SickUsed, new { style = "width:50px;margin-left:10px;", onkeypress = "return isNumberKey(event)" })
+                                                @Html.TextBox("SADays", (float)(Model.SickEarned - Model.SickUsed), new { style = "width:50px;margin-left:10px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Personal Days</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.PersonalEarned, new { style = "width:50px;", onkeypress = "return isNumberKey(event)" })
+                                                @Html.TextBoxFor(model => model.PersonalUsed, new { style = "width:50px;margin-left:10px;", onkeypress = "return isNumberKey(event)" })
+                                                @Html.TextBox("PADays", (float)(Model.PersonalEarned - Model.PersonalUsed), new { style = "width:50px;margin-left:10px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Other</label>
+                                            </td>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.OtherEarned, new { style = "width:50px;", onkeypress = "return isNumberKey(event)" })
+                                                @Html.TextBoxFor(model => model.OtherUsed, new { style = "width:50px;margin-left:10px;", onkeypress = "return isNumberKey(event)" })
+                                                @Html.TextBox("OADays", (float)(Model.OtherEarned - Model.OtherUsed), new { style = "width:50px;margin-left:10px;", onkeypress = "return isNumberKey(event)" })
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.ActionLink("Awards List", "EmployeeAwards", "Employee", new { id = Model.EmployeeID }, new { id = "awardslistlink" })
+                                            </td>
+                                            <td>
+                                                @Html.TextArea("Awards", (string)ViewBag.AwardsList, new { style = "height:50px;width:250px;" })
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table width="100%" style="margin-bottom: 10px">
+                            @*<tr style="background-color: #dfedf3">
+                                <td>
+                                    <label style="font-size: larger; font-weight: bold;">
+                                        Employee History</label>
+                                </td>
+                            </tr>*@
+                            <tr>
+                                <td>
+                                    @*Tab Bar Starts*@
+                                    <div id="a_tabbar" class="dhtmlxTabBar" imgpath="../../../../codebase/imgs/" style="width: 100%;
+                                        height: 200px;" select="employeehistory">
+                                        <div id="employeehistory" name="Employee History" style="height: 100%">
+                                            <div class="div">
+                                                @Html.Partial("../Shared/EmployeeHistoryList")
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*Tab Bar Ends*@
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+    <div id="popUpTimeAdd" style="display: none;">
+        <table style="margin-top: 50px; margin-left: 70px;">
+            <tr>
+                <td style="width: 30%">
+                    <label>
+                        Phone Type</label><input type="hidden" id="ContactID" />
+                </td>
+                <td>
+                    @Html.DropDownList("ddlPhoneTypeAdd", new SelectList(ViewBag.ddlPhoneTypeAdd, "PhoneTypeID", "PhoneType", ""))
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        Phone Number</label>
+                </td>
+                <td>
+                    @Html.TextBox("txtPhoneNumberAdd", "")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="button" value="Save" onclick="SaveData('@Model.EmployeeID')" id="SaveContact"/>
+                    <input type="button" value="Cancel" style="margin-left: 10px;" onclick="CancelAdd();" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="popUpTime" style="display: none;">
+        <table style="margin-top: 50px; margin-left: 70px;">
+            <tr>
+                <td style="width: 30%">
+                    <label>
+                        Phone Type</label>
+                </td>
+                <td>
+                    @Html.DropDownList("ddlPhoneType", new SelectList(ViewBag.ddlPhoneTypeAdd, "PhoneTypeID", "PhoneType", ""))
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        Phone Number</label>
+                </td>
+                <td>
+                    @Html.TextBox("txtPhoneNumber", "")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="button" value="Update" onclick="UpdateData('@Model.EmployeeID','@ViewBag.payrollId')" id="UpdateContact"/>
+                    <input type="button" value="Cancel" style="margin-left: 10px;" onclick="Cancel();" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    @*@{Html.EndForm();}*@
+</body>
+</html>

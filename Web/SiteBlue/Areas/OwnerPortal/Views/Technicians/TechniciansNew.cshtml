@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Technicians";
+    Layout = "~/Areas/OwnerPortal/Views/Shared/_SecurityGuardLayoutPage.cshtml";
+}
+
+   
+<script type="text/javascript">
+    var companycode = "@ViewBag.code"
+
+    $('document').ready(function () {
+
+        if (companycode != null && companycode != "") {
+            $.post('@Url.Action("databyCompanyCode")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                    doOnload();
+                });
+        }
+        $('#test1 > li > a').click(function (index) {
+            var companycode = $(this).text();
+
+            $.post('@Url.Action("databyCompanyCode")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                    $('#current > a').text(companycode);
+                    $('li a')[1].click();
+                    doOnload();
+                });
+
+
+        });
+
+        $('#current > a').click(function (index) {
+            var companycode = $(this).text();
+            $.post('@Url.Action("databyCompanyCode")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                    doOnload();
+                });
+        });
+    });
+
+</script>
+
+<div id="target" >
+
+</div>

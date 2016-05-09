@@ -1,0 +1,153 @@
+﻿@model SiteBlue.Areas.SecurityGuard.Models.GrantCompaniesToUser
+@{
+    ViewBag.Title = "GrantCompanyCodeToUser";
+    Layout = "~/Areas/SecurityGuard/Views/Shared/_SecurityGuardLayoutPage.cshtml";
+}
+
+<div style="width:100%;height:65px;">
+&nbsp;
+</div>
+<div id="breadcrumb">
+    @Html.ActionLink("Dashboard", "Index", "Dashboard") > 
+    @Html.ActionLink("Manage Company Code", "Index", "CompanyCode") > 
+    Grant Company Code To User
+</div>
+
+<h2>
+    Grant Company Code To User</h2>
+<p>
+    Clicking the &quot;Grant&quot; or &quot;Revoke&quot; buttons will execute that command.</p>
+<p>
+    Grant any of the following company code to: <span id="username-to-grant-roles">@Model.UserName</span></p>
+
+<ul class="system_messages" style="display: none;">
+    <li><span class="ico"></span><strong class="system_title"></strong></li>
+</ul>
+
+<fieldset style="float: left; height: 300px;">
+    <div id="available-roles">
+        <h3>
+            Available Company Code</h3>
+        @Html.ListBox("AvailableCompanies", Model.AvailibleCompanies)
+    </div>
+    <div id="grant-controls">
+        <button id="grant-button">
+            Grant --&gt;</button><br />
+        <button id="revoke-button">
+            &lt;-- Revoke</button>
+    </div>
+    <div id="granted-roles">
+        <h3>
+            Granted Company Code</h3>
+        @Html.ListBox("GrantedCompanies", Model.GrantedCompanyCode)
+    </div>
+</fieldset>
+<div style="clear:both;"></div>
+
+<script type="text/javascript">
+    $(function () {
+
+        var message = $(".system_messages");
+
+        /******************************************************
+        * Begin Grant/Revoke commands
+        ******************************************************/
+        var availableList = $("#AvailableCompanies");
+        var grantedList = $("#GrantedCompanies");
+
+        $("#grant-button").click(function () {
+            // First check if any items in the available list
+            // are selected.
+            if (availableList.val() == null) {
+                alert("You must select a company code to grant.");
+                return;
+            }
+
+            // Then move the selected list items to the 
+            // granted roles list.
+            move_list_items("AvailableCompanies", "GrantedCompanies");
+
+            // Now take all the roles from the granted list
+            // and create a single comma-delimited list.
+            var grantedCompanyCode = "";
+            $.each(grantedList.val(), function (index, data) {
+                grantedCompanyCode += data + ",";
+            });
+            
+            // Now execute the command using jQuery ajax.
+            $.ajax({
+                url: '@Url.Action("GrantCompaniesToUser", "Membership")',
+                dataType: 'json',
+                type: 'POST',
+                data: { userName: '@Model.UserName', companies: grantedCompanyCode },
+                success: OnGrantedSuccess,
+                error: OnGrantedError
+            });
+        });
+
+        function OnGrantedSuccess(data) {
+            //message.show().delay(5000).fadeOut();    // Show the message
+
+            message.show().animate({ top: 0 }, 5000).fadeOut(); // Show the message
+
+            $("li", message).addClass("green");      // Apply the Green style
+            $("strong", message).text(data.Message); // Insert the message
+            //$("strong", message).text('add successfully'); // Insert the message
+        }
+
+        function OnGrantedError(xhr, status, error) {
+            alert(error);
+        }
+
+        $("#revoke-button").click(function () {
+            // First make sure at least one role in the 
+            // granted list is selected to revoke.
+            if (grantedList.val() == null) {
+                alert("You must select a company code to revoke.");
+                return;
+            }
+
+            // Now move the item back to the Available list.
+            move_list_items("GrantedCompanies", "AvailableCompanies");
+
+            // Now make a comma-delimited string of revoked items.
+            var revokedCompanyCode = "";
+            $.each(availableList.val(), function (index, data) {
+                revokedCompanyCode += data + ",";
+            });
+
+            // Now execute the command using jQuery ajax.
+            $.ajax({
+                url: '@Url.Action("RevokeCompanyCodeForUser", "Membership")',
+                dataType: 'json',
+                type: 'POST',
+                data: { userName: '@Model.UserName', companies: revokedCompanyCode },
+                success: OnRevokedSuccess,
+                error: OnRevokedError
+            });
+        });
+
+        function OnRevokedSuccess(data) {
+            //message.show().delay(5000).fadeOut(); // Show the message
+            message.show().animate({ top: 0 }, 5000).fadeOut();  // Show the message
+
+            $("li", message).addClass("green");
+            $("strong", message).text(data.Message);
+        }
+
+        function OnRevokedError(xhr, status, error) {
+            alert(error);
+        }
+
+        // This function moves items from one list to the other.
+        function move_list_items(sourceid, destinationid) {
+            $("#" + sourceid + "  option:selected").appendTo("#" + destinationid);
+        }
+        /******************************************************
+        * End Grant/Revoke commands
+        ******************************************************/
+
+
+
+    });
+</script>

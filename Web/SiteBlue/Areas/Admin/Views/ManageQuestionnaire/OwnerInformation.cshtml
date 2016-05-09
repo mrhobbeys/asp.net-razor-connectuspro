@@ -1,0 +1,30 @@
+﻿@model SiteBlue.Questionnaire.Data.OwnerInformation
+@{
+    ViewBag.Title = "OwnerInformation";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<h1>
+    Questionnaire Details: Owner Information</h1>
+<p>
+    <strong>Name:</strong> @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+</p>
+<p>
+    <strong>Business Name:</strong> @Html.DisplayFor(model => model.BusinessName)
+</p>
+<p>
+    <strong>Home Address:</strong> @Html.DisplayFor(model => model.HomeAddress)<br />
+    @Html.DisplayFor(model => model.City) @(Model.StateId != null ? " - " + Model.State.StateName : ""),
+    @Html.DisplayFor(model => model.ZipCode)
+</p>
+<p>
+    <strong>Cell Phone:</strong> @Html.DisplayFor(model => model.CellPhone)
+</p>
+<p>
+    <strong>Home Phone:</strong> @Html.DisplayFor(model => model.HomePhone)
+</p>
+<p>
+    @Html.ActionLink("Business Information", "BusinessInformation", "ManageQuestionnaire", new { area = "Admin", questionnaire = Model.QuestionnaireId }, null) |
+    @*@Html.ActionLink("Technician Information", "TechnicianInformation", "ManageQuestionnaire", new { area = "Admin", questionnaire = Model.QuestionnaireId }, null) |*@
+    @Html.ActionLink("Accounting Information", "AccountingInformation", "ManageQuestionnaire", new { area = "Admin", questionnaire = Model.QuestionnaireId }, null) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

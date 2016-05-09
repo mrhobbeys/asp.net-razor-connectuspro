@@ -1,0 +1,128 @@
+﻿<style type="text/css">
+    #logoPro {
+        background-image: url('../../../Images/ConnectusPro logo CMYK 2.png');
+        width: 250px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        height:33px;
+    }
+    .menu{
+        top:0;
+        left:0;
+        width:100%;
+        font:13px/27px Arial,sans-serif;
+        color:#3366cc;
+        height:35px;
+        background:#2D2D2D;
+    }
+.menu a:hover{
+background-color:#676767;
+color:#CCCCCC;
+}
+.menu a{
+text-decoration:none;
+padding:6px 0px 7px;
+color:#CCCCCC;
+outline:none;
+}
+.menu ul{
+list-style:none;
+margin:0;
+padding:0 0 0 10px;
+}
+.menu ul li{
+padding:0;
+float:left;
+}
+.menu ul li ul li{
+padding:0;
+float:none;
+margin:0 0 0 0px;
+width:100%;
+}
+.menu ul li ul{
+position:absolute;
+border:1px solid #C3D1EC;
+/*box-shadow*/
+-webkit-box-shadow:0 1px 5px #CCCCCC;
+   -moz-box-shadow:0 1px 5px #CCCCCC;
+        box-shadow:0 1px 5px #CCCCCC;
+margin-top:-1px;
+display:none;
+padding:0px 16px 0px 0;
+}
+.active ul{
+display:block !important;
+}
+.single ul{
+display:block !important;
+}
+.active a{
+border:1px solid #C3D1EC;
+border-bottom:0;
+display:block;
+height:29px;
+padding:0 8px 0 8px;
+position:relative;
+z-index:1;
+color:#CCC;
+}
+/*Styling for the link of the current page*/
+.current a{
+background-color:#2D2D2D;
+border-top:2px solid #DD4B39;/*red ribbon at top*/
+border-bottom:0;
+display:block;
+height:25px;
+padding:0 8px 0 8px;
+position:relative;
+z-index:1;
+color:#FFFFFF;
+font-weight:bold;
+}
+.active a:hover{
+background-color:#2D2D2D;
+color:#CCC;
+}
+.active ul a:hover{
+background-color:#e4ebf8;
+color: #3366CC
+}
+.active ul a
+{
+    background-color: white;
+    color: #3366CC;
+border:0 !important;
+/*box-shadow*/
+-webkit-box-shadow:0 0 0 #CCCCCC;
+   -moz-box-shadow:0 0 0 #CCCCCC;
+        box-shadow:0 0 0 #CCCCCC;
+border:0;
+width:100%;
+}
+.arrow{
+border-color:#C0C0C0 transparent #D5F1FF;
+border-style:solid dashed dashed;
+margin-left:5px;
+position:relative;
+top:12px;
+}
+.mid-line{
+background-color:#FFF;
+border-top:1px solid #e5e5e5;
+font-size:0;
+}
+</style>
+
+<div style="background-color: #2C2D31; height: 30px; width: 100%">
+        <div style="float: left; padding-right: 30px; padding-left: 10px; height:25px;">
+        <a href="../../../LandingPage/Dashboard/Index"><img src="../../../../Images/ConnectusPro logo CMYK 2.png" width="150px" height="30px" alt="Image not found" style="border:none" /></a>
+        </div>
+        <div style="float:left;margin-left:10px;margin-top:2px;">
+            @Html.DropDownList("ddlFrenchise", new SelectList(ViewBag.frenchise, "FranchiseID", "FranchiseNUmber", (int)ViewBag.FranchiseeId), new { @style = "text-align: left;", onchange = @ViewBag.FunctionName })
+        </div>
+        <div style="float:right;color:White;margin-top:2px;margin-right:10px;">
+                Welcome <strong>@User.Identity.Name</strong>! [ @Html.ActionLink("Log Off", "LogOff", "SGAccount", new { area = "" }, new { @style = "color:white"}) ] 
+        </div>
+        
+    </div>

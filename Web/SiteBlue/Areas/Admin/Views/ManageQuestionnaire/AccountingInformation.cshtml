@@ -1,0 +1,60 @@
+﻿@model SiteBlue.Questionnaire.Data.AccountingInformation
+@{
+    ViewBag.Title = "Accounting Information";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<h1>
+    Questionnaire Details: Accounting Information</h1>
+<p>
+    <strong>@Html.LabelFor(model => model.CurrentAccountingSoftware):</strong> @Html.DisplayFor(model => model.CurrentAccountingSoftware)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.CurrentAccountingSoftwareUsingTime):</strong> @Html.DisplayFor(model => model.CurrentAccountingSoftwareUsingTime)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.LastCompletedDate):</strong> @Html.DisplayFor(model => model.LastCompletedDate)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.UseQuickBooks):</strong> @Html.DisplayFor(model => model.UseQuickBooks)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.FiscalYearEnd):</strong> @Html.DisplayFor(model => model.FiscalYearEnd)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.CalendarType):</strong> @Html.DisplayFor(model => model.CalendarType)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.OtherCalendarType):</strong> @Html.DisplayFor(model => model.OtherCalendarType)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.ReconciledBankDate):</strong> @Html.DisplayFor(model => model.ReconciledBankDate)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.ReconsiledClosedMonthEnd):</strong> @Html.DisplayFor(model => model.ReconsiledClosedMonthEnd)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.QuickBooksTransitionName):</strong> @Html.DisplayFor(model => model.QuickBooksTransitionName) - @Html.DisplayFor(model => model.QuickBooksTransitionPhone)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.AccountingKnowledgeRate):</strong> @Html.DisplayFor(model => model.AccountingKnowledgeRate)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.FinancialTransactionRecord):</strong> @Html.DisplayFor(model => model.FinancialTransactionRecord) - @Html.DisplayFor(model => model.OtherFinancialTransactionRecord)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.AccountsChart):</strong> @Html.DisplayFor(model => model.AccountsChart)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.GeneralJourneyEntries):</strong> @Html.DisplayFor(model => model.GeneralJourneyEntries)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.AccountingSystemAddons):</strong> @Html.DisplayFor(model => model.AccountingSystemAddons) - @Html.DisplayFor(model => model.AccountingSystemAddonsList)
+</p>
+<p>
+    <strong>@Html.LabelFor(model => model.AchWithdrawls):</strong> @Html.DisplayFor(model => model.AchWithdrawls)
+</p>
+<p>
+    @Html.ActionLink("Owner Information", "OwnerInformation", "ManageQuestionnaire", new { area = "Admin", questionnaire = Model.QuestionnaireId }, null) |
+    @Html.ActionLink("Business Information", "BusinessInformation", "ManageQuestionnaire", new { area = "Admin", questionnaire = Model.QuestionnaireId }, null) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,2900 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SiteBlueDataEightHundredStoreContainer" CdmEntityContainer="EightHundredBaseContext">
+    <EntitySetMapping Name="Appointments">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Appointment">
+        <MappingFragment StoreEntitySet="Appointment">
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="PreferredDate" ColumnName="PreferredDate" />
+          <ScalarProperty Name="PreferredTime" ColumnName="PreferredTime" />
+          <ScalarProperty Name="TypeOfService" ColumnName="TypeOfService" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="MessageStatusId" ColumnName="MessageStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CareerApplications">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.CareerApplication">
+        <MappingFragment StoreEntitySet="CareerApplication">
+          <ScalarProperty Name="CareerApplicationId" ColumnName="CareerApplicationId" />
+          <ScalarProperty Name="FirstLastName" ColumnName="FirstLastName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Zip" ColumnName="Zip" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PositionDesired" ColumnName="PositionDesired" />
+          <ScalarProperty Name="ExperienceYears" ColumnName="ExperienceYears" />
+          <ScalarProperty Name="PlumbingLicense" ColumnName="PlumbingLicense" />
+          <ScalarProperty Name="DesiredSalary" ColumnName="DesiredSalary" />
+          <ScalarProperty Name="BestTimeToContact" ColumnName="BestTimeToContact" />
+          <ScalarProperty Name="MessageStatusId" ColumnName="MessageStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CityServeds">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.CityServed">
+        <MappingFragment StoreEntitySet="CityServed">
+          <ScalarProperty Name="CityServedId" ColumnName="CityServedId" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+          <ScalarProperty Name="City" ColumnName="City" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Location">
+        <MappingFragment StoreEntitySet="Location">
+          <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+          <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+          <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+          <ScalarProperty Name="LicenseInformation" ColumnName="LicenseInformation" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="LocalPhoneNumber" ColumnName="LocalPhoneNumber" />
+          <ScalarProperty Name="GoogleLink" ColumnName="GoogleLink" />
+          <ScalarProperty Name="YahooLink" ColumnName="YahooLink" />
+          <ScalarProperty Name="FacebookLink" ColumnName="FacebookLink" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LocationCoupons">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.LocationCoupon">
+        <MappingFragment StoreEntitySet="LocationCoupon">
+          <ScalarProperty Name="LocationCouponId" ColumnName="LocationCouponId" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+          <ScalarProperty Name="OfferId" ColumnName="OfferId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LocationServices">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.LocationService">
+        <MappingFragment StoreEntitySet="LocationService">
+          <ScalarProperty Name="LocationServiceId" ColumnName="LocationServiceId" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+          <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LocationZips">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.LocationZip">
+        <MappingFragment StoreEntitySet="LocationZip">
+          <ScalarProperty Name="LocationZipId" ColumnName="LocationZipId" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Managements">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Management">
+        <MappingFragment StoreEntitySet="Management">
+          <ScalarProperty Name="ManagementId" ColumnName="ManagementId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="AlternativeText" ColumnName="AlternativeText" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Media">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Medium">
+        <MappingFragment StoreEntitySet="Media">
+          <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="SubTitle" ColumnName="SubTitle" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="MediaType" ColumnName="MediaType" />
+          <ScalarProperty Name="MediaExtensionId" ColumnName="MediaExtensionId" />
+          <ScalarProperty Name="MediaPath" ColumnName="MediaPath" />
+          <ScalarProperty Name="PublicationDate" ColumnName="PublicationDate" />
+          <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MediaExtensions">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.MediaExtension">
+        <MappingFragment StoreEntitySet="MediaExtension">
+          <ScalarProperty Name="MediaExtensionId" ColumnName="MediaExtensionId" />
+          <ScalarProperty Name="MediaType" ColumnName="MediaType" />
+          <ScalarProperty Name="MediaExtensionName" ColumnName="MediaExtensionName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MessageStatus">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.MessageStatu">
+        <MappingFragment StoreEntitySet="MessageStatus">
+          <ScalarProperty Name="MessageStatusId" ColumnName="MessageStatusId" />
+          <ScalarProperty Name="MessageStatusName" ColumnName="MessageStatusName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Offers">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Offer">
+        <MappingFragment StoreEntitySet="Offer">
+          <ScalarProperty Name="OfferId" ColumnName="OfferId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="SubTitle" ColumnName="SubTitle" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Services">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Service">
+        <MappingFragment StoreEntitySet="Service">
+          <ScalarProperty Name="ServiceCategoryId" ColumnName="ServiceCategoryId" />
+          <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServiceTypes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.ServiceType">
+        <MappingFragment StoreEntitySet="ServiceType">
+          <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+          <ScalarProperty Name="ServiceTypeName" ColumnName="ServiceTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SpecialOffers">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.SpecialOffer">
+        <MappingFragment StoreEntitySet="SpecialOffer">
+          <ScalarProperty Name="SpecialOfferId" ColumnName="SpecialOfferId" />
+          <ScalarProperty Name="SpecialOfferName" ColumnName="SpecialOfferName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Account_Codes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Account_Codes">
+        <MappingFragment StoreEntitySet="tbl_Account_Codes">
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_AccountingAccounts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_AccountingAccounts">
+        <MappingFragment StoreEntitySet="tbl_AccountingAccounts">
+          <ScalarProperty Name="AccountingAccountsID" ColumnName="AccountingAccountsID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="PrimaryKey" ColumnName="PrimaryKey" />
+          <ScalarProperty Name="AccountNum" ColumnName="AccountNum" />
+          <ScalarProperty Name="AccountDesc" ColumnName="AccountDesc" />
+          <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_AccountingCustomers">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_AccountingCustomers">
+        <MappingFragment StoreEntitySet="tbl_AccountingCustomers">
+          <ScalarProperty Name="AccountingCustomerID" ColumnName="AccountingCustomerID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="PrimaryKey" ColumnName="PrimaryKey" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_ACH_AdjustmentsLog">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_ACH_AdjustmentsLog">
+        <MappingFragment StoreEntitySet="tbl_ACH_AdjustmentsLog">
+          <ScalarProperty Name="AdjustmentID" ColumnName="AdjustmentID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="AdjustmentDate" ColumnName="AdjustmentDate" />
+          <ScalarProperty Name="AdjustmentOpenYN" ColumnName="AdjustmentOpenYN" />
+          <ScalarProperty Name="TotalAdjustmentAmount" ColumnName="TotalAdjustmentAmount" />
+          <ScalarProperty Name="WeeklyRoyaltyAdj" ColumnName="WeeklyRoyaltyAdj" />
+          <ScalarProperty Name="WeeklyManagementAdj" ColumnName="WeeklyManagementAdj" />
+          <ScalarProperty Name="WeeklyTechnologyAdj" ColumnName="WeeklyTechnologyAdj" />
+          <ScalarProperty Name="WeeklyMarketingAdj" ColumnName="WeeklyMarketingAdj" />
+          <ScalarProperty Name="NumberofWeeksToAdj" ColumnName="NumberofWeeksToAdj" />
+          <ScalarProperty Name="NumberOfWeeksUsed" ColumnName="NumberOfWeeksUsed" />
+          <ScalarProperty Name="InternalReason" ColumnName="InternalReason" />
+          <ScalarProperty Name="PublicReason" ColumnName="PublicReason" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_ACH_Format">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_ACH_Format">
+        <MappingFragment StoreEntitySet="tbl_ACH_Format">
+          <ScalarProperty Name="ACHFormatID" ColumnName="ACHFormatID" />
+          <ScalarProperty Name="ImmediateDestination" ColumnName="ImmediateDestination" />
+          <ScalarProperty Name="ImmediateOrigin" ColumnName="ImmediateOrigin" />
+          <ScalarProperty Name="DestinationName" ColumnName="DestinationName" />
+          <ScalarProperty Name="ImmediateDestinOriginName" ColumnName="ImmediateDestinOriginName" />
+          <ScalarProperty Name="FileHeaderName" ColumnName="FileHeaderName" />
+          <ScalarProperty Name="ServiceClassCode" ColumnName="ServiceClassCode" />
+          <ScalarProperty Name="BatchCompanyName" ColumnName="BatchCompanyName" />
+          <ScalarProperty Name="BatchCompanyUse" ColumnName="BatchCompanyUse" />
+          <ScalarProperty Name="BatchCompanyID" ColumnName="BatchCompanyID" />
+          <ScalarProperty Name="EntryClassCode" ColumnName="EntryClassCode" />
+          <ScalarProperty Name="EntryPurpose" ColumnName="EntryPurpose" />
+          <ScalarProperty Name="BatchOriginatingDFI" ColumnName="BatchOriginatingDFI" />
+          <ScalarProperty Name="DetailTransCode" ColumnName="DetailTransCode" />
+          <ScalarProperty Name="DetailCompanyInfo" ColumnName="DetailCompanyInfo" />
+          <ScalarProperty Name="DetailOriginatingDFI" ColumnName="DetailOriginatingDFI" />
+          <ScalarProperty Name="BatchTrailerCompanyID" ColumnName="BatchTrailerCompanyID" />
+          <ScalarProperty Name="BatchTrailerOriginatingDFI" ColumnName="BatchTrailerOriginatingDFI" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_ACH_Franchisees">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_ACH_Franchisees">
+        <MappingFragment StoreEntitySet="tbl_ACH_Franchisees">
+          <ScalarProperty Name="ACHZeeID" ColumnName="ACHZeeID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="TransitNumber" ColumnName="TransitNumber" />
+          <ScalarProperty Name="DFIAccountNumber" ColumnName="DFIAccountNumber" />
+          <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="GroupType" ColumnName="GroupType" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_ACH_Franchisees_Summary">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_ACH_Franchisees_Summary">
+        <MappingFragment StoreEntitySet="tbl_ACH_Franchisees_Summary">
+          <ScalarProperty Name="ACHZeeSummaryID" ColumnName="ACHZeeSummaryID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="TransactionGroupID" ColumnName="TransactionGroupID" />
+          <ScalarProperty Name="GroupType" ColumnName="GroupType" />
+          <ScalarProperty Name="WeekEnding" ColumnName="WeekEnding" />
+          <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+          <ScalarProperty Name="TotalFees" ColumnName="TotalFees" />
+          <ScalarProperty Name="TotalRoyalty" ColumnName="TotalRoyalty" />
+          <ScalarProperty Name="TotalManagement" ColumnName="TotalManagement" />
+          <ScalarProperty Name="TotalTechnology" ColumnName="TotalTechnology" />
+          <ScalarProperty Name="TotalMarketing" ColumnName="TotalMarketing" />
+          <ScalarProperty Name="SubmittedYN" ColumnName="SubmittedYN" />
+          <ScalarProperty Name="MSAPostedYN" ColumnName="MSAPostedYN" />
+          <ScalarProperty Name="MSAPostedDate" ColumnName="MSAPostedDate" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="MSARefNum" ColumnName="MSARefNum" />
+          <ScalarProperty Name="TransferLoggedInName" ColumnName="TransferLoggedInName" />
+          <ScalarProperty Name="AdjustmentID" ColumnName="AdjustmentID" />
+          <ScalarProperty Name="RoyaltyAdjustment" ColumnName="RoyaltyAdjustment" />
+          <ScalarProperty Name="ManagementAdjustment" ColumnName="ManagementAdjustment" />
+          <ScalarProperty Name="TechnologyAdjustment" ColumnName="TechnologyAdjustment" />
+          <ScalarProperty Name="MarketingAdjustment" ColumnName="MarketingAdjustment" />
+          <ScalarProperty Name="RoyaltyReconciledYN" ColumnName="RoyaltyReconciledYN" />
+          <ScalarProperty Name="ManagementReconciledYN" ColumnName="ManagementReconciledYN" />
+          <ScalarProperty Name="TechnologyReconciledYN" ColumnName="TechnologyReconciledYN" />
+          <ScalarProperty Name="MarketingReconciledYN" ColumnName="MarketingReconciledYN" />
+          <ScalarProperty Name="ReconciledDate" ColumnName="ReconciledDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_ACH_Transaction_Details">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_ACH_Transaction_Details">
+        <MappingFragment StoreEntitySet="tbl_ACH_Transaction_Details">
+          <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+          <ScalarProperty Name="TransactionGroupID" ColumnName="TransactionGroupID" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+          <ScalarProperty Name="RecordLine" ColumnName="RecordLine" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_ACH_Transaction_Group">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_ACH_Transaction_Group">
+        <MappingFragment StoreEntitySet="tbl_ACH_Transaction_Group">
+          <ScalarProperty Name="TransactionGroupID" ColumnName="TransactionGroupID" />
+          <ScalarProperty Name="BankGroupID" ColumnName="BankGroupID" />
+          <ScalarProperty Name="TransactionDateTime" ColumnName="TransactionDateTime" />
+          <ScalarProperty Name="WeekEnding" ColumnName="WeekEnding" />
+          <ScalarProperty Name="SubmittedYN" ColumnName="SubmittedYN" />
+          <ScalarProperty Name="ResponseReceivedYN" ColumnName="ResponseReceivedYN" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="TotalDebit" ColumnName="TotalDebit" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Area">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Area">
+        <MappingFragment StoreEntitySet="tbl_Area">
+          <ScalarProperty Name="AreaID" ColumnName="AreaID" />
+          <ScalarProperty Name="AreaDescription" ColumnName="AreaDescription" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Award">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Award">
+        <MappingFragment StoreEntitySet="tbl_Award">
+          <ScalarProperty Name="AwardID" ColumnName="AwardID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="Award" ColumnName="Award" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_BugList">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_BugList">
+        <MappingFragment StoreEntitySet="tbl_BugList">
+          <ScalarProperty Name="BugListID" ColumnName="BugListID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Module" ColumnName="Module" />
+          <ScalarProperty Name="DateIn" ColumnName="DateIn" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="Issue" ColumnName="Issue" />
+          <ScalarProperty Name="DateResolved" ColumnName="DateResolved" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Call_CancelReasons">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Call_CancelReasons">
+        <MappingFragment StoreEntitySet="tbl_Call_CancelReasons">
+          <ScalarProperty Name="CancelReasonID" ColumnName="CancelReasonID" />
+          <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="NonCustomerYN" ColumnName="NonCustomerYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Call_Questions">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Call_Questions">
+        <MappingFragment StoreEntitySet="tbl_Call_Questions">
+          <ScalarProperty Name="CallQuestionsID" ColumnName="CallQuestionsID" />
+          <ScalarProperty Name="CallQuestion" ColumnName="CallQuestion" />
+          <ScalarProperty Name="fieldreference" ColumnName="fieldreference" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Call_ResultCodes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Call_ResultCodes">
+        <MappingFragment StoreEntitySet="tbl_Call_ResultCodes">
+          <ScalarProperty Name="ResultCodeID" ColumnName="ResultCodeID" />
+          <ScalarProperty Name="ResultCode" ColumnName="ResultCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Call_TabIndex">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Call_TabIndex">
+        <MappingFragment StoreEntitySet="tbl_Call_TabIndex">
+          <ScalarProperty Name="CallIndexID" ColumnName="CallIndexID" />
+          <ScalarProperty Name="Fieldname" ColumnName="Fieldname" />
+          <ScalarProperty Name="tabindex" ColumnName="tabindex" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Calls">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Calls">
+        <MappingFragment StoreEntitySet="tbl_Calls">
+          <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+          <ScalarProperty Name="CallID" ColumnName="CallID" />
+          <ScalarProperty Name="CallTakerID" ColumnName="CallTakerID" />
+          <ScalarProperty Name="CallInTime" ColumnName="CallInTime" />
+          <ScalarProperty Name="CallCompletedTime" ColumnName="CallCompletedTime" />
+          <ScalarProperty Name="ResultCodeID" ColumnName="ResultCodeID" />
+          <ScalarProperty Name="CancelReasonID" ColumnName="CancelReasonID" />
+          <ScalarProperty Name="CallReason" ColumnName="CallReason" />
+          <ScalarProperty Name="CallZipCode" ColumnName="CallZipCode" />
+          <ScalarProperty Name="CallPhone" ColumnName="CallPhone" />
+          <ScalarProperty Name="CallTypeID" ColumnName="CallTypeID" />
+          <ScalarProperty Name="CallName" ColumnName="CallName" />
+          <ScalarProperty Name="CallAddress" ColumnName="CallAddress" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="CompanyAddress" ColumnName="CompanyAddress" />
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="ConceptDetailID" ColumnName="ConceptDetailID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="CrossStreet" ColumnName="CrossStreet" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ReferralID" ColumnName="ReferralID" />
+          <ScalarProperty Name="CallReceivedDate" ColumnName="CallReceivedDate" />
+          <ScalarProperty Name="PriorityID" ColumnName="PriorityID" />
+          <ScalarProperty Name="RequestedDate" ColumnName="RequestedDate" />
+          <ScalarProperty Name="RequestedTime" ColumnName="RequestedTime" />
+          <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+          <ScalarProperty Name="ServiceWindowID" ColumnName="ServiceWindowID" />
+          <ScalarProperty Name="ExpectedPayTypeID" ColumnName="ExpectedPayTypeID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="ConceptTypeID" ColumnName="ConceptTypeID" />
+          <ScalarProperty Name="ServiceLength" ColumnName="ServiceLength" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="CallCell" ColumnName="CallCell" />
+          <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Challenge_Question">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Challenge_Question">
+        <MappingFragment StoreEntitySet="tbl_Challenge_Question">
+          <ScalarProperty Name="ChallengeQuestionID" ColumnName="ChallengeQuestionID" />
+          <ScalarProperty Name="ChallengeQuestion" ColumnName="ChallengeQuestion" />
+          <ScalarProperty Name="activeYN" ColumnName="activeYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Concept">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Concept">
+        <MappingFragment StoreEntitySet="tbl_Concept">
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="Concept" ColumnName="Concept" />
+          <ScalarProperty Name="ConceptName" ColumnName="ConceptName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Contacts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Contacts">
+        <MappingFragment StoreEntitySet="tbl_Contacts">
+          <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="PhoneTypeID" ColumnName="PhoneTypeID" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Corp_Employee">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Corp_Employee">
+        <MappingFragment StoreEntitySet="tbl_Corp_Employee">
+          <ScalarProperty Name="CorpEmployeeID" ColumnName="CorpEmployeeID" />
+          <ScalarProperty Name="CorpEmployeeName" ColumnName="CorpEmployeeName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="EmployeeAddress" ColumnName="EmployeeAddress" />
+          <ScalarProperty Name="EmployeeAddress2" ColumnName="EmployeeAddress2" />
+          <ScalarProperty Name="EmployeeCity" ColumnName="EmployeeCity" />
+          <ScalarProperty Name="EmployeeState" ColumnName="EmployeeState" />
+          <ScalarProperty Name="EmployeePostal" ColumnName="EmployeePostal" />
+          <ScalarProperty Name="EmployeeCountryID" ColumnName="EmployeeCountryID" />
+          <ScalarProperty Name="PrimaryPhone" ColumnName="PrimaryPhone" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Corp_Group">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Corp_Group">
+        <MappingFragment StoreEntitySet="tbl_Corp_Group">
+          <ScalarProperty Name="CorpGroupID" ColumnName="CorpGroupID" />
+          <ScalarProperty Name="CorpGroup" ColumnName="CorpGroup" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Corp_Group_Members">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Corp_Group_Members">
+        <MappingFragment StoreEntitySet="tbl_Corp_Group_Members">
+          <ScalarProperty Name="CorpEmployeeGroupID" ColumnName="CorpEmployeeGroupID" />
+          <ScalarProperty Name="CorpGroupID" ColumnName="CorpGroupID" />
+          <ScalarProperty Name="CorpEmployeeID" ColumnName="CorpEmployeeID" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_coupon">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_coupon">
+        <MappingFragment StoreEntitySet="tbl_coupon">
+          <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+          <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="CouponID" ColumnName="CouponID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="MarketingMedium" ColumnName="MarketingMedium" />
+          <ScalarProperty Name="ExpirationDate" ColumnName="ExpirationDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Customer">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Customer">
+        <MappingFragment StoreEntitySet="tbl_Customer">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="FindByName" ColumnName="FindByName" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="EMail" ColumnName="EMail" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Customer_BusinessType">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Customer_BusinessType">
+        <MappingFragment StoreEntitySet="tbl_Customer_BusinessType">
+          <ScalarProperty Name="BusinessTypeID" ColumnName="BusinessTypeID" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Customer_CreditTerms">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Customer_CreditTerms">
+        <MappingFragment StoreEntitySet="tbl_Customer_CreditTerms">
+          <ScalarProperty Name="CreditTermsID" ColumnName="CreditTermsID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="CreditTerms" ColumnName="CreditTerms" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Customer_History">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Customer_History">
+        <MappingFragment StoreEntitySet="tbl_Customer_History">
+          <ScalarProperty Name="CustHistoryID" ColumnName="CustHistoryID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="EnteredByID" ColumnName="EnteredByID" />
+          <ScalarProperty Name="DateEntered" ColumnName="DateEntered" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Customer_Info">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Customer_Info">
+        <MappingFragment StoreEntitySet="tbl_Customer_Info">
+          <ScalarProperty Name="CustomerInfoID" ColumnName="CustomerInfoID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="BusinessTypeID" ColumnName="BusinessTypeID" />
+          <ScalarProperty Name="CustomerTypeID" ColumnName="CustomerTypeID" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="CreditTermsID" ColumnName="CreditTermsID" />
+          <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+          <ScalarProperty Name="CustomerNotes" ColumnName="CustomerNotes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Customer_Members">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Customer_Members">
+        <MappingFragment StoreEntitySet="tbl_Customer_Members">
+          <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="MemberTypeID" ColumnName="MemberTypeID" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Customer_Status">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Customer_Status">
+        <MappingFragment StoreEntitySet="tbl_Customer_Status">
+          <ScalarProperty Name="CustomerStatusID" ColumnName="CustomerStatusID" />
+          <ScalarProperty Name="CustomerStatus" ColumnName="CustomerStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Customer_Type">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Customer_Type">
+        <MappingFragment StoreEntitySet="tbl_Customer_Type">
+          <ScalarProperty Name="CustomerTypeID" ColumnName="CustomerTypeID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Customer1">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Customer1">
+        <MappingFragment StoreEntitySet="tbl_Customer1">
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="FindByName" ColumnName="FindByName" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="EMail" ColumnName="EMail" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_DailyBudget">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_DailyBudget">
+        <MappingFragment StoreEntitySet="tbl_DailyBudget">
+          <ScalarProperty Name="BudgetId" ColumnName="BudgetId" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="AnualSales" ColumnName="AnualSales" />
+          <ScalarProperty Name="MonthlySales" ColumnName="MonthlySales" />
+          <ScalarProperty Name="DailySales" ColumnName="DailySales" />
+          <ScalarProperty Name="AnnualAvgTicket" ColumnName="AnnualAvgTicket" />
+          <ScalarProperty Name="MonthlyAvgTicket" ColumnName="MonthlyAvgTicket" />
+          <ScalarProperty Name="DailyAvgTicket" ColumnName="DailyAvgTicket" />
+          <ScalarProperty Name="AnnualClosingRate" ColumnName="AnnualClosingRate" />
+          <ScalarProperty Name="AnnualHomeGuard" ColumnName="AnnualHomeGuard" />
+          <ScalarProperty Name="MonthlyHomeGuard" ColumnName="MonthlyHomeGuard" />
+          <ScalarProperty Name="DailyHomeGuard" ColumnName="DailyHomeGuard" />
+          <ScalarProperty Name="AnnualBio" ColumnName="AnnualBio" />
+          <ScalarProperty Name="MonthlyBio" ColumnName="MonthlyBio" />
+          <ScalarProperty Name="DailyBio" ColumnName="DailyBio" />
+          <ScalarProperty Name="AnnualRecallPercentOfJobs" ColumnName="AnnualRecallPercentOfJobs" />
+          <ScalarProperty Name="AnnualPayrollPercentOfJobs" ColumnName="AnnualPayrollPercentOfJobs" />
+          <ScalarProperty Name="AnnualJobs" ColumnName="AnnualJobs" />
+          <ScalarProperty Name="MonthlyJobs" ColumnName="MonthlyJobs" />
+          <ScalarProperty Name="DailyJobs" ColumnName="DailyJobs" />
+          <ScalarProperty Name="AnnualPayroll" ColumnName="AnnualPayroll" />
+          <ScalarProperty Name="MonthlyPayroll" ColumnName="MonthlyPayroll" />
+          <ScalarProperty Name="DailyPayroll" ColumnName="DailyPayroll" />
+          <ScalarProperty Name="AnnualRecalls" ColumnName="AnnualRecalls" />
+          <ScalarProperty Name="MonthlyRecalls" ColumnName="MonthlyRecalls" />
+          <ScalarProperty Name="DailyRecalls" ColumnName="DailyRecalls" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Deposits">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Deposits">
+        <MappingFragment StoreEntitySet="tbl_Deposits">
+          <ScalarProperty Name="ExceptionComments" ColumnName="ExceptionComments" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="DepositID" ColumnName="DepositID" />
+          <ScalarProperty Name="DepositDate" ColumnName="DepositDate" />
+          <ScalarProperty Name="DepositAmount" ColumnName="DepositAmount" />
+          <ScalarProperty Name="CheckAmount" ColumnName="CheckAmount" />
+          <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+          <ScalarProperty Name="OtherAmount" ColumnName="OtherAmount" />
+          <ScalarProperty Name="DepositNumber" ColumnName="DepositNumber" />
+          <ScalarProperty Name="DepositNotes" ColumnName="DepositNotes" />
+          <ScalarProperty Name="CashAmount" ColumnName="CashAmount" />
+          <ScalarProperty Name="AccountingTransferDate" ColumnName="AccountingTransferDate" />
+          <ScalarProperty Name="AccountingRefNum" ColumnName="AccountingRefNum" />
+          <ScalarProperty Name="AccountingTransactionNum" ColumnName="AccountingTransactionNum" />
+          <ScalarProperty Name="AccountingLoggedInName" ColumnName="AccountingLoggedInName" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_CreditHolds">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_CreditHolds">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_CreditHolds">
+          <ScalarProperty Name="DispatchCreditHoldID" ColumnName="DispatchCreditHoldID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_DBA">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_DBA">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_DBA">
+          <ScalarProperty Name="DBAID" ColumnName="DBAID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="DBAName" ColumnName="DBAName" />
+          <ScalarProperty Name="DBAIMage" ColumnName="DBAIMage" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_Message_History">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_Message_History">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_Message_History">
+          <ScalarProperty Name="MessageHistoryID" ColumnName="MessageHistoryID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="TechID" ColumnName="TechID" />
+          <ScalarProperty Name="ProcessedYN" ColumnName="ProcessedYN" />
+          <ScalarProperty Name="MessageDate" ColumnName="MessageDate" />
+          <ScalarProperty Name="FranchiseName" ColumnName="FranchiseName" />
+          <ScalarProperty Name="TechName" ColumnName="TechName" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_Messages">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_Messages">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_Messages">
+          <ScalarProperty Name="DispatchMessageID" ColumnName="DispatchMessageID" />
+          <ScalarProperty Name="DispatchMessage" ColumnName="DispatchMessage" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_OwnerNotes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_OwnerNotes">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_OwnerNotes">
+          <ScalarProperty Name="DispatchNotesID" ColumnName="DispatchNotesID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="DispatchNotes" ColumnName="DispatchNotes" />
+          <ScalarProperty Name="DispatchSpecials" ColumnName="DispatchSpecials" />
+          <ScalarProperty Name="DispatchComments" ColumnName="DispatchComments" />
+          <ScalarProperty Name="InvoiceHeaderImage" ColumnName="InvoiceHeaderImage" />
+          <ScalarProperty Name="Page2Image" ColumnName="Page2Image" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_Queue">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_Queue">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_Queue">
+          <ScalarProperty Name="DispatchQueueID" ColumnName="DispatchQueueID" />
+          <ScalarProperty Name="DispatchQueue" ColumnName="DispatchQueue" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_QueueManager">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_QueueManager">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_QueueManager">
+          <ScalarProperty Name="QueueManagerID" ColumnName="QueueManagerID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="DispatcherID" ColumnName="DispatcherID" />
+          <ScalarProperty Name="FranchiseCode" ColumnName="FranchiseCode" />
+          <ScalarProperty Name="FranchiseName" ColumnName="FranchiseName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="QueueNotes" ColumnName="QueueNotes" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_QueueTechs">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_QueueTechs">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_QueueTechs">
+          <ScalarProperty Name="QueueTechID" ColumnName="QueueTechID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="OnCallTechID" ColumnName="OnCallTechID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_Schedule">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_Schedule">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_Schedule">
+          <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="TechID" ColumnName="TechID" />
+          <ScalarProperty Name="SunStart" ColumnName="SunStart" />
+          <ScalarProperty Name="SunEnd" ColumnName="SunEnd" />
+          <ScalarProperty Name="MonStart" ColumnName="MonStart" />
+          <ScalarProperty Name="MonEnd" ColumnName="MonEnd" />
+          <ScalarProperty Name="TueStart" ColumnName="TueStart" />
+          <ScalarProperty Name="TueEnd" ColumnName="TueEnd" />
+          <ScalarProperty Name="WedStart" ColumnName="WedStart" />
+          <ScalarProperty Name="WedEnd" ColumnName="WedEnd" />
+          <ScalarProperty Name="ThuStart" ColumnName="ThuStart" />
+          <ScalarProperty Name="ThuEnd" ColumnName="ThuEnd" />
+          <ScalarProperty Name="FriStart" ColumnName="FriStart" />
+          <ScalarProperty Name="FriEnd" ColumnName="FriEnd" />
+          <ScalarProperty Name="SatStart" ColumnName="SatStart" />
+          <ScalarProperty Name="SatEnd" ColumnName="SatEnd" />
+          <ScalarProperty Name="OnCallNotes" ColumnName="OnCallNotes" />
+          <ScalarProperty Name="ScheduleNotes" ColumnName="ScheduleNotes" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Dispatch_TechBios">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Dispatch_TechBios">
+        <MappingFragment StoreEntitySet="tbl_Dispatch_TechBios">
+          <ScalarProperty Name="BioText" ColumnName="BioText" />
+          <ScalarProperty Name="BackgroundCheckCompleted" ColumnName="BackgroundCheckCompleted" />
+          <ScalarProperty Name="LastDrugTest" ColumnName="LastDrugTest" />
+          <ScalarProperty Name="ServiceProBIOID" ColumnName="ServiceProBIOID" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Employee">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Employee">
+        <MappingFragment StoreEntitySet="tbl_Employee">
+          <ScalarProperty Name="CommissionRate" ColumnName="CommissionRate" />
+          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+          <ScalarProperty Name="ReceivesCommission" ColumnName="ReceivesCommission" />
+          <ScalarProperty Name="IsHourlyRate" ColumnName="IsHourlyRate" />
+          <ScalarProperty Name="IsWeeklySalary" ColumnName="IsWeeklySalary" />
+          <ScalarProperty Name="HVACSalesYN" ColumnName="HVACSalesYN" />
+          <ScalarProperty Name="UserKey" ColumnName="UserKey" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="Employee" ColumnName="Employee" />
+          <ScalarProperty Name="ServiceProYN" ColumnName="ServiceProYN" />
+          <ScalarProperty Name="CallTakerYN" ColumnName="CallTakerYN" />
+          <ScalarProperty Name="CallMakerYN" ColumnName="CallMakerYN" />
+          <ScalarProperty Name="DispatcherYN" ColumnName="DispatcherYN" />
+          <ScalarProperty Name="InvoicerYN" ColumnName="InvoicerYN" />
+          <ScalarProperty Name="ReportmakerYN" ColumnName="ReportmakerYN" />
+          <ScalarProperty Name="WorkStatusID" ColumnName="WorkStatusID" />
+          <ScalarProperty Name="PrimaryPhone" ColumnName="PrimaryPhone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Postal" ColumnName="Postal" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="Anniversary" ColumnName="Anniversary" />
+          <ScalarProperty Name="Spouse" ColumnName="Spouse" />
+          <ScalarProperty Name="EmerContact" ColumnName="EmerContact" />
+          <ScalarProperty Name="EmerAddress" ColumnName="EmerAddress" />
+          <ScalarProperty Name="EmerCity" ColumnName="EmerCity" />
+          <ScalarProperty Name="EmerState" ColumnName="EmerState" />
+          <ScalarProperty Name="EmerPostal" ColumnName="EmerPostal" />
+          <ScalarProperty Name="EmerCountry" ColumnName="EmerCountry" />
+          <ScalarProperty Name="EmerPrimaryPhone" ColumnName="EmerPrimaryPhone" />
+          <ScalarProperty Name="EmerSecondaryPhone" ColumnName="EmerSecondaryPhone" />
+          <ScalarProperty Name="LaborRate" ColumnName="LaborRate" />
+          <ScalarProperty Name="PartRate" ColumnName="PartRate" />
+          <ScalarProperty Name="ExemptYN" ColumnName="ExemptYN" />
+          <ScalarProperty Name="DriversLic" ColumnName="DriversLic" />
+          <ScalarProperty Name="SS_" ColumnName="SS#" />
+          <ScalarProperty Name="HiredDate" ColumnName="HiredDate" />
+          <ScalarProperty Name="TerminatedDate" ColumnName="TerminatedDate" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="VacationEarned" ColumnName="VacationEarned" />
+          <ScalarProperty Name="VacationUsed" ColumnName="VacationUsed" />
+          <ScalarProperty Name="SickEarned" ColumnName="SickEarned" />
+          <ScalarProperty Name="SickUsed" ColumnName="SickUsed" />
+          <ScalarProperty Name="PersonalEarned" ColumnName="PersonalEarned" />
+          <ScalarProperty Name="PersonalUsed" ColumnName="PersonalUsed" />
+          <ScalarProperty Name="OtherEarned" ColumnName="OtherEarned" />
+          <ScalarProperty Name="OtherUsed" ColumnName="OtherUsed" />
+          <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+          <ScalarProperty Name="WeeklySalary" ColumnName="WeeklySalary" />
+          <ScalarProperty Name="DLExpDate" ColumnName="DLExpDate" />
+          <ScalarProperty Name="ProLisc" ColumnName="ProLisc" />
+          <ScalarProperty Name="ProLiscExpDate" ColumnName="ProLiscExpDate" />
+          <ScalarProperty Name="ProLevel" ColumnName="ProLevel" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Employee_Awards">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Employee_Awards">
+        <MappingFragment StoreEntitySet="tbl_Employee_Awards">
+          <ScalarProperty Name="EmpAwardID" ColumnName="EmpAwardID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="AwardID" ColumnName="AwardID" />
+          <ScalarProperty Name="DateReceived" ColumnName="DateReceived" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Employee_Contact">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Employee_Contact">
+        <MappingFragment StoreEntitySet="tbl_Employee_Contact">
+          <ScalarProperty Name="EmpContactID" ColumnName="EmpContactID" />
+          <ScalarProperty Name="PhoneTypeID" ColumnName="PhoneTypeID" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Encryption">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Encryption">
+        <MappingFragment StoreEntitySet="tbl_Encryption">
+          <ScalarProperty Name="EncryptID" ColumnName="EncryptID" />
+          <ScalarProperty Name="TableID" ColumnName="TableID" />
+          <ScalarProperty Name="KeyID" ColumnName="KeyID" />
+          <ScalarProperty Name="FieldID" ColumnName="FieldID" />
+          <ScalarProperty Name="FieldValue" ColumnName="FieldValue" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Error_Log">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Error_Log">
+        <MappingFragment StoreEntitySet="tbl_Error_Log">
+          <ScalarProperty Name="ErrorID" ColumnName="ErrorID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Form" ColumnName="Form" />
+          <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+          <ScalarProperty Name="Sub" ColumnName="Sub" />
+          <ScalarProperty Name="datetime" ColumnName="datetime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Estimate_Notes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Estimate_Notes">
+        <MappingFragment StoreEntitySet="tbl_Estimate_Notes">
+          <ScalarProperty Name="EstimateNoteID" ColumnName="EstimateNoteID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="EstimateNotes" ColumnName="EstimateNotes" />
+          <ScalarProperty Name="NotesBy" ColumnName="NotesBy" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise">
+        <MappingFragment StoreEntitySet="tbl_Franchise">
+          <ScalarProperty Name="AccountingVarianceDays" ColumnName="AccountingVarianceDays" />
+          <ScalarProperty Name="MaxRoyaltyDeferDays" ColumnName="MaxRoyaltyDeferDays" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="FranchiseNUmber" ColumnName="FranchiseNUmber" />
+          <ScalarProperty Name="ProspectID" ColumnName="ProspectID" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="FranchiseTypeID" ColumnName="FranchiseTypeID" />
+          <ScalarProperty Name="FranchiseStatusID" ColumnName="FranchiseStatusID" />
+          <ScalarProperty Name="SalesRepID" ColumnName="SalesRepID" />
+          <ScalarProperty Name="SupportRepID" ColumnName="SupportRepID" />
+          <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="RenewalDate" ColumnName="RenewalDate" />
+          <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+          <ScalarProperty Name="EMail" ColumnName="EMail" />
+          <ScalarProperty Name="LegalName" ColumnName="LegalName" />
+          <ScalarProperty Name="LegalAddress" ColumnName="LegalAddress" />
+          <ScalarProperty Name="LegalAddress2" ColumnName="LegalAddress2" />
+          <ScalarProperty Name="LegalCity" ColumnName="LegalCity" />
+          <ScalarProperty Name="LegalState" ColumnName="LegalState" />
+          <ScalarProperty Name="LegalPostal" ColumnName="LegalPostal" />
+          <ScalarProperty Name="LegalCountryID" ColumnName="LegalCountryID" />
+          <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+          <ScalarProperty Name="ShipCompany" ColumnName="ShipCompany" />
+          <ScalarProperty Name="ShipAddress" ColumnName="ShipAddress" />
+          <ScalarProperty Name="ShipAddress2" ColumnName="ShipAddress2" />
+          <ScalarProperty Name="ShipCity" ColumnName="ShipCity" />
+          <ScalarProperty Name="ShipState" ColumnName="ShipState" />
+          <ScalarProperty Name="ShipPostal" ColumnName="ShipPostal" />
+          <ScalarProperty Name="ShipCountryID" ColumnName="ShipCountryID" />
+          <ScalarProperty Name="MailName" ColumnName="MailName" />
+          <ScalarProperty Name="MailCompany" ColumnName="MailCompany" />
+          <ScalarProperty Name="MailAddress" ColumnName="MailAddress" />
+          <ScalarProperty Name="MailAddress2" ColumnName="MailAddress2" />
+          <ScalarProperty Name="MailCity" ColumnName="MailCity" />
+          <ScalarProperty Name="MailState" ColumnName="MailState" />
+          <ScalarProperty Name="MailPostal" ColumnName="MailPostal" />
+          <ScalarProperty Name="MailCountryID" ColumnName="MailCountryID" />
+          <ScalarProperty Name="OfficeName" ColumnName="OfficeName" />
+          <ScalarProperty Name="OfficeCompany" ColumnName="OfficeCompany" />
+          <ScalarProperty Name="OfficeAddress" ColumnName="OfficeAddress" />
+          <ScalarProperty Name="OfficeAddress2" ColumnName="OfficeAddress2" />
+          <ScalarProperty Name="OfficeCity" ColumnName="OfficeCity" />
+          <ScalarProperty Name="OfficeState" ColumnName="OfficeState" />
+          <ScalarProperty Name="OfficePostal" ColumnName="OfficePostal" />
+          <ScalarProperty Name="OfficeCountryID" ColumnName="OfficeCountryID" />
+          <ScalarProperty Name="GeneralNotes" ColumnName="GeneralNotes" />
+          <ScalarProperty Name="TimeOffset" ColumnName="TimeOffset" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Contacts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Contacts">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Contacts">
+          <ScalarProperty Name="FranchiseContactID" ColumnName="FranchiseContactID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="PhoneTypeID" ColumnName="PhoneTypeID" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Contract">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Contract">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Contract">
+          <ScalarProperty Name="ContractID" ColumnName="ContractID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="ContractDate" ColumnName="ContractDate" />
+          <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+          <ScalarProperty Name="RoyaltyRate" ColumnName="RoyaltyRate" />
+          <ScalarProperty Name="ManagementRate" ColumnName="ManagementRate" />
+          <ScalarProperty Name="TechnologyRate" ColumnName="TechnologyRate" />
+          <ScalarProperty Name="MarketingRate" ColumnName="MarketingRate" />
+          <ScalarProperty Name="AccountingSystemType" ColumnName="AccountingSystemType" />
+          <ScalarProperty Name="TabletType" ColumnName="TabletType" />
+          <ScalarProperty Name="HandleOthersCalls" ColumnName="HandleOthersCalls" />
+          <ScalarProperty Name="LicenseInfo" ColumnName="LicenseInfo" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Country">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Country">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Country">
+          <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Division">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Division">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Division">
+          <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+          <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+          <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Employee">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Employee">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Employee">
+          <ScalarProperty Name="FranchiseEmployeeID" ColumnName="FranchiseEmployeeID" />
+          <ScalarProperty Name="FranchiseEmployeeName" ColumnName="FranchiseEmployeeName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Owner">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Owner">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Owner">
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+          <ScalarProperty Name="LegalName" ColumnName="LegalName" />
+          <ScalarProperty Name="OwnerAddress" ColumnName="OwnerAddress" />
+          <ScalarProperty Name="OwnerAddress2" ColumnName="OwnerAddress2" />
+          <ScalarProperty Name="OwnerCity" ColumnName="OwnerCity" />
+          <ScalarProperty Name="OwnerState" ColumnName="OwnerState" />
+          <ScalarProperty Name="OwnerPostal" ColumnName="OwnerPostal" />
+          <ScalarProperty Name="OwnerCountryID" ColumnName="OwnerCountryID" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Region">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Region">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Region">
+          <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+          <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Services">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Services">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Services">
+          <ScalarProperty Name="FranchiseeServiceID" ColumnName="FranchiseeServiceID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Status">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Status">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Status">
+          <ScalarProperty Name="FranchiseStatusID" ColumnName="FranchiseStatusID" />
+          <ScalarProperty Name="FranchiseStatus" ColumnName="FranchiseStatus" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Tablets">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Tablets">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Tablets">
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+          <ScalarProperty Name="TabletID" ColumnName="TabletID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="TabletNumber" ColumnName="TabletNumber" />
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="DateImaged" ColumnName="DateImaged" />
+          <ScalarProperty Name="DateShipped" ColumnName="DateShipped" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_Type">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_Type">
+        <MappingFragment StoreEntitySet="tbl_Franchise_Type">
+          <ScalarProperty Name="FranchiseTypeID" ColumnName="FranchiseTypeID" />
+          <ScalarProperty Name="FranchiseType" ColumnName="FranchiseType" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Franchise_ZipList">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Franchise_ZipList">
+        <MappingFragment StoreEntitySet="tbl_Franchise_ZipList">
+          <ScalarProperty Name="ZipID" ColumnName="ZipID" />
+          <ScalarProperty Name="FranchiseZipID" ColumnName="FranchiseZipID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="DateRemoved" ColumnName="DateRemoved" />
+          <ScalarProperty Name="OwnedYN" ColumnName="OwnedYN" />
+          <ScalarProperty Name="ServicesYN" ColumnName="ServicesYN" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="CallTakerMessage" ColumnName="CallTakerMessage" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HomeGuard">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HomeGuard">
+        <MappingFragment StoreEntitySet="tbl_HomeGuard">
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+          <ScalarProperty Name="HomeGuardID" ColumnName="HomeGuardID" />
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="HGSection" ColumnName="HGSection" />
+          <ScalarProperty Name="PBSection" ColumnName="PBSection" />
+          <ScalarProperty Name="PBSubsection" ColumnName="PBSubsection" />
+          <ScalarProperty Name="HGTestItem" ColumnName="HGTestItem" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HomeGuard_Notes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HomeGuard_Notes">
+        <MappingFragment StoreEntitySet="tbl_HomeGuard_Notes">
+          <ScalarProperty Name="HGNotesID" ColumnName="HGNotesID" />
+          <ScalarProperty Name="HGID" ColumnName="HGID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="HGStatusID" ColumnName="HGStatusID" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="ItemFailed" ColumnName="ItemFailed" />
+          <ScalarProperty Name="DateFailed" ColumnName="DateFailed" />
+          <ScalarProperty Name="HGNotes" ColumnName="HGNotes" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HomeGuard_Results">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HomeGuard_Results">
+        <MappingFragment StoreEntitySet="tbl_HomeGuard_Results">
+          <ScalarProperty Name="HomeGuardScoreID" ColumnName="HomeGuardScoreID" />
+          <ScalarProperty Name="HomeGuardID" ColumnName="HomeGuardID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="Result" ColumnName="Result" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HomeGuard_Sections">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HomeGuard_Sections">
+        <MappingFragment StoreEntitySet="tbl_HomeGuard_Sections">
+          <ScalarProperty Name="HomeGuardSectionID" ColumnName="HomeGuardSectionID" />
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="HomeGuardSection" ColumnName="HomeGuardSection" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HomeGuard_Status">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HomeGuard_Status">
+        <MappingFragment StoreEntitySet="tbl_HomeGuard_Status">
+          <ScalarProperty Name="HGStatusID" ColumnName="HGStatusID" />
+          <ScalarProperty Name="HGStatus" ColumnName="HGStatus" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HR_Forms">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HR_Forms">
+        <MappingFragment StoreEntitySet="tbl_HR_Forms">
+          <ScalarProperty Name="FormID" ColumnName="FormID" />
+          <ScalarProperty Name="Form" ColumnName="Form" />
+          <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+          <ScalarProperty Name="Usage" ColumnName="Usage" />
+          <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HR_PartsExceptions">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HR_PartsExceptions">
+        <MappingFragment StoreEntitySet="tbl_HR_PartsExceptions">
+          <ScalarProperty Name="PartExceptionID" ColumnName="PartExceptionID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="PartID" ColumnName="PartID" />
+          <ScalarProperty Name="PayType" ColumnName="PayType" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="DateExpires" ColumnName="DateExpires" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="AddonYN" ColumnName="AddonYN" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HR_PayrollSetup">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HR_PayrollSetup">
+        <MappingFragment StoreEntitySet="tbl_HR_PayrollSetup">
+          <ScalarProperty Name="PayrollSetupID" ColumnName="PayrollSetupID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="LaborCommission" ColumnName="LaborCommission" />
+          <ScalarProperty Name="PartsCommission" ColumnName="PartsCommission" />
+          <ScalarProperty Name="OvertimeStarts" ColumnName="OvertimeStarts" />
+          <ScalarProperty Name="OvertimeMethod" ColumnName="OvertimeMethod" />
+          <ScalarProperty Name="OTMultiplier" ColumnName="OTMultiplier" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HR_Reviews">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HR_Reviews">
+        <MappingFragment StoreEntitySet="tbl_HR_Reviews">
+          <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+          <ScalarProperty Name="FormID" ColumnName="FormID" />
+          <ScalarProperty Name="CompletedYN" ColumnName="CompletedYN" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HR_TaskExceptions">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HR_TaskExceptions">
+        <MappingFragment StoreEntitySet="tbl_HR_TaskExceptions">
+          <ScalarProperty Name="TaskExceptionID" ColumnName="TaskExceptionID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+          <ScalarProperty Name="PayType" ColumnName="PayType" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="DateExpires" ColumnName="DateExpires" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="AddonYN" ColumnName="AddonYN" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HR_TimeClock">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HR_TimeClock">
+        <MappingFragment StoreEntitySet="tbl_HR_TimeClock">
+          <ScalarProperty Name="TimeClockID" ColumnName="TimeClockID" />
+          <ScalarProperty Name="DateTimeStatusChanged" ColumnName="DateTimeStatusChanged" />
+          <ScalarProperty Name="TimeClockStatusID" ColumnName="TimeClockStatusID" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HR_TimeClock_Status">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HR_TimeClock_Status">
+        <MappingFragment StoreEntitySet="tbl_HR_TimeClock_Status">
+          <ScalarProperty Name="TimeClockStatusID" ColumnName="TimeClockStatusID" />
+          <ScalarProperty Name="TimeClockStatusDesc" ColumnName="TimeClockStatusDesc" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="ClockedInYN" ColumnName="ClockedInYN" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_CustomersAnswers">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_CustomersAnswers">
+        <MappingFragment StoreEntitySet="tbl_HVAC_CustomersAnswers">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_Questions">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_Questions">
+        <MappingFragment StoreEntitySet="tbl_HVAC_Questions">
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+          <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job">
+        <MappingFragment StoreEntitySet="tbl_Job">
+          <ScalarProperty Name="ParentJobID" ColumnName="ParentJobID" />
+          <ScalarProperty Name="AgeOfWaterHeater" ColumnName="AgeOfWaterHeater" />
+          <ScalarProperty Name="AgeOfHVAC" ColumnName="AgeOfHVAC" />
+          <ScalarProperty Name="AgeOfHouse" ColumnName="AgeOfHouse" />
+          <ScalarProperty Name="CallTaker" ColumnName="CallTaker" />
+          <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+          <ScalarProperty Name="VisibleToTech" ColumnName="VisibleToTech" />
+          <ScalarProperty Name="JobTypeDetailID" ColumnName="JobTypeDetailID" />
+          <ScalarProperty Name="JobTypeID" ColumnName="JobTypeID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="CallTakerID" ColumnName="CallTakerID" />
+          <ScalarProperty Name="DispatcherID" ColumnName="DispatcherID" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+          <ScalarProperty Name="CallSourceID" ColumnName="CallSourceID" />
+          <ScalarProperty Name="PromoCode" ColumnName="PromoCode" />
+          <ScalarProperty Name="CallTaken" ColumnName="CallTaken" />
+          <ScalarProperty Name="CallCompleted" ColumnName="CallCompleted" />
+          <ScalarProperty Name="CallDispatched" ColumnName="CallDispatched" />
+          <ScalarProperty Name="TravelStarted" ColumnName="TravelStarted" />
+          <ScalarProperty Name="JobStarted" ColumnName="JobStarted" />
+          <ScalarProperty Name="JobWrapup" ColumnName="JobWrapup" />
+          <ScalarProperty Name="JobEnded" ColumnName="JobEnded" />
+          <ScalarProperty Name="CallReason" ColumnName="CallReason" />
+          <ScalarProperty Name="Diagnostics" ColumnName="Diagnostics" />
+          <ScalarProperty Name="Recommendations" ColumnName="Recommendations" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="CustomerComments" ColumnName="CustomerComments" />
+          <ScalarProperty Name="InvoicedDate" ColumnName="InvoicedDate" />
+          <ScalarProperty Name="JobPriorityID" ColumnName="JobPriorityID" />
+          <ScalarProperty Name="RequestedDate" ColumnName="RequestedDate" />
+          <ScalarProperty Name="RequestedTime" ColumnName="RequestedTime" />
+          <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+          <ScalarProperty Name="ServiceWindowID" ColumnName="ServiceWindowID" />
+          <ScalarProperty Name="ExpectedPayTypeID" ColumnName="ExpectedPayTypeID" />
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="AreaID" ColumnName="AreaID" />
+          <ScalarProperty Name="BusinessTypeID" ColumnName="BusinessTypeID" />
+          <ScalarProperty Name="ScheduleStart" ColumnName="ScheduleStart" />
+          <ScalarProperty Name="ScheduleEnd" ColumnName="ScheduleEnd" />
+          <ScalarProperty Name="ServiceLength" ColumnName="ServiceLength" />
+          <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+          <ScalarProperty Name="TaxLaborPercentage" ColumnName="TaxLaborPercentage" />
+          <ScalarProperty Name="TaxPartPercentage" ColumnName="TaxPartPercentage" />
+          <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+          <ScalarProperty Name="TaxAuthorityID" ColumnName="TaxAuthorityID" />
+          <ScalarProperty Name="DispatchedDate" ColumnName="DispatchedDate" />
+          <ScalarProperty Name="ActualStart" ColumnName="ActualStart" />
+          <ScalarProperty Name="ActualEnd" ColumnName="ActualEnd" />
+          <ScalarProperty Name="CallID" ColumnName="CallID" />
+          <ScalarProperty Name="RescheduleReasonID" ColumnName="RescheduleReasonID" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="LockedYN" ColumnName="LockedYN" />
+          <ScalarProperty Name="QBCompletedDate" ColumnName="QBCompletedDate" />
+          <ScalarProperty Name="WSRCompletedDate" ColumnName="WSRCompletedDate" />
+          <ScalarProperty Name="WarrantyType1" ColumnName="WarrantyType1" />
+          <ScalarProperty Name="WarrantyType2" ColumnName="WarrantyType2" />
+          <ScalarProperty Name="WarrantyLen1" ColumnName="WarrantyLen1" />
+          <ScalarProperty Name="WarrantyLen2" ColumnName="WarrantyLen2" />
+          <ScalarProperty Name="AccountingRefNum" ColumnName="AccountingRefNum" />
+          <ScalarProperty Name="AccountingLoggedInName" ColumnName="AccountingLoggedInName" />
+          <ScalarProperty Name="PONumber" ColumnName="PONumber" />
+          <ScalarProperty Name="AuthorizedBy" ColumnName="AuthorizedBy" />
+          <ScalarProperty Name="AuthorizationToStart" ColumnName="AuthorizationToStart" />
+          <ScalarProperty Name="AcceptedBy" ColumnName="AcceptedBy" />
+          <ScalarProperty Name="Cancelledby" ColumnName="Cancelledby" />
+          <ScalarProperty Name="cancelleddate" ColumnName="cancelleddate" />
+          <ScalarProperty Name="CancelReasonID" ColumnName="CancelReasonID" />
+          <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
+          <ScalarProperty Name="RescheduleReason" ColumnName="RescheduleReason" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_CouponCodes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_CouponCodes">
+        <MappingFragment StoreEntitySet="tbl_Job_CouponCodes">
+          <ScalarProperty Name="JobCouponID" ColumnName="JobCouponID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
+          <ScalarProperty Name="CouponReason" ColumnName="CouponReason" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Estimates">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Estimates">
+        <MappingFragment StoreEntitySet="tbl_Job_Estimates">
+          <ScalarProperty Name="JobEstimateID" ColumnName="JobEstimateID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="EstimateDate" ColumnName="EstimateDate" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_HappyScores">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_HappyScores">
+        <MappingFragment StoreEntitySet="tbl_Job_HappyScores">
+          <ScalarProperty Name="HappyScoreUserID" ColumnName="HappyScoreUserID" />
+          <ScalarProperty Name="iPadScoreComment" ColumnName="iPadScoreComment" />
+          <ScalarProperty Name="iPadScoreInitials" ColumnName="iPadScoreInitials" />
+          <ScalarProperty Name="iPadScoreValue" ColumnName="iPadScoreValue" />
+          <ScalarProperty Name="SchedulerComment" ColumnName="SchedulerComment" />
+          <ScalarProperty Name="SchedulerInitials" ColumnName="SchedulerInitials" />
+          <ScalarProperty Name="SchedulerValue" ColumnName="SchedulerValue" />
+          <ScalarProperty Name="TechScoreComment" ColumnName="TechScoreComment" />
+          <ScalarProperty Name="TechScoreInitials" ColumnName="TechScoreInitials" />
+          <ScalarProperty Name="TechScoreValue" ColumnName="TechScoreValue" />
+          <ScalarProperty Name="HappyScoreID" ColumnName="HappyScoreID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="JobDate" ColumnName="JobDate" />
+          <ScalarProperty Name="ScoreValue" ColumnName="ScoreValue" />
+          <ScalarProperty Name="ScoreInitials" ColumnName="ScoreInitials" />
+          <ScalarProperty Name="ScoreComment" ColumnName="ScoreComment" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Payroll">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Payroll">
+        <MappingFragment StoreEntitySet="tbl_Job_Payroll">
+          <ScalarProperty Name="TotalCommission" ColumnName="TotalCommission" />
+          <ScalarProperty Name="TotalCommissionPartsAndLabor" ColumnName="TotalCommissionPartsAndLabor" />
+          <ScalarProperty Name="AmountForCommission" ColumnName="AmountForCommission" />
+          <ScalarProperty Name="JobPayrollID" ColumnName="JobPayrollID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="PartPercentage" ColumnName="PartPercentage" />
+          <ScalarProperty Name="LaborPercentage" ColumnName="LaborPercentage" />
+          <ScalarProperty Name="SpifPercentage" ColumnName="SpifPercentage" />
+          <ScalarProperty Name="JobSubTotal" ColumnName="JobSubTotal" />
+          <ScalarProperty Name="JobPartsTotal" ColumnName="JobPartsTotal" />
+          <ScalarProperty Name="JobLaborTotal" ColumnName="JobLaborTotal" />
+          <ScalarProperty Name="JobPartsForCommission" ColumnName="JobPartsForCommission" />
+          <ScalarProperty Name="JobLaborForCommission" ColumnName="JobLaborForCommission" />
+          <ScalarProperty Name="TotalCommissionParts" ColumnName="TotalCommissionParts" />
+          <ScalarProperty Name="TotalCommissionLabor" ColumnName="TotalCommissionLabor" />
+          <ScalarProperty Name="TotalCommissionSpifs" ColumnName="TotalCommissionSpifs" />
+          <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Payroll_Spif">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Payroll_Spif">
+        <MappingFragment StoreEntitySet="tbl_Job_Payroll_Spif">
+          <ScalarProperty Name="JobSpifID" ColumnName="JobSpifID" />
+          <ScalarProperty Name="JobPayrollID" ColumnName="JobPayrollID" />
+          <ScalarProperty Name="PartID" ColumnName="PartID" />
+          <ScalarProperty Name="PartAmount" ColumnName="PartAmount" />
+          <ScalarProperty Name="SpifPayType" ColumnName="SpifPayType" />
+          <ScalarProperty Name="SpifRate" ColumnName="SpifRate" />
+          <ScalarProperty Name="SpifPayAmount" ColumnName="SpifPayAmount" />
+          <ScalarProperty Name="JobTaskPartsID" ColumnName="JobTaskPartsID" />
+          <ScalarProperty Name="AddonYN" ColumnName="AddonYN" />
+          <ScalarProperty Name="QtyfromJob" ColumnName="QtyfromJob" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Priority">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Priority">
+        <MappingFragment StoreEntitySet="tbl_Job_Priority">
+          <ScalarProperty Name="JobPriorityID" ColumnName="JobPriorityID" />
+          <ScalarProperty Name="JobPriority" ColumnName="JobPriority" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_RescheduleReasons">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_RescheduleReasons">
+        <MappingFragment StoreEntitySet="tbl_Job_RescheduleReasons">
+          <ScalarProperty Name="RescheduleReasonID" ColumnName="RescheduleReasonID" />
+          <ScalarProperty Name="RescheduleReason" ColumnName="RescheduleReason" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Status">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Status">
+        <MappingFragment StoreEntitySet="tbl_Job_Status">
+          <ScalarProperty Name="ShowInHVACYN" ColumnName="ShowInHVACYN" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CompletedStatus" ColumnName="CompletedStatus" />
+          <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+          <ScalarProperty Name="WaitingStatusYN" ColumnName="WaitingStatusYN" />
+          <ScalarProperty Name="ShowInTabletYN" ColumnName="ShowInTabletYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Status_History">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Status_History">
+        <MappingFragment StoreEntitySet="tbl_Job_Status_History">
+          <ScalarProperty Name="StatusChangedID" ColumnName="StatusChangedID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="StatusDateChanged" ColumnName="StatusDateChanged" />
+          <ScalarProperty Name="ChangedOnTabletYN" ColumnName="ChangedOnTabletYN" />
+          <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+          <ScalarProperty Name="ChangedField" ColumnName="ChangedField" />
+          <ScalarProperty Name="ChangedfromTo" ColumnName="ChangedfromTo" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Task_Parts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Task_Parts">
+        <MappingFragment StoreEntitySet="tbl_Job_Task_Parts">
+          <ScalarProperty Name="JobTaskPartsID" ColumnName="JobTaskPartsID" />
+          <ScalarProperty Name="JobTaskID" ColumnName="JobTaskID" />
+          <ScalarProperty Name="PartsID" ColumnName="PartsID" />
+          <ScalarProperty Name="PartCode" ColumnName="PartCode" />
+          <ScalarProperty Name="PartName" ColumnName="PartName" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Task_Subs">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Task_Subs">
+        <MappingFragment StoreEntitySet="tbl_Job_Task_Subs">
+          <ScalarProperty Name="SubDescriptionID" ColumnName="SubDescriptionID" />
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="SubDescription" ColumnName="SubDescription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Tasks">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Tasks">
+        <MappingFragment StoreEntitySet="tbl_Job_Tasks">
+          <ScalarProperty Name="HomeGuardPrice" ColumnName="HomeGuardPrice" />
+          <ScalarProperty Name="AdjustedPrice" ColumnName="AdjustedPrice" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="LinePrice" ColumnName="LinePrice" />
+          <ScalarProperty Name="ErrorFlag" ColumnName="ErrorFlag" />
+          <ScalarProperty Name="JobTaskID" ColumnName="JobTaskID" />
+          <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="AddOnYN" ColumnName="AddOnYN" />
+          <ScalarProperty Name="MemberYN" ColumnName="MemberYN" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="JobCodeDescription" ColumnName="JobCodeDescription" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="AuthorizedYN" ColumnName="AuthorizedYN" />
+          <ScalarProperty Name="HomeGuardLink" ColumnName="HomeGuardLink" />
+          <ScalarProperty Name="SecondDescription" ColumnName="SecondDescription" />
+          <ScalarProperty Name="TabletTaskID" ColumnName="TabletTaskID" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Technicians">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Technicians">
+        <MappingFragment StoreEntitySet="tbl_Job_Technicians">
+          <ScalarProperty Name="JobTechID" ColumnName="JobTechID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+          <ScalarProperty Name="LaborPercentage" ColumnName="LaborPercentage" />
+          <ScalarProperty Name="PartsPercentage" ColumnName="PartsPercentage" />
+          <ScalarProperty Name="SpifPercentage" ColumnName="SpifPercentage" />
+          <ScalarProperty Name="PrimaryYN" ColumnName="PrimaryYN" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_WarrantyLength">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_WarrantyLength">
+        <MappingFragment StoreEntitySet="tbl_Job_WarrantyLength">
+          <ScalarProperty Name="WarrantyLengthID" ColumnName="WarrantyLengthID" />
+          <ScalarProperty Name="WarrantyLength" ColumnName="WarrantyLength" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_WarrantyType">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_WarrantyType">
+        <MappingFragment StoreEntitySet="tbl_Job_WarrantyType">
+          <ScalarProperty Name="WarrantyTypeID" ColumnName="WarrantyTypeID" />
+          <ScalarProperty Name="WarrantyType" ColumnName="WarrantyType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Locations">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Locations">
+        <MappingFragment StoreEntitySet="tbl_Locations">
+          <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+          <ScalarProperty Name="BilltoCustomerID" ColumnName="BilltoCustomerID" />
+          <ScalarProperty Name="ActvieCustomerID" ColumnName="ActvieCustomerID" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="GPS" ColumnName="GPS" />
+          <ScalarProperty Name="Directions" ColumnName="Directions" />
+          <ScalarProperty Name="LocationNotes" ColumnName="LocationNotes" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="LocationCompany" ColumnName="LocationCompany" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Member_Type">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Member_Type">
+        <MappingFragment StoreEntitySet="tbl_Member_Type">
+          <ScalarProperty Name="MemberTypeID" ColumnName="MemberTypeID" />
+          <ScalarProperty Name="MemberType" ColumnName="MemberType" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Member_Visits">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Member_Visits">
+        <MappingFragment StoreEntitySet="tbl_Member_Visits">
+          <ScalarProperty Name="VisitID" ColumnName="VisitID" />
+          <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+          <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+          <ScalarProperty Name="VisitStatusID" ColumnName="VisitStatusID" />
+          <ScalarProperty Name="VistTypeID" ColumnName="VistTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_MemberType_VisitsTypes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_MemberType_VisitsTypes">
+        <MappingFragment StoreEntitySet="tbl_MemberType_VisitsTypes">
+          <ScalarProperty Name="MemberTypeVisitTypeID" ColumnName="MemberTypeVisitTypeID" />
+          <ScalarProperty Name="MemberTypeID" ColumnName="MemberTypeID" />
+          <ScalarProperty Name="VisitTypeID" ColumnName="VisitTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Op_EventsScheduled">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Op_EventsScheduled">
+        <MappingFragment StoreEntitySet="tbl_Op_EventsScheduled">
+          <ScalarProperty Name="EventScheduledID" ColumnName="EventScheduledID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="EventStartDate" ColumnName="EventStartDate" />
+          <ScalarProperty Name="EventEndDate" ColumnName="EventEndDate" />
+          <ScalarProperty Name="MasterScheduleID" ColumnName="MasterScheduleID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="AllDayEvent" ColumnName="AllDayEvent" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="color" ColumnName="color" />
+          <ScalarProperty Name="RecurringYN" ColumnName="RecurringYN" />
+          <ScalarProperty Name="WeeklyYN" ColumnName="WeeklyYN" />
+          <ScalarProperty Name="MonthlyYN" ColumnName="MonthlyYN" />
+          <ScalarProperty Name="WeeklyDayofWeek" ColumnName="WeeklyDayofWeek" />
+          <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+          <ScalarProperty Name="RecurringStartDate" ColumnName="RecurringStartDate" />
+          <ScalarProperty Name="MonthlyDay" ColumnName="MonthlyDay" />
+          <ScalarProperty Name="CorporateEventYN" ColumnName="CorporateEventYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_OwnerAlerts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_OwnerAlerts">
+        <MappingFragment StoreEntitySet="tbl_OwnerAlerts">
+          <ScalarProperty Name="OwneralertEnabledYN" ColumnName="OwneralertEnabledYN" />
+          <ScalarProperty Name="OwnerAlertTypeId" ColumnName="OwnerAlertTypeId" />
+          <ScalarProperty Name="OwnerAlertId" ColumnName="OwnerAlertId" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Payment_Types">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Payment_Types">
+        <MappingFragment StoreEntitySet="tbl_Payment_Types">
+          <ScalarProperty Name="SendToTabletYN" ColumnName="SendToTabletYN" />
+          <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
+          <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <ScalarProperty Name="DepositType" ColumnName="DepositType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Payments">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Payments">
+        <MappingFragment StoreEntitySet="tbl_Payments">
+          <ScalarProperty Name="ExceptionComments" ColumnName="ExceptionComments" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="ErrorFlag" ColumnName="ErrorFlag" />
+          <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+          <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
+          <ScalarProperty Name="DepositStatus" ColumnName="DepositStatus" />
+          <ScalarProperty Name="DepositID" ColumnName="DepositID" />
+          <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+          <ScalarProperty Name="CheckNumber" ColumnName="CheckNumber" />
+          <ScalarProperty Name="DriversLicNUm" ColumnName="DriversLicNUm" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Payroll">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Payroll">
+        <MappingFragment StoreEntitySet="tbl_Payroll">
+          <ScalarProperty Name="LockDate" ColumnName="LockDate" />
+          <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="PayrollDate" ColumnName="PayrollDate" />
+          <ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PayrollDetails">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PayrollDetails">
+        <MappingFragment StoreEntitySet="tbl_PayrollDetails">
+          <ScalarProperty Name="PayrollDetailID" ColumnName="PayrollDetailID" />
+          <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="WeeklySalary" ColumnName="WeeklySalary" />
+          <ScalarProperty Name="RegularHours" ColumnName="RegularHours" />
+          <ScalarProperty Name="RegularRate" ColumnName="RegularRate" />
+          <ScalarProperty Name="RegularPay" ColumnName="RegularPay" />
+          <ScalarProperty Name="OTHours" ColumnName="OTHours" />
+          <ScalarProperty Name="OTRate" ColumnName="OTRate" />
+          <ScalarProperty Name="OTPay" ColumnName="OTPay" />
+          <ScalarProperty Name="CommissionParts" ColumnName="CommissionParts" />
+          <ScalarProperty Name="CommissionLabor" ColumnName="CommissionLabor" />
+          <ScalarProperty Name="CommissionSpifs" ColumnName="CommissionSpifs" />
+          <ScalarProperty Name="TotalCommission" ColumnName="TotalCommission" />
+          <ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+          <ScalarProperty Name="SundayHours" ColumnName="SundayHours" />
+          <ScalarProperty Name="MondayHours" ColumnName="MondayHours" />
+          <ScalarProperty Name="TuesdayHours" ColumnName="TuesdayHours" />
+          <ScalarProperty Name="WednesdayHours" ColumnName="WednesdayHours" />
+          <ScalarProperty Name="ThursdayHours" ColumnName="ThursdayHours" />
+          <ScalarProperty Name="FridayHours" ColumnName="FridayHours" />
+          <ScalarProperty Name="SaturdayHours" ColumnName="SaturdayHours" />
+          <ScalarProperty Name="JobCount" ColumnName="JobCount" />
+          <ScalarProperty Name="Adjustment" ColumnName="Adjustment" />
+          <ScalarProperty Name="AdjustmentReason" ColumnName="AdjustmentReason" />
+          <ScalarProperty Name="CommissionOTMultiplier" ColumnName="CommissionOTMultiplier" />
+          <ScalarProperty Name="CommissionRateHour" ColumnName="CommissionRateHour" />
+          <ScalarProperty Name="OTAdditCommission" ColumnName="OTAdditCommission" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_Image">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_Image">
+        <MappingFragment StoreEntitySet="tbl_PB_Image">
+          <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+          <ScalarProperty Name="ImgName" ColumnName="ImgName" />
+          <ScalarProperty Name="ImgID" ColumnName="ImgID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_JobCodes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_JobCodes">
+        <MappingFragment StoreEntitySet="tbl_PB_JobCodes">
+          <ScalarProperty Name="MFlag" ColumnName="MFlag" />
+          <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+          <ScalarProperty Name="SubSectionID" ColumnName="SubSectionID" />
+          <ScalarProperty Name="ManualPricingYN" ColumnName="ManualPricingYN" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="JobCodeDescription" ColumnName="JobCodeDescription" />
+          <ScalarProperty Name="JobCost" ColumnName="JobCost" />
+          <ScalarProperty Name="JobStdPrice" ColumnName="JobStdPrice" />
+          <ScalarProperty Name="JobMemberPrice" ColumnName="JobMemberPrice" />
+          <ScalarProperty Name="JobAddonStdPrice" ColumnName="JobAddonStdPrice" />
+          <ScalarProperty Name="JobAddonMemberPrice" ColumnName="JobAddonMemberPrice" />
+          <ScalarProperty Name="ResAccountCode" ColumnName="ResAccountCode" />
+          <ScalarProperty Name="ComAccountCode" ColumnName="ComAccountCode" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_JobCodes_Details">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_JobCodes_Details">
+        <MappingFragment StoreEntitySet="tbl_PB_JobCodes_Details">
+          <ScalarProperty Name="JobCodeDetailsID" ColumnName="JobCodeDetailsID" />
+          <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+          <ScalarProperty Name="PartID" ColumnName="PartID" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="ManualPricingYN" ColumnName="ManualPricingYN" />
+          <ScalarProperty Name="PartCost" ColumnName="PartCost" />
+          <ScalarProperty Name="PartStdPrice" ColumnName="PartStdPrice" />
+          <ScalarProperty Name="PartMemberPrice" ColumnName="PartMemberPrice" />
+          <ScalarProperty Name="PartAddonStdPrice" ColumnName="PartAddonStdPrice" />
+          <ScalarProperty Name="PartAddonMemberPrice" ColumnName="PartAddonMemberPrice" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_Markup">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_Markup">
+        <MappingFragment StoreEntitySet="tbl_PB_Markup">
+          <ScalarProperty Name="MID" ColumnName="MID" />
+          <ScalarProperty Name="Markup" ColumnName="Markup" />
+          <ScalarProperty Name="Lowerbound" ColumnName="Lowerbound" />
+          <ScalarProperty Name="Upperbound" ColumnName="Upperbound" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_MasterParts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_MasterParts">
+        <MappingFragment StoreEntitySet="tbl_PB_MasterParts">
+          <ScalarProperty Name="MasterPartID" ColumnName="MasterPartID" />
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="PartCodeID" ColumnName="PartCodeID" />
+          <ScalarProperty Name="PartCode" ColumnName="PartCode" />
+          <ScalarProperty Name="PartName" ColumnName="PartName" />
+          <ScalarProperty Name="PartCost" ColumnName="PartCost" />
+          <ScalarProperty Name="VendorPartID" ColumnName="VendorPartID" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_Parts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_Parts">
+        <MappingFragment StoreEntitySet="tbl_PB_Parts">
+          <ScalarProperty Name="PartID" ColumnName="PartID" />
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+          <ScalarProperty Name="MasterPartID" ColumnName="MasterPartID" />
+          <ScalarProperty Name="PartCost" ColumnName="PartCost" />
+          <ScalarProperty Name="PartStdPrice" ColumnName="PartStdPrice" />
+          <ScalarProperty Name="PartMemberPrice" ColumnName="PartMemberPrice" />
+          <ScalarProperty Name="PartAddonStdPrice" ColumnName="PartAddonStdPrice" />
+          <ScalarProperty Name="PartAddonMemberPrice" ColumnName="PartAddonMemberPrice" />
+          <ScalarProperty Name="Markup" ColumnName="Markup" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_Parts_Codes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_Parts_Codes">
+        <MappingFragment StoreEntitySet="tbl_PB_Parts_Codes">
+          <ScalarProperty Name="PartCodeID" ColumnName="PartCodeID" />
+          <ScalarProperty Name="PartCode" ColumnName="PartCode" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_Parts_Markup">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_Parts_Markup">
+        <MappingFragment StoreEntitySet="tbl_PB_Parts_Markup">
+          <ScalarProperty Name="MarkupID" ColumnName="MarkupID" />
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+          <ScalarProperty Name="PartCodeID" ColumnName="PartCodeID" />
+          <ScalarProperty Name="MarkupStart" ColumnName="MarkupStart" />
+          <ScalarProperty Name="MarkupEnd" ColumnName="MarkupEnd" />
+          <ScalarProperty Name="MarkupStartRate" ColumnName="MarkupStartRate" />
+          <ScalarProperty Name="MarkupEndRate" ColumnName="MarkupEndRate" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_Section">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_Section">
+        <MappingFragment StoreEntitySet="tbl_PB_Section">
+          <ScalarProperty Name="MFlag" ColumnName="MFlag" />
+          <ScalarProperty Name="SectionID" ColumnName="SectionID" />
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+          <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PB_SubSection">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PB_SubSection">
+        <MappingFragment StoreEntitySet="tbl_PB_SubSection">
+          <ScalarProperty Name="MFlag" ColumnName="MFlag" />
+          <ScalarProperty Name="SubsectionID" ColumnName="SubsectionID" />
+          <ScalarProperty Name="SectionID" ColumnName="SectionID" />
+          <ScalarProperty Name="SubSectionName" ColumnName="SubSectionName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PhoneType">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PhoneType">
+        <MappingFragment StoreEntitySet="tbl_PhoneType">
+          <ScalarProperty Name="PhoneTypeID" ColumnName="PhoneTypeID" />
+          <ScalarProperty Name="PhoneType" ColumnName="PhoneType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PriceBook">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PriceBook">
+        <MappingFragment StoreEntitySet="tbl_PriceBook">
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+          <ScalarProperty Name="BookName" ColumnName="BookName" />
+          <ScalarProperty Name="BookComments" ColumnName="BookComments" />
+          <ScalarProperty Name="ActiveBookYN" ColumnName="ActiveBookYN" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="MemberPricePercent" ColumnName="MemberPricePercent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PriceBook_Rates">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_PriceBook_Rates">
+        <MappingFragment StoreEntitySet="tbl_PriceBook_Rates">
+          <ScalarProperty Name="PBFactorID" ColumnName="PBFactorID" />
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+          <ScalarProperty Name="MemberDiscountRate" ColumnName="MemberDiscountRate" />
+          <ScalarProperty Name="HourlyOverheadBE" ColumnName="HourlyOverheadBE" />
+          <ScalarProperty Name="FirstHourProductivity" ColumnName="FirstHourProductivity" />
+          <ScalarProperty Name="AddOnHourProductivity" ColumnName="AddOnHourProductivity" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_ProgramAccess">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_ProgramAccess">
+        <MappingFragment StoreEntitySet="tbl_ProgramAccess">
+          <ScalarProperty Name="ProgramAccessID" ColumnName="ProgramAccessID" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect">
+        <MappingFragment StoreEntitySet="tbl_Prospect">
+          <ScalarProperty Name="ProspectID" ColumnName="ProspectID" />
+          <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+          <ScalarProperty Name="SearchName" ColumnName="SearchName" />
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="FranchiseTypeID" ColumnName="FranchiseTypeID" />
+          <ScalarProperty Name="FranchiseStatusID" ColumnName="FranchiseStatusID" />
+          <ScalarProperty Name="ProspectStatusID" ColumnName="ProspectStatusID" />
+          <ScalarProperty Name="SalesRepID" ColumnName="SalesRepID" />
+          <ScalarProperty Name="SupportRepID" ColumnName="SupportRepID" />
+          <ScalarProperty Name="DivisionID" ColumnName="DivisionID" />
+          <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+          <ScalarProperty Name="EMail" ColumnName="EMail" />
+          <ScalarProperty Name="LegalName" ColumnName="LegalName" />
+          <ScalarProperty Name="LegalAddress" ColumnName="LegalAddress" />
+          <ScalarProperty Name="LegalAddress2" ColumnName="LegalAddress2" />
+          <ScalarProperty Name="LegalCity" ColumnName="LegalCity" />
+          <ScalarProperty Name="LegalState" ColumnName="LegalState" />
+          <ScalarProperty Name="LegalPostal" ColumnName="LegalPostal" />
+          <ScalarProperty Name="LegalCountryID" ColumnName="LegalCountryID" />
+          <ScalarProperty Name="ShipName" ColumnName="ShipName" />
+          <ScalarProperty Name="ShipCompany" ColumnName="ShipCompany" />
+          <ScalarProperty Name="ShipAddress" ColumnName="ShipAddress" />
+          <ScalarProperty Name="ShipAddress2" ColumnName="ShipAddress2" />
+          <ScalarProperty Name="ShipCity" ColumnName="ShipCity" />
+          <ScalarProperty Name="ShipState" ColumnName="ShipState" />
+          <ScalarProperty Name="ShipPostal" ColumnName="ShipPostal" />
+          <ScalarProperty Name="ShipCountryID" ColumnName="ShipCountryID" />
+          <ScalarProperty Name="MailName" ColumnName="MailName" />
+          <ScalarProperty Name="MailCompany" ColumnName="MailCompany" />
+          <ScalarProperty Name="MailAddress" ColumnName="MailAddress" />
+          <ScalarProperty Name="MailAddress2" ColumnName="MailAddress2" />
+          <ScalarProperty Name="MailCity" ColumnName="MailCity" />
+          <ScalarProperty Name="MailState" ColumnName="MailState" />
+          <ScalarProperty Name="MailPostal" ColumnName="MailPostal" />
+          <ScalarProperty Name="MailCountryID" ColumnName="MailCountryID" />
+          <ScalarProperty Name="OfficeName" ColumnName="OfficeName" />
+          <ScalarProperty Name="OfficeCompany" ColumnName="OfficeCompany" />
+          <ScalarProperty Name="OfficeAddress" ColumnName="OfficeAddress" />
+          <ScalarProperty Name="OfficeAddress2" ColumnName="OfficeAddress2" />
+          <ScalarProperty Name="OfficeCity" ColumnName="OfficeCity" />
+          <ScalarProperty Name="OfficeState" ColumnName="OfficeState" />
+          <ScalarProperty Name="OfficePostal" ColumnName="OfficePostal" />
+          <ScalarProperty Name="OfficeCountryID" ColumnName="OfficeCountryID" />
+          <ScalarProperty Name="GeneralNotes" ColumnName="GeneralNotes" />
+          <ScalarProperty Name="TimeOffset" ColumnName="TimeOffset" />
+          <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+          <ScalarProperty Name="EnteredByID" ColumnName="EnteredByID" />
+          <ScalarProperty Name="HotListID" ColumnName="HotListID" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_ActionResults">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_ActionResults">
+        <MappingFragment StoreEntitySet="tbl_Prospect_ActionResults">
+          <ScalarProperty Name="ActionResultID" ColumnName="ActionResultID" />
+          <ScalarProperty Name="ActionResult" ColumnName="ActionResult" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="UserLevelID" ColumnName="UserLevelID" />
+          <ScalarProperty Name="DisplayOnScheduleYN" ColumnName="DisplayOnScheduleYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_Actions">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_Actions">
+        <MappingFragment StoreEntitySet="tbl_Prospect_Actions">
+          <ScalarProperty Name="ProspectActionID" ColumnName="ProspectActionID" />
+          <ScalarProperty Name="ProspectAction" ColumnName="ProspectAction" />
+          <ScalarProperty Name="Sortorder" ColumnName="Sortorder" />
+          <ScalarProperty Name="FollowUpDays" ColumnName="FollowUpDays" />
+          <ScalarProperty Name="ActionDays" ColumnName="ActionDays" />
+          <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+          <ScalarProperty Name="WebLink" ColumnName="WebLink" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_ActionStatus">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_ActionStatus">
+        <MappingFragment StoreEntitySet="tbl_Prospect_ActionStatus">
+          <ScalarProperty Name="ActionStatusID" ColumnName="ActionStatusID" />
+          <ScalarProperty Name="ActionStatus" ColumnName="ActionStatus" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_ActionType">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_ActionType">
+        <MappingFragment StoreEntitySet="tbl_Prospect_ActionType">
+          <ScalarProperty Name="ActionTypeID" ColumnName="ActionTypeID" />
+          <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_Activity">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_Activity">
+        <MappingFragment StoreEntitySet="tbl_Prospect_Activity">
+          <ScalarProperty Name="ProspectActivityID" ColumnName="ProspectActivityID" />
+          <ScalarProperty Name="ProspectID" ColumnName="ProspectID" />
+          <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+          <ScalarProperty Name="ActionTypeID" ColumnName="ActionTypeID" />
+          <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
+          <ScalarProperty Name="ActionEndDate" ColumnName="ActionEndDate" />
+          <ScalarProperty Name="ActionTime" ColumnName="ActionTime" />
+          <ScalarProperty Name="ActionEndTime" ColumnName="ActionEndTime" />
+          <ScalarProperty Name="ApptMinutes" ColumnName="ApptMinutes" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="AssignedToID" ColumnName="AssignedToID" />
+          <ScalarProperty Name="AssignedToDate" ColumnName="AssignedToDate" />
+          <ScalarProperty Name="ActionStatusID" ColumnName="ActionStatusID" />
+          <ScalarProperty Name="ActionResultID" ColumnName="ActionResultID" />
+          <ScalarProperty Name="ActionText" ColumnName="ActionText" />
+          <ScalarProperty Name="OriginalAssignedResultID" ColumnName="OriginalAssignedResultID" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="AssignedByID" ColumnName="AssignedByID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_Contacts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_Contacts">
+        <MappingFragment StoreEntitySet="tbl_Prospect_Contacts">
+          <ScalarProperty Name="ProspectContactID" ColumnName="ProspectContactID" />
+          <ScalarProperty Name="ProspectID" ColumnName="ProspectID" />
+          <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+          <ScalarProperty Name="PhoneTypeID" ColumnName="PhoneTypeID" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="ContactTitle" ColumnName="ContactTitle" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_Info">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_Info">
+        <MappingFragment StoreEntitySet="tbl_Prospect_Info">
+          <ScalarProperty Name="ProspectInfoID" ColumnName="ProspectInfoID" />
+          <ScalarProperty Name="ProspectID" ColumnName="ProspectID" />
+          <ScalarProperty Name="InitialCallDate" ColumnName="InitialCallDate" />
+          <ScalarProperty Name="InitialCallTime" ColumnName="InitialCallTime" />
+          <ScalarProperty Name="LastActionDate" ColumnName="LastActionDate" />
+          <ScalarProperty Name="LastActionResultID" ColumnName="LastActionResultID" />
+          <ScalarProperty Name="PrimaryPhone" ColumnName="PrimaryPhone" />
+          <ScalarProperty Name="County" ColumnName="County" />
+          <ScalarProperty Name="LeadSourceID" ColumnName="LeadSourceID" />
+          <ScalarProperty Name="BusinessDeveloperID" ColumnName="BusinessDeveloperID" />
+          <ScalarProperty Name="SalesrepID" ColumnName="SalesrepID" />
+          <ScalarProperty Name="SecretaryName" ColumnName="SecretaryName" />
+          <ScalarProperty Name="Spouse" ColumnName="Spouse" />
+          <ScalarProperty Name="YearsInBusiness" ColumnName="YearsInBusiness" />
+          <ScalarProperty Name="EMail" ColumnName="EMail" />
+          <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+          <ScalarProperty Name="AnnualSales" ColumnName="AnnualSales" />
+          <ScalarProperty Name="ConfirmedSales" ColumnName="ConfirmedSales" />
+          <ScalarProperty Name="ResPercent" ColumnName="ResPercent" />
+          <ScalarProperty Name="ComPercent" ColumnName="ComPercent" />
+          <ScalarProperty Name="DrainPercent" ColumnName="DrainPercent" />
+          <ScalarProperty Name="NewConstPercent" ColumnName="NewConstPercent" />
+          <ScalarProperty Name="TotalTrucks" ColumnName="TotalTrucks" />
+          <ScalarProperty Name="ServiceTrucks" ColumnName="ServiceTrucks" />
+          <ScalarProperty Name="TotalEmployees" ColumnName="TotalEmployees" />
+          <ScalarProperty Name="OfficeEmployees" ColumnName="OfficeEmployees" />
+          <ScalarProperty Name="Past3YearsID" ColumnName="Past3YearsID" />
+          <ScalarProperty Name="AvgHourlyRate" ColumnName="AvgHourlyRate" />
+          <ScalarProperty Name="RegressedReason" ColumnName="RegressedReason" />
+          <ScalarProperty Name="Challenges" ColumnName="Challenges" />
+          <ScalarProperty Name="DoBest" ColumnName="DoBest" />
+          <ScalarProperty Name="GeneralNotes" ColumnName="GeneralNotes" />
+          <ScalarProperty Name="InitialPostCardSentDate" ColumnName="InitialPostCardSentDate" />
+          <ScalarProperty Name="WhoAnsweredPhone" ColumnName="WhoAnsweredPhone" />
+          <ScalarProperty Name="PipelineLastID" ColumnName="PipelineLastID" />
+          <ScalarProperty Name="NotesInvoice" ColumnName="NotesInvoice" />
+          <ScalarProperty Name="NotesPhone" ColumnName="NotesPhone" />
+          <ScalarProperty Name="NotesDispatch" ColumnName="NotesDispatch" />
+          <ScalarProperty Name="NotesMarketing" ColumnName="NotesMarketing" />
+          <ScalarProperty Name="NotesOperations" ColumnName="NotesOperations" />
+          <ScalarProperty Name="NotesConcerns" ColumnName="NotesConcerns" />
+          <ScalarProperty Name="NotesQuestions" ColumnName="NotesQuestions" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_LeadSource">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_LeadSource">
+        <MappingFragment StoreEntitySet="tbl_Prospect_LeadSource">
+          <ScalarProperty Name="LeadSourceID" ColumnName="LeadSourceID" />
+          <ScalarProperty Name="LeadSource" ColumnName="LeadSource" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_Pipeline">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_Pipeline">
+        <MappingFragment StoreEntitySet="tbl_Prospect_Pipeline">
+          <ScalarProperty Name="ProspectPipelineID" ColumnName="ProspectPipelineID" />
+          <ScalarProperty Name="ProspectID" ColumnName="ProspectID" />
+          <ScalarProperty Name="PipelineID" ColumnName="PipelineID" />
+          <ScalarProperty Name="AppliedYN" ColumnName="AppliedYN" />
+          <ScalarProperty Name="DateApplied" ColumnName="DateApplied" />
+          <ScalarProperty Name="AppliedByID" ColumnName="AppliedByID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_PipelineProgressions">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_PipelineProgressions">
+        <MappingFragment StoreEntitySet="tbl_Prospect_PipelineProgressions">
+          <ScalarProperty Name="PipelineID" ColumnName="PipelineID" />
+          <ScalarProperty Name="Pipeline" ColumnName="Pipeline" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Prospect_Status">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Prospect_Status">
+        <MappingFragment StoreEntitySet="tbl_Prospect_Status">
+          <ScalarProperty Name="ProspectStatusID" ColumnName="ProspectStatusID" />
+          <ScalarProperty Name="ProspectStatus" ColumnName="ProspectStatus" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Referral">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Referral">
+        <MappingFragment StoreEntitySet="tbl_Referral">
+          <ScalarProperty Name="referralID" ColumnName="referralID" />
+          <ScalarProperty Name="ReferralType" ColumnName="ReferralType" />
+          <ScalarProperty Name="activeYN" ColumnName="activeYN" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Report_Generic">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Report_Generic">
+        <MappingFragment StoreEntitySet="tbl_Report_Generic">
+          <ScalarProperty Name="ReportRecordID" ColumnName="ReportRecordID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="TempID" ColumnName="TempID" />
+          <ScalarProperty Name="RptDate" ColumnName="RptDate" />
+          <ScalarProperty Name="USERDate1" ColumnName="USERDate1" />
+          <ScalarProperty Name="USERDate2" ColumnName="USERDate2" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="SubTitle" ColumnName="SubTitle" />
+          <ScalarProperty Name="V1" ColumnName="V1" />
+          <ScalarProperty Name="V2" ColumnName="V2" />
+          <ScalarProperty Name="V3" ColumnName="V3" />
+          <ScalarProperty Name="V4" ColumnName="V4" />
+          <ScalarProperty Name="V5" ColumnName="V5" />
+          <ScalarProperty Name="V6" ColumnName="V6" />
+          <ScalarProperty Name="V7" ColumnName="V7" />
+          <ScalarProperty Name="V8" ColumnName="V8" />
+          <ScalarProperty Name="V9" ColumnName="V9" />
+          <ScalarProperty Name="V10" ColumnName="V10" />
+          <ScalarProperty Name="V11" ColumnName="V11" />
+          <ScalarProperty Name="V12" ColumnName="V12" />
+          <ScalarProperty Name="V13" ColumnName="V13" />
+          <ScalarProperty Name="V14" ColumnName="V14" />
+          <ScalarProperty Name="V15" ColumnName="V15" />
+          <ScalarProperty Name="V16" ColumnName="V16" />
+          <ScalarProperty Name="V17" ColumnName="V17" />
+          <ScalarProperty Name="V18" ColumnName="V18" />
+          <ScalarProperty Name="V19" ColumnName="V19" />
+          <ScalarProperty Name="V20" ColumnName="V20" />
+          <ScalarProperty Name="V21" ColumnName="V21" />
+          <ScalarProperty Name="V22" ColumnName="V22" />
+          <ScalarProperty Name="V23" ColumnName="V23" />
+          <ScalarProperty Name="V24" ColumnName="V24" />
+          <ScalarProperty Name="V25" ColumnName="V25" />
+          <ScalarProperty Name="V26" ColumnName="V26" />
+          <ScalarProperty Name="V27" ColumnName="V27" />
+          <ScalarProperty Name="V28" ColumnName="V28" />
+          <ScalarProperty Name="V29" ColumnName="V29" />
+          <ScalarProperty Name="V30" ColumnName="V30" />
+          <ScalarProperty Name="V31" ColumnName="V31" />
+          <ScalarProperty Name="V32" ColumnName="V32" />
+          <ScalarProperty Name="V33" ColumnName="V33" />
+          <ScalarProperty Name="V34" ColumnName="V34" />
+          <ScalarProperty Name="V35" ColumnName="V35" />
+          <ScalarProperty Name="V36" ColumnName="V36" />
+          <ScalarProperty Name="V37" ColumnName="V37" />
+          <ScalarProperty Name="V38" ColumnName="V38" />
+          <ScalarProperty Name="V39" ColumnName="V39" />
+          <ScalarProperty Name="V40" ColumnName="V40" />
+          <ScalarProperty Name="T1" ColumnName="T1" />
+          <ScalarProperty Name="T2" ColumnName="T2" />
+          <ScalarProperty Name="T3" ColumnName="T3" />
+          <ScalarProperty Name="T4" ColumnName="T4" />
+          <ScalarProperty Name="T5" ColumnName="T5" />
+          <ScalarProperty Name="I1" ColumnName="I1" />
+          <ScalarProperty Name="I2" ColumnName="I2" />
+          <ScalarProperty Name="T6" ColumnName="T6" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_RescheduleReasons">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_RescheduleReasons">
+        <MappingFragment StoreEntitySet="tbl_RescheduleReasons">
+          <ScalarProperty Name="RescheduleReasonID" ColumnName="RescheduleReasonID" />
+          <ScalarProperty Name="RescheduleReason" ColumnName="RescheduleReason" />
+          <ScalarProperty Name="activeyn" ColumnName="activeyn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Services">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Services">
+        <MappingFragment StoreEntitySet="tbl_Services">
+          <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_ServiceWindow">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_ServiceWindow">
+        <MappingFragment StoreEntitySet="tbl_ServiceWindow">
+          <ScalarProperty Name="ServiceWindowID" ColumnName="ServiceWindowID" />
+          <ScalarProperty Name="ServiceWindow" ColumnName="ServiceWindow" />
+          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Technician_Job">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Technician_Job">
+        <MappingFragment StoreEntitySet="tbl_Technician_Job">
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="CurrentJobID" ColumnName="CurrentJobID" />
+          <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Technician_Status">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Technician_Status">
+        <MappingFragment StoreEntitySet="tbl_Technician_Status">
+          <ScalarProperty Name="CurrentStatusID" ColumnName="CurrentStatusID" />
+          <ScalarProperty Name="CurrentStatus" ColumnName="CurrentStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_technician_tasks">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_technician_tasks">
+        <MappingFragment StoreEntitySet="tbl_technician_tasks">
+          <ScalarProperty Name="tasksId" ColumnName="tasksId" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="Custom" ColumnName="Custom" />
+          <ScalarProperty Name="tasks_pid" ColumnName="tasks_pid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_temp_AccountingTransfer">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_temp_AccountingTransfer">
+        <MappingFragment StoreEntitySet="tbl_temp_AccountingTransfer">
+          <ScalarProperty Name="AccountingTransferID" ColumnName="AccountingTransferID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="JobID" ColumnName="JobID" />
+          <ScalarProperty Name="JobTaskID" ColumnName="JobTaskID" />
+          <ScalarProperty Name="ClosedDate" ColumnName="ClosedDate" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_User">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_User">
+        <MappingFragment StoreEntitySet="tbl_User">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="ProgramAccessID" ColumnName="ProgramAccessID" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="CurrentStatus" ColumnName="CurrentStatus" />
+          <ScalarProperty Name="EPIName" ColumnName="EPIName" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_User_Email">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_User_Email">
+        <MappingFragment StoreEntitySet="tbl_User_Email">
+          <ScalarProperty Name="EMailID" ColumnName="EMailID" />
+          <ScalarProperty Name="EMail" ColumnName="EMail" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_User_Level">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_User_Level">
+        <MappingFragment StoreEntitySet="tbl_User_Level">
+          <ScalarProperty Name="UserLevelID" ColumnName="UserLevelID" />
+          <ScalarProperty Name="UserLevel" ColumnName="UserLevel" />
+          <ScalarProperty Name="ProgramAccessID" ColumnName="ProgramAccessID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_User_Level_Members">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_User_Level_Members">
+        <MappingFragment StoreEntitySet="tbl_User_Level_Members">
+          <ScalarProperty Name="UserLevelMemberID" ColumnName="UserLevelMemberID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserLevelID" ColumnName="UserLevelID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Visit_Status">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Visit_Status">
+        <MappingFragment StoreEntitySet="tbl_Visit_Status">
+          <ScalarProperty Name="VisitStatusID" ColumnName="VisitStatusID" />
+          <ScalarProperty Name="VisitStatus" ColumnName="VisitStatus" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_VisitType">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_VisitType">
+        <MappingFragment StoreEntitySet="tbl_VisitType">
+          <ScalarProperty Name="VisitTypeID" ColumnName="VisitTypeID" />
+          <ScalarProperty Name="VisitType" ColumnName="VisitType" />
+          <ScalarProperty Name="activeYN" ColumnName="activeYN" />
+          <ScalarProperty Name="VisitFrequency" ColumnName="VisitFrequency" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_WSR">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_WSR">
+        <MappingFragment StoreEntitySet="tbl_WSR">
+          <ScalarProperty Name="WSRID" ColumnName="WSRID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="LastWSRDate" ColumnName="LastWSRDate" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TerritoryOwners">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.TerritoryOwner">
+        <MappingFragment StoreEntitySet="TerritoryOwner">
+          <ScalarProperty Name="TerritoryOwnerId" ColumnName="TerritoryOwnerId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_OwnerAlertCommunicationTypes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_OwnerAlertCommunicationTypes">
+        <MappingFragment StoreEntitySet="tbl_OwnerAlertCommunicationTypes">
+          <ScalarProperty Name="OwnerAlertCommunicationTypeText" ColumnName="OwnerAlertCommunicationTypeText" />
+          <ScalarProperty Name="OwnerAlertCommunicationTypeId" ColumnName="OwnerAlertCommunicationTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_OwnerAlertDestinations">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_OwnerAlertDestinations">
+        <MappingFragment StoreEntitySet="tbl_OwnerAlertDestinations">
+          <ScalarProperty Name="OwneralertEnabledYN" ColumnName="OwneralertEnabledYN" />
+          <ScalarProperty Name="OwnerAlertDestinationAdditionalText" ColumnName="OwnerAlertDestinationAdditionalText" />
+          <ScalarProperty Name="OwnerAlertDestinationText" ColumnName="OwnerAlertDestinationText" />
+          <ScalarProperty Name="OwnerAlertDestinationName" ColumnName="OwnerAlertDestinationName" />
+          <ScalarProperty Name="OwnerAlertCommunicationTypeID" ColumnName="OwnerAlertCommunicationTypeID" />
+          <ScalarProperty Name="OwnerAlertId" ColumnName="OwnerAlertId" />
+          <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_OwnerAlertTypes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_OwnerAlertTypes">
+        <MappingFragment StoreEntitySet="tbl_OwnerAlertTypes">
+          <ScalarProperty Name="DefaultText" ColumnName="DefaultText" />
+          <ScalarProperty Name="DefaultSubject" ColumnName="DefaultSubject" />
+          <ScalarProperty Name="OwnerAlertType" ColumnName="OwnerAlertType" />
+          <ScalarProperty Name="OwnerAlertTypeId" ColumnName="OwnerAlertTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Type">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Type">
+        <MappingFragment StoreEntitySet="tbl_Job_Type">
+          <ScalarProperty Name="ConceptID" ColumnName="ConceptID" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="JobType" ColumnName="JobType" />
+          <ScalarProperty Name="JobTypeID" ColumnName="JobTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Type_Detail">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Type_Detail">
+        <MappingFragment StoreEntitySet="tbl_Job_Type_Detail">
+          <ScalarProperty Name="JobTypeID" ColumnName="JobTypeID" />
+          <ScalarProperty Name="JobTypeDetail" ColumnName="JobTypeDetail" />
+          <ScalarProperty Name="JobTypeDetailID" ColumnName="JobTypeDetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Accounting_WeeklyLockHistory">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Accounting_WeeklyLockHistory">
+        <MappingFragment StoreEntitySet="tbl_Accounting_WeeklyLockHistory">
+          <ScalarProperty Name="PerformedByComment" ColumnName="PerformedByComment" />
+          <ScalarProperty Name="PerformedBy" ColumnName="PerformedBy" />
+          <ScalarProperty Name="WeeklyLockDate" ColumnName="WeeklyLockDate" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="WeeklyLockID" ColumnName="WeeklyLockID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Accounting_DepositSlipHistory">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Accounting_DepositSlipHistory">
+        <MappingFragment StoreEntitySet="tbl_Accounting_DepositSlipHistory">
+          <ScalarProperty Name="PerformedByComment" ColumnName="PerformedByComment" />
+          <ScalarProperty Name="PerformedBy" ColumnName="PerformedBy" />
+          <ScalarProperty Name="DepositNumber" ColumnName="DepositNumber" />
+          <ScalarProperty Name="DepositSlipDate" ColumnName="DepositSlipDate" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="DepositSlipID" ColumnName="DepositSlipID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_GPS_Tracks">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_GPS_Tracks">
+        <MappingFragment StoreEntitySet="tbl_GPS_Tracks">
+          <ScalarProperty Name="TimeRecord" ColumnName="TimeRecord" />
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="FranchiseId" ColumnName="FranchiseId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PointId" ColumnName="PointId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Contact">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_Contact">
+        <MappingFragment StoreEntitySet="Audit_Contact">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Customer">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_Customer">
+        <MappingFragment StoreEntitySet="Audit_Customer">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Job">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_Job">
+        <MappingFragment StoreEntitySet="Audit_Job">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Location">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_Location">
+        <MappingFragment StoreEntitySet="Audit_Location">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Payment">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_Payment">
+        <MappingFragment StoreEntitySet="Audit_Payment">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AuditLogs">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.AuditLog">
+        <MappingFragment StoreEntitySet="AuditLog">
+          <ScalarProperty Name="EntityType" ColumnName="EntityType" />
+          <ScalarProperty Name="EntityID" ColumnName="EntityID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="UserKey" ColumnName="UserKey" />
+          <ScalarProperty Name="AuditDate" ColumnName="AuditDate" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_Answers">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_Answers">
+        <MappingFragment StoreEntitySet="tbl_HVAC_Answers">
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+          <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigFinanceOptions">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigFinanceOptions">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigFinanceOptions">
+          <ScalarProperty Name="FinanceOption3" ColumnName="FinanceOption3" />
+          <ScalarProperty Name="FinanceOption2" ColumnName="FinanceOption2" />
+          <ScalarProperty Name="FinanceOption1" ColumnName="FinanceOption1" />
+          <ScalarProperty Name="SystemID" ColumnName="SystemID" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigFranchise">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigFranchise">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigFranchise">
+          <ScalarProperty Name="PricebookID" ColumnName="PricebookID" />
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigGuaranteeTexts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigGuaranteeTexts">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigGuaranteeTexts">
+          <ScalarProperty Name="MessageDisagree" ColumnName="MessageDisagree" />
+          <ScalarProperty Name="MessageAgree" ColumnName="MessageAgree" />
+          <ScalarProperty Name="btnDisagreeText" ColumnName="btnDisagreeText" />
+          <ScalarProperty Name="btnAgreeText" ColumnName="btnAgreeText" />
+          <ScalarProperty Name="GuaranteeText" ColumnName="GuaranteeText" />
+          <ScalarProperty Name="GuaranteeID" ColumnName="GuaranteeID" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigHowWeAreUrls">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigHowWeAreUrls">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigHowWeAreUrls">
+          <ScalarProperty Name="UrlText" ColumnName="UrlText" />
+          <ScalarProperty Name="UrlID" ColumnName="UrlID" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigLogoUrl">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigLogoUrl">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigLogoUrl">
+          <ScalarProperty Name="Logourl" ColumnName="Logourl" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigPackages">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigPackages">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigPackages">
+          <ScalarProperty Name="LinkedQuestionID" ColumnName="LinkedQuestionID" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="SystemID" ColumnName="SystemID" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigQuestions">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigQuestions">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigQuestions">
+          <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigReliableInstallationsUrl">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigReliableInstallationsUrl">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigReliableInstallationsUrl">
+          <ScalarProperty Name="UrlText" ColumnName="UrlText" />
+          <ScalarProperty Name="UrlID" ColumnName="UrlID" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigsApp">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigsApp">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigsApp">
+          <ScalarProperty Name="ConfigName" ColumnName="ConfigName" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigSystems">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigSystems">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigSystems">
+          <ScalarProperty Name="AFUE" ColumnName="AFUE" />
+          <ScalarProperty Name="SEER" ColumnName="SEER" />
+          <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+          <ScalarProperty Name="SystemID" ColumnName="SystemID" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigVideoUrls">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigVideoUrls">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigVideoUrls">
+          <ScalarProperty Name="VideoUrl" ColumnName="VideoUrl" />
+          <ScalarProperty Name="SystemID" ColumnName="SystemID" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_ConfigWhoWeAreTexts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_ConfigWhoWeAreTexts">
+        <MappingFragment StoreEntitySet="tbl_HVAC_ConfigWhoWeAreTexts">
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="ConfigID" ColumnName="ConfigID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_Guarantees">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_Guarantees">
+        <MappingFragment StoreEntitySet="tbl_HVAC_Guarantees">
+          <ScalarProperty Name="GuaranteeName" ColumnName="GuaranteeName" />
+          <ScalarProperty Name="GuaranteeID" ColumnName="GuaranteeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HVAC_SystemType">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HVAC_SystemType">
+        <MappingFragment StoreEntitySet="tbl_HVAC_SystemType">
+          <ScalarProperty Name="SystemTypeName" ColumnName="SystemTypeName" />
+          <ScalarProperty Name="SystemTypeID" ColumnName="SystemTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_HVAC_APP">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.View_HVAC_APP">
+        <MappingFragment StoreEntitySet="View_HVAC_APP">
+          <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+          <ScalarProperty Name="ResAccountCode" ColumnName="ResAccountCode" />
+          <ScalarProperty Name="JobStdPrice" ColumnName="JobStdPrice" />
+          <ScalarProperty Name="JobCodeDescription" ColumnName="JobCodeDescription" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="View_HVAC_APP_Parts">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.View_HVAC_APP_Parts">
+        <MappingFragment StoreEntitySet="View_HVAC_APP_Parts">
+          <ScalarProperty Name="PartCode" ColumnName="PartCode" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="PartName" ColumnName="PartName" />
+          <ScalarProperty Name="PartCodeID" ColumnName="PartCodeID" />
+          <ScalarProperty Name="PartID" ColumnName="PartID" />
+          <ScalarProperty Name="PartStdPrice" ColumnName="PartStdPrice" />
+          <ScalarProperty Name="PartCost" ColumnName="PartCost" />
+          <ScalarProperty Name="MasterPartID" ColumnName="MasterPartID" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sites">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Site">
+        <MappingFragment StoreEntitySet="Site">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+          <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Trainings">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Training">
+        <MappingFragment StoreEntitySet="Training">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="NavigateUrl" ColumnName="NavigateUrl" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="TrainingTypeId" ColumnName="TrainingTypeId" />
+          <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+          <ScalarProperty Name="TrainingId" ColumnName="TrainingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TrainingTypes">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.TrainingType">
+        <MappingFragment StoreEntitySet="TrainingType">
+          <ScalarProperty Name="IsFile" ColumnName="IsFile" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="ViewText" ColumnName="ViewText" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TrainingTypeName" ColumnName="TrainingTypeName" />
+          <ScalarProperty Name="TrainingTypeId" ColumnName="TrainingTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HR_TimeSheet">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HR_TimeSheet">
+        <MappingFragment StoreEntitySet="tbl_HR_TimeSheet">
+          <ScalarProperty Name="WeekEndingDateOn" ColumnName="WeekEndingDateOn" />
+          <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+          <ScalarProperty Name="SaturdayHours" ColumnName="SaturdayHours" />
+          <ScalarProperty Name="FridayHours" ColumnName="FridayHours" />
+          <ScalarProperty Name="ThursdayHours" ColumnName="ThursdayHours" />
+          <ScalarProperty Name="WednesdayHours" ColumnName="WednesdayHours" />
+          <ScalarProperty Name="TuesdayHours" ColumnName="TuesdayHours" />
+          <ScalarProperty Name="MondayHours" ColumnName="MondayHours" />
+          <ScalarProperty Name="SundayHours" ColumnName="SundayHours" />
+          <ScalarProperty Name="PayrollDetailID" ColumnName="PayrollDetailID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="TimeSheetID" ColumnName="TimeSheetID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Employee">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_Employee">
+        <MappingFragment StoreEntitySet="Audit_Employee">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Franchise">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_Franchise">
+        <MappingFragment StoreEntitySet="Audit_Franchise">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_HR_PayrollSpiffs">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_HR_PayrollSpiffs">
+        <MappingFragment StoreEntitySet="tbl_HR_PayrollSpiffs">
+          <ScalarProperty Name="PayTypeID" ColumnName="PayTypeID" />
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="AddonYN" ColumnName="AddonYN" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="DateExpires" ColumnName="DateExpires" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+          <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+          <ScalarProperty Name="PayrollSetupID" ColumnName="PayrollSetupID" />
+          <ScalarProperty Name="PayrollSpiffID" ColumnName="PayrollSpiffID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Deposit">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_Deposit">
+        <MappingFragment StoreEntitySet="Audit_Deposit">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_Comment">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_Comment">
+        <MappingFragment StoreEntitySet="tbl_Job_Comment">
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CommentTypeId" ColumnName="CommentTypeId" />
+          <ScalarProperty Name="JobId" ColumnName="JobId" />
+          <ScalarProperty Name="JobCommentId" ColumnName="JobCommentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Job_CommentType">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_Job_CommentType">
+        <MappingFragment StoreEntitySet="tbl_Job_CommentType">
+          <ScalarProperty Name="CommentType" ColumnName="CommentType" />
+          <ScalarProperty Name="JobCommentTypeId" ColumnName="JobCommentTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_Membership">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_Membership">
+        <MappingFragment StoreEntitySet="Audit_Membership">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Audit_FranchiseZip">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.Audit_FranchiseZip">
+        <MappingFragment StoreEntitySet="Audit_FranchiseZip">
+          <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+          <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+          <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+          <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+          <ScalarProperty Name="AuditEntryID" ColumnName="AuditEntryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GoLiveCheck" FunctionName="SiteBlue.Data.EightHundred.Store.GoLiveCheck">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SiteBlue.Data.EightHundred.GoLiveCheck_Result">
+          <ScalarProperty Name="CheckNr" ColumnName="CheckNr" />
+          <ScalarProperty Name="TestDescription" ColumnName="TestDescription" />
+          <ScalarProperty Name="PassFail" ColumnName="PassFail" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="resolution" ColumnName="resolution" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="tbl_TaxRates">
+      <EntityTypeMapping TypeName="SiteBlue.Data.EightHundred.tbl_TaxRates">
+        <MappingFragment StoreEntitySet="tbl_TaxRates">
+          <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="FranchiseId" ColumnName="FranchiseId" />
+          <ScalarProperty Name="PartsAmount" ColumnName="PartsAmount" />
+          <ScalarProperty Name="LaborAmount" ColumnName="LaborAmount" />
+          <ScalarProperty Name="TaxDescription" ColumnName="TaxDescription" />
+          <ScalarProperty Name="TaxRateID" ColumnName="TaxRateID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

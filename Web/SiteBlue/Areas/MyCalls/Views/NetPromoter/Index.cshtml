@@ -1,0 +1,202 @@
+﻿    @{
+    		ViewBag.Title = "Call Scripts";
+    		Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+        <link rel="STYLESHEET" type="text/css" href="@Url.Content("~/codebase/dhtmlxcombo.css")" />
+        <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css">
+        <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+        <link rel="stylesheet" type="text/css" href="../../../../../codebase/dhtmlxcalendar.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" /> 
+}
+@section ScriptIncludes {
+        <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+        <script  src="@Url.Content("~/codebase/dhtmlxcombo.js")" type="text/javascript"></script>
+        <script  src="@Url.Content("~/codebase/ext/dhtmlxcombo_extra.js")" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+        <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+        <script src="../../../../common/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+        <script src="../../../../../codebase/dhtmlxcalendar.js"></script>
+}
+@section InlineScript {
+
+        <script type="text/javascript">
+
+            $('document').ready(function () {
+                SiteBlue.renderMenu(true);
+                $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnDataLoad(); });
+
+//                doOnDataLoad();
+            });
+
+            function doOnDataLoad() {
+                alert("doOnDataLoad clicked");
+                window.location.reload();
+                var Txt1 = $("#calendar1").val();
+                var Txt2 = $("#calendar2").val();
+                if (Txt1 != '' && Txt2 != '') {
+                    try {
+                        $.ajax({
+
+                            type: "POST",
+
+
+                            url: "/NetPromoter/NetPromoterScore",
+                            //                            data: JSON.stringify({ txt_refCode1: Txt1, txt_refCode2: Txt2 }),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (msg1) {
+                                alert("success");
+                                var AdForHomePages1 = msg1;
+
+                                $("#calendar1").val('');
+                                $("#calendar2").val('');
+                            }
+                        });
+                    }
+                    catch (e) {
+                        alert(e);
+                    }
+                }
+                else {
+                    alert("Please enter Start Date and End Date ");
+                    return false;
+                }
+            }  
+            
+</script>
+
+}
+
+        <div style="float: left; width: 100%;height:100%; background-color: #d5f1ff">
+            <fieldset style="margin-top:20px;color: #1a3b69;font-size: 20px;">
+               @* <legend style="color: #1a3b69">Net Promoter</legend>*@
+                <div style="color: #d5f1ff; width: 100%">
+                    <div style="float: left; width: 100%;height:100%">
+                       @* <img  src="@Url.Content("~/Content/images/landing/bigIcon1.png")" alt="Big Icon" height="100px" width="150px" />*@
+                        <div style="margin-left:0px;margin-top:30px">
+                        <span style="color: #1a3b69;margin-left:10px" >Net Promoter</span>
+                            <label style="color: #1a3b69;margin-left:400px">
+                                Start Date</label>
+                            <input type="text" id="calendar1" />
+                            <label style="color: #1a3b69">
+                                End Date</label><input type="text" id="calendar2" />
+                            <script>
+
+
+                                var myCalendar = new dhtmlXCalendarObject(["calendar1", "calendar2"]);
+                                myCalendar.setWeekStartDay(7);
+                                myCalendar.setDateFormat("%m/%d/%Y");
+                            </script>
+                            <input type="button" id="Button" value="Submit" onclick="doOnDataLoad();" />
+                        @*  @Html.ActionLink("Next Promoter","index2")*@
+                        </div>
+                        <br/>
+                        @*<div style="margin-left:200px;margin-top:60px;">
+                        <span style="color: #1a3b69; margin: 10px; font-size: 16px;">Net Promotor Score
+                        </span><span style="color: #1a3b69; margin-left: 100px;">
+                            <input type="checkbox" />Display Technicians and Company Score </span><span style="color: #1a3b69;
+                                margin-left: 30px;">
+                                <input type="checkbox" />Display Ease of Scheduling </span><span style="color: #1a3b69;
+                                    margin-left: 30px;">
+                                    <input type="checkbox" />Display Electronic Authorization Score </span>
+                                    </div>*@
+                    </div>
+                    @*<div style="float:left;padding-top:30px">
+       @Html.DropDownList("FranchiseID", new SelectList((List<SiteBlue.Areas.OwnerPortal.Models.Locations>)ViewBag.locations, "LocationID", "LocationName"), "Select a Location Name", new { id = "LocationID" })
+    </div>*@ @*<div style="float:left;padding-top:30px">
+       @Html.DropDownList("EmployeeID", new SelectList((List<SiteBlue.Areas.OwnerPortal.Models.Employees>)ViewBag.employee, "EmployeeID", "Employee"), "Select a Technicians", new { id = "EmployeeID" })
+    </div>*@
+                </div>
+            </fieldset>
+
+            <table style="background-color: #d5f1ff; width: 100%; margin: 0px">
+            <div style="margin-left:550px;margin-bottom:10px;margin-top:10px"><span style="color: #1a3b69;font-size: 20px;">Company Net Promoter Score</span></div>
+                <tr>
+                    <td style="width: 50%;vertical-align:top">
+                        <div id="gridbox" style="width: 100%; height: 420px; background-color: #d5f1ff;">
+                        </div>
+                        <script>
+                            var xmlstring = "";
+                            var xmlstring1 = "";
+                            mygrid = new dhtmlXGridObject('gridbox');
+                            mygrid.setImagePath("../../../../codebase/imgs/");
+                            mygrid.setHeader("Technician,Net Promoter Score,Total Respodents", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+                            mygrid.setInitWidths("180,180,180");
+                            mygrid.setColAlign("center,center,center");
+                            mygrid.setColTypes("ro,ro,ro,ro,ro");
+                            mygrid.setColSorting("str,int,int");
+                            mygrid.init();
+                            mygrid.setSkin("dhx_skyblue");
+                            mygrid.setDateFormat("%Y-%m-%d %H:%i");
+
+                            mygrid.loadXML("../../common/grid2.xml");
+                        </script>
+                    </td>
+                    <td style="width: 50%; padding-left: 50px" valign="top">
+                        <img src="@Url.Action("InvoiceAging", "NetPromoter")" alt="SimpleChart" />
+                    </td>
+                </tr>
+            </table>
+            <table style="background-color: #d5f1ff; width: 100%; margin: 0px">
+            <div style="margin-left:550px;margin-bottom:10px;margin-top:10px"><span style="color: #1a3b69;font-size: 20px;">Satisfaction with Use of the iPad</span></div>
+                <tr>
+                    <td style="width: 50%;vertical-align:top">
+                        <div id="gridbox1" style="width: 100%; height: 420px; background-color: #d5f1ff;">
+                        </div>
+                        <script>
+                            var xmlstring = "";
+                            var xmlstring1 = "";
+                            mygrid = new dhtmlXGridObject('gridbox1');
+                            mygrid.setImagePath("../../../../codebase/imgs/");
+                            mygrid.setHeader("Technician,Net Promoter Score,Total Respodents", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+                            mygrid.setInitWidths("180,180,180");
+                            mygrid.setColAlign("center,center,center");
+                            mygrid.setColTypes("ro,ro,ro,ro,ro");
+                            mygrid.setColSorting("str,int,int");
+                            mygrid.init();
+                            mygrid.setSkin("dhx_skyblue");
+                            mygrid.setDateFormat("%Y-%m-%d %H:%i");
+
+                            mygrid.loadXML("../../common/grid4.xml");
+                      </script>
+                    </td>
+                    <td style="width: 50%; padding-left: 50px" valign="top">
+                        <img src="@Url.Action("InvoiceAging1", "NetPromoter")" alt="SimpleChart" />
+                    </td>
+                </tr>
+            </table>
+            <table style="background-color: #d5f1ff; width: 100%; margin: 0px">
+            <div style="margin-left:550px;margin-bottom:10px;margin-top:10px"><span style="color: #1a3b69;font-size: 20px;">Ease of Scheduling a Call</span></div>
+                <tr>
+                    <td style="width: 20%">
+                        @*<div id="gridbox1" style="width: 100%; height: 525px; background-color: #d5f1ff;">
+                        </div>
+                        <script>
+                            var xmlstring = "";
+                            var xmlstring1 = "";
+                            mygrid = new dhtmlXGridObject('gridbox1');
+                            mygrid.setImagePath("../../../../codebase/imgs/");
+                            mygrid.setHeader("Technician,Net Promoter Score,Total Respodents", null, ["text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;", "text-align:center;"]);
+                            mygrid.setInitWidths("218,218,218");
+                            mygrid.setColAlign("center,center,center");
+                            mygrid.setColTypes("ro,ro,ro,ro,ro");
+                            mygrid.setColSorting("str,int,int");
+                            mygrid.init();
+                            mygrid.setSkin("dhx_skyblue");
+                            mygrid.setDateFormat("%Y-%m-%d %H:%i");
+
+                            mygrid.loadXML("../../common/grid2.xml");
+                        </script>*@
+                    </td>
+                    <td style="width: 80%; padding-left: 50px" valign="top">
+                        <img src="@Url.Action("InvoiceAging2", "NetPromoter")" alt="SimpleChart" />
+                    </td>
+                </tr>
+            </table>
+            <div style="height: 50px; margin-left: 15px; font-weight: bold;">
+                <a href="@Url.Content("~/MasterData/LandingPage/MyCalls")" title="Back to Dashboard">
+                    Back to Dashboard</a>
+            </div>
+        </div>
+    

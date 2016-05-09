@@ -1,0 +1,9 @@
+﻿@model List<Plumber.Models.LocationService>
+@foreach (var item in Model)
+{
+    <div style="width: 290px; float: left;" class="serviceList">
+        <ul>
+            <li>@Html.ActionLink(item.Service.ServiceName, "Details", "Services", new { id = item.ServiceId, area = "" }, null)</li>
+        </ul>
+    </div>
+}

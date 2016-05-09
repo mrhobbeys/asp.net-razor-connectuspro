@@ -1,0 +1,60 @@
+﻿@model List<SiteBlue.Questionnaire.Data.Discount>
+
+    @if ((Model != null) && (Model.Count > 0))
+    {
+        <table cellpadding="0" cellspacing="0" class="data-table">
+            <thead>
+                <tr>
+                    <th class="actions edit">
+                        Edit
+                    </th>
+                    <th class="actions delete">
+                        Delete
+                    </th>
+                    <th>
+                        Discount/special
+                    </th>
+                    <th>
+                        Expiration date
+                    </th>
+                    <th>
+                        Comment
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="actions edit">
+                            @Ajax.ImageActionLink("../../../Content/images/edit.png", "DiscountsTable", new { id = item.DiscountId }, new AjaxOptions { UpdateTargetId = "discountForm", OnBegin = "beginDiscount(ds" + item.DiscountId + ")" }, new { itemid = item.DiscountId, id = "ds" + item.DiscountId })
+                        </td>
+                        <td class="actions delete">
+                            @Ajax.ImageActionLink("../../../Content/images/delete.png", "DeleteDiscount", new { id = item.DiscountId }, new AjaxOptions { Confirm = "Delete discount?", HttpMethod = "Delete", UpdateTargetId = "zoneDiscounts", OnComplete = "deleteDiscount" }, null)
+                        </td>
+                        <th>
+                            @Html.Encode(item.DiscountName)
+                        </th>
+                        <td style="width: 100px">
+                            @Html.Encode(item.ExpirationDate.HasValue ? item.ExpirationDate.Value.ToShortDateString() : "")
+                        </td>
+                        <td style="width: 300px">
+                            @Html.Encode(item.Comment)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table cellpadding="0" cellspacing="0" class="data-table">
+            <tbody>
+                <tr>
+                    <td colspan="4" style="height: 40px; width: 900px; vertical-align: middle">
+                        <span class="notification">No row returned</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }

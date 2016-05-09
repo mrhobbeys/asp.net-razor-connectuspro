@@ -1,0 +1,67 @@
+﻿@model List<SiteBlue.Questionnaire.Data.LicenseNumber>
+
+    @if ((Model != null) && (Model.Count > 0))
+    {
+        <table class="data-table" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th class="actions edit">
+                        Edit
+                    </th>
+                    <th class="actions delete">
+                        Delete
+                    </th>
+                    <th>
+                        License number
+                    </th>
+                    <th>
+                        Issuing Agency
+                    </th>
+                    <th>
+                        Invoice Requirement
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="actions edit">
+                            @Ajax.ImageActionLink("../../../Content/images/edit.png", "LicenseNumbersTable", new { id = item.LicenseNumberId }, new AjaxOptions { UpdateTargetId = "licenseNumberForm", OnBegin = "beginLicenseNumber(ln" + item.LicenseNumberId + ")" }, new { itemid = item.LicenseNumberId, id = "ln" + item.LicenseNumberId })
+                        </td>
+                        <td class="actions delete">
+                            @Ajax.ImageActionLink("../../../Content/images/delete.png", "DeleteLicenseNumber", new { id = item.LicenseNumberId }, new AjaxOptions { Confirm = "Delete license number?", HttpMethod = "Delete", UpdateTargetId = "zoneLicenseNumbers", OnComplete = "deleteLicenseNumber" }, null)
+                        </td>
+                        <th>
+                            @Html.Encode(item.LicenseNumberName)
+                        </th>
+                        <td style="width: 50%">
+                            @Html.Encode(item.Comment)
+                        </td>
+                        <td>
+                            @if (item.InvoicesRequired == true)
+                            {
+                                <text>Yes</text>
+                            }
+                            else
+                            {
+                                <text>No</text>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table cellpadding="0" cellspacing="0" class="data-table">
+            <tbody>
+                <tr>
+                    <td colspan="4" style="height: 40px; width: 900px; vertical-align: middle">
+                        <span class="notification">No row returned</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }

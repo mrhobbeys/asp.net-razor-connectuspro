@@ -1,0 +1,17 @@
+﻿@model Plumber.Models.Service
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    Confirm delete</h2>
+<h3>
+    Are you sure you want to delete @Model.ServiceName?</h3>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Delete" />
+        |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

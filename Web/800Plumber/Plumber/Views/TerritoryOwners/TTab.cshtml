@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "TTab";
+}
+@section Meta{
+    <title>Territory Owners of 1800-PLUMBER</title>
+    @*<meta name="description" content="" />
+    <meta name="keywords" content="" />*@
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                t-Tab</div>
+            <div class="privacy">
+                t-Tab® Technology is revolutionizing the way technicians do business.
+                <br />
+                From dispatch to presentations, consistent pricing to direct payroll entry, t-Tab®
+                Technology is taking the work out of your busy schedule. The t-Tab® technology is
+                a proprietary iPad application that puts the power directly in the hands of the
+                technician and ultimately into the hands of your customers. Messages and detailed
+                job tickets are sent from our Service Center to the technician’s iPad. No more phone
+                tag with technicians trying to get their next job or information from their dispatchers.
+                The iPad is lightweight and user friendly. Technicians can find everything they
+                need to know about the job at hand with t-Tab® Technology on the iPad-customer address,
+                detailed job notes and all the necessary contact information. <em>But the t-Tab&reg;
+                    Technology offers so much more:</em></div>
+            <div style="width: 500px; margin-top: 20px; float: left;" class="ttab">
+                <ul>
+                    <li>Simple touchpad technology for ease of use</li>
+                    <li>Customized virtual price book that's easy to update</li>
+                    <li>Capture customer signatures on the t-Tab® so you have the security of knowing every
+                        job has been authorized should disputes arise </li>
+                    <li>On-site credit card processing for added customer security; the card never needs
+                        to leave the customer's hand</li>
+                    <li>@Html.ActionLink("On-site estimating makes getting the job quicker and easier", "AirConditioning")</li>
+                    <li>Use the t-Tab® as a virtual picture catalog or even video demonstrations so technicians
+                        can show customers the exact part or procedure for the job </li>
+                    <li>Real time accounting means less paperwork and data input for you;<br />
+                        everything goes seamlessly from the t-Tab® to your accounting software </li>
+                </ul>
+            </div>
+        </td>
+        <td width="440" align="center" valign="top">
+            <img src="@Url.Content("~/Content/images/ipad2.jpg")" alt="ttab" width="392" height="452" />
+        </td>
+    </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="shade-common">
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/ttab-banner.jpg")" alt="Services" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

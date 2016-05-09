@@ -1,0 +1,117 @@
+﻿@model List<SiteBlue.Questionnaire.Data.Discount>
+<div class="form" id="discountForm">
+    <div class="formComponent formComponentSingleLineText">
+        <label class="formComponentLabel">
+            Please list any discounts or specials you will be offering on your Go Live date:</label>
+        <br />
+    </div>
+    <div class="formComponent formComponentName">
+        <input type="hidden" id="uiDiscountId" name="uiDiscountId" />
+        <div class="firstNameDiv" style="padding-right: 10px">
+            <label for="uiDiscountName">
+                Discount/special</label>
+            <input type="text" id="uiDiscountName" name="uiDiscountName" />
+        </div>
+        <div class="lastNameDiv">
+            <label for="uiExpirationDate">
+                Expiration date</label>
+            <input type="text" id="uiExpirationDate" name="uiExpirationDate" class = "referralCode" readonly="true" />
+        </div>
+    </div>
+    <div class="formComponent formComponentSingleLineText">
+        <label for="uiDiscountComment">
+            Comment</label>
+        <textarea id="uiDiscountComment" name="uiDiscountComment" rows="3" cols="30"></textarea>
+    </div>
+    <div class="buttons">
+        <ul class="jquerycontrol">
+            <li><a onclick="saveDiscount()" class="formbutton" id="save">Add New Discount/Special</a></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+<div class="formComponent formComponentSingleLineText" id="zoneDiscounts">
+    @Html.Partial("Partial/DiscountsTable", Model)
+</div>
+<script type="text/javascript">
+
+    var _discount = -1;
+
+    $(document).ready(function () {
+
+        $('#uiExpirationDate').datepicker({ showOn: "focus", changeYear: true, yearRange: '-0:+1' });
+
+    });
+
+    function saveDiscount() {
+        var name = $("#uiDiscountName").val();
+        var comment = $("#uiDiscountComment").val();
+        var expirationDate = $("#uiExpirationDate").val();
+        var bid = $("#uiBusinessInformationId").val();
+        var id = $("#uiDiscountId").val();
+        if (name == "") {
+            $("#error-div").html("Some fields are required!");
+            $("#error-div").fadeIn("fast");
+            $("#uiDiscountName").parents('.formComponent').addClass('formComponentValidationFailed');
+            $("#error-div").fadeOut(5000);
+            return false;
+        } else {
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/SaveDiscount")',
+                type: 'POST',
+                data: { bid: bid, id: id, name: name, expirationDate: expirationDate, comment: comment },
+                success: function (r) {
+                    $("#zoneDiscounts").html(r.data);
+                    $("#message-div").html("item saved with success!");
+                    $("#message-div").fadeIn("fast");
+                    $("#uiDiscountId").val("");
+                    $("#uiDiscountName").val("");
+                    $("#uiExpirationDate").val("");
+                    $("#uiDiscountComment").val("");
+                    $("#uiDiscountName").parents('.formComponent').removeClass('formComponentHighlight');
+                    $("#uiDiscountName").parents('.formComponent').removeClass('formComponentValidationFailed');
+                    $("#message-div").fadeOut(4000);
+                },
+                error: function () {
+                    $("#error-div").html("An error occured while trying to save the selected item, try again!");
+                    $("#error-div").fadeIn("fast");
+                    $("#uiDiscountName").parents('.formComponent').addClass('formComponentValidationFailed');
+                    $("#error-div").fadeOut(5000);
+                }
+            });
+        }
+    }
+
+    function deleteDiscount() {
+        $("#message-div").html("item deleted with success!");
+        $("#message-div").fadeIn("fast");
+        $("#message-div").fadeOut(4000);
+    }
+
+    function selectDiscount(itemId) {
+
+        $.ajax({
+            cache: false,
+            url: '@Url.Content("~/Questionnaire/GetDiscount")',
+            type: 'POST',
+            data: { id: itemId },
+            success: function (data) {
+                $("#uiDiscountId").val(data.discountId);
+                $("#uiDiscountName").val(data.discountName);
+                $("#uiExpirationDate").val(data.discountExpirationDate);
+                $("#uiDiscountComment").val(data.discountComment);
+            },
+            error: function () {
+                $("#error-div").html("An error occured while trying to load the selected item, try again!");
+                $("#error-div").fadeIn("fast");
+                $("#error-div").fadeOut(5000);
+            }
+        });
+    }
+
+    function beginDiscount(name) {
+        _discount = $(name).attr("itemid");
+        selectDiscount(_discount);
+    }
+</script>

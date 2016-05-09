@@ -1,0 +1,41 @@
+﻿@{
+    var swap = ViewBag.SwapBranding ?? false;
+    var email = swap ? "info@1800plumber.com"  : "helpdesk@connectuspro.com";
+    var phone = swap ? "281-492-3045"  : "281-492-3045";
+    var img = swap ? "logo_plumber.png" : "logo.png";
+    var txt = swap ? "PLUMBER" : "CONNECTUSPRO";
+}
+<div class="centerContainer">
+    <a href="../../LandingPage/Dashboard" title="@txt" class="logo fl">
+            <img src="@Url.Content("~/Content/images/landing/" + img)" alt="@txt LOGO" />
+    </a>
+    <div id="contactInformationTop" class="fr">
+        <ul>
+            <li>
+                <p>
+                    Phone: <span>@phone</span></p>
+            </li>
+            <li>
+                <p>Email: <a href="mailto:@email" title="Send us a message">@email</a></p>
+            </li>
+            @if (!swap)
+            {
+            <li class="noBottomBorder">
+                <p class="fl">
+                    Follow Us:</p>
+                <!-- Social icons -->
+
+                <ul class="fl" id="socialBW">
+                    <li><a href="http://www.twitter.com/connectuspro" title="Follow us on Twitter">
+                        <img src="@Url.Content("~/Content/images/landing/social/twitter.png")" alt="Follow us on Twitter" /></a></li>
+                    <li><a href="http://www.facebook.com/connectuspro" title="Follow us on Facebook">
+                        <img src="@Url.Content("~/Content/images/landing/social/facebook.png")" alt="Follow us on Facebook" /></a></li>
+                    <li><a href="#" title="Follow us on RSS">
+                        <img src="@Url.Content("~/Content/images/landing/social/rss.png")" alt="Follow us on RSS" /></a></li>
+                </ul>
+            </li>
+            }
+        </ul>
+    </div>
+    <!-- end contactInformationTop -->
+</div>

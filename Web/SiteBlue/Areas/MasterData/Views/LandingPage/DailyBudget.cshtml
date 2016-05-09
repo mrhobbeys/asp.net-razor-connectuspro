@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Daily Budget";
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+
+<div id="BigIcons" class="fr">
+    <div class="BigIconCenter">
+         @*<a href="@Url.Content("~/MyCalls/NetPromoter/index")" title="KPI">*@
+         <a href="@Url.Content("~/OwnerPortal/Kpi")" title="KPI">
+         @*<a href="#" title="Net Promotor">*@
+            <img class="hoverable" src="@Url.Content("~/Content/images/landing/icon Graph.png")" alt="Big Icon" />
+        </a>
+        <h3>
+            KPI</h3>
+        
+
+    </div>
+
+    <!--  Vertical Line between Icon 1 and Icon 2 -->
+
+    <div class="verticalLineTop">
+        <div class="verticalLineTopWhite">
+        </div>
+        <div class="verticalLineTopBlack">
+        </div>
+    </div>
+
+     <div class="BigIconCenter">
+                @*<a href="@Url.Content("~/MyCalls/CallScripts/index")" title="Enter Budget">*@
+                <a href="@Url.Content("~/OwnerPortal/CompanyInfo/MyBudgetInfo")" title="Enter Budget">
+                 @*<a href="" title="Call Scripts">*@
+            <img src="@Url.Content("~/Content/images/landing/icon note.png")" alt="Big Icon" class="hoverable"/></a>
+        <h3>
+            Enter Budget </h3>
+        
+    </div>
+
+   <!--  Vertical Line between Icon 2 and Icon 3 -->
+    <div class="verticalLineTop">
+        <div class="verticalLineTopWhite">
+        </div>
+        <div class="verticalLineTopBlack">
+        </div>
+    </div>
+
+
+    <div class="BigIconCenter">
+        <a href="@Url.Content("~/OwnerPortal/Technicians/DailyBudget")" title="Daily Budget">
+          <img src="@Url.Content("~/Content/images/landing/icon calc.png")" alt="Big Icon" />
+        </a>
+                <h3>
+            Daily Budget</h3>
+        
+    </div>
+
+   
+    <!-- Long Horizontal Line between firts row of icons and second row of icons-->
+    <div class="horizontalLine">
+        <div class="horizontalLineWhite">
+        </div>
+        <div class="horizontalLineBlack">
+        </div>
+        <div class="horizontalLineWhite">
+        </div>          
+    </div>
+    <!--  Vertical Line between Icon 4 and Icon 5 -->
+  @*  <div class="verticalLineMiddle">
+    </div>*@
+</div>
+@section BackSection
+{
+    <div id="back-section">
+        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard", new { area = "LandingPage" }, null)
+    </div>
+}

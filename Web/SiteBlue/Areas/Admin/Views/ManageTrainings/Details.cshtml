@@ -1,0 +1,45 @@
+﻿@model SiteBlue.Data.EightHundred.Training
+
+@{
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Training</legend>
+
+    <div class="display-label">Site</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Site.SiteName)
+    </div>
+
+    <div class="display-label">TrainingType</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TrainingType.TrainingTypeName)
+    </div>
+
+    <div class="display-label">Title</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">Description</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">NavigateUrl</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NavigateUrl)
+    </div>
+
+    <div class="display-label">IsActive</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsActive)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.TrainingId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

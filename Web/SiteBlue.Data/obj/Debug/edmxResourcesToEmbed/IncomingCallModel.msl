@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="IncomingCallsModelStoreContainer" CdmEntityContainer="IncomingCallsQAEntities">
+    <EntitySetMapping Name="LookupScripts">
+      <EntityTypeMapping TypeName="IncomingCallsModel.LookupScript">
+        <MappingFragment StoreEntitySet="LookupScript">
+          <ScalarProperty Name="VirtualPhoneNumber" ColumnName="VirtualPhoneNumber" />
+          <ScalarProperty Name="LookupId" ColumnName="LookupId" />
+          <ScalarProperty Name="LookupPhoneNr" ColumnName="LookupPhoneNr" />
+          <ScalarProperty Name="ConnectusCode" ColumnName="ConnectusCode" />
+          <ScalarProperty Name="CallScript" ColumnName="CallScript" />
+          <ScalarProperty Name="XMLCode" ColumnName="XMLCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CallAnsweringScript" FunctionName="IncomingCallsModel.Store.CallAnsweringScript">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="IncomingCallsModel.CallAnsweringScripts">
+          <ScalarProperty Name="FranchiseTypeId" ColumnName="FranchiseTypeId" />
+          <ScalarProperty Name="FranchiseId" ColumnName="FranchiseId" />
+          <ScalarProperty Name="ConnectUsCode" ColumnName="ConnectUsCode" />
+          <ScalarProperty Name="CallScript" ColumnName="CallScript" />
+          <ScalarProperty Name="FranchiseNumber" ColumnName="FranchiseNumber" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="EndCallOptions">
+      <EntityTypeMapping TypeName="IncomingCallsModel.EndCallOption">
+        <MappingFragment StoreEntitySet="EndCallOptions">
+          <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+          <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StatisticTracks">
+      <EntityTypeMapping TypeName="IncomingCallsModel.StatisticTrack">
+        <MappingFragment StoreEntitySet="StatisticTracks">
+          <ScalarProperty Name="Jobid" ColumnName="Jobid" />
+          <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="DialedNumber" ColumnName="DialedNumber" />
+          <ScalarProperty Name="CalledNumber" ColumnName="CalledNumber" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="TrackId" ColumnName="TrackId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tbl_scriptToFranchiseID">
+      <EntityTypeMapping TypeName="IncomingCallsModel.Tbl_scriptToFranchiseID">
+        <MappingFragment StoreEntitySet="Tbl_scriptToFranchiseID">
+          <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+          <ScalarProperty Name="ScriptID" ColumnName="ScriptID" />
+          <ScalarProperty Name="FranchiseScriptID" ColumnName="FranchiseScriptID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VADM_CallStats">
+      <EntityTypeMapping TypeName="IncomingCallsModel.VADM_CallStats">
+        <MappingFragment StoreEntitySet="VADM_CallStats">
+          <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Jobid" ColumnName="Jobid" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="callerid" ColumnName="callerid" />
+          <ScalarProperty Name="CalledDescription" ColumnName="CalledDescription" />
+          <ScalarProperty Name="CalledNumber" ColumnName="CalledNumber" />
+          <ScalarProperty Name="calltime" ColumnName="calltime" />
+          <ScalarProperty Name="seqnr" ColumnName="seqnr" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

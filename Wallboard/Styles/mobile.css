@@ -1,0 +1,16 @@
+﻿body
+{
+    font-size: 10px;
+}
+img
+{
+    width:50px;
+}
+#clock
+{
+    font-size: 100%;
+}
+#QContainer1, #QContainer2
+{
+    width: 50%;
+}

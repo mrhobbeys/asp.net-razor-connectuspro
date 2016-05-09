@@ -1,0 +1,24 @@
+﻿@model Plumber.Models.Career
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CareerId }) |
+    @if (Model.IsArchived == true)
+    {
+        <text>@Html.ActionLink("Activate", "ChangeStatus", new { id = Model.CareerId, status = false }, null)
+        |</text>
+    }
+    else
+    {
+        <text>@Html.ActionLink("Archive", "ChangeStatus", new { id = Model.CareerId, status = true }, null)
+        |</text>
+    }
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<div class="maincontent">
+    <h3>
+        <span class="greytitle">@Model.Title</span></h3>
+    @Html.Raw(Model.Description)
+</div>

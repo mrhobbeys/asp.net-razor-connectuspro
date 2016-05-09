@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="QBServices.Services.QBOperation" CodeBehind="QBOperation.svc.cs" %>

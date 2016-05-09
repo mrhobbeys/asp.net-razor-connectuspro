@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+@section Title{
+    <h2>
+        Who is ConnectusPro?</h2>
+}
+@section Comments{
+    <div id="comments">
+        “I’ve researched all of the major technology providers for service companies, and
+        ConnectusPro blows them out of the water because ConnectusPro is so much more than
+        just technology. It’s a complete system to run the business.” <span class="comment-by">
+            J.M.</span>
+    </div>
+}
+<div class="content">
+    <p class="pfirst">
+        We are a group of individuals committed to improving an already great industry.<br />
+        The values and people known throughout this business are what make our industry
+        great.
+    </p>
+    <p class="underline">
+        We are making this industry better.</p>
+    <p>
+        We are leaders, innovators, but most of all people, just like you, who are looking
+        to make a difference in the way we do business.
+    </p>
+    <p>
+        By understanding the industry, we can understand how to improve upon it.
+    </p>
+    <div class="link">@Html.ActionLink("LEARN MORE", "Index", "What", new { area = "" }, null)</div>
+</div>
+<script type="text/javascript">
+    var height = screen.height;
+
+    if (height > 800) {
+        $("#main").css("height", 655);
+    } else {
+        $("#main").css("height", 455);
+    }
+</script>

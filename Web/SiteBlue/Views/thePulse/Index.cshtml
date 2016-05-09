@@ -1,0 +1,63 @@
+﻿@using SiteBlue.Models
+@{
+    ViewBag.Title = "The PULSE";
+    Layout = "~/Views/Shared/SecondaryLayout.cshtml";
+}
+<article>
+    <section class="col-1">
+        <h2>
+            The PULSE</h2>
+        <p>
+            How many times a day does your office phone ring? Who answers the phones when you are
+            out of the office? Are you missing calls and missing business? Do you have time
+            to follow up on estimates? Do you handle customer satisfaction surveys? Who schedules
+            your technicians? Is your office staff getting paid even when you are not?</p>
+        <img src="@Url.Content("~/Content/images/service.jpg")" class="p2" alt="" />
+        <p class="p3">
+            The PULSE is the answer to all those challenges. More than
+            an answering service or dispatch center, the PULSE is all
+            that and more. The PULSE provides 24-hour/7 day a week professional
+            call taking from Houston, Texas, even on holidays. Our PULSE professionals
+            answer every call with a smile.
+        </p>
+    </section>
+    <section class="col-2">
+        <h2>
+            The ConnectusPro Advantage</h2>
+        <p>
+            <strong class="yellow">More than just a call center, our professional representatives
+                help streamline your business and drive your customer's satisfaction through a dedicated
+                and industry leading approach to customer service.</strong>
+        </p>
+        <p>
+            We go way beyond simple call taking and dispatch. Each PULSE professional will call customers 30 
+            minutes prior to service just to let them know the technician is on the way and will e-mail them 
+            a picture and bio of the technician so they know who to expect at their door. The PULSE also offers:</p>
+        <dl class="img-box">
+            <dd>
+                <ul id="listmrk">
+                    <li>Outbound calls to follow up on outstanding estimates and book inspections</li>
+                    <li>Cutting edge GPS technology to track the location of your technicians</li>
+                    <li>Happy Calls to gauge and track customer satisfaction</li>
+                    <li>Thank You notes for each customer to increase loyalty and repeat business</li>
+                    <li>24/7 live call handling including holidays</li>
+                    <li>The professionalism that comes with focused training and dedication</li>
+                </ul>
+                <br class="clear" />
+            </dd>
+        </dl>
+        <p>
+            <strong class="yellow">Your PULSE representatives receive constant training, 
+            individually and as a group in weekly Lunch & Learns, to quickly and efficiently 
+            dispatch calls to the appropriate technician via the industry 
+            leading <u>@Html.ActionLink("t-Tab system", "Index", "Technology")</u>.</strong>
+        </p>
+        <p>
+            Find out how ConnectusPro can accelerate your business by clicking the button below!</p>
+        <p>
+        </p>
+        @Html.ActionLink("Contact Us Now", "Index", "ContactUs", null, new { @class = "button" })<br class="clear">
+    </section>
+</article>
+@{ ViewData["PageType"] = PageType.ServiceCenter; }
+@Html.Partial("Banner", null, ViewData)

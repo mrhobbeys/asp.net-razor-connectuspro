@@ -1,0 +1,83 @@
+﻿@model List<SiteBlue.Questionnaire.Data.ZipCode>
+
+    @if ((Model != null) && (Model.Count > 0))
+    {
+        @Html.HiddenFor(model => model[0].BusinessInformationId, new { id = "uiBusinessId" })
+        <table cellpadding="0" cellspacing="0" class="data-table">
+            <thead>
+                <tr>
+                    <th class="actions edit">
+                        Edit
+                    </th>
+                    <th class="actions delete">
+                        Delete
+                    </th>
+                    <th>
+                        ZIP
+                    </th>
+                    <th>
+                        Tax rate
+                    </th>
+                    <th>
+                        City Name
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="actions edit">
+                            @Ajax.ImageActionLink("../../../Content/images/edit.png", "ZipCodesTable", new { id = item.ZipCodeId }, new AjaxOptions { UpdateTargetId = "zipCodeForm", OnBegin = "beginZipCode(zp" + item.ZipCodeId + ")" }, new { itemid = item.ZipCodeId, id = "zp" + item.ZipCodeId })
+                        </td>
+                        <td class="actions delete">
+                            @Ajax.ImageActionLink("../../../Content/images/delete.png", "DeleteZipCode", new { id = item.ZipCodeId }, new AjaxOptions { Confirm = "Delete ZIP?", HttpMethod = "Delete", UpdateTargetId = "zoneZipCodes", OnSuccess="ajaxDeleteZipCode" }, null)
+                        </td>
+                        <th>
+                            @Html.Encode(item.ZipCodeNumber)
+                        </th>
+                        <td style="width: 100px">
+                            @Html.Encode(item.TaxRate)
+                        </td>
+                        <td style="width: 300px">
+                            @Html.Encode(item.Comment)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <table cellpadding="0" cellspacing="0" class="data-table">
+            <tbody>
+                <tr>
+                    <td colspan="4" style="height: 40px; width: 900px; vertical-align: middle">
+                        <span class="notification">No row returned</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+    <script type="text/javascript">
+
+        function AjaxGetLastTaxRate(businessId) {
+            $.ajax({
+                cache: false,
+                url: '@Url.Content("~/Questionnaire/GetLastTaxRate")',
+                data: { bid: businessId },
+                success: function (data) {
+                    $("#uiTaxRateZIP").val(data.TaxRate);
+                }
+            });
+        }
+
+        function ajaxDeleteZipCode() {
+            getLastTaxRate($("#uiBusinessId").val());
+            $("#message-div").html("item deleted with success!");
+            $("#message-div").fadeIn("fast");
+            $("#message-div").fadeOut(4000);
+        }
+
+    </script>

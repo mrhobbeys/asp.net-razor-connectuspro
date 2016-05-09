@@ -1,0 +1,41 @@
+/*======= index.html =======*/
+#page1 section.col-1 {width:372px; padding-right:50px;}
+#page1 section.col-2 { width:236px; padding-right:50px;}
+#page1 section.col-3 { width:246px;}
+#page1 .colum{width:306px; padding-left:50px;}
+#page1 article{width:960px;}
+
+/*======= index-1.html =======*/
+#page2 aside{ width:240px; float:left; padding-right:50px;}
+#page2 section{ padding-bottom:50px; float:left;}
+#page2 article { width:666px;}
+
+/*======= index-2.html =======*/
+#page3 section.col-1 {width:372px; padding-right:50px;}
+#page3 section.col-2 { width:236px; padding-right:50px;}
+#page3 section.col-3 { width:246px;}
+#page3 .colum{width:306px; padding-left:50px;}
+#page3 article{width:960px;}
+
+/*======= index-3.html =======*/
+#page4 aside{ width:240px; float:left; padding-right:50px;}
+#page4 section{ padding-bottom:50px; float:left;}
+#page4 article { width:666px;}
+
+/*======= index-4.html =======*/
+#page5 section.col-1 {width:372px; padding-right:50px;}
+#page5 section.col-2 { width:534px;}
+#page5 .colum{width:306px; padding-left:50px;}
+#page5 article{width:960px;}
+
+/*======= index-5.html =======*/
+#page6 aside{ width:240px; float:left; padding-right:50px;}
+#page6 section{ padding-bottom:50px; float:left;}
+#page6 article { width:666px;}
+
+/*======= index-6.html =======*/
+#page7 article { width:965px;}
+#page7 p a{font-weight:normal;}
+/*=========================*/
+
+

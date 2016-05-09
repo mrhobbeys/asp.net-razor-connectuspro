@@ -1,0 +1,16 @@
+﻿@model SiteBlue.Areas.HVAC_App.Models.SetupModels.FinanceOptionsModel
+               
+               
+@using (Ajax.BeginForm("SetFinanceOptions", new AjaxOptions { HttpMethod = "Post" }))
+{
+    @Html.HiddenFor(t => t.Id)
+    foreach (var f in Model.FinanceOptions)
+    {
+        <div style="float: left; padding: 5px;">Finance Option @(f.Id+1)</div>
+        <div>
+            @Html.TextBox("fo"+f.Id, f.Url, new { @style = "width:600px;"})
+        </div>                  
+        <div style="clear: both;"></div>
+    }
+    <button type="submit">Save</button>
+}

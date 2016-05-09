@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    My Dashboard</h2>
+<br />
+<div style="height: 100px; float: left; width: 60%">
+    @Html.Partial("Summary")
+</div>
+<div style="float: right; width: 35%">
+    <h3>
+        Navigation</h3>
+    <ul id="leftmenu">
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/Dashboard")"><span class="menu_ar">
+            My Dashboard</span></a></span></li>
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/Franchise")"><span class="menu_ar">
+            Franchises</span></a></span></li>
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/Location")"><span class="menu_ar">
+            Locations</span></a></span></li>
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/Service")"><span class="menu_ar">
+            Services</span></a></span></li>
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/Management")"><span class="menu_ar">
+            Management</span></a></span></li>
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/TerritoryOwner")"><span class="menu_ar">
+            Territory Owners</span></a></span></li>
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/Testimonial")"><span class="menu_ar">
+            Testimonial</span></a></span></li>
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/Media")"><span class="menu_ar">
+            Media</span></a></span></li>
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/Coupon")"><span class="menu_ar">
+            Coupons</span></a></span></li>
+        <li><span class="menu_r"><a href="@Url.Content("~/Admin/Career")"><span class="menu_ar">
+            Careers</span></a></span></li>
+    </ul>
+</div>
+<div id="iconhelper">
+    <fieldset id="helperfieldset">
+        <legend><strong>Icon helper</strong></legend>
+        <p>
+            Below the list of icons used in the administration panel.
+        </p>
+        <ul id="helpul">
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/edit.png")" alt="" /><br />
+                Edit item</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/details.png")" alt="" /><br />
+                View item's details</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/delete.gif")" alt="" /><br />
+                Delete selected item</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/user-edit.png")" alt="" /><br />
+                Edit manager</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/user-details.png")" alt="" /><br />
+                View manager's details</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/user-delete.png")" alt="" /><br />
+                Delete selected manager</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/service.png")" alt="" /><br />
+                List or manage services</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/city.png")" alt="" /><br />
+                List or manage cities</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/coupon.png")" alt="" /><br />
+                List or manage coupons</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/disable.png")" alt="" /><br />
+                Archive content</li>
+            <li>
+                <img src="@Url.Content("~/Content/admin_icons/enable.png")" alt="" /><br />
+                Activate content</li>
+        </ul>
+    </fieldset>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            url: '@Url.Content("~/Admin/Dashboard/DashboardSummary")',
+            type: 'POST',
+            success: function (data) {
+                if (data.appointments == 0)
+                    $("#appointments").html('No new message - Total appointments: <a href=\'@Url.Content("~/Admin/Dashboard/Appointments/1")\'>' + data.appointmentsCount + '</a>');
+                else
+                    $("#appointments").html('You have <a href=\'@Url.Content("~/Admin/Dashboard/Appointments/1")\' style=\'color:#FF0000; font-weight:bold\'>' + data.appointments + '</a> unread appointments of <a href=\'@Url.Content("~/Admin/Dashboard/Appointments")\'>' + data.appointmentsCount + '</a>');
+                if (data.careerApplications == 0)
+                    $("#careerApplications").html('No new message - Total career applications: <a href=\'@Url.Content("~/Admin/Dashboard/CareerApplications")\'>' + data.careerApplicationCount + '</a>');
+                else
+                    $("#careerApplications").html('You have <a href=\'@Url.Content("~/Admin/Dashboard/CareerApplications/1")\' style=\'color:#FF0000; font-weight:bold\'>' + data.careerApplications + '</a> unread career applications of <a href=\'@Url.Content("~/Admin/Dashboard/CareerApplications")\'>' + data.careerApplicationCount + '</a>');
+                if (data.serviceFeedbacks == 0)
+                    $("#serviceFeedbacks").html('No new message - Total service feedbacks: <a href=\'@Url.Content("~/Admin/Dashboard/ServiceFeedbacks")\'>' + data.serviceFeedbackCounts + '</a>');
+                else
+                    $("#serviceFeedbacks").html('You have <a href=\'@Url.Content("~/Admin/Dashboard/ServiceFeedbacks/1")\' style=\'color:#FF0000; font-weight:bold\'>' + data.serviceFeedbacks + '</a> unread service feedbacks of <a href=\'@Url.Content("~/Admin/Dashboard/ServiceFeedbacks")\'>' + data.serviceFeedbackCounts + '</a>');
+            },
+            error: function () {
+                $("#appointments").html("An error occured while trying to load the appointments list, try to refresh the page!");
+                $("#careerApplications").html("An error occured while trying to load the career applications list, try to refresh the page!");
+            }
+        });
+    });
+</script>

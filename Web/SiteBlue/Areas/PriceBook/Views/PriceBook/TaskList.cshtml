@@ -1,0 +1,576 @@
+﻿@model List<SiteBlue.Areas.PriceBook.Models.TaskEx>
+
+<style type="text/css">
+    .buttonself
+    {
+        font-size:10pt;
+        padding:6px;
+        margin-right:5px;
+        margin-left:5px;
+        float:right;
+    }
+
+    .lbuttonself
+    {
+        font-size:10pt;
+        padding:6px;
+        margin-right:5px;
+        margin-left:5px;
+        float:right;
+       border-radius:7px 0px 0px 7px;  
+    }
+
+    .rbuttonself
+    {
+        font-size:10pt;
+        padding:6px;
+        margin-right:5px;
+        margin-left:5px;
+        float:right;
+        border-radius:0px 7px 7px 0px;  
+    }
+
+    .t1
+    {
+        display:none;
+    }
+    
+    .jslider
+    {
+        float: left;
+        margin: 10px;
+        width: 400px;
+    }
+    
+    .dataTables_info
+    {
+        float: left;
+    }
+    
+    .dataTables_paginate
+    {
+        float: right;
+    }
+    
+    .dataTables_filter
+    {
+        text-align: center;
+    }
+    
+    .clsAccountCode
+    {
+        width: 100%;
+    }
+    
+</style>
+
+@Html.Hidden("nlevel", (int?)@ViewBag.nlevel)
+@Html.Hidden("nid", (int?)@ViewBag.nid)
+<div style="height: 50px;">
+    <input type="slider" name="budget" id="budget" class="slider" value="100" onchange="console.log(this.value)" />
+    <input type="text" value="" id="t1" name="t1" class="t1"/>
+    <input type="button" class="submitdb" value="Submit to Database" style="float: right" /><span class="loaddiv"></span>
+</div>
+
+<div id="divAccountCode" style="display: none">
+    @Html.DropDownList("ddlAccountCode", new SelectList(ViewBag.ac, "AccountCode", "AccountName"), new { @class = "clsAccountCode", @title = "", @url = Url.Action("UpdateAccountCode", new { id = "id" }), onchange = "UpdateAccountCode(this);" })
+</div>
+
+<div class="resultmsg" style="font-weight: bold;"></div>
+<table class="tasklist" id="tasklisttab" cellpadding="10px" cellspacing="0px" border="1px">
+    <thead>
+        <tr>
+            <th colspan=3>
+                &nbsp;&nbsp;
+            </th>
+            <th colspan=4>
+                Price&nbsp;&nbsp;
+            </th>
+            <th>
+                &nbsp;&nbsp;
+            </th>
+            <th colspan=2>Account Code</th>
+        </tr>
+        <tr>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>Standard Price</th>
+            <th>Member Price</th>
+            <th>Standard AddOn Price</th>
+            <th>Add-On Member Price</th>
+            <th>Labor%</th>
+            <th>Residential Account Code</th>
+            <th>Commercial Account Code</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {    
+        <tr jid = "@item.JobCodeID">
+            <td>
+                <span onclick="showTaskDetail(@item.JobCodeID, this)" style="text-decoration: underline; cursor: pointer; color: Blue;" title="@item.JobCode @item.JobCodeDescription" url="@Url.Action("TaskDetail", new { id = item.JobCodeID })">@item.JobCode</span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobCodeDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobStdPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobMemberPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobAddonStdPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobAddonMemberPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LaborPercentage)
+            </td>
+            <td style="cursor: pointer; color: Orange;" onclick="setAccountCode(this, @item.ResAccountCode, @item.JobCodeID, 'res')">
+                [@item.ResAccountCode] @item.ResAccountName
+            </td>
+            <td style="cursor: pointer; color: Orange;" onclick="setAccountCode(this, @item.ComAccountCode, @item.JobCodeID, 'com')">
+                [@item.ComAccountCode] @item.ComAccountName
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+	/* Time between each scrolling frame */
+	$.fn.dataTableExt.oPagination.iTweenTime = 100;
+
+	$.fn.dataTableExt.oPagination.scrolling = {
+		"fnInit": function (oSettings, nPaging, fnCallbackDraw) {
+		    /* Store the next and previous elements in the oSettings object as they can be very
+		    * usful for automation - particularly testing
+		    */
+		    var nPrevious = document.createElement('div');
+		    var nNext = document.createElement('div');
+
+		    if (oSettings.sTableId !== '') {
+		        nPaging.setAttribute('id', oSettings.sTableId + '_paginate');
+		        nPrevious.setAttribute('id', oSettings.sTableId + '_previous');
+		        nNext.setAttribute('id', oSettings.sTableId + '_next');
+		    }
+
+		    nPrevious.className = "paginate_disabled_previous";
+		    nNext.className = "paginate_disabled_next";
+
+		    nPrevious.title = oSettings.oLanguage.oPaginate.sPrevious;
+		    nNext.title = oSettings.oLanguage.oPaginate.sNext;
+
+		    nPaging.appendChild(nPrevious);
+		    nPaging.appendChild(nNext);
+
+		    $(nPrevious).click(function () {
+		        /* Disallow paging event during a current paging event */
+		        if (typeof oSettings.iPagingLoopStart != 'undefined' && oSettings.iPagingLoopStart != -1) {
+		            return;
+		        }
+
+		        oSettings.iPagingLoopStart = oSettings._iDisplayStart;
+		        oSettings.iPagingEnd = oSettings._iDisplayStart - oSettings._iDisplayLength;
+
+		        /* Correct for underrun */
+		        if (oSettings.iPagingEnd < 0) {
+		            oSettings.iPagingEnd = 0;
+		        }
+
+		        var iTween = $.fn.dataTableExt.oPagination.iTweenTime;
+		        var innerLoop = function () {
+		            if (oSettings.iPagingLoopStart > oSettings.iPagingEnd) {
+		                oSettings.iPagingLoopStart--;
+		                oSettings._iDisplayStart = oSettings.iPagingLoopStart;
+		                fnCallbackDraw(oSettings);
+		                setTimeout(function () { innerLoop(); }, iTween);
+		            } else {
+		                oSettings.iPagingLoopStart = -1;
+		            }
+		        };
+		        innerLoop();
+		    });
+
+		    $(nNext).click(function () {
+		        /* Disallow paging event during a current paging event */
+		        if (typeof oSettings.iPagingLoopStart != 'undefined' && oSettings.iPagingLoopStart != -1) {
+		            return;
+		        }
+
+		        oSettings.iPagingLoopStart = oSettings._iDisplayStart;
+
+		        /* Make sure we are not over running the display array */
+		        if (oSettings._iDisplayStart + oSettings._iDisplayLength < oSettings.fnRecordsDisplay()) {
+		            oSettings.iPagingEnd = oSettings._iDisplayStart + oSettings._iDisplayLength;
+		        }
+
+		        var iTween = $.fn.dataTableExt.oPagination.iTweenTime;
+		        var innerLoop = function () {
+		            if (oSettings.iPagingLoopStart < oSettings.iPagingEnd) {
+		                oSettings.iPagingLoopStart++;
+		                oSettings._iDisplayStart = oSettings.iPagingLoopStart;
+		                fnCallbackDraw(oSettings);
+		                setTimeout(function () { innerLoop(); }, iTween);
+		            } else {
+		                oSettings.iPagingLoopStart = -1;
+		            }
+		        };
+		        innerLoop();
+		    });
+
+		    /* Take the brutal approach to cancelling text selection */
+		    $(nPrevious).bind('selectstart', function () { return false; });
+		    $(nNext).bind('selectstart', function () { return false; });
+		},
+
+		"fnUpdate": function (oSettings, fnCallbackDraw) {
+		    if (!oSettings.aanFeatures.p) {
+		        return;
+		    }
+
+		    /* Loop over each instance of the pager */
+		    var an = oSettings.aanFeatures.p;
+		    for (var i = 0, iLen = an.length; i < iLen; i++) {
+		        if (an[i].childNodes.length !== 0) {
+		            an[i].childNodes[0].className =
+			(oSettings._iDisplayStart === 0) ?
+			oSettings.oClasses.sPagePrevDisabled : oSettings.oClasses.sPagePrevEnabled;
+
+		            an[i].childNodes[1].className =
+			(oSettings.fnDisplayEnd() == oSettings.fnRecordsDisplay()) ?
+			oSettings.oClasses.sPageNextDisabled : oSettings.oClasses.sPageNextEnabled;
+		        }
+		    }
+		}
+    }
+
+    /*$.fn.dataTableExt.afnSortData['dom-select'] = function (oSettings, iColumn) {
+        var aData = [];
+        $('td:eq(' + iColumn + ') select', oSettings.oApi._fnGetTrNodes(oSettings)).each(function () {
+            aData.push($(this).val());
+        });
+        return aData;
+    }*/
+</script>
+
+<script type="text/javascript" charset="utf-8">
+    var arr = [];
+
+    var oTable;
+    var updatetable = function (per) {
+        var i = 0;
+        var colcnt = 10;
+
+        oTable = $('#tasklisttab').dataTable();
+
+        $('#tasklisttab tbody td').each(function (ind) {
+            var v = null;
+            /*$.each(arr, function (index, value) {
+                if (index == parseInt(ind / colcnt)) {
+                    if (ind % colcnt == 3) v = parseFloat(value.p1);
+
+                    if (ind % colcnt == 4) v = parseFloat(value.p2);
+
+                    if (ind % colcnt == 5) v = parseFloat(value.p3);
+
+                    if (ind % colcnt == 6) v = parseFloat(value.p4);
+                }
+            });*/
+
+            var aData = oTable.fnGetData(this.parentNode);
+            if (ind % colcnt == 3) v = parseFloat(aData[3]);
+
+            if (ind % colcnt == 4) v = parseFloat(aData[4]);
+
+            if (ind % colcnt == 5) v = parseFloat(aData[5]);
+
+            if (ind % colcnt == 6) v = parseFloat(aData[6]);
+
+            if (v != null) {
+                v = (parseFloat(v * per / 100)).toFixed(2);
+                $(this).text(v);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        //TableToolsInit.sSwfPath = "Areas/PriceBook/Content/media/swf/ZeroClipboard.swf";
+
+        $('#tasklisttab').dataTable({
+            "bJQueryUI": true,
+            "bPaginate": true,
+            "bProcessing": true,
+            "fnDrawCallback": function () {
+                updatetable($("#budget").val());
+            },
+            "sScrollY": "350px",
+            "sScrollX": "100%",
+            "sDom": 'T<"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"<"top-toolbar"if>r>t<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"p>',
+            "oTableTools": {
+                "sSwfPath": "Areas/PriceBook/Content/media/swf/copy_cvs_xls_pdf.swf",
+                "aButtons": [
+                    {
+                        "sExtends": "pdf",
+                        "sButtonClassHover": "rbuttonself",
+                        "sButtonClass": "rbuttonself"
+                    },
+                    {
+                        "sExtends": "csv",
+                        "sButtonClassHover": "buttonself",
+                        "sButtonClass": "buttonself"
+                    },
+                    {
+                        "sExtends": "xls",
+                        "sButtonClassHover": "buttonself",
+                        "sButtonClass": "buttonself"
+                    },
+                    {
+                        "sExtends": "copy",
+                        "sButtonClassHover": "buttonself",
+                        "sButtonClass": "buttonself"
+                    },
+                    {
+                        "sExtends": "print",
+                        "sButtonClassHover": "lbuttonself",
+                        "sButtonClass": "lbuttonself"
+                    }
+                ]
+            }
+        });
+    });
+
+    $(document).ready(function () {
+
+        oTable = $('#tasklisttab').dataTable();
+
+        if (oTable.fnGetData().length > 0) {
+
+            $('#tasklisttab tbody tr').each(function () {
+
+                var aPos = oTable.fnGetPosition(this);
+
+                var aData = oTable.fnGetData(this);
+
+                var obj = $(aData);
+                arr.push({
+                    p1: aData[3],
+                    p2: aData[4],
+                    p3: aData[5],
+                    p4: aData[6]
+                });
+            });
+
+            $('#tasklisttab tbody td').click(function () {
+                /* Get the position of the current data from the node */
+                //   var aPos = oTable.fnGetPosition(this);
+
+                /* Get the data array for this row */
+                //     var aData = oTable.fnGetData(this.parentNode);
+                //   console.log(aPos[1]);
+                //   console.log(aData);
+
+            });
+        }
+
+        $('.rtaskaccount').change(function () {
+            var url = $(this).attr('url');
+            var rac = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: { rac: rac },
+                success: function (result) {
+
+                }
+            });
+        });
+
+        $('.ctaskaccount').change(function () {
+            var url = $(this).attr('url');
+            var cac = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: { cac: cac },
+                success: function (result) {
+
+                }
+            });
+        });
+
+        $(".submitdb").click(function () {
+
+            if (oTable.fnGetData().length > 0) {
+                prettyPrompt({
+                    title: "Submit DataBase",
+                    message: "This will make price adjustments to <no> jobcodes. Are you sure?",
+                    onOkay: function () {
+                        $(".loaddiv").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+                        $(".submitdb").attr("disabled", true);
+
+                        submitdatabase();
+                    }
+                });
+            } else {
+                alert("No data available in table");
+            }
+        });
+
+    });
+
+    jQuery("#budget").slider({
+        from: 0,
+        to: 200,
+        step: 1,
+        round: 0,
+        dimension: '&nbsp;%',
+        skin: "square",
+        callback: function (value) {
+            updatetable(value);
+        }
+    });
+
+    function submitdatabase() {
+        var per = $("#budget").val();
+        var pbid = $(".autopostback").val(); //PriceBookID
+        var mpid = 5350;    //MasterPartID
+        var nlevel = $("#nlevel").val();
+        var nid = $("#nid").val();
+        var mflag = $("#MFlag").val();
+
+        $.ajax({
+            url: '@Url.Action("SubmitDatabase")',
+            type: "POST",
+            data: { per: per, pbid: pbid, mpid: mpid, nlevel: nlevel, nid: nid, mflag: mflag },
+            success: function (result) {
+
+                $(".resultmsg").text(result.msg);
+                $(".resultmsg").css("color", result.success ? "#00ff00" : "#ff0000");
+                $(".resultmsg").show();
+                $(".resultmsg").fadeOut(4000, "linear");
+                $(".loaddiv").empty();
+                $(".submitdb").attr("disabled", false);
+                $("#budget").slider("value", 100);
+                
+                var cid = $("#JobCodeID").val();
+                if (cid != null) {
+                    $("#taskdetail").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+                    $("#taskdetail").load('@Url.Action("TaskDetail")' + '/' + cid);
+                }
+            }
+        });
+    }
+
+    //only current page
+    function submitdatabase1() {
+        var arrstd = [];
+        var arrmem = [];
+        var arrastd = [];
+        var arramem = [];
+        var arrjid = [];
+
+        $('#tasklisttab tbody tr').each(function () {
+            var jid = $(this).attr("jid");
+            arrjid.push(jid);
+
+            var aData = oTable.fnGetData(this);
+
+            var per = $("#budget").val();
+            arrstd.push((parseFloat(aData[3] * per / 100)).toFixed(2));
+            arrmem.push((parseFloat(aData[4] * per / 100)).toFixed(2));
+            arrastd.push((parseFloat(aData[5] * per / 100)).toFixed(2));
+            arramem.push((parseFloat(aData[6] * per / 100)).toFixed(2));
+        });
+
+        var pbid = $(".autopostback").val(); //PriceBookID
+        var mpid = 5350;    //MasterPartID
+
+        var pdata =
+                {
+                    arrjid: arrjid,
+                    arrstd: arrstd,
+                    arrmem: arrmem,
+                    arrastd: arrastd,
+                    arramem: arramem,
+                    pbid: pbid,
+                    mpid: mpid
+                };
+
+        $.ajax({
+            url: '@Url.Action("SubmitDatabase1")',
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(pdata),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+
+                $(".resultmsg").text(result.msg);
+                $(".resultmsg").css("color", result.success ? "#00ff00" : "#ff0000");
+                $(".resultmsg").show();
+                $(".resultmsg").fadeOut(4000, "linear");
+                $(".loaddiv").empty();
+                $(".submitdb").attr("disabled", false);
+
+                var cid = $("#JobCodeID").val();
+                if (cid != null) {
+                    $("#taskdetail").empty().html('<img src="/Areas/PriceBook/images/ajax-loader.gif" />');
+                    $("#taskdetail").load('@Url.Action("TaskDetail")' + '/' + cid);
+                }
+            }
+        });
+    }
+
+    var prevobj = null;
+
+    function setAccountCode(obj, selid, id, str) {
+
+        if ($(obj).find(".clsAccountCode").length > 0) return;
+
+        if (prevobj != null) {
+            $(prevobj).empty().text($('.clsAccountCode option:selected').text());
+        }
+
+        prevobj = obj;
+
+        $("#divAccountCode .clsAccountCode").val(selid);
+        $(obj).empty().html($("#divAccountCode").html());
+
+        $(obj).find(".clsAccountCode").attr("url", $("#divAccountCode .clsAccountCode").attr("url").replace("id", id));
+        $(obj).find(".clsAccountCode").attr("title", str);
+
+        $(obj).find(".clsAccountCode").live('blur', function () {
+            $(obj).empty().text($('.clsAccountCode option:selected').text());
+        });
+
+    }
+
+    function UpdateAccountCode(obj) {
+
+        var url = $(obj).attr("url");
+        var acflag = $(obj).attr("title");
+
+        $(obj).after('<img id="loadingimg" src="../../../../Images/ajax-loader.gif" alt="processing..." />');
+
+        $.ajax({
+            url: url,
+            data: { acid: obj.value, acflag: acflag },
+            success: function (result) {
+                $("#loadingimg").remove();
+                $(prevobj).empty().text(obj.options[obj.selectedIndex].text);
+                prevobj = null;
+            },
+            type: "POST",
+            error: function (e) {
+                $("#loadingimg").remove();
+            }
+        });
+
+    }
+
+</script>

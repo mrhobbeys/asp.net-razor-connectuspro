@@ -1,0 +1,171 @@
+﻿@model IEnumerable<Plumber.Models.Career>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>
+    Careers</h2>
+<p>
+    @Html.ActionLink("Add a new career", "Create")
+</p>
+<table class="data-table tablesorter" id="careersTable">
+    <thead>
+        <tr>
+            <th style="width: 200px;">
+                Title
+            </th>
+            <th style="width: 400px;">
+                Description
+            </th>
+            <th>
+                Publication Date
+            </th>
+            <th style="width: 50px;">
+                Archived
+            </th>
+            <th style="width: 50px;">
+                Deleted
+            </th>
+            <th style="width: 60px; text-align: center">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() > 0)
+        {
+            foreach (var item in Model)
+            {
+            <tr>
+                <th>
+                    @Html.Raw(item.Title)
+                </th>
+                <td>
+                    @Html.Raw(item.Description)
+                </td>
+                <td style="text-align: center">
+                    @item.PublicationDate.ToShortDateString()
+                </td>
+                <td class="icons" style="text-align: center">
+                    <img src="@(Url.Content(item.IsArchived != null && item.IsArchived ? "~/Content/admin_icons/yes.png" : "~/Content/admin_icons/no.png"))" alt="" />
+                </td>
+                <td class="icons" style="text-align: center">
+                    <img src="@(Url.Content(item.IsDeleted != null && item.IsDeleted ? "~/Content/admin_icons/yes.png" : "~/Content/admin_icons/no.png"))" alt="" />
+                </td>
+                @if (item.IsDeleted == false)
+                {
+                    if (item.IsArchived == true)
+                    {
+                    <td style="width: 10%">
+                        @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/enable.png"), "ChangeStatus", new { id = item.CareerId, status = false }, null, new { title = "Activate" })
+                        @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/details.png"), "Details", new { id = item.CareerId }, null, new { title = "View career's details" })
+                        @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/delete.gif"), "Delete", new { id = item.CareerId }, null, new { title = "Delete selected career" })
+                    </td>
+                    }
+                    else
+                    {
+                    <td style="width: 10%">
+                        @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/disable.png"), "ChangeStatus", new { id = item.CareerId, status = true }, null, new { title = "Archive" })
+                        @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/edit.png"), "Edit", new { id = item.CareerId }, null, new { title = "Edit selected career" })
+                        @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/details.png"), "Details", new { id = item.CareerId }, null, new { title = "View career's details" })
+                        @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/delete.gif"), "Delete", new { id = item.CareerId }, null, new { title = "Delete selected career" })
+                    </td>
+                    }
+                }
+                else
+                {
+                    <td style="width: 5%">
+                        @Ajax.ImageActionLink(Url.Content("~/Content/admin_icons/add.png"), "ReAdd", new { id = item.CareerId }, null, new { title = "Add selected career" })
+                    </td>
+                }
+            </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td style="width: 100%" colspan="6">
+                    <img src="../../../../Content/admin_icons/warning.png" alt="" title="No service found" /><br />
+                    <strong>No career found!</strong>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr id="pager">
+            <td colspan="6">
+                <img src="@Url.Content("~/Content/_assets/img/first.png")" alt="" class="first"/>
+                <img src="@Url.Content("~/Content/_assets/img/prev.png")" alt="" class="prev"/>
+                <input class="pagedisplay" type="text" />
+                <img src="@Url.Content("~/Content/_assets/img/next.png")" alt="" class="next"/>
+                <img src="@Url.Content("~/Content/_assets/img/last.png")" alt="" class="last"/>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                </select>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#careersTable")
+        .tablesorter({ widgets: ['zebra'] })
+        .tablesorterPager({ container: $("#pager"), positionFixed: false })
+    });
+</script>
+@section Scripts{
+    <link href="@Url.Content("~/Content/_assets/themes/yui/style.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter-2.0.3.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.filer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/_assets/js/jquery.tablesorter.pager.js")" type="text/javascript"></script>
+}
+@*<style type="text/css">
+    /* pager wrapper, div */
+    .pager
+    {
+        padding: 5px;
+    }
+    /* pager wrapper, in thead/tfoot */
+    td.pager
+    {
+        background-color: #e6eeee;
+    }
+    /* pager navigation arrows */
+    .pager img
+    {
+        vertical-align: middle;
+        margin-right: 2px;
+    }
+    /* pager output text */
+    .pager .pagedisplay
+    {
+        font-size: 11px;
+        padding: 0 5px 0 5px;
+        width: 50px;
+        text-align: center;
+    }
+    
+    /*** loading ajax indeterminate progress indicator ***/
+    #tablesorterPagerLoading
+    {
+        background: rgba(255,255,255,0.8) url(icons/loading.gif) center center no-repeat;
+        position: absolute;
+        z-index: 1000;
+    }
+    
+    /*** css used when "updateArrows" option is true ***/
+    /* the pager itself gets a disabled class when the number of rows is less than the size */
+    .pager.disabled
+    {
+        display: none;
+    }
+    /* hide or fade out pager arrows when the first or last row is visible */
+    .pager img.disabled
+    {
+        /* visibility: hidden */
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+    }
+</style>*@

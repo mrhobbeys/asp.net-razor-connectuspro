@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Accounting Calendar";
+    Layout = "~/Areas/MyFinances/Views/Shared/_SecurityGuardLayoutPage.cshtml";
+}
+
+<script type="text/javascript">
+
+    $('document').ready(function () {
+
+        var companycode = "@ViewBag.code"
+        if (companycode != null && companycode != "") {
+            $.post('@Url.Action("AcctCalendar")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        }
+
+        $('#test1 > li > a').click(function (index) {
+            var companycode = $(this).text();
+
+            $.post('@Url.Action("AcctCalendar")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                    $('#current > a').text(companycode);
+                    $('li a')[1].click();
+                });
+
+
+        });
+
+        $('#current > a').click(function (index) {
+            var companycode = $(this).text();
+            $.post('@Url.Action("AcctCalendar")',
+                { code: companycode }, function (data) {
+                    $("#target").html(data);
+                });
+        });
+    });
+
+</script>
+
+<div id="target" >
+
+</div>

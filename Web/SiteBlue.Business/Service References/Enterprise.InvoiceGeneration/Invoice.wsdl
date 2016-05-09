@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Invoice" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:52445/Invoice.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:52445/Invoice.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:52445/Invoice.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration.Invoices" />
+      <xsd:import schemaLocation="http://localhost:52445/Invoice.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:52445/Invoice.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/SiteBlue.DocumentGeneration" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGenerateInvoices_Render_InputMessage">
+    <wsdl:part name="parameters" element="tns:Render" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateInvoices_Render_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateInvoices_RenderHtml_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenderHtml" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateInvoices_RenderHtml_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderHtmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateInvoices_RenderCustom_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenderCustom" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateInvoices_RenderCustom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderCustomResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateInvoices_RenderHtmlCustom_InputMessage">
+    <wsdl:part name="parameters" element="tns:RenderHtmlCustom" />
+  </wsdl:message>
+  <wsdl:message name="IGenerateInvoices_RenderHtmlCustom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RenderHtmlCustomResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IGenerateInvoices">
+    <wsdl:operation name="Render">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerateInvoices/Render" message="tns:IGenerateInvoices_Render_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerateInvoices/RenderResponse" message="tns:IGenerateInvoices_Render_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenderHtml">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerateInvoices/RenderHtml" message="tns:IGenerateInvoices_RenderHtml_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerateInvoices/RenderHtmlResponse" message="tns:IGenerateInvoices_RenderHtml_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenderCustom">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerateInvoices/RenderCustom" message="tns:IGenerateInvoices_RenderCustom_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerateInvoices/RenderCustomResponse" message="tns:IGenerateInvoices_RenderCustom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RenderHtmlCustom">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGenerateInvoices/RenderHtmlCustom" message="tns:IGenerateInvoices_RenderHtmlCustom_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGenerateInvoices/RenderHtmlCustomResponse" message="tns:IGenerateInvoices_RenderHtmlCustom_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IGenerateInvoices" type="tns:IGenerateInvoices">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Render">
+      <soap:operation soapAction="http://tempuri.org/IGenerateInvoices/Render" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderHtml">
+      <soap:operation soapAction="http://tempuri.org/IGenerateInvoices/RenderHtml" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderCustom">
+      <soap:operation soapAction="http://tempuri.org/IGenerateInvoices/RenderCustom" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderHtmlCustom">
+      <soap:operation soapAction="http://tempuri.org/IGenerateInvoices/RenderHtmlCustom" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Invoice">
+    <wsdl:port name="BasicHttpBinding_IGenerateInvoices" binding="tns:BasicHttpBinding_IGenerateInvoices">
+      <soap:address location="http://localhost:52445/Invoice.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

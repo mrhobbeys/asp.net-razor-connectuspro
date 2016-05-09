@@ -1,0 +1,544 @@
+/****************************** General Styles ******************************/
+body {
+	font-family: Arial, Tahoma, sans-serif;
+	font-size: 12px;
+	color: #444549;
+	background: url('../../images/landing/topBG.png') 0 0 repeat-x;
+}
+
+.fl {float: left;}
+.fr {float: right;}
+
+.cl {clear: left;}
+.cr {clear: right;}
+.cb {clear: both;}
+
+h1, h2, h3, h4 {
+	font-weight: normal;
+}
+
+h1 {
+	font-size: 24px;
+}
+
+h3 {
+	font-size: 14px;
+	text-transform: uppercase;
+}
+
+a {
+	text-decoration: none;
+	color:#225fa0;
+}
+
+em {
+	font-size: 11px;
+	font-style: italic;
+	color: #919295;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.noBottomBorder {
+	border-bottom: none !important;
+	overflow: hidden;
+}
+
+.noRightBorder {
+	border-right: none !important;
+}
+
+p {
+	line-height: 1.5em;
+	margin: 15px 0;
+}
+
+div.blankSeparator {
+	height: 1px;
+	margin-bottom: 30px;
+	display: block;
+}
+
+div.sepContainer {
+	height: 20px;
+	background: url('../../images/landing/separatorBG.png') 0 0 repeat-x;
+	display: block;
+	margin: 30px 0;
+}
+
+.lastCol {
+	margin-right: 0 !important;
+}
+
+
+
+
+
+/******************************* Structure Styles *******************************/
+div.centerContainer {
+	width: 960px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+/******************************* Top Part *******************************/
+div#topContainer {
+	background: url('../../images/landing/topBGPattern.png') 0 0 repeat;
+	height: 131px;
+}
+
+.logo {
+	margin-top: 40px;
+}
+
+div#contactInformationTop {
+	background: url('../../images/landing/topPaperShadow.png') top center no-repeat;
+	width: 291px;
+	height: 118px;
+}
+
+	div#contactInformationTop ul {
+		padding: 0 30px;
+	}
+	
+		div#contactInformationTop ul li {
+			border-bottom: 1px solid #ebebed;
+		}
+	
+		div#contactInformationTop ul li span {
+			color: #444549;
+		}
+
+		div#contactInformationTop ul li p {
+			font-size: 11px;
+			color: #92979D;
+			background: url('../../images/landing/bulletPoint.png') left center no-repeat;
+			
+			padding-left: 15px;
+			margin: 8px 0;
+		}
+		
+		div#contactInformationTop ul li ul { /* the social icons list */
+			padding: 0; /* reseting some inherited padding */
+			margin: 8px 0 0 10px;
+		}
+		
+			div#contactInformationTop ul li ul li {
+				display: inline;
+				background: none; /* reseting inherited BG and borders */
+				border: none;
+				padding: 0 5px 0 0;
+			}
+			
+			
+			
+			
+			
+
+/******************************* Menu *******************************/
+div#menuContainer {
+	background: url('../../images/landing/menuBG.png') 0 0 repeat-x;
+	height: 40px;
+}
+
+ul#nav {
+	margin-left:30px;
+	}
+
+	ul#nav li {
+		float: left;
+		display: inline;
+		margin: 12px 26px 0 0;
+		background: url('../../images/landing/menuSep.png') center right no-repeat;
+		padding-right: 26px;
+	}
+
+	ul#nav li a {
+		color: white;
+		font-size: 14px;
+		text-transform: uppercase;
+	}
+	
+	ul#nav li a:hover {
+		color: #92979D;
+	}
+	
+
+ul#navLogin {
+	padding-right:6px;
+}
+
+	ul#navLogin li {
+		float: right;
+		display: inline;
+		margin: 12px 0 0 6px;
+		background: url('../../images/landing/menuSep.png') center left no-repeat;
+		padding-left: 6px;
+	}
+	ul#navLogin li a {
+		color: white;
+		font-size: 12px;
+	}
+	
+	ul#navLogin li a:hover {
+		color: #92979D;
+	}
+	
+
+	
+/******************************* Content *******************************/	
+
+/******************************* SideBar Menu *******************************/	
+div#SideBarMenu {
+	background: url(../../images/landing/subMenuBg.png) center top no-repeat;
+	width: 240px;
+	height:720px;
+}
+
+div#SideBarMenu h2 {
+       color:#333;
+	   font-size:20px;
+	   margin-top:20px;
+	   padding: 0 0 10px 30px;
+}
+
+ul#navSidebar{
+	}
+	
+	ul#navSidebar li{
+			width:240px;
+			float: left;
+			display: block;
+			padding: 12px 0 8px 30px;
+		}
+		
+	ul#navSidebar li a{
+			color: #666;
+			font-size: 14px;
+			font-weight:400;
+			text-transform: uppercase;
+		}	
+		
+	ul#navSidebar li a:hover {    
+			color:#225fa0;
+		}
+		
+.selected {   
+    color:white;
+	text-transform: uppercase;
+	background:url(../../images/landing/subMenuSelectedBg.png);
+	background-repeat: no-repeat;
+	}				
+
+/******************************* Big Icons + Description *******************************/	
+div#BigIcons {
+	width: 716px;
+}
+
+.BigIcon{
+	display:block;
+	background-color:#fff;
+	float:left;
+	width:238px;
+	height:238px;
+	padding:0 0 0 0;
+	}
+	
+	.BigIcon img{
+		display:block;
+		padding-left:40px;
+		margin-top:10px;
+		width:160px;
+		height:160px;
+		}
+		
+	.BigIcon h3{
+		font-family:"Courier New", Courier, monospace;
+		margin-top:-15px;
+		color: #225fa0;
+		font-size: 16px;
+		text-align:center;
+		font-weight:bold
+		}
+		
+	
+	.BigIcon span {
+		display:block;
+		margin-top:8px;
+		color: #8B8B8B;
+		font-size: 13px;
+		font-weight:bold;
+		text-align:center;
+	}	
+	
+	.BigIconCenter{
+	display:block;
+	background-color:#fff;
+	float:left;
+	width:238px;
+	height:198px;
+	padding:0 0 0 0;
+	margin-top:40px;
+	}
+
+	.BigIconCenter img{
+		display:block;
+		padding-left:40px;
+		margin-top:0px;
+		width:160px;
+		height:160px;
+		}
+		
+	.BigIconCenter h3{
+		font-family:"Courier New", Courier, monospace;
+		margin-top:-15px;
+		color: #225fa0;
+		font-size: 16px;
+		text-align:center;
+		font-weight:bold
+		}
+		
+	
+	.BigIconCenter span {
+		display:block;
+		margin-top:8px;
+		color: #8B8B8B;
+		font-size: 13px;
+		font-weight:bold;
+		text-align:center;
+	}	
+
+div.horizontalLine{
+	display:block;
+	padding:0 0 0 0;
+	margin:auto;
+	float:left;
+	width:719px;
+	height:1px;
+	}
+	
+		div.horizontalLineWhite{
+			display:block;
+			padding:0 0 0 0;
+			margin:auto;
+			float:left;
+			width:29px;
+			height:1px;
+			background-color:#fff;
+			}
+			
+		div.horizontalLineBlack{
+			display:block;
+			padding:0 0 0 0;
+			margin:auto;
+			float:left;
+			width:661px;
+			height:1px;
+			background-color:#000;
+			}		
+		
+
+div.verticalLine{
+	display:block;
+	padding:0 0 0 0;
+	margin:auto;
+	float:left;
+	width:1px;
+	height:239px;
+	}	
+	
+		div.verticalLineTop{
+			display:block;
+			padding:0 0 0 0;
+			margin:auto;
+			float:left;
+			width:1px;
+			height:239px;
+			}	
+			
+					div.verticalLineTopWhite{
+					display:block;
+					padding:0 0 0 0;
+					margin:auto;
+					float:left;
+					width:1px;
+					height:29px;
+					background-color:#fff;
+					}	
+					
+					div.verticalLineTopBlack{
+					display:block;
+					padding:0 0 0 0;
+					margin:auto;
+					float:left;
+					width:1px;
+					height:210px;
+					background-color:#000;
+					}	
+			
+		div.verticalLineMiddle{
+			display:block;
+			padding:0 0 0 0;
+			margin:auto;
+			float:left;
+			width:1px;
+			height:239px;
+			background-color:#000;
+			}		
+			
+		div.verticalLineBottom{
+			display:block;
+			padding:0 0 0 0;
+			margin:auto;
+			float:left;
+			width:1px;
+			height:239px;
+			}	
+			
+					div.verticalLineBottomBlack{
+					display:block;
+					padding:0 0 0 0;
+					margin:auto;
+					float:left;
+					width:1px;
+					height:210px;
+					background-color:#000;
+					}
+					
+					div.verticalLineBottomWhite{
+					display:block;
+					padding:0 0 0 0;
+					margin:auto;
+					float:left;
+					width:1px;
+					height:29px;
+					background-color:#fff;
+					}				
+	
+div#rightBar{
+	display:block;
+	padding:0 0 0 0;
+	margin:auto;
+	float:right;
+	width:4px;
+	height:720px;
+    background:url(../../images/landing/rightBar.png);
+	}			
+	
+		
+	
+	
+/******************************* Footer *******************************/	
+div#footerBG{
+	background: url('../../images/landing/footerBG.png') 0 0 repeat-x;
+	height: 60px;
+}
+
+div#footerPattern{
+	background: url('../../images/landing/topBGPattern.png') 0 0 repeat;
+	height: 60px;
+}
+	
+div#Footer {
+	height: 60px;
+}
+
+div#footerCopyrightPrivacy {
+	width:240px;
+	text-align:center;
+	margin-top:20px;
+	}
+	div#footerCopyrightPrivacy p{
+		margin-top:0px;
+		font-size:11px;
+		}
+	div#footerCopyrightPrivacy a{
+		font-size:11px;
+		}
+		
+		
+div#footerNavigation{
+    width:720px;
+    margin: auto;
+	text-align:center;
+	}
+		
+		
+ul#navFooter {
+	margin-top:20px;
+}
+
+	ul#navFooter li {
+		display: inline;
+		margin: 10px 0 0 17px;
+		padding-left: 17px;
+	}
+	
+	ul#navFooter li a {
+		color: #999;
+		font-size: 14px;
+		text-transform: uppercase;
+	}
+	
+	ul#navFooter li a:hover {
+		color: #333;
+	}	
+	
+/******************************* Other Browser Styles *******************************/
+.ie7 ul#nav li a:hover {
+	text-decoration: none;
+}	
+
+#back-section 
+{
+    width: 100%;
+    text-align: right;   
+}
+
+#back-section a
+{
+    font-size: 10pt;
+    padding-right:25px;
+    padding-top:15px;
+}
+
+/* data table */
+table.data-table  {width:700px;border:5px solid #f9fbfc;border-top:none; font-size:1em;-moz-box-shadow: 10px 10px 5px #888;-webkit-box-shadow: 10px 10px 5px #888;box-shadow: 10px 10px 5px #888;-moz-border-radius: 10px;border-radius: 10px;}
+table.data-table td, table.data-table th {padding:6px 10px; border-top:2px solid #eff3f7;background:#e7f0f3;}
+table.data-table th { text-align:left;}
+table.data-table thead th { background:#d7e6ec;border-top:5px solid #f9fbfc;color:#000;}
+table.data-table tbody th { background:#f1f6f8; border-top-color:#f9fbfc;}
+/* action cells */
+table.data-table td.actions, table.data-table th.actions {padding:0px;width:40px;}
+table.data-table td.actions {font-family:Arial, Helvetica, sans-serif;white-space:nowrap; text-align:center;border-right:1px dashed #d7e6ec;}
+table.data-table th.actions {font-weight:normal;color:#4d8aa2;text-align:center;}
+table.data-table td.comment {padding:6px 10px; border-top:2px solid #eff3f7;background:#e7f0f3;width:60%}
+
+table.d-table  {width:100%;border:5px solid #f9fbfc;border-top:none; font-size:1em;-moz-box-shadow: 10px 10px 5px #888;-webkit-box-shadow: 10px 10px 5px #888;box-shadow: 10px 10px 5px #888;-moz-border-radius: 10px;border-radius: 10px;}
+table.d-table td, table.d-table th {padding:6px 10px; border-top:2px solid #eff3f7;background:#e7f0f3;}
+table.d-table th { text-align:left;}
+table.d-table thead th { background:#d7e6ec;border-top:5px solid #f9fbfc;color:#000;}
+table.d-table tbody th { background:#f1f6f8; border-top-color:#f9fbfc;}
+/* action cells */
+table.d-table td.actions, table.d-table th.actions {padding:0px;width:40px;}
+table.d-table td.actions {font-family:Arial, Helvetica, sans-serif;white-space:nowrap; text-align:center;border-right:1px dashed #d7e6ec;}
+table.d-table th.actions {font-weight:normal;color:#4d8aa2;text-align:center;}
+table.d-table td.comment {padding:6px 10px; border-top:2px solid #eff3f7;background:#e7f0f3;width:60%}
+
+.header-label
+{
+    padding-top: 20px;
+    width: 700px;
+    text-align:center;
+    font-size:x-large;
+    color: #666;
+}
+
+
+.formtext {width:700px; height:21px; text-align:left; border:#CCCCCC 1px solid; font-size:12px; }
+.formtexticon {width:645px; height:21px; text-align:left; border:#CCCCCC 1px solid; font-size:12px; }
+.formtextarea {width:700px;max-width:700px;height:88px; text-align:left; border:#CCCCCC 1px solid; font-size:12px; } 
+.savebutton{height:21px; text-align:center; border:#CCCCCC 1px solid; font-size:12px;width:80px}
+.formbutton{height:21px; text-align:center; border:#CCCCCC 1px solid; font-size:12px}

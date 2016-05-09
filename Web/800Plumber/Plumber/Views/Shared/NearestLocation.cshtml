@@ -1,0 +1,130 @@
+﻿<table width="100%" border="0" cellspacing="0" cellpadding="6">
+    <tr>
+        <td height="70" align="left" valign="middle">
+            <span class="col-middle-content">
+                <img src="@Url.Content("~/Content/images/location.jpg")"
+                                    alt="Our Guarantee" width="253" height="50" border="0" /></span>
+        </td>
+    </tr>
+    <tr>
+        <td align="left" valign="top">
+            <input name="uiZipCodeNearestLocation" id="uiZipCodeNearestLocation" type="text" class="text-field" />
+        </td>
+    </tr>
+    <tr>
+        <td align="left" valign="top">
+
+            @{
+                
+                Plumber.Models.PlumberContext dbPlumber = new Plumber.Models.PlumberContext();
+                var services = dbPlumber.Services.Where(s => s.ActiveYN == true).ToList(); //.OrderBy(s => s.ServiceCategoryName)
+            }
+            <select name="uiServiceTypeNearestLocation" class="text-list" id="uiServiceTypeNearestLocation">
+                <option value="">Please Choose</option>
+                @foreach (var service in services)
+                {
+                    <option value="@service.ServiceID">@service.ServiceName</option>
+                }
+                @*<option value="1">Plumbing</option>
+                <option value="2">Heating</option>
+                <option value="3">Cooling</option>
+                <option value="4">Electrical</option>
+                <option value="5">Handyman</option>
+                <option value="6">Drain Cleaning</option>
+                <option value="7">Indoor Air Quality</option>*@
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding-right: 20px" align="right" valign="top">
+            <input id="SubmitNearestLocation" name="SubmitNearestLocation" type="button" class="submit-form" value="Submit" />
+        </td>
+    </tr>
+    <tr>
+        <td align="left" valign="top" style="padding-right: 20px">
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td align="right" valign="top" class="col-right-bottom">
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                    <td height="75" align="left" valign="middle">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td align="left" valign="middle">
+                                    <span class="col-middle-content">
+                                        <img src="@Url.Content("~/Content/images/fl.jpg")"
+                                                            alt="Featured Link" width="250" height="34" border="0" /></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" valign="top">
+                                    <div class="rightmenu">
+                                        <ul style="padding: 0px 0 0 20px;">
+                                            <li><a href="@Url.Content("~/MediaAndPress")">MEDIA &amp; PRESS </a></li>
+                                            <li><a href="@Url.Content("~/Testimonials")">TESTIMONIALS </a></li>
+                                            <li><a href="@Url.Content("~/Careers")">CAREERS</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:100%;text-align:center;">
+                        <div class="communityicons">
+                            <a href="http://www.facebook.com/#!/pages/1-800-PLUMBER/113940185286356" target="_blank">
+                                <img src="@Url.Content("~/Content/images/social_facebook.png")" alt="FaceBook" width="48" height="48" border="0" /></a></div>
+                        <div class="communityicons">
+                            <a href="http://twitter.com/1800plumber_USA" target="_blank">
+                                <img src="@Url.Content("~/Content/images/social_twitter.png")" alt="Twitter" width="48" height="48" border="0" /></a></div>
+                        <div class="communityicons">
+                            <a href="http://www.youtube.com/user/800Plumber?feature=watch" target="_blank">
+                                <img src="@Url.Content("~/Content/images/social_you_tube.png")" alt="Youtube" width="48" height="48" border="0" /></a></div>
+                        @*<div class="communityicons">
+                            <a href="http://aboutplumbing.wordpress.com/" target="_blank">
+                                <img src="@Url.Content("~/Content/images/rss.png")" alt="RSS" width="65" height="71" border="0" /></a></div>*@
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (!$("#uiZipCodeNearestLocation").val()) { $("#uiZipCodeNearestLocation").val("Enter your ZIP code"); }
+        $("#uiZipCodeNearestLocation").blur(function () {
+            if (!$("#uiZipCodeNearestLocation").val()) { $("#uiZipCodeNearestLocation").val("Enter your ZIP code"); }
+        });
+        $("#uiZipCodeNearestLocation").focus(function () {
+            if ($("#uiZipCodeNearestLocation").val() == "Enter your ZIP code") { $("#uiZipCodeNearestLocation").val(""); }
+        });
+
+        $("#uiZipCodeNearestLocation").mask("99999");
+        $("#uiZipCodeNearestLocation").watermark("Enter your ZIP code");
+
+        $("#SubmitNearestLocation").click(function () {
+            var zipCode = $("#uiZipCodeNearestLocation").val();
+            var serviceId = $("#uiServiceTypeNearestLocation option:selected").val();
+
+            if ((zipCode == "Enter your ZIP code") || (zipCode == "")) {
+                alert("Please enter a valid ZIP code");
+                return false;
+            }
+
+            $.ajax({
+                url: '@Url.Action("FindNearestLocation", "Home", new { area = "" })',
+                type: 'POST',
+                data: { zipCode: zipCode, serviceId: serviceId },
+                success: function (data) {
+                    window.location.replace(data.url);
+                },
+                error: function () {
+
+                }
+            });
+        });
+    });
+</script>

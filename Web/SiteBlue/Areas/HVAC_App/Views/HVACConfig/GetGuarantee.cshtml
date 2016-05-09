@@ -1,0 +1,25 @@
+﻿@model SiteBlue.Areas.HVAC_App.Models.SetupModels.GuaranteeModel
+@{
+    var id = DateTime.Now.Ticks;   
+}
+<div>
+    @Html.LabelFor(t=>t.GuaranteeName)
+    @Html.DisplayFor(t=>t.GuaranteeName)
+</div>
+<div>
+    @using (Ajax.BeginForm("SaveGuarantee", new AjaxOptions { HttpMethod = "post", LoadingElementId = "loading"+id.ToString() }))
+    {
+        @Html.HiddenFor(t=>t.Id)
+        <div>
+            @Html.LabelFor(t => t.GuaranteeText)
+        </div>
+        <div>
+            @Html.TextAreaFor(t => t.GuaranteeText)
+        </div>
+        <button id="btnSaveGuarantee" type="submit">Save</button>
+    }
+    <div style="height: 60px;">
+    <div id="loading@(id.ToString())" style="display: none;"> <img src="../../../../Content/images/loading.gif" alt="Loading..."/></div>
+    
+</div>
+</div>

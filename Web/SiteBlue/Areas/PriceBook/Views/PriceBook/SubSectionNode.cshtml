@@ -1,0 +1,14 @@
+﻿@model SiteBlue.Areas.PriceBook.Models.SubSection
+
+<li id="@Html.DisplayFor(subSectionItem => Model.SubsectionID)" title="@Url.Action("TreeTasks", new { id = Model.SubsectionID })" class="hasChildren taskli">
+    <span class="subsection">
+        @Html.CheckBoxFor(sectionItem => Model.ActiveYN, new { id = Model.SubsectionID, @class = "ActiveYNSubSection", href = Url.Action("ActivateSubSection", new { id = Model.SubsectionID }) }) 
+        <span class="sectiontext">@Ajax.ActionLink(Model.SubSectionName, "TaskList", new { id = Model.SubsectionID }, new AjaxOptions { UpdateTargetId = "taskgrid" }, new { @class = "subsectionlink" })</span>
+        <img src="/Areas/PriceBook/images/edittreenode.jpg" id="@Html.DisplayFor(subsectionItem => Model.SubsectionID)" title="@Url.Action("UpdateSubSection", new { id = Model.SubsectionID })" class="EditSection"/>
+        <img src="/Areas/PriceBook/images/add.jpg" id="@Html.DisplayFor(subsectionItem => Model.SubsectionID)" title="Add Task" class="AddTask"/>
+        <img src="/Areas/PriceBook/images/delete.jpg" id="@Html.DisplayFor(subsectionItem => Model.SubsectionID)" title="Delete SubSection" class="DeleteSubSection"/>
+    </span>
+
+    <ul id="@Html.DisplayFor(subSectionItem => Model.SubsectionID)Tasks">
+	</ul>
+</li> 

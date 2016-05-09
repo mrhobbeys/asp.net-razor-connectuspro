@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Connect US Pro :: My Master Data";
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+<div id="BigIcons" class="fr">
+    <div class="BigIconCenter" >
+         <a href="@Url.Content("~/Pricebook/Pricebook/Index")" title="My Pricebook">
+            <img class="hoverable" src="@Url.Content("~/Content/images/landing/bigIcon1.png")" alt="Big Icon" />
+        </a>
+        <h3>
+            My Price Book</h3>
+    </div>
+    <!--  Vertical Line between Icon 1 and Icon 2 -->
+    <div class="verticalLineTop">
+        <div class="verticalLineTopWhite">
+        </div>
+        <div class="verticalLineTopBlack">
+        </div>
+    </div>
+     <div class="BigIconCenter">
+@*        <a href="@Url.Content("~/customers/LandingPage")" title="My company info">*@
+                @*<a href="@Url.Content("~/dispatch/customer")" title="My company info">*@
+                <a href="@Url.Content("~/OwnerPortal/AllCustomers/CustomerList")" title="My company info">
+            <img src="@Url.Content("~/Content/images/landing/bigIcon5.png")" alt="Big Icon" /></a>
+        <h3>
+            My Customers</h3>
+    </div>
+   <!--  Vertical Line between Icon 2 and Icon 3 -->
+    <div class="verticalLineTop">
+        <div class="verticalLineTopWhite">
+        </div>
+        <div class="verticalLineTopBlack">
+        </div>
+    </div>
+    <div class="BigIconCenter" >
+        <a href="@Url.Content("~/OwnerPortal/CompanyInfo/MyCompanyInfo")" title="My company info">
+            <img src="@Url.Content("~/Content/images/landing/bigIcon3.png")" alt="Big Icon" />
+        </a>
+                <h3>
+            My Company Info</h3>
+    </div>
+    <!-- Long Horizontal Line between firts row of icons and second row of icons-->
+    <div class="horizontalLine">
+        <div class="horizontalLineWhite">
+        </div>
+        <div class="horizontalLineBlack">
+        </div>
+        <div class="horizontalLineWhite">
+        </div>
+    </div>
+
+    @if (!SiteBlue.SessionContainer.GetInstance().SwapBranding)
+    {
+        <div class="BigIconCenter" >
+             <a href="@Url.Content("~/hvac_app/hvacconfig/index")" title="HVAC App Configuration">
+                <img class="hoverable" src="@Url.Content("~/Content/images/landing/bigIcon6.png")" alt="Big Icon" />
+            </a>
+            <h3>
+               HVAC App <br />Configuration</h3>
+        </div>
+        <!--  Vertical Line between Icon 4 and Icon 5 -->
+        <div class="verticalLineMiddle">
+        </div>
+    }
+</div>
+@section BackSection
+{
+    <div id="back-section">
+        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard", new { area = "LandingPage" }, null)
+    </div>
+}

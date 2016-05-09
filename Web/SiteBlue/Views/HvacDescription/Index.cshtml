@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "HVAC Services Overview";
+}
+<aside>
+    <h2>
+        HVAC Services Overview</h2>
+    <p >
+        <strong class="yellow">Are you running your business or is your business running you?</strong></p>
+    <img src="@Url.Content("~/Content/images/hvacservice.jpg")" class="p2" alt="" />
+    <p class="alignjustify">
+        There’s more to being in business than turning wrenches. There’s paperwork, filing,
+        payables and receivables, marketing, hiring, sales and list goes on and on. We can
+        help you cut through the clutter with cutting edge tools and systems that will keep
+        you making money when the heat is on.</p>
+</aside>
+<article>
+    <section class="wrapper">
+        <h2>
+            The ConnectusPro Advantage
+        </h2>
+        <p>
+            <strong class="yellow">When you partner with ConnectusPro, you are not just making your
+                business more profitable, you are making it better.</strong></p>
+        <p class="alignjustify">
+            We have now done what most said could not be done. We have developed a national
+            platform to enable independent home services companies to have the same back office,
+            and in fact better, than any of the largest companies. 24/7 live call reception,
+            dispatch, technology, performance tracking, accounting, etc.</p>
+
+        @Html.Partial("Benefits")
+
+    </section>
+</article>
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials")</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing")</li>
+            <li class="active">@Html.ActionLink("HVAC", "Index", "HvacDescription")</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical")</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs")</li>
+        </ul>
+    </nav>
+}

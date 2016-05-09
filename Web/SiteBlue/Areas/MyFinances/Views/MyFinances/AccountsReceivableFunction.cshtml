@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Accounts Receivable Functions";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+
+<h2>Accounts Receivable Functions</h2>
+@section Styles {
+}
+
+@section ScriptIncludes {
+
+}
+
+@section InlineScript {
+<script type="text/javascript">
+    $('document').ready(function () {
+        SiteBlue.renderMenu(false);
+        $(SiteBlue).bind("FranchiseChanged", function (e, data) {  });
+        doOnLoad();
+    });
+</script>
+}
+
+
+Links:-
+<br />
+<a href="@Url.Content("~/OwnerPortal/Invoice/InvoiceList")" title="Invoice List">Invoice List</a>
+<br />
+<a href="@Url.Content("~/MyFinances/MyFinances/SampleInvoice")" title="Sample Invoice">Sample Invoice </a>
+<br />
+<a href="@Url.Content("~/MyFinances/MyFinances/AccountsAdjustments")" title="Accounts Adjustments">Accounts Adjustments </a>
+<br />
+<a href="@Url.Content("~/MyFinances/MyFinances/OpenBalances")" title="Open Balances">Open Balances </a>
+<br />
+<a href="@Url.Content("~/MyFinances/MyFinances/WriteOffDownFunction")" title="WriteOffDownFunction">Write Off/Down Function </a>
+<br />
+<a href="@Url.Content("~/MyFinances/MyFinances/PaymentMethod2")" title="PaymentMethod2">Payment Method 2 </a>
+<br />
+<a href="@Url.Content("~/MyFinances/MyFinances/PopupPaymentMethod2")" title="PopupPaymentMethod2">Popup Payment Method 2 </a>

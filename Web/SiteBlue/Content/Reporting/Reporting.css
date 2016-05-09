@@ -1,0 +1,126 @@
+﻿/*Reporting views style*/
+.maincontainer
+{
+width: 100%;            
+float:left;  
+}
+.divsearchpanel
+{
+width: 98%;
+padding:0px 0px 0px 10px;
+float: left;
+}        
+.searchParam
+{
+width: 100%;
+padding:5px 5px 10px 5px;
+border-bottom:1px solid gray; 
+float:left;
+}
+.searchresult
+{            
+width:100%; 
+padding: 15px 0px 0px 10px;
+float:left;
+}
+.divgridbox
+{
+width: 98%;
+float:left; 
+overflow:hidden;                
+}    
+pageingbox
+{
+width: 98%;
+float:left;  
+} 
+.exportpanel
+{
+width: 98%;
+padding: 2px 2px 2px 2px;
+float: left;
+}
+.loadingbox
+{            
+padding: 2px 2px 2px 2px;
+text-align: center;
+}      
+#btnsearch
+{
+width: 100px;
+padding: 3px;
+margin-left: 20px;
+}
+#btnexport
+{
+width: 100px;
+padding: 3px;
+margin-left: 20px;
+}
+.reporttextbox
+{
+width: 180px !important;                        
+}   
+.rowlabel
+{
+width: 150px;
+padding: 10px;
+}
+.rowspan
+{
+width: 100px;
+padding:10px; 
+}     
+.rowspandate
+{
+width: 100px;
+padding:10px 10px 10px 12px;                       
+}           
+.reportDesription
+{            
+padding:2px 2px 2px 2px;          
+margin-top:0px; 
+margin-left:10px; 
+border:0px solid;
+display:none;                           
+}     
+/*index view style*/
+#field
+{
+padding-left: 15px;
+height:380px;
+}
+#space
+{
+width: 100px;
+padding: 3px;
+margin-left: 20px;
+}
+.ReportCrit
+{
+width: 80%;
+padding: 10px 5px 10px 10px;
+margin: 2px;
+border: 0px solid;
+}
+.divdatefilter 
+{
+width: 100%;
+padding-top:18px;                         
+border: 0px solid;
+} 
+#divmain
+{
+width: 80%;            
+padding: 10px 0px 10px 130px;
+}
+#divReportnav
+{
+width: 90%;
+padding: 20px 10px 20px 10px;                                       
+text-align: left;
+}
+        
+        
+      
+        

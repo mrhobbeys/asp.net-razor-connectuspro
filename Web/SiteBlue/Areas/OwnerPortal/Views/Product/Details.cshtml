@@ -1,0 +1,61 @@
+﻿@model SiteBlue.OwnerPortal.Data.Product
+
+@{
+    ViewBag.Title = "Product details";
+    Layout = "~/Views/Shared/QuestionnaireLayout.cshtml";
+}
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+
+<h2>@Html.DisplayFor(model => model.ProductName) Details</h2>
+@Html.HiddenFor(model => model.ProductId, new { id = "ProductId" })
+<div id="presentation-section">
+    <div class="display-label">ShortDescription</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ShortDescription)
+    </div>
+    <div class="display-label">Description</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="display-label">Price</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Price)
+    </div>
+</div>
+<div class="form" id="card-section">
+    <div class="formComponent formComponentSingleLineText">
+        <label class="formComponentLabel">Add to cart</label>
+        <label for="uiProductQuantity">Quantity</label>
+        <input type="text" id="uiProductQuantity" name="uiProductQuantity" />
+    </div>
+    <div class="buttons">
+        <ul class="jquerycontrol">
+            <li><a onclick="addToCart()" class="formbutton" id="save">Add to cart</a></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+    function addToCart() {
+        alert('Item added');
+    }
+</script>

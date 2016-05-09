@@ -1,0 +1,40 @@
+﻿@model SiteBlue.Areas.HVAC_App.Models.SetupModels.PackageVideoCode    
+@{
+    var id = DateTime.Now.Ticks;
+}
+<script>  
+
+        function showVideo@(id.ToString()) ()
+
+     {
+        var code = $("#cd@(id.ToString())").val();
+        $("#videoContainer@(id.ToString())").html('<object><param name="movie" value="http://www.youtube.com/v/' + code + '?version=3&feature=player_detailpage"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="false"><embed src="http://www.youtube.com/v/' + code + '?version=3&feature=player_detailpage" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="435" height="260"></object>');
+    }
+    function onSuccess() {
+        
+    }
+</script>
+@using (Ajax.BeginForm("SaveVideoCode", "HVACConfig", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "onSuccess()", LoadingElementId = "loading"+id.ToString() }))
+{
+    <div>@Html.LabelFor(t=>t.Code) @Html.TextBox("cd"+id.ToString(), Model.Code)</div>
+    <div>Example: http://www.youtube.com/watch?v=<b>WwdArhNPJPE</b> => code is <b>WwdArhNPJPE</b></div>
+    <div>@Html.HiddenFor(t => t.Id)</div>
+    <div>
+        <button id="btnSave" type="submit">Save</button>   
+    </div>
+}    
+<div style="height: 30px;">
+    <div id="loading@(id.ToString())" style="display: none;"> <img src="../../../../Content/images/loading.gif" alt="Loading..."/></div>
+</div>
+<button id="btnShowVideo" type="button" onclick="showVideo@(id.ToString())()">Show Video</button>          
+<div id="videoContainer@(id.ToString())">
+        @if (!String.IsNullOrEmpty(Model.Code))
+              {
+                  <object>
+                      <param name="movie" value='http://www.youtube.com/v/@Model.Code?version=3&feature=player_detailpage'>
+                      <param name="allowFullScreen" value="true">
+                      <param name="allowScriptAccess" value="false">        
+                      <embed src="http://www.youtube.com/v/@Model.Code?version=3&feature=player_detailpage" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="435" height="260">
+                  </object>
+              }
+</div>

@@ -1,0 +1,19 @@
+﻿@using SiteBlue.Areas.dispatch.Models
+@{
+Layout = null;
+Response.ContentType = "text/xml";
+}
+
+@model IEnumerable<JobViewModel>
+<rows>
+@foreach (var job in Model)
+{
+<row id="@job.JobID" status="@job.Status.StatusID">
+    <cell><![CDATA[@job.DisplayName]]></cell>
+    <cell><![CDATA[@job.JobLocation.Address]]></cell>
+    <cell><![CDATA[@job.StatusText]]></cell>
+    <cell><![CDATA[@job.Start.GetValueOrDefault().Date.ToShortDateString()]]></cell>
+    <cell><![CDATA[@(job.PrimaryTechnician != null ? job.PrimaryTechnician.Employee : "N/A")]]></cell>
+</row>
+}
+</rows>

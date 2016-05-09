@@ -1,0 +1,182 @@
+@model SecurityGuard.ViewModels.DashboardViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/SecurityGuard/Views/Shared/_SecurityGuardLayoutPage.cshtml";
+}
+
+    <link href="@Url.Content("~/codebase/dhtmlxwindows.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/codebase/skins/dhtmlxwindows_dhx_skyblue.css")" rel="stylesheet" type="text/css" />
+
+    <script src="@Url.Content("~/codebase/dhtmlxcommon.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/codebase/dhtmlxwindows.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/codebase/dhtmlxcontainer.js")" type="text/javascript"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+
+        var dhxWins = null;
+        var detailWin = null;
+
+    </script>
+
+@*  ============================
+      Greybox scripts removed
+    ============================*@
+@*<script type="text/javascript">
+
+    //Set Greybox root directory...
+    var GB_ROOT_DIR = "/GreyBox/";
+
+</script>*@
+
+@*Load Greybox files*@
+@*<script type="text/javascript" src="@Url.Content("~/GreyBox/AJS.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/GreyBox/AJS_fx.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/GreyBox/gb_scripts.js")"></script>
+<link href="@Url.Content("~/GreyBox/gb_styles.css")" rel="stylesheet" type="text/css" media="all" />*@
+
+@*<script type="text/javascript">
+
+    //Set GreyBox properties...
+    GB_myShow = function (caption, url, /* optional */height, width, callback_fn) {
+        var options = {
+            caption: caption,
+            height: height || 600,
+            width: width || 1000,
+            fullscreen: false,
+            show_loading: true,
+            center_win: true,
+            callback_fn: callback_fn
+        }
+        var win = new GB_Window(options);
+        return win.show(url);
+    }
+   
+</script>*@
+@*  ============================
+      Greybox scripts removed
+    ============================*@
+
+<div style="width:100%;height:50px;">
+&nbsp;
+</div>
+<h2>
+    Manage Users, Roles and Company Codes</h2>
+<p>
+    An easy-to-use management system for Membership Users and Roles based on the ASP.NET
+    Membership system.</p>
+    <br />
+<div class="fl w48pc mr20">
+    <fieldset>
+        <legend>Manage Users</legend>
+        <p>@Html.ActionLink("Manage Users", "Index", "Membership", new { area = "SecurityGuard" }, null)
+        @*| @Html.ActionLink("Create User", "CreateUser", "Membership", new { area = "SecurityGuard" }, null)</p>*@
+            |<a id="btn-CreateUser" href="#">Create User</a></p>
+        <table>
+            <tr>
+                <td>
+                    Total Users:
+                </td>
+                <td>@Model.TotalUserCount
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Users Online:
+                </td>
+                <td>@Model.TotalUsersOnlineCount
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+<div class="fr w48pc">
+    <fieldset>
+        <legend>Manage Roles</legend>
+        <p>@Html.ActionLink("Manage Roles", "Index", "Role", new { area = "SecurityGuard" }, null)</p>
+        <table>
+            <tr>
+                <td>
+                    Total Roles:
+                </td>
+                <td>@Model.TotalRolesCount
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+
+<div class="fl w48pc mr20">
+<fieldset>
+        <legend>Manage Company Codes</legend>
+        <p>@Html.ActionLink("Manage Company Code", "Index", "CompanyCode", new { area = "SecurityGuard" }, null)</p>
+        <table>
+            <tr>
+                <td>
+                    Total Company Code:
+                </td>
+                <td>
+                @Model.TotalCompanyCode
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+
+
+<script type="text/javascript">
+    
+    $(function () {  
+   
+        /*****************************************************
+        * Begin Create User functions
+        *****************************************************/
+        $("#btn-CreateUser").click(function () {
+            fnOpenCreateUserWindow();
+
+        });
+
+        //function to open Create User window in grey box..
+        function fnOpenCreateUserWindow() {
+            return popupURL('@Url.Action("CreateUser", "Membership")');
+
+            //return GB_myShow('Create User', '@Url.Action("CreateUser", "Membership")', '', '', null);
+        }
+
+        function popupURL(actionUrl) {
+
+            // Common code to do a popup
+            dhxWinsAdd = new dhtmlXWindows();
+            dhxWinsAdd.enableAutoViewport(true);
+            dhxWinsAdd.setImagePath("../../codebase/imgs/");
+            var createUserWindowAdd = dhxWinsAdd.createWindow("createUserWindowAdd", 200, 40, 990, 610);
+            dhxWinsAdd.window("createUserWindowAdd").setModal(true);
+            dhxWinsAdd.window("createUserWindowAdd").setText("Create User");
+            dhxWinsAdd.attachEvent("onClose",
+                function (win) {
+                    return true;
+                });
+
+            dhxWinsAdd.window("createUserWindowAdd").attachURL(actionUrl);
+        }
+
+        /*****************************************************
+        * End Create User functions
+        *****************************************************/
+
+
+    });
+
+</script>

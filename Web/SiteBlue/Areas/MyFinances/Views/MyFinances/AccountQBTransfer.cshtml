@@ -1,0 +1,617 @@
+﻿@{
+    ViewBag.Title = "Accounting QB Transfer";
+    Layout = "~/Views/Shared/_FranchiseSelectionLayout.cshtml";
+}
+@section Styles {
+    <link href="../../../../codebase/dhtmlxchart.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css" />
+    <link href="../../../../codebase/dhtmlxgrid_pgn_bricks.css" rel="stylesheet" type="text/css" />
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxtabbar.css" />
+    <link rel="STYLESHEET" type="text/css" href="../../../../codebase/dhtmlxgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../codebase/skins/dhtmlxgrid_dhx_skyblue.css" />
+    <link href="../../../../codebase/skins/dhtmlxcalendar_dhx_skyblue.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../../../../codebase/dhtmlxcalendar.css" rel="stylesheet" type="text/css" />
+}
+@section ScriptIncludes {
+    <script src="../../../../codebase/dhtmlxcommon.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgridcell.js" type="text/javascript"></script>
+  <script src="../../../../codebase/dhtmlxgrid_excell_link.js" type="text/javascript"></script>
+    <script src="../../../../codebase/ext/dhtmlxgrid_export.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_pgn.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxgrid_filter.js" type="text/javascript"></script>
+    <script src="../../../../codebase/json2.js" type="text/javascript"></script>
+    <script src="../../../../codebase/dhtmlxcalendar.js" type="text/javascript"></script>
+}
+@section InlineScript {
+    <script type="text/javascript">
+        dhtmlx.skin = "dhx_skyblue";
+
+        $('document').ready(function () {
+            SiteBlue.renderMenu(false);
+            $(SiteBlue).bind("FranchiseChanged", function (e, data) { doOnLoad(); });
+            doOnLoad();
+        });
+
+        function RowClick(rId) {
+            alert(rId);
+        }
+
+
+        function downloadQBTTransfferToExcel() {
+
+            mygridRCodes.toExcel("../MyFinances/DownloadMyFinances");
+        }
+        function abc() {
+            window.location.reload();
+        }
+
+        function CommaFormatted(amount) {
+            try {
+
+                amount = String(Math.round(amount * 100) / 100);
+                var delimiter = ",";
+                var a = String(amount).split('.', 2)
+                var d = '00';
+                if (a[1] != null) {
+                    d = a[1];
+                }
+
+                var i = parseInt(a[0]);
+                if (isNaN(i)) { return '0.00'; }
+                var minus = '';
+                if (i < 0) { minus = '-'; }
+                i = Math.abs(i);
+                var n = new String(i);
+                var a = [];
+                while (n.length > 3) {
+                    var nn = n.substr(n.length - 3);
+                    a.unshift(nn);
+                    n = n.substr(0, n.length - 3);
+                }
+                if (n.length > 0) { a.unshift(n); }
+                n = a.join(delimiter);
+                if (d.length < 1) { amount = n; }
+                else { amount = n + '.' + d; }
+                amount = minus + amount;
+                return amount;
+            } catch (e) {
+                return "0.00";
+            }
+        }
+
+        function doOnLoad() {
+         
+            myCalendar = new dhtmlXCalendarObject(["TransStDate", "TransEndDate"]);
+            myCalendar.setWeekStartDay(7);
+            myCalendar.setDateFormat("%m/%d/%Y");
+            DepositGridLoad();
+            InvoiceGrid();
+            SalesGrid();
+            TransferReportGrid();
+            WeekEndingGridLoad();
+//            document.getElementById("gifId").style.display = "block";
+          
+        }
+
+        function DepositGridLoad() {
+            document.getElementById("gifId").style.display = "block";
+            mygridRCodes = new dhtmlXGridObject('DepositGridbox');
+            mygridRCodes.setImagePath("../../../../codebase/imgs/");
+            mygridRCodes.setHeader("ID,Deposit#,Deposit Date,Cash,Checks,Credit,Other,Batch Total,Transfer Date,Reference JE#,Transaction#,QB Result", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+            mygridRCodes.setColAlign("left,center,center,right,right,right,right,right,center,center,center,center");
+            mygridRCodes.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro");
+            //mygridRCodes.setInitWidths("50,80,100,100,100,100,100,90,80,80,80,80,80,80,80");
+            //mygridRCodes.attachEvent("onRowDblClicked", "RowDblClick");
+            //mygridRCodes.attachEvent("onRowSelect", "RowClick");
+            //mygridRCodes.setColSorting("str,str,str,str,str,str,str,str,str,str,str,str,str,str,str");
+            mygridRCodes.enablePaging(true, 10, 3, "Depositgridpgn", false);
+            mygridRCodes.setPagingSkin("bricks");
+            mygridRCodes.init();
+            mygridRCodes.setSkin("dhx_skyblue");
+            var xmlstringEmpList = "";
+            //var Weekdate = document.getElementById("txtstartdate").value;
+            //var frId = SiteBlue.franchiseId;
+            var empid = { frId: SiteBlue.franchiseId };
+            var jsondata = $.ajax({
+                url: "../MyFinances/QBDepositData",
+                data: JSON.stringify(empid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    var AdForHomePages = msg;
+                    xmlstringEmpList = xmlstringEmpList + "<rows>";
+                    $.each(AdForHomePages, function (index, Emplist) {
+                        xmlstringEmpList = xmlstringEmpList + "<row id='" + index + "'>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.DepositID + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.DepositNumber + "]]></cell>";
+                        if (Emplist.DepositDate != null) {
+                            var month = new Date(parseInt(Emplist.DepositDate.substr(6))).getMonth() + 1;
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + month + "/" + new Date(parseInt(Emplist.DepositDate.substr(6))).getDate() + "/" + new Date(parseInt(Emplist.DepositDate.substr(6))).getFullYear() + "]]></cell>";
+                        }
+                        else {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        }
+
+                        var cash = '';
+                        var check = '';
+                        var credit = '';
+                        var other = '';
+                        var deposit = '';
+                        if (Emplist.CashAmount == 'undefined' || Emplist.CashAmount == '0') {
+                            cash = "$0.00";
+                        }
+                        else {
+                            cash = "$";
+                            cash += CommaFormatted(Emplist.CashAmount);
+                        }
+                        if (Emplist.CheckAmount == 'undefined' || Emplist.CheckAmount == '0') {
+                            check = "$0.00";
+                        }
+                        else {
+                            check = "$";
+                            check += CommaFormatted(Emplist.CheckAmount);
+                        }
+                        if (Emplist.CreditAmount == 'undefined' || Emplist.CreditAmount == '0') {
+                            credit = "$0.00";
+                        }
+                        else {
+                            credit = "$";
+                            credit += CommaFormatted(Emplist.CreditAmount);
+                        }
+                        if (Emplist.OtherAmount == 'undefined' || Emplist.OtherAmount == '0') {
+                            other = "$0.00";
+                        }
+                        else {
+                            other = "$";
+                            other += CommaFormatted(Emplist.OtherAmount);
+                        }
+                        if (Emplist.DepositAmount == 'undefined' || Emplist.DepositAmount == '0') {
+                            deposit = "$0.00";
+                        }
+                        else {
+                            deposit = "$";
+                            deposit += CommaFormatted(Emplist.DepositAmount);
+                        }
+
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + cash + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + check + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + credit + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + other + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + deposit + "]]></cell>";
+                        if (Emplist.AccountingTransferDate != null) {
+                            var month = new Date(parseInt(Emplist.AccountingTransferDate.substr(6))).getMonth() + 1;
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + month + "/" + new Date(parseInt(Emplist.AccountingTransferDate.substr(6))).getDate() + "/" + new Date(parseInt(Emplist.AccountingTransferDate.substr(6))).getFullYear() + "]]></cell>";
+                        }
+                        else {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        }
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.AccountingRefNum + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.AccountingTransactionNum + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.DepositNotes + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "</row>";
+                  
+                    });
+                    xmlstringEmpList = xmlstringEmpList + "</rows>";
+                    mygridRCodes.loadXMLString(xmlstringEmpList);
+                    document.getElementById("gifId").style.display = "none";
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+            
+        }
+        var InvoicegridData = "";
+        var SalesgridData = "";
+        function WeekEndingGridLoad() {
+            document.getElementById("gifId").style.display = "block";
+            WgridRCodes = new dhtmlXGridObject('WeekEndingGridbox');
+            WgridRCodes.setImagePath("../../../../codebase/imgs/");
+            WgridRCodes.setHeader("ID,WSR Date,WSR Sales,Posted?,Posted Date,Reference JE#", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+            WgridRCodes.setColAlign("left,left,right,center,center,center");
+            WgridRCodes.setColTypes("ro,ro,ro,ro,ro,ro");
+            //mygridRCodes.setInitWidths("50,80,100,100,100,100,100,90,80,80,80,80,80,80,80");
+            //mygridRCodes.attachEvent("onRowDblClicked", "RowDblClick");
+            //mygridRCodes.attachEvent("onRowSelect", "RowClick");
+            //mygridRCodes.setColSorting("str,str,str,str,str,str,str,str,str,str,str,str,str,str,str");
+            WgridRCodes.enablePaging(true, 10, 3, "WeekEndingGridpgn", false);
+            WgridRCodes.setPagingSkin("bricks");
+            WgridRCodes.attachEvent("onRowSelect", function (id, ind) {
+                var cellObj = WgridRCodes.cellById(id, 1);
+                var xmlstringEmpList = "";
+                var date = cellObj.getValue();
+                var empid = { frId: SiteBlue.franchiseId, date: date };
+                var jsondata = $.ajax({
+                    url: "../MyFinances/QBInvoiceData",
+                    data: JSON.stringify(empid),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        var AdForHomePages = msg;
+                        xmlstringEmpList = xmlstringEmpList + "<rows>";
+                        $.each(AdForHomePages, function (index, Emplist) {
+                            xmlstringEmpList = xmlstringEmpList + "<row id='" + index + "'>";
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.jobID + "]]></cell>";
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.invoicenumber + "]]></cell>";
+                            var jAmount = "";
+                            if (Emplist.Jobamt == 'undefined' || Emplist.Jobamt == '0') {
+                                jAmount = "$0.00";
+                            }
+                            else {
+                                jAmount = "$";
+                                jAmount += CommaFormatted(Emplist.Jobamt);
+                            }
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + jAmount + "]]></cell>";
+                            var month = new Date(parseInt(Emplist.WsrDate.substr(6))).getMonth() + 1;
+                            if (Emplist.WsrDate != "") {
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.billto + " | " + Emplist.joblocation + " | " + Emplist.Tech + " | " + month + "/" + new Date(parseInt(Emplist.WsrDate.substr(6))).getDate() + "/" + new Date(parseInt(Emplist.WsrDate.substr(6))).getFullYear() + "]]></cell>";
+                            }
+                            else {
+                                xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.billto + " | " + Emplist.joblocation + " | " + Emplist.Tech + "]]></cell>";
+                            }
+                            xmlstringEmpList = xmlstringEmpList + "</row>";
+                        });
+                        xmlstringEmpList = xmlstringEmpList + "</rows>";
+                        InvoicegridData.loadXMLString(xmlstringEmpList);
+                        document.getElementById("TotalJobs").value = msg[0].totalCount;
+                        document.getElementById("TotalTax").value = parseFloat(msg[msg[0].totalCount - 1].totalTax).toFixed(2);
+                        document.getElementById("TotalJobSales").value = parseFloat(msg[msg[0].totalCount - 1].TotalSales).toFixed(2);
+                        document.getElementById("JobGrandTotal").value = parseFloat(msg[msg[0].totalCount - 1].totalTax + msg[msg[0].totalCount - 1].TotalSales).toFixed(2);
+                        document.getElementById("Difference").value = parseFloat(msg[msg[0].totalCount - 1].totalTax + msg[msg[0].totalCount - 1].TotalSales - (document.getElementById("TotalAccountSales").value)).toFixed(2);
+                        document.getElementById("gifId").style.display = "none";
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $('#output').innerHtml(e);
+                    }
+                });
+                document.getElementById("gifId").style.display = "block";
+                var xmlstringEmpListSale = "";
+                var empid = { frId: SiteBlue.franchiseId, date: date };
+                var jsondata = $.ajax({
+                    url: "../MyFinances/QBSalesData",
+                    data: JSON.stringify(empid),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (msg) {
+                        var AdForHomePages = msg;
+                        xmlstringEmpListSale = xmlstringEmpListSale + "<rows>";
+                        $.each(AdForHomePages, function (index, Emplist) {
+                            xmlstringEmpListSale = xmlstringEmpListSale + "<row id='" + index + "'>";
+                            var month = new Date(parseInt(Emplist.WsrDate.substr(6))).getMonth() + 1;
+                            if (Emplist.WsrDate != "") {
+                                xmlstringEmpListSale = xmlstringEmpListSale + "<cell><![CDATA[" + month + "/" + new Date(parseInt(Emplist.WsrDate.substr(6))).getDate() + "/" + new Date(parseInt(Emplist.WsrDate.substr(6))).getFullYear() + "]]></cell>";
+                            }
+                            else {
+                                xmlstringEmpListSale = xmlstringEmpListSale + "<cell><![CDATA[" + Emplist.billto + " | " + Emplist.joblocation + " | " + Emplist.Tech + "]]></cell>";
+                            }
+                            xmlstringEmpListSale = xmlstringEmpListSale + "<cell><![CDATA[" + Emplist.Account + "]]></cell>";
+                            var jAmount = "";
+                            if (Emplist.Amount == 'undefined' || Emplist.Amount == '0') {
+                                jAmount = "$0.00";
+                            }
+                            else {
+                                jAmount = "$";
+                                jAmount += CommaFormatted(Emplist.Amount);
+                            }
+                            xmlstringEmpListSale = xmlstringEmpListSale + "<cell><![CDATA[" + jAmount + "]]></cell>";
+                            xmlstringEmpListSale = xmlstringEmpListSale + "<cell><![CDATA[" + '' + "]]></cell>";
+                            xmlstringEmpListSale = xmlstringEmpListSale + "<cell><![CDATA[" + '' + "]]></cell>";
+                            xmlstringEmpListSale = xmlstringEmpListSale + "<cell><![CDATA[" + '' + "]]></cell>";
+                            xmlstringEmpListSale = xmlstringEmpListSale + "<cell><![CDATA[" + '' + "]]></cell>";
+                            xmlstringEmpListSale = xmlstringEmpListSale + "<cell><![CDATA[" + '' + "]]></cell>";
+                            xmlstringEmpListSale = xmlstringEmpListSale + "</row>";
+                        });
+                        xmlstringEmpListSale = xmlstringEmpListSale + "</rows>";
+                        SalesgridData.loadXMLString(xmlstringEmpListSale);
+                        document.getElementById("TotalAccountSales").value = parseFloat(msg[(document.getElementById("TotalJobs").value) - 1].AcctTotal).toFixed(2);
+                        document.getElementById("gifId").style.display = "none";
+                    },
+                    type: "POST",
+                    dataType: "json",
+                    error: function (e) {
+                        $('#output').innerHtml(e);
+                    }
+                });
+            });
+            WgridRCodes.init();
+            WgridRCodes.setColumnHidden(0, true);
+            WgridRCodes.setSkin("dhx_skyblue");
+            var xmlstringEmpList = "";
+            //var Weekdate = document.getElementById("txtstartdate").value;
+            //var frId = SiteBlue.franchiseId;
+            document.getElementById("gifId").style.display = "block";
+            var empid = { frId: SiteBlue.franchiseId };
+            var jsondata = $.ajax({
+                url: "../MyFinances/QBWeekEndingData",
+                data: JSON.stringify(empid),
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    var AdForHomePages = msg;
+                    xmlstringEmpList = xmlstringEmpList + "<rows>";
+                    $.each(AdForHomePages, function (index, Emplist) {
+                        xmlstringEmpList = xmlstringEmpList + "<row id='" + index + "'>";
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.ACHZeeSummaryID + "]]></cell>";
+                        if (Emplist.WeekEnding != null) {
+                            var month = new Date(parseInt(Emplist.WeekEnding.substr(6))).getMonth() + 1;
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + month + "/" + new Date(parseInt(Emplist.WeekEnding.substr(6))).getDate() + "/" + new Date(parseInt(Emplist.WeekEnding.substr(6))).getFullYear() + "]]></cell>";
+                        }
+                        else {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        }
+
+                        var sale = '';
+                        if (Emplist.TotalSales == 'undefined' || Emplist.TotalSales == '0') {
+                            sale = "$0.00";
+                        }
+                        else {
+                            sale = "$";
+                            sale += CommaFormatted(Emplist.TotalSales);
+                        }
+
+
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + sale + "]]></cell>";
+
+                        if (Emplist.MSAPostedYN != 0) {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + 'YES' + "]]></cell>";
+                        }
+                        else {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + 'NO' + "]]></cell>";
+                        }
+                        if (Emplist.MSAPostedDate != null) {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + new Date(parseInt(Emplist.MSAPostedDate.substr(6))) + "]]></cell>";
+                        }
+                        else {
+                            xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + '' + "]]></cell>";
+                        }
+                        xmlstringEmpList = xmlstringEmpList + "<cell><![CDATA[" + Emplist.MSARefNum + "]]></cell>";
+                        xmlstringEmpList = xmlstringEmpList + "</row>";
+                    });
+                    xmlstringEmpList = xmlstringEmpList + "</rows>";
+                    WgridRCodes.loadXMLString(xmlstringEmpList);
+                    document.getElementById("gifId").style.display = "none";
+                },
+                type: "POST",
+                dataType: "json",
+                error: function (e) {
+                    $('#output').innerHtml(e);
+                }
+            });
+        }
+
+        function InvoiceGrid() {
+            document.getElementById("gifId").style.display = "block";
+            InvoicegridData = new dhtmlXGridObject('InvoiceGridbox');
+            InvoicegridData.setImagePath("../../../../codebase/imgs/");
+            InvoicegridData.setHeader("ID,Invoice #,Sales,Job Info", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+            InvoicegridData.setColAlign("left,center,right,left");
+            InvoicegridData.setColTypes("ro,ro,ro,ro");
+            //mygridRCodes.setInitWidths("50,80,100,100,100,100,100,90,80,80,80,80,80,80,80");
+            //mygridRCodes.attachEvent("onRowDblClicked", "RowDblClick");
+            //InvoicegridData.attachEvent("onRowSelect", RowClick);
+            InvoicegridData.init();
+            InvoicegridData.setColumnHidden(0, true);
+            InvoicegridData.setSkin("dhx_skyblue");
+            //mygridRCodes.setColSorting("str,str,str,str,str,str,str,str,str,str,str,str,str,str,str");
+            //InvoicegridData.enablePaging(true, 10, 3, "InvoiceGridpgn", false);
+            //InvoicegridData.setPagingSkin("bricks");
+            document.getElementById("gifId").style.display = "none";
+
+        }
+
+        function SalesGrid() {
+            document.getElementById("gifId").style.display = "block";
+            SalesgridData = new dhtmlXGridObject('SalesGridbox');
+            SalesgridData.setImagePath("../../../../codebase/imgs/");
+            SalesgridData.setHeader("WSR Date,Account #,Sales,N/A,Date,Reference #,TrxnID,Response", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+            SalesgridData.setColAlign("left,right,right,left,left,left,left,left");
+            SalesgridData.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro");
+            //mygridRCodes.setInitWidths("50,80,100,100,100,100,100,90,80,80,80,80,80,80,80");
+            //mygridRCodes.attachEvent("onRowDblClicked", "RowDblClick");
+            //mygridRCodes.attachEvent("onRowSelect", "RowClick");
+            //mygridRCodes.setColSorting("str,str,str,str,str,str,str,str,str,str,str,str,str,str,str");
+            //SalesgridData.enablePaging(true, 5, 3, "SalesGridpgn", false);
+            //SalesgridData.setPagingSkin("bricks");
+            SalesgridData.init();
+            SalesgridData.setSkin("dhx_skyblue");
+            document.getElementById("gifId").style.display = "none";
+        }
+
+        function TransferReportGrid() {
+            document.getElementById("gifId").style.display = "block";
+            ReportgridData = new dhtmlXGridObject('TransferReportGridbox');
+            ReportgridData.setImagePath("../../../../codebase/imgs/");
+            ReportgridData.setHeader("ID,WSR Date,WSR Sales,Invoice #,Sales,Account,Task,Acct Sales,Task", null, ["text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center", "text-align:center"]);
+            ReportgridData.setColAlign("left,left,right,right,right,left,left,right,left");
+            ReportgridData.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro");
+            //mygridRCodes.setInitWidths("50,80,100,100,100,100,100,90,80,80,80,80,80,80,80");
+            //mygridRCodes.attachEvent("onRowDblClicked", "RowDblClick");
+            //mygridRCodes.attachEvent("onRowSelect", "RowClick");
+            //mygridRCodes.setColSorting("str,str,str,str,str,str,str,str,str,str,str,str,str,str,str");
+            //ReportgridData.enablePaging(true, 5, 3, "TransferReportGridpgn", false);
+            //ReportgridData.setPagingSkin("bricks");
+            ReportgridData.init();
+            ReportgridData.setColumnHidden(0, true);
+            ReportgridData.setSkin("dhx_skyblue");
+            document.getElementById("gifId").style.display = "none";
+        }
+    </script>
+}
+@{Html.BeginForm("AccountQBTransfer", "MyFinances");}
+<fieldset style="vertical-align: bottom; padding: 5px 0px 5px 0px; width: 99.80%;
+    margin: 0px; margin-top: 5px; background-color: #dfedf3;">
+    <div style="margin-right: 50px; float: left; margin-left: 5px;">
+        <label style="font-size: larger; font-weight: bold;">
+            QuickBooks Transfers</label>
+    </div>
+</fieldset>
+<div style="float: left; width: 15%; height: 100%">
+    <div style="padding-top: 20px; padding-left: 5px">
+        <a href="#">Open Deposit Transfers</a>
+    </div>
+    <div style="padding-top: 20px; padding-left: 5px">
+        <a href="#">Transfer Deposits Now</a>
+    </div>
+    <div style="padding-top: 20px; padding-left: 5px">
+        <a href="#">Deposit Transfer History</a>
+    </div>
+    <div style="padding-top: 20px; padding-left: 5px">
+        <a href="#">Open Sales Transfers</a>
+    </div>
+    <div style="padding-top: 20px; padding-left: 5px">
+        <a href="#">Sales Transfer History</a>
+    </div>
+    <div style="padding-top: 20px; padding-left: 5px">
+        <a href="#">Transfer Sales Now</a>
+    </div>
+   @* <div style="padding-top: 20px; padding-left: 5px">
+        <a href="#">Excel Export</a>
+    </div>*@
+</div>
+<div style="width: 85%; height: 100%; float: left; background-color: #dfedf3;">
+    <div align="center" id='gifId'>
+        <img src="../../../../Images/ajax-loader.gif" alt="processing..." />
+    </div>
+    <table style="width: 100%;">
+        <tr>
+            <td>
+                <label>
+                    Deposits to be Transferred</label>
+            </td>
+            <td align="left" >
+           
+                <label style="margin-right: 5px;">
+                    Transfer Start Date</label>
+                @Html.TextBox("TransStDate", "", new { @readonly = "readonly" })
+                <label style="margin-left: 10px; margin-right: 5px;">
+                    Transfer End Date</label>
+                @Html.TextBox("TransEndDate", "", new { @readonly = "readonly" })
+
+                <input id="btnRTExcel" type="button" onclick="downloadQBTTransfferToExcel()"  value="Export to Excel" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="div">
+                    <div id="DepositGridbox" style="float: left; height: 240px; width: 100%; margin-top: 5px;">
+                    </div>
+                    <div id="Depositgridpgn">
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 40%;">
+                <div id="WeekEndingGridbox" style="float: left; height: 240px; width: 100%; margin-top: 5px;">
+                </div>
+                <div id="WeekEndingGridpgn">
+                </div>
+            </td>
+            <td style="width: 30%;">
+            </td>
+            <td style="width: 30%; vertical-align: top;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td align="right">
+                            <label>
+                                Total Jobs</label>
+                        </td>
+                        <td align="right">
+                            @Html.TextBox("TotalJobs", "")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <label>
+                                Total Job Sales</label>
+                        </td>
+                        <td align="right">
+                            @Html.TextBox("TotalJobSales", "")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <label>
+                                Total Tax</label>
+                        </td>
+                        <td align="right">
+                            @Html.TextBox("TotalTax", "")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <label>
+                                Job Grand Total</label>
+                        </td>
+                        <td align="right">
+                            @Html.TextBox("JobGrandTotal", "")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <label>
+                                Total Account Sales</label>
+                        </td>
+                        <td align="right">
+                            @Html.TextBox("TotalAccountSales", "")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <label>
+                                Difference</label>
+                        </td>
+                        <td align="right">
+                            @Html.TextBox("Difference", "")
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 40%;">
+                <label>
+                    Sales to be Transferred</label>
+            </td>
+            <td style="width: 60%;">
+                <label>
+                    Accounts to be Transferred</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top;">
+                <div id="InvoiceGridbox" style="float: left; height: 251px; margin-top: 8px; width: 100%;">
+                </div>
+                @*<div id="InvoiceGridpgn">
+                </div>*@
+            </td>
+            <td>
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            <div id="SalesGridbox" style="float: left; height: 120px; width: 100%; margin-top: 5px;">
+                            </div>
+                            @*<div id="SalesGridpgn">
+                            </div>*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="TransferReportGridbox" style="float: left; height: 120px; width: 100%; margin-top: 5px;">
+                            </div>
+                            @*<div id="TransferReportGridpgn">
+                            </div>*@
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+@{Html.EndForm();}

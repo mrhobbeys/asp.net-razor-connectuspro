@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@section headDeclaration{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.cycle.all.2.74.js")"></script>
+}
+@section Meta{
+    <title>Heating Air Conditioning, Emergency Plumbing Repair Service, Drain Cleaning</title>
+    <meta name="description" content="1-800-PLUMBER offers 24 hour emergency plumbing services, electrical repair, drain cleaning and heating air conditioning repairing service in United States and Canada." />
+    <meta name="keywords" content="plumbing services,heating air conditioning,emergency plumbing service,plumbing repair,drain cleaning,24 hour plumbing service,electrical repair" />
+}
+<style>
+    .backstyle
+    {
+        background-color: #FFF;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#plumbing").cycle({
+            fx: "fade",
+            timeout: 8000,
+            delay: 2000,
+            speed: 4000
+        });
+//        $("#plumbing").click(function () {
+//            window.location.replace('@Url.Content("~/Plumbing")');
+//        });
+
+        $("#hvac").cycle({
+            fx: "fade",
+            timeout: 7000,
+            delay: 1000,
+            speed: 4000
+        });
+//        $("#hvac").click(function () {
+//            window.location.replace('@Url.Content("~/Hvac")');
+//        });
+
+        $("#electrical").cycle({
+            fx: "fade",
+            timeout: 7500,
+            delay: 1500,
+            speed: 4000
+        });
+//        $("#electrical").click(function () {
+//            window.location.replace('@Url.Content("~/Electrical")');
+//        });
+
+    });
+</script>
+<div id="header">
+    <div id="plumbing" class="plumbings">
+            <img src="@Url.Content("~/Content/images/plumbing1.jpg")" alt="Plumbing" width="298" height="222" />
+            <img src="@Url.Content("~/Content/images/plumbing2.jpg")" alt="Plumbing" width="298" height="222" />
+            <img src="@Url.Content("~/Content/images/plumbing3.jpg")" alt="Plumbing" width="298" height="222" />
+            <img src="@Url.Content("~/Content/images/plumbing4.jpg")" alt="Plumbing" width="298" height="222" />
+            <img src="@Url.Content("~/Content/images/plumbing5.jpg")" alt="Plumbing" width="298" height="222" />
+            <img src="@Url.Content("~/Content/images/plumbing6.jpg")" alt="Plumbing" width="298" height="222" />
+    </div>
+    <div id="hvac" class="plumbings">
+        <img src="@Url.Content("~/Content/images/hvac1.jpg")" alt="Heating & Cooling" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/hvac2.jpg")" alt="Heating & Cooling" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/hvac3.jpg")" alt="Heating & Cooling" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/hvac4.jpg")" alt="Heating & Cooling" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/hvac5.jpg")" alt="Heating & Cooling" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/hvac6.jpg")" alt="Heating & Cooling" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/hvac7.jpg")" alt="Heating & Cooling" width="298" height="222" />
+    </div>
+    <div id="electrical" class="electrical">
+        <img src="@Url.Content("~/Content/images/electrical1.jpg")" alt="Electrical" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/electrical2.jpg")" alt="Electrical" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/electrical3.jpg")" alt="Electrical" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/electrical4.jpg")" alt="Electrical" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/electrical5.jpg")" alt="Electrical" width="298" height="222" />
+        <img src="@Url.Content("~/Content/images/electrical6.jpg")" alt="Electrical" width="298" height="222" />
+    </div>
+</div>
+<div class="container">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="left" valign="top">
+                &nbsp;
+            </td>
+            <td align="left" valign="top">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td width="440" align="left" valign="top">
+                <div class="content-col">
+                    <div class="row-text">
+                        <div class="rowtitle">
+                            <h1>24 Hour Plumbing & Heating Air Conditioning Services</h1>
+                            <h2>24/7 Emergency Service Available</h2></div>
+                        @*<h1>24 Hour Plumbing & Heating Air Conditioning Services </h1>*@
+                        Call 1-800-PLUMBER® 24-hours a day to schedule service. Because emergencies don’t
+                        just happen between 8:00 AM and 5:00 PM, we never charge extra for nights, weekends
+                        or holidays. Trust 1-800-PLUMBER® to provide you with unparalleled customer service
+                        when you and your family need it.
+                        <div class="more">
+                            <div class="morebtn-large">
+                                @Html.ActionLink("Schedule Service Now ", "Schedule", "Services")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-text">
+                        <div class="rowtitle">
+                            <h1>Complimentary Evaluation</h1></div>
+                        With 1-800-PLUMBER® there are never any trip charges. We believe you shouldn’t have
+                        to pay to find out how much a repair will cost. Our certified technicians will provide
+                        you with a FREE estimate for all your plumbing, drain cleaning, heating and cooling
+                        needs. That way you will know the exact price before service begins.
+                        <div class="more">
+                            <div class="morebtn-large">
+                                @Html.ActionLink("Get a Free Estimate ", "Schedule", "Services")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-text">
+                        <div class="rowtitle">
+                            <h1>No Surprise Pricing</h1></div>
+                        Our certified technicians will completely evaluate your situation and provide you
+                        with all the options available, not just the most expensive. Regardless of which
+                        option you choose, you can trust 1-800-PLUMBER® to help you make an informed decision
+                        for your family and home.<br />
+                        <div class="more">
+                            <div class="morebtn-large">
+                                @Html.ActionLink("Contact Your Local Service Specialist ", "Schedule", "Services")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td align="left" valign="top">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td align="left" valign="top" class="col-middle">
+                            <div class="col-middle-content">
+                                <img src="@Url.Content("~/Content/images/our-guarantee.png")" alt="Our Guarantee" width="211" height="36" border="0" /></div>
+                            <div class="col-middle-image">
+                                <img src="@Url.Content("~/Content/images/gurantee.gif")" alt="Our Guarantee" width="204" border="0" /></div>
+                            <div class="col-middle-content">
+                                Trust 1-800-PLUMBER® to give you superior service with no overtime charges. We never
+                                charge extra for nights, weekends or holidays. There are never any trip charges.
+                                And we always provide FREE estimates. Call us 24-hours a day, seven days a week
+                                to schedule service.
+                            </div>
+                            <div>
+                                <div class="morebtn">
+                                    @Html.ActionLink("More Info ", "Index", "Guarantee")
+                                </div>
+                            </div>
+                        </td>
+                        <td width="15" align="left" valign="top">
+                            &nbsp;
+                        </td>
+                        <td align="left" valign="bottom" class="col-right">
+                            @Html.Partial("NearestLocation")
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li class="highlight"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></li>
+                <li><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations"><span class="menu_ar">Locations</span></a></li>
+                <li><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">Services</span></a></li>
+                <li><a href="@Url.Content("~/AboutUs")" title="About 1-800-PLUMBER"><span class="menu_ar">About us</span></a></li>
+                <li><a href="@Url.Content("~/TerritoryOwners")"><span class="menu_ar">Territory Owners</span></a></li>
+                <li><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">Contact Us</span></a></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off</span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

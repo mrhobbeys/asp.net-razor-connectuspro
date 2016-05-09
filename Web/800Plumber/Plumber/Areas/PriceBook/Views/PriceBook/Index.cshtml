@@ -1,0 +1,157 @@
+﻿@model List<SiteBlue.Areas.PriceBook.Models.Franchise>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/PriceBook/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    select
+    {
+        margin-right: 10px;
+        width: 150px;
+    }
+</style>
+
+<div class="ui-layout-north">
+
+@using (Html.BeginForm("Index", "PriceBook", new { area = "PriceBook" }, FormMethod.Post, new { id = "searchFrm" }))
+{    
+    if (ViewBag.FranchiseId == null)
+    {
+        @Html.DropDownListFor(model => model[0].FranchiseID, new SelectList(Model, "FranchiseID", "FranchiseNumber"), new { @class = "franchpostback", @url = @Url.Action("GetPriceBook") })
+    }
+    else
+    {
+        <strong>Franchise: @ViewBag.FranchiseNumber  </strong>
+    }
+    @Html.DropDownList("PriceBookID", new SelectList(ViewBag.PriceBooks, "PriceBookID", "BookName"), new { @class = "autopostback" })
+    @Html.Hidden("MFlag", true);
+}
+
+<input type="text" id="searchtxt" />
+<input type="button" value="search" id="searchbtn" url="@Url.Action("TreeSubSectionsSearch", new { id = "id" })" />
+<input type="button" value="Reset" id="searchcancel" />
+<input type="button" value="change labor rate" id="laborpricebook" url="@Url.Action("LaborPriceBook")" />
+<input type="button" value="copy pricebook" id="copypricebook" />
+<input type="checkbox" value="Maintain Mode" id="maintainchk" checked="checked" />Edit Mode
+<input type="text" id="percenttxt" style="width: 40px;" />%
+<input type="button" value="recalculate membership prices" id="recalcbtn" url="@Url.Action("RecalcMemberPrice")" />
+<img id="searchprocess" src="/Areas/PriceBook/images/ajax-loader.gif" />
+<div id="searchmessages"></div>
+<div id="sidetreecontrol"><a href="#">Collapse All</a></div>
+<div id="hiddendiv"></div>
+</div>
+
+<div class="ui-layout-west">
+    <input type="button" value="add section" id="createSection" />
+    <div id="pricebooktree"></div>
+</div>
+
+<div class="ui-layout-center">
+    <div id="tasksdiv">
+        <div id="subtaskname"></div>
+        <div id="taskgrid" ></div>
+    </div>
+    <input type="text" id="txtfocus" class="txtfocushide" />
+</div>
+
+<div class="ui-layout-south">
+    <div id="partname"></div>
+    <div id="task">
+        <div class="uploadContainer">
+            <div id="uploadimg" url="@Url.Action("Upload")" tmpurl="@Url.Action("DeleteTempImage")"></div>
+            <div id="viewimg" url="@Url.Action("GetTaskImage")"></div>
+        </div>
+        <div id="taskdetail"></div>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<div id="sectiondlg">
+@using (Html.BeginForm("CreateSection", "PriceBook", new { area = "PriceBook" }, FormMethod.Post, new { id = "sectionFrm" }))
+{
+    @Html.Hidden("hPriceBookID")
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>Section Name:</td>
+            <td>@Html.TextBox("SectionName")</td>
+        </tr>
+        <tr>
+            <td>Active:</td>
+            <td>@Html.CheckBox("ActiveYN", true)</td>
+        </tr>
+    </table>
+}
+</div>
+
+<div id="subsectiondlg">
+@using (Html.BeginForm("CreateSubSection", "PriceBook", new { area = "PriceBook" }, FormMethod.Post, new { id = "subsectionFrm" }))
+{
+    @Html.Hidden("hSectionID")
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>SubSection Name:</td>
+            <td>@Html.TextBox("SubSectionName")</td>
+        </tr>
+        <tr>
+            <td>Active:</td>
+            <td>@Html.CheckBox("ActiveYN", true)</td>
+        </tr>
+    </table>
+}
+</div>
+
+<div id="taskdlg">
+@using (Html.BeginForm("CreateTask", "PriceBook", new { area = "PriceBook" }, FormMethod.Post, new { id = "taskFrm" }))
+{
+    @Html.Hidden("hSubSectionID")
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>Job Code:</td>
+            <td>@Html.TextBox("JobCode")</td>
+        </tr>
+        <tr>
+            <td>JobCode Description:</td>
+            <td>@Html.TextArea("JobCodeDescription", new { style = "width: 300px;" })</td>
+        </tr>
+        <tr>
+            <td>Job Cost:</td>
+            <td>@Html.TextBox("JobCost")</td>
+        </tr>
+        <tr>
+            <td>Job Standard Price:</td>
+            <td>@Html.TextBox("JobStdPrice")</td>
+        </tr>
+        <tr>
+            <td>Job Member Price:</td>
+            <td>@Html.TextBox("JobMemberPrice")</td>
+        </tr>
+        <tr>
+            <td>Job Addon Standard Price:</td>
+            <td>@Html.TextBox("JobAddonStdPrice")</td>
+        </tr>
+        <tr>
+            <td>Job Addon Member Price:</td>
+            <td>@Html.TextBox("JobAddonMemberPrice")</td>
+        </tr>
+        <tr>
+            <td>Residential Account Code</td>
+            <td>@Html.DropDownList("ResAccountCode", new SelectList(ViewBag.ac, "AccountCode", "AccountName"), new { style = "width: 200px;" })</td>
+        </tr>
+        <tr>
+            <td>Commerical Account Code</td>
+            <td>@Html.DropDownList("ComAccountCode", new SelectList(ViewBag.ac, "AccountCode", "AccountName"), new { style = "width: 200px;" })</td>
+        </tr>
+    </table>
+}
+</div>
+
+<div id="pricebookdlg" url="@Url.Action("CopyPriceBook", new { id = "id" })">
+    <table width="100%" cellspacing="2">
+        <tr>
+            <td>Book Name</td>
+            <td>@Html.TextBox("BookName")</td>
+        </tr>
+    </table>
+</div>

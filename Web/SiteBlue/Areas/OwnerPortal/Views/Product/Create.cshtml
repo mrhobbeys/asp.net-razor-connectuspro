@@ -1,0 +1,50 @@
+﻿@model SiteBlue.OwnerPortal.Data.Product
+@{
+    ViewBag.Title = "Create a new product";
+    Layout = "~/Views/Shared/QuestionnaireLayout.cshtml";
+}
+@section navigation
+{
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("About Us", "Index", "Testimonials", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Plumbing", "Index", "Plumbing", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("HVAC", "Index", "HvacDescription", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Electrical", "Index", "Electrical", new { area = "" }, null)</li>
+            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+        </ul>
+    </nav>
+}
+<div class="content">
+    @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { id = "form", @class = "form" }))
+    {
+        @Html.ValidationSummary(true)   
+        <h2>
+            Add a new product</h2>     
+        <div class="formSection">
+            <div class="formComponent formComponentSingleLineText">
+                @Html.LabelFor(model => model.ProductName)
+                @Html.TextBoxFor(model => model.ProductName, new { @class = "large validate[required]" })
+                @Html.LabelFor(model => model.ShortDescription)
+                @Html.TextAreaFor(model => model.ShortDescription)
+                @Html.LabelFor(model => model.Description)
+                @Html.TextAreaFor(model => model.Description)
+                @Html.LabelFor(model => model.Price)
+                @Html.TextBoxFor(model => model.Price, new { @class = "large validate[required]" })
+            </div>
+        </div>
+    }
+</div>
+<div id="but" style="height: 60px; width: 100%; display: block; text-align: right">
+    <ul class="control">
+        <li>@*<a class="formbutton" id="back">< Back</a> *@<a href="javascript:document.getElementById('form').submit()" class="formbutton" id="save">Add
+            new product</a></li>
+        <li></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".form .formSection:first").fadeIn(1000); // Show the first div
+    });
+</script>

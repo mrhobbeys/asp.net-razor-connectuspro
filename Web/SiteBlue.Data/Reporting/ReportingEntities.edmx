@@ -1,0 +1,1675 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ReportingModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ReportingModelStoreContainer">
+          <EntitySet Name="vRpt_AccountingDetail" EntityType="ReportingModel.Store.vRpt_AccountingDetail" store:Type="Views" store:Schema="dbo" store:Name="vRpt_AccountingDetail">
+            <DefiningQuery>SELECT 
+      [vRpt_AccountingDetail].[uID] AS [uID], 
+      [vRpt_AccountingDetail].[ClientID] AS [ClientID], 
+      [vRpt_AccountingDetail].[AccountCode] AS [AccountCode], 
+      [vRpt_AccountingDetail].[AccountName] AS [AccountName], 
+      [vRpt_AccountingDetail].[JOBCOUNT] AS [JOBCOUNT], 
+      [vRpt_AccountingDetail].[TotalSales] AS [TotalSales], 
+      [vRpt_AccountingDetail].[ServiceName] AS [ServiceName], 
+      [vRpt_AccountingDetail].[BusinessType] AS [BusinessType], 
+      [vRpt_AccountingDetail].[JobDate] AS [JobDate], 
+      [vRpt_AccountingDetail].[WSRCompletedDate] AS [WSRCompletedDate]
+      FROM [dbo].[vRpt_AccountingDetail] AS [vRpt_AccountingDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_AccountingSummary" EntityType="ReportingModel.Store.vRpt_AccountingSummary" store:Type="Views" store:Schema="dbo" store:Name="vRpt_AccountingSummary">
+            <DefiningQuery>SELECT 
+      [vRpt_AccountingSummary].[uID] AS [uID], 
+      [vRpt_AccountingSummary].[ClientID] AS [ClientID], 
+      [vRpt_AccountingSummary].[AccountCode] AS [AccountCode], 
+      [vRpt_AccountingSummary].[AccountName] AS [AccountName], 
+      [vRpt_AccountingSummary].[JOBCOUNT] AS [JOBCOUNT], 
+      [vRpt_AccountingSummary].[TotalSales] AS [TotalSales], 
+      [vRpt_AccountingSummary].[ServiceName] AS [ServiceName], 
+      [vRpt_AccountingSummary].[BusinessType] AS [BusinessType], 
+      [vRpt_AccountingSummary].[FirstJobDate] AS [FirstJobDate], 
+      [vRpt_AccountingSummary].[LastJobDate] AS [LastJobDate], 
+      [vRpt_AccountingSummary].[WSRCompletedDate] AS [WSRCompletedDate]
+      FROM [dbo].[vRpt_AccountingSummary] AS [vRpt_AccountingSummary]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_Customer" EntityType="ReportingModel.Store.vRpt_Customer" store:Type="Views" store:Schema="dbo" store:Name="vRpt_Customer">
+            <DefiningQuery>SELECT 
+      [vRpt_Customer].[CustomerID] AS [CustomerID], 
+      [vRpt_Customer].[CustomerName] AS [CustomerName], 
+      [vRpt_Customer].[Email] AS [Email], 
+      [vRpt_Customer].[PrimaryPhone] AS [PrimaryPhone], 
+      [vRpt_Customer].[CellPhone] AS [CellPhone], 
+      [vRpt_Customer].[BillToAddress] AS [BillToAddress], 
+      [vRpt_Customer].[BillToCity] AS [BillToCity], 
+      [vRpt_Customer].[BillToState] AS [BillToState], 
+      [vRpt_Customer].[BillToPostalCode] AS [BillToPostalCode], 
+      [vRpt_Customer].[BillToCountry] AS [BillToCountry], 
+      [vRpt_Customer].[LastVisit] AS [LastVisit], 
+      [vRpt_Customer].[ClientID] AS [ClientID], 
+      [vRpt_Customer].[JobCount] AS [JobCount], 
+      [vRpt_Customer].[TotalSales] AS [TotalSales], 
+      [vRpt_Customer].[AverageJob] AS [AverageJob], 
+      [vRpt_Customer].[Payments] AS [Payments], 
+      [vRpt_Customer].[Balance] AS [Balance]
+      FROM [dbo].[vRpt_Customer] AS [vRpt_Customer]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_CustomerLedger" EntityType="ReportingModel.Store.vRpt_CustomerLedger" store:Type="Views" store:Schema="dbo" store:Name="vRpt_CustomerLedger">
+            <DefiningQuery>SELECT 
+      [vRpt_CustomerLedger].[ClientId] AS [ClientId], 
+      [vRpt_CustomerLedger].[CustomerId] AS [CustomerId], 
+      [vRpt_CustomerLedger].[LineId] AS [LineId], 
+      [vRpt_CustomerLedger].[ReferenceId] AS [ReferenceId], 
+      [vRpt_CustomerLedger].[Type] AS [Type], 
+      [vRpt_CustomerLedger].[Amount] AS [Amount], 
+      [vRpt_CustomerLedger].[ActualBalance] AS [ActualBalance], 
+      [vRpt_CustomerLedger].[StoredBalance] AS [StoredBalance], 
+      [vRpt_CustomerLedger].[RecordedDate] AS [RecordedDate], 
+      [vRpt_CustomerLedger].[IsOutstanding] AS [IsOutstanding], 
+      [vRpt_CustomerLedger].[RunningBalance] AS [RunningBalance], 
+      [vRpt_CustomerLedger].[Sequence] AS [Sequence]
+      FROM [dbo].[vRpt_CustomerLedger] AS [vRpt_CustomerLedger]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_CustomerLedgerSummary" EntityType="ReportingModel.Store.vRpt_CustomerLedgerSummary" store:Type="Views" store:Schema="dbo" store:Name="vRpt_CustomerLedgerSummary">
+            <DefiningQuery>SELECT 
+      [vRpt_CustomerLedgerSummary].[ClientId] AS [ClientId], 
+      [vRpt_CustomerLedgerSummary].[CustomerId] AS [CustomerId], 
+      [vRpt_CustomerLedgerSummary].[Invoices] AS [Invoices], 
+      [vRpt_CustomerLedgerSummary].[Payments] AS [Payments], 
+      [vRpt_CustomerLedgerSummary].[OutstandingBalance] AS [OutstandingBalance]
+      FROM [dbo].[vRpt_CustomerLedgerSummary] AS [vRpt_CustomerLedgerSummary]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_Employee" EntityType="ReportingModel.Store.vRpt_Employee" store:Type="Views" store:Schema="dbo" store:Name="vRpt_Employee">
+            <DefiningQuery>SELECT 
+      [vRpt_Employee].[FranchiseID] AS [FranchiseID], 
+      [vRpt_Employee].[FranchiseNUmber] AS [FranchiseNUmber], 
+      [vRpt_Employee].[FranchiseLegalName] AS [FranchiseLegalName], 
+      [vRpt_Employee].[EmployeeID] AS [EmployeeID], 
+      [vRpt_Employee].[Employee] AS [Employee], 
+      [vRpt_Employee].[CommissionRate] AS [CommissionRate], 
+      [vRpt_Employee].[ServiceProYN] AS [ServiceProYN], 
+      [vRpt_Employee].[ActiveYN] AS [ActiveYN]
+      FROM [dbo].[vRpt_Employee] AS [vRpt_Employee]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_Job" EntityType="ReportingModel.Store.vRpt_Job" store:Type="Views" store:Schema="dbo" store:Name="vRpt_Job">
+            <DefiningQuery>SELECT 
+      [vRpt_Job].[TicketNumber] AS [TicketNumber], 
+      [vRpt_Job].[CallCompleted] AS [CallCompleted], 
+      [vRpt_Job].[StatusID] AS [StatusID], 
+      [vRpt_Job].[Status] AS [Status], 
+      [vRpt_Job].[ServiceID] AS [ServiceID], 
+      [vRpt_Job].[ServiceName] AS [ServiceName], 
+      [vRpt_Job].[TotalSales] AS [TotalSales], 
+      [vRpt_Job].[TaxAmount] AS [TaxAmount], 
+      [vRpt_Job].[SubTotal] AS [SubTotal], 
+      [vRpt_Job].[TaxDescription] AS [TaxDescription], 
+      [vRpt_Job].[BusinessTypeID] AS [BusinessTypeID], 
+      [vRpt_Job].[BusinessType] AS [BusinessType], 
+      [vRpt_Job].[CustomerID] AS [CustomerID], 
+      [vRpt_Job].[CustomerName] AS [CustomerName], 
+      [vRpt_Job].[JobAddress] AS [JobAddress], 
+      [vRpt_Job].[JobCity] AS [JobCity], 
+      [vRpt_Job].[JobState] AS [JobState], 
+      [vRpt_Job].[JobPostalCode] AS [JobPostalCode], 
+      [vRpt_Job].[ClientID] AS [ClientID], 
+      [vRpt_Job].[JobPriorityID] AS [JobPriorityID], 
+      [vRpt_Job].[JobPriority] AS [JobPriority], 
+      [vRpt_Job].[ServiceProID] AS [ServiceProID], 
+      [vRpt_Job].[Balance] AS [Balance], 
+      [vRpt_Job].[ReferralID] AS [ReferralID], 
+      [vRpt_Job].[ReferralType] AS [ReferralType], 
+      [vRpt_Job].[EstimateDate] AS [EstimateDate]
+      FROM [dbo].[vRpt_Job] AS [vRpt_Job]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_JobCode" EntityType="ReportingModel.Store.vRpt_JobCode" store:Type="Views" store:Schema="dbo" store:Name="vRpt_JobCode">
+            <DefiningQuery>SELECT 
+      [vRpt_JobCode].[FranchiseID] AS [FranchiseID], 
+      [vRpt_JobCode].[PriceBookID] AS [PriceBookID], 
+      [vRpt_JobCode].[PriceBookName] AS [PriceBookName], 
+      [vRpt_JobCode].[PriceBookActiveYN] AS [PriceBookActiveYN], 
+      [vRpt_JobCode].[JobCodeID] AS [JobCodeID], 
+      [vRpt_JobCode].[ActiveYN] AS [ActiveYN], 
+      [vRpt_JobCode].[JobCode] AS [JobCode], 
+      [vRpt_JobCode].[JobCodeDescription] AS [JobCodeDescription]
+      FROM [dbo].[vRpt_JobCode] AS [vRpt_JobCode]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_JobDetail" EntityType="ReportingModel.Store.vRpt_JobDetail" store:Type="Views" store:Schema="dbo" store:Name="vRpt_JobDetail">
+            <DefiningQuery>SELECT 
+      [vRpt_JobDetail].[JobID] AS [JobID], 
+      [vRpt_JobDetail].[ClientID] AS [ClientID], 
+      [vRpt_JobDetail].[AccountCode] AS [AccountCode], 
+      [vRpt_JobDetail].[BusinessType] AS [BusinessType], 
+      [vRpt_JobDetail].[JobTaskID] AS [JobTaskID], 
+      [vRpt_JobDetail].[Rate] AS [Rate], 
+      [vRpt_JobDetail].[Quantity] AS [Quantity], 
+      [vRpt_JobDetail].[Amount] AS [Amount], 
+      [vRpt_JobDetail].[JobCode] AS [JobCode], 
+      [vRpt_JobDetail].[JobCodeDescription] AS [JobCodeDescription], 
+      [vRpt_JobDetail].[IsAddOn] AS [IsAddOn]
+      FROM [dbo].[vRpt_JobDetail] AS [vRpt_JobDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRPT_MembershipInfo" EntityType="ReportingModel.Store.vRPT_MembershipInfo" store:Type="Views" store:Schema="dbo" store:Name="vRPT_MembershipInfo">
+            <DefiningQuery>SELECT 
+      [vRPT_MembershipInfo].[MembershipID] AS [MembershipID], 
+      [vRPT_MembershipInfo].[CustomerID] AS [CustomerID], 
+      [vRPT_MembershipInfo].[CustomerName] AS [CustomerName], 
+      [vRPT_MembershipInfo].[Email] AS [Email], 
+      [vRPT_MembershipInfo].[PrimaryPhone] AS [PrimaryPhone], 
+      [vRPT_MembershipInfo].[CellPhone] AS [CellPhone], 
+      [vRPT_MembershipInfo].[BillToAddress] AS [BillToAddress], 
+      [vRPT_MembershipInfo].[BillToCity] AS [BillToCity], 
+      [vRPT_MembershipInfo].[BillToState] AS [BillToState], 
+      [vRPT_MembershipInfo].[BillToPostalCode] AS [BillToPostalCode], 
+      [vRPT_MembershipInfo].[BillToCountry] AS [BillToCountry], 
+      [vRPT_MembershipInfo].[MemberTypeID] AS [MemberTypeID], 
+      [vRPT_MembershipInfo].[MemberType] AS [MemberType], 
+      [vRPT_MembershipInfo].[MembershipStartDate] AS [MembershipStartDate], 
+      [vRPT_MembershipInfo].[MembershipEndDate] AS [MembershipEndDate], 
+      [vRPT_MembershipInfo].[req_TotalInspectionsPerYear] AS [req_TotalInspectionsPerYear], 
+      [vRPT_MembershipInfo].[CountOfInspections] AS [CountOfInspections], 
+      [vRPT_MembershipInfo].[LastDateInspected] AS [LastDateInspected], 
+      [vRPT_MembershipInfo].[LastCustomerVisit] AS [LastCustomerVisit], 
+      [vRPT_MembershipInfo].[CountCustomerVisits] AS [CountCustomerVisits], 
+      [vRPT_MembershipInfo].[JobCount] AS [JobCount], 
+      [vRPT_MembershipInfo].[TotalSales] AS [TotalSales], 
+      [vRPT_MembershipInfo].[AverageJob] AS [AverageJob], 
+      [vRPT_MembershipInfo].[Payments] AS [Payments], 
+      [vRPT_MembershipInfo].[Balance] AS [Balance], 
+      [vRPT_MembershipInfo].[ClientID] AS [ClientID]
+      FROM [dbo].[vRPT_MembershipInfo] AS [vRPT_MembershipInfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_OvertimeMethod" EntityType="ReportingModel.Store.vRpt_OvertimeMethod" store:Type="Views" store:Schema="dbo" store:Name="vRpt_OvertimeMethod">
+            <DefiningQuery>SELECT 
+      [vRpt_OvertimeMethod].[OvertimeMethodID] AS [OvertimeMethodID], 
+      [vRpt_OvertimeMethod].[OvertimeMethod] AS [OvertimeMethod]
+      FROM [dbo].[vRpt_OvertimeMethod] AS [vRpt_OvertimeMethod]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_PartUsagePerJob" EntityType="ReportingModel.Store.vRpt_PartUsagePerJob" store:Type="Views" store:Schema="dbo" store:Name="vRpt_PartUsagePerJob">
+            <DefiningQuery>SELECT 
+      [vRpt_PartUsagePerJob].[TicketNumber] AS [TicketNumber], 
+      [vRpt_PartUsagePerJob].[CallCompleted] AS [CallCompleted], 
+      [vRpt_PartUsagePerJob].[Status] AS [Status], 
+      [vRpt_PartUsagePerJob].[ServiceName] AS [ServiceName], 
+      [vRpt_PartUsagePerJob].[BusinessType] AS [BusinessType], 
+      [vRpt_PartUsagePerJob].[CustomerName] AS [CustomerName], 
+      [vRpt_PartUsagePerJob].[JobAddress] AS [JobAddress], 
+      [vRpt_PartUsagePerJob].[JobCity] AS [JobCity], 
+      [vRpt_PartUsagePerJob].[JobState] AS [JobState], 
+      [vRpt_PartUsagePerJob].[JobPostalCode] AS [JobPostalCode], 
+      [vRpt_PartUsagePerJob].[ClientID] AS [ClientID], 
+      [vRpt_PartUsagePerJob].[JobCode] AS [JobCode], 
+      [vRpt_PartUsagePerJob].[TaskQty] AS [TaskQty], 
+      [vRpt_PartUsagePerJob].[PartCode] AS [PartCode], 
+      [vRpt_PartUsagePerJob].[PartName] AS [PartName], 
+      [vRpt_PartUsagePerJob].[PartQty] AS [PartQty], 
+      [vRpt_PartUsagePerJob].[PartCost] AS [PartCost], 
+      [vRpt_PartUsagePerJob].[PartTotalCost] AS [PartTotalCost], 
+      [vRpt_PartUsagePerJob].[PartUnitPrice] AS [PartUnitPrice], 
+      [vRpt_PartUsagePerJob].[PartTotalPrice] AS [PartTotalPrice]
+      FROM [dbo].[vRpt_PartUsagePerJob] AS [vRpt_PartUsagePerJob]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_Payroll" EntityType="ReportingModel.Store.vRpt_Payroll" store:Type="Views" store:Schema="dbo" store:Name="vRpt_Payroll">
+            <DefiningQuery>SELECT 
+      [vRpt_Payroll].[PayrollID] AS [PayrollID], 
+      [vRpt_Payroll].[FranchiseID] AS [FranchiseID], 
+      [vRpt_Payroll].[PayrollDate] AS [PayrollDate], 
+      [vRpt_Payroll].[LockedYN] AS [LockedYN], 
+      [vRpt_Payroll].[LockDate] AS [LockDate], 
+      [vRpt_Payroll].[GrossPay] AS [GrossPay]
+      FROM [dbo].[vRpt_Payroll] AS [vRpt_Payroll]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_PayrollDetail" EntityType="ReportingModel.Store.vRpt_PayrollDetail" store:Type="Views" store:Schema="dbo" store:Name="vRpt_PayrollDetail">
+            <DefiningQuery>SELECT 
+      [vRpt_PayrollDetail].[PayrollDetailID] AS [PayrollDetailID], 
+      [vRpt_PayrollDetail].[PayrollID] AS [PayrollID], 
+      [vRpt_PayrollDetail].[EmployeeID] AS [EmployeeID], 
+      [vRpt_PayrollDetail].[WeeklySalary] AS [WeeklySalary], 
+      [vRpt_PayrollDetail].[RegularHours] AS [RegularHours], 
+      [vRpt_PayrollDetail].[RegularRate] AS [RegularRate], 
+      [vRpt_PayrollDetail].[RegularPay] AS [RegularPay], 
+      [vRpt_PayrollDetail].[OTHours] AS [OTHours], 
+      [vRpt_PayrollDetail].[OTRate] AS [OTRate], 
+      [vRpt_PayrollDetail].[OTPay] AS [OTPay], 
+      [vRpt_PayrollDetail].[CommissionParts] AS [CommissionParts], 
+      [vRpt_PayrollDetail].[CommissionLabor] AS [CommissionLabor], 
+      [vRpt_PayrollDetail].[CommissionSpifs] AS [CommissionSpifs], 
+      [vRpt_PayrollDetail].[TotalCommission] AS [TotalCommission], 
+      [vRpt_PayrollDetail].[SundayHours] AS [SundayHours], 
+      [vRpt_PayrollDetail].[MondayHours] AS [MondayHours], 
+      [vRpt_PayrollDetail].[TuesdayHours] AS [TuesdayHours], 
+      [vRpt_PayrollDetail].[WednesdayHours] AS [WednesdayHours], 
+      [vRpt_PayrollDetail].[ThursdayHours] AS [ThursdayHours], 
+      [vRpt_PayrollDetail].[FridayHours] AS [FridayHours], 
+      [vRpt_PayrollDetail].[SaturdayHours] AS [SaturdayHours], 
+      [vRpt_PayrollDetail].[JobCount] AS [JobCount], 
+      [vRpt_PayrollDetail].[Adjustment] AS [Adjustment], 
+      [vRpt_PayrollDetail].[AdjustmentReason] AS [AdjustmentReason], 
+      [vRpt_PayrollDetail].[CommissionRateHour] AS [CommissionRateHour], 
+      [vRpt_PayrollDetail].[CommissionOTMultiplier] AS [CommissionOTMultiplier], 
+      [vRpt_PayrollDetail].[OTAdditCommission] AS [OTAdditCommission], 
+      [vRpt_PayrollDetail].[GrossPay] AS [GrossPay], 
+      [vRpt_PayrollDetail].[TimeStamp] AS [TimeStamp], 
+      [vRpt_PayrollDetail].[LockDate] AS [LockDate]
+      FROM [dbo].[vRpt_PayrollDetail] AS [vRpt_PayrollDetail]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_PayrollSetup" EntityType="ReportingModel.Store.vRpt_PayrollSetup" store:Type="Views" store:Schema="dbo" store:Name="vRpt_PayrollSetup">
+            <DefiningQuery>SELECT 
+      [vRpt_PayrollSetup].[PayrollSetupID] AS [PayrollSetupID], 
+      [vRpt_PayrollSetup].[FranchiseID] AS [FranchiseID], 
+      [vRpt_PayrollSetup].[OvertimeStarts] AS [OvertimeStarts], 
+      [vRpt_PayrollSetup].[OvertimeMethodID] AS [OvertimeMethodID], 
+      [vRpt_PayrollSetup].[OTMultiplier] AS [OTMultiplier], 
+      [vRpt_PayrollSetup].[OvertimeMethod] AS [OvertimeMethod]
+      FROM [dbo].[vRpt_PayrollSetup] AS [vRpt_PayrollSetup]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_PayrollSpiff" EntityType="ReportingModel.Store.vRpt_PayrollSpiff" store:Type="Views" store:Schema="dbo" store:Name="vRpt_PayrollSpiff">
+            <DefiningQuery>SELECT 
+      [vRpt_PayrollSpiff].[PayrollSpiffID] AS [PayrollSpiffID], 
+      [vRpt_PayrollSpiff].[PayrollSetupID] AS [PayrollSetupID], 
+      [vRpt_PayrollSpiff].[JobCodeID] AS [JobCodeID], 
+      [vRpt_PayrollSpiff].[JobCode] AS [JobCode], 
+      [vRpt_PayrollSpiff].[JobCodeDescription] AS [JobCodeDescription], 
+      [vRpt_PayrollSpiff].[ServiceProID] AS [ServiceProID], 
+      [vRpt_PayrollSpiff].[Employee] AS [Employee], 
+      [vRpt_PayrollSpiff].[PayTypeID] AS [PayTypeID], 
+      [vRpt_PayrollSpiff].[PayType] AS [PayType], 
+      [vRpt_PayrollSpiff].[Rate] AS [Rate], 
+      [vRpt_PayrollSpiff].[DateExpires] AS [DateExpires], 
+      [vRpt_PayrollSpiff].[Comments] AS [Comments], 
+      [vRpt_PayrollSpiff].[AddonYN] AS [AddonYN], 
+      [vRpt_PayrollSpiff].[ActiveYN] AS [ActiveYN]
+      FROM [dbo].[vRpt_PayrollSpiff] AS [vRpt_PayrollSpiff]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_SpiffPayType" EntityType="ReportingModel.Store.vRpt_SpiffPayType" store:Type="Views" store:Schema="dbo" store:Name="vRpt_SpiffPayType">
+            <DefiningQuery>SELECT 
+      [vRpt_SpiffPayType].[SpiffPayTypeID] AS [SpiffPayTypeID], 
+      [vRpt_SpiffPayType].[SpiffPayType] AS [SpiffPayType]
+      FROM [dbo].[vRpt_SpiffPayType] AS [vRpt_SpiffPayType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_WSR" EntityType="ReportingModel.Store.vRpt_WSR" store:Type="Views" store:Schema="dbo" store:Name="vRpt_WSR">
+            <DefiningQuery>SELECT 
+      [vRpt_WSR].[WSRCompletedDate] AS [WSRCompletedDate], 
+      [vRpt_WSR].[TicketNumber] AS [TicketNumber], 
+      [vRpt_WSR].[CallCompleted] AS [CallCompleted], 
+      [vRpt_WSR].[StatusID] AS [StatusID], 
+      [vRpt_WSR].[Status] AS [Status], 
+      [vRpt_WSR].[ServiceID] AS [ServiceID], 
+      [vRpt_WSR].[ServiceName] AS [ServiceName], 
+      [vRpt_WSR].[TotalSales] AS [TotalSales], 
+      [vRpt_WSR].[TaxAmount] AS [TaxAmount], 
+      [vRpt_WSR].[SubTotal] AS [SubTotal], 
+      [vRpt_WSR].[TaxDescription] AS [TaxDescription], 
+      [vRpt_WSR].[BusinessTypeID] AS [BusinessTypeID], 
+      [vRpt_WSR].[BusinessType] AS [BusinessType], 
+      [vRpt_WSR].[CustomerName] AS [CustomerName], 
+      [vRpt_WSR].[JobAddress] AS [JobAddress], 
+      [vRpt_WSR].[JobCity] AS [JobCity], 
+      [vRpt_WSR].[JobState] AS [JobState], 
+      [vRpt_WSR].[JobPostalCode] AS [JobPostalCode], 
+      [vRpt_WSR].[ClientID] AS [ClientID], 
+      [vRpt_WSR].[JobPriorityID] AS [JobPriorityID], 
+      [vRpt_WSR].[JobPriority] AS [JobPriority], 
+      [vRpt_WSR].[ServiceProID] AS [ServiceProID], 
+      [vRpt_WSR].[Balance] AS [Balance]
+      FROM [dbo].[vRpt_WSR] AS [vRpt_WSR]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vRpt_WSR_Dates" EntityType="ReportingModel.Store.vRpt_WSR_Dates" store:Type="Views" store:Schema="dbo" store:Name="vRpt_WSR_Dates">
+            <DefiningQuery>SELECT 
+      [vRpt_WSR_Dates].[WSRCompletedDate] AS [WSRCompletedDate], 
+      [vRpt_WSR_Dates].[ClientID] AS [ClientID]
+      FROM [dbo].[vRpt_WSR_Dates] AS [vRpt_WSR_Dates]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_AccountingDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_AccountingDetail">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="JOBCOUNT" />
+            <PropertyRef Name="uID" />
+          </Key>
+          <Property Name="uID" Type="bigint" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="AccountCode" Type="varchar" MaxLength="5" />
+          <Property Name="AccountName" Type="varchar" MaxLength="50" />
+          <Property Name="JOBCOUNT" Type="int" Nullable="false" />
+          <Property Name="TotalSales" Type="money" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="50" />
+          <Property Name="BusinessType" Type="varchar" MaxLength="50" />
+          <Property Name="JobDate" Type="datetime" />
+          <Property Name="WSRCompletedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_AccountingSummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_AccountingSummary">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="uID" />
+          </Key>
+          <Property Name="uID" Type="bigint" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="AccountCode" Type="varchar" MaxLength="5" />
+          <Property Name="AccountName" Type="varchar" MaxLength="50" />
+          <Property Name="JOBCOUNT" Type="int" />
+          <Property Name="TotalSales" Type="money" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="50" />
+          <Property Name="BusinessType" Type="varchar" MaxLength="50" />
+          <Property Name="FirstJobDate" Type="datetime" />
+          <Property Name="LastJobDate" Type="datetime" />
+          <Property Name="WSRCompletedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_Customer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="LastVisit" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="JobCount" />
+            <PropertyRef Name="TotalSales" />
+            <PropertyRef Name="AverageJob" />
+            <PropertyRef Name="Payments" />
+            <PropertyRef Name="Balance" />
+          </Key>
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="150" />
+          <Property Name="PrimaryPhone" Type="varchar" MaxLength="20" />
+          <Property Name="CellPhone" Type="varchar" MaxLength="20" />
+          <Property Name="BillToAddress" Type="varchar" MaxLength="75" />
+          <Property Name="BillToCity" Type="varchar" MaxLength="50" />
+          <Property Name="BillToState" Type="varchar" MaxLength="2" />
+          <Property Name="BillToPostalCode" Type="varchar" MaxLength="15" />
+          <Property Name="BillToCountry" Type="varchar" MaxLength="50" />
+          <Property Name="LastVisit" Type="datetime" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="JobCount" Type="int" Nullable="false" />
+          <Property Name="TotalSales" Type="money" Nullable="false" />
+          <Property Name="AverageJob" Type="money" Nullable="false" />
+          <Property Name="Payments" Type="money" Nullable="false" />
+          <Property Name="Balance" Type="money" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_CustomerLedger' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_CustomerLedger">
+          <Key>
+            
+            
+            <PropertyRef Name="LineId" />
+            <PropertyRef Name="ReferenceId" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="StoredBalance" />
+          </Key>
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="LineId" Type="int" Nullable="false" />
+          <Property Name="ReferenceId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="varchar" Nullable="false" MaxLength="7" />
+          <Property Name="Amount" Type="money" />
+          <Property Name="ActualBalance" Type="money" />
+          <Property Name="StoredBalance" Type="money" Nullable="false" />
+          <Property Name="RecordedDate" Type="datetime" />
+          <Property Name="IsOutstanding" Type="bit" />
+          <Property Name="RunningBalance" Type="money" />
+          <Property Name="Sequence" Type="bigint" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_CustomerLedgerSummary' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_CustomerLedgerSummary">
+          <Key>
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="Invoices" Type="money" />
+          <Property Name="Payments" Type="money" />
+          <Property Name="OutstandingBalance" Type="money" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_Employee' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_Employee">
+          <Key>
+            <PropertyRef Name="FranchiseID" />
+            <PropertyRef Name="FranchiseLegalName" />
+          </Key>
+          <Property Name="FranchiseID" Type="int" Nullable="false" />
+          <Property Name="FranchiseNUmber" Type="varchar" MaxLength="10" />
+          <Property Name="FranchiseLegalName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="Employee" Type="varchar" MaxLength="50" />
+          <Property Name="CommissionRate" Type="decimal" Precision="7" Scale="4" />
+          <Property Name="ServiceProYN" Type="bit" />
+          <Property Name="ActiveYN" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_Job' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_Job">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+            <PropertyRef Name="StatusID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="TotalSales" />
+            <PropertyRef Name="TaxAmount" />
+            <PropertyRef Name="SubTotal" />
+            <PropertyRef Name="BusinessTypeID" />
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="JobPriorityID" />
+            <PropertyRef Name="ServiceProID" />
+            <PropertyRef Name="Balance" />
+          </Key>
+          <Property Name="TicketNumber" Type="int" Nullable="false" />
+          <Property Name="CallCompleted" Type="datetime" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ServiceID" Type="int" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="50" />
+          <Property Name="TotalSales" Type="money" Nullable="false" />
+          <Property Name="TaxAmount" Type="money" Nullable="false" />
+          <Property Name="SubTotal" Type="money" Nullable="false" />
+          <Property Name="TaxDescription" Type="varchar" MaxLength="50" />
+          <Property Name="BusinessTypeID" Type="int" Nullable="false" />
+          <Property Name="BusinessType" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="105" />
+          <Property Name="JobAddress" Type="varchar" MaxLength="75" />
+          <Property Name="JobCity" Type="varchar" MaxLength="50" />
+          <Property Name="JobState" Type="varchar" MaxLength="2" />
+          <Property Name="JobPostalCode" Type="varchar" MaxLength="15" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="JobPriorityID" Type="int" Nullable="false" />
+          <Property Name="JobPriority" Type="varchar" MaxLength="50" />
+          <Property Name="ServiceProID" Type="int" Nullable="false" />
+          <Property Name="Balance" Type="money" Nullable="false" />
+          <Property Name="ReferralID" Type="int" />
+          <Property Name="ReferralType" Type="varchar" MaxLength="50" />
+          <Property Name="EstimateDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_JobCode' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_JobCode">
+          <Key>
+            <PropertyRef Name="FranchiseID" />
+            <PropertyRef Name="PriceBookID" />
+            <PropertyRef Name="PriceBookActiveYN" />
+            
+            
+          </Key>
+          <Property Name="FranchiseID" Type="int" Nullable="false" />
+          <Property Name="PriceBookID" Type="int" Nullable="false" />
+          <Property Name="PriceBookName" Type="varchar" MaxLength="50" />
+          <Property Name="PriceBookActiveYN" Type="bit" Nullable="false" />
+          <Property Name="JobCodeID" Type="int" Nullable="false" />
+          <Property Name="ActiveYN" Type="bit" Nullable="false" />
+          <Property Name="JobCode" Type="varchar" MaxLength="10" />
+          <Property Name="JobCodeDescription" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_JobDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_JobDetail">
+          <Key>
+            <PropertyRef Name="JobID" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="AccountCode" />
+            <PropertyRef Name="JobTaskID" />
+            <PropertyRef Name="Rate" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="IsAddOn" />
+          </Key>
+          <Property Name="JobID" Type="int" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="AccountCode" Type="varchar" Nullable="false" MaxLength="5" />
+          <Property Name="BusinessType" Type="varchar" MaxLength="50" />
+          <Property Name="JobTaskID" Type="int" Nullable="false" />
+          <Property Name="Rate" Type="money" Nullable="false" />
+          <Property Name="Quantity" Type="money" Nullable="false" />
+          <Property Name="Amount" Type="money" />
+          <Property Name="JobCode" Type="varchar" MaxLength="10" />
+          <Property Name="JobCodeDescription" Type="varchar" MaxLength="100" />
+          <Property Name="IsAddOn" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRPT_MembershipInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRPT_MembershipInfo">
+          <Key>
+            <PropertyRef Name="MembershipID" />
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="MemberTypeID" />
+            <PropertyRef Name="CountCustomerVisits" />
+            <PropertyRef Name="JobCount" />
+            <PropertyRef Name="TotalSales" />
+            <PropertyRef Name="AverageJob" />
+            <PropertyRef Name="Payments" />
+            <PropertyRef Name="Balance" />
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="MembershipID" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="150" />
+          <Property Name="PrimaryPhone" Type="varchar" MaxLength="20" />
+          <Property Name="CellPhone" Type="varchar" MaxLength="20" />
+          <Property Name="BillToAddress" Type="varchar" MaxLength="75" />
+          <Property Name="BillToCity" Type="varchar" MaxLength="50" />
+          <Property Name="BillToState" Type="varchar" MaxLength="2" />
+          <Property Name="BillToPostalCode" Type="varchar" MaxLength="15" />
+          <Property Name="BillToCountry" Type="varchar" MaxLength="50" />
+          <Property Name="MemberTypeID" Type="int" Nullable="false" />
+          <Property Name="MemberType" Type="varchar" MaxLength="50" />
+          <Property Name="MembershipStartDate" Type="datetime" />
+          <Property Name="MembershipEndDate" Type="datetime" />
+          <Property Name="req_TotalInspectionsPerYear" Type="int" />
+          <Property Name="CountOfInspections" Type="int" />
+          <Property Name="LastDateInspected" Type="datetime" />
+          <Property Name="LastCustomerVisit" Type="datetime" />
+          <Property Name="CountCustomerVisits" Type="int" Nullable="false" />
+          <Property Name="JobCount" Type="int" Nullable="false" />
+          <Property Name="TotalSales" Type="money" Nullable="false" />
+          <Property Name="AverageJob" Type="money" Nullable="false" />
+          <Property Name="Payments" Type="money" Nullable="false" />
+          <Property Name="Balance" Type="money" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_OvertimeMethod' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_OvertimeMethod">
+          <Key>
+            <PropertyRef Name="OvertimeMethodID" />
+            <PropertyRef Name="OvertimeMethod" />
+          </Key>
+          <Property Name="OvertimeMethodID" Type="int" Nullable="false" />
+          <Property Name="OvertimeMethod" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_PartUsagePerJob' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_PartUsagePerJob">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="TaskQty" />
+            <PropertyRef Name="PartQty" />
+            <PropertyRef Name="PartUnitPrice" />
+          </Key>
+          <Property Name="TicketNumber" Type="int" Nullable="false" />
+          <Property Name="CallCompleted" Type="datetime" />
+          <Property Name="Status" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="50" />
+          <Property Name="BusinessType" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="105" />
+          <Property Name="JobAddress" Type="varchar" MaxLength="75" />
+          <Property Name="JobCity" Type="varchar" MaxLength="50" />
+          <Property Name="JobState" Type="varchar" MaxLength="2" />
+          <Property Name="JobPostalCode" Type="varchar" MaxLength="15" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="JobCode" Type="varchar" MaxLength="10" />
+          <Property Name="TaskQty" Type="money" Nullable="false" />
+          <Property Name="PartCode" Type="varchar" MaxLength="25" />
+          <Property Name="PartName" Type="varchar" MaxLength="100" />
+          <Property Name="PartQty" Type="money" Nullable="false" />
+          <Property Name="PartCost" Type="money" />
+          <Property Name="PartTotalCost" Type="money" />
+          <Property Name="PartUnitPrice" Type="money" Nullable="false" />
+          <Property Name="PartTotalPrice" Type="money" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_Payroll' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_Payroll">
+          <Key>
+            <PropertyRef Name="PayrollID" />
+            <PropertyRef Name="FranchiseID" />
+            <PropertyRef Name="LockedYN" />
+          </Key>
+          <Property Name="PayrollID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FranchiseID" Type="int" Nullable="false" />
+          <Property Name="PayrollDate" Type="datetime" />
+          <Property Name="LockedYN" Type="bit" Nullable="false" />
+          <Property Name="LockDate" Type="datetime" />
+          <Property Name="GrossPay" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_PayrollDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_PayrollDetail">
+          <Key>
+            <PropertyRef Name="PayrollDetailID" />
+            <PropertyRef Name="PayrollID" />
+            <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="WeeklySalary" />
+            <PropertyRef Name="RegularHours" />
+            <PropertyRef Name="RegularRate" />
+            <PropertyRef Name="RegularPay" />
+            <PropertyRef Name="OTHours" />
+            <PropertyRef Name="OTRate" />
+            <PropertyRef Name="OTPay" />
+            <PropertyRef Name="CommissionParts" />
+            <PropertyRef Name="CommissionLabor" />
+            <PropertyRef Name="SundayHours" />
+            <PropertyRef Name="MondayHours" />
+            <PropertyRef Name="TuesdayHours" />
+            <PropertyRef Name="WednesdayHours" />
+            <PropertyRef Name="ThursdayHours" />
+            <PropertyRef Name="FridayHours" />
+            <PropertyRef Name="SaturdayHours" />
+            <PropertyRef Name="Adjustment" />
+            <PropertyRef Name="CommissionRateHour" />
+          </Key>
+          <Property Name="PayrollDetailID" Type="int" Nullable="false" />
+          <Property Name="PayrollID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="WeeklySalary" Type="real" Nullable="false" />
+          <Property Name="RegularHours" Type="real" Nullable="false" />
+          <Property Name="RegularRate" Type="real" Nullable="false" />
+          <Property Name="RegularPay" Type="real" Nullable="false" />
+          <Property Name="OTHours" Type="real" Nullable="false" />
+          <Property Name="OTRate" Type="real" Nullable="false" />
+          <Property Name="OTPay" Type="real" Nullable="false" />
+          <Property Name="CommissionParts" Type="real" Nullable="false" />
+          <Property Name="CommissionLabor" Type="real" Nullable="false" />
+          <Property Name="CommissionSpifs" Type="float" />
+          <Property Name="TotalCommission" Type="money" />
+          <Property Name="SundayHours" Type="real" Nullable="false" />
+          <Property Name="MondayHours" Type="real" Nullable="false" />
+          <Property Name="TuesdayHours" Type="real" Nullable="false" />
+          <Property Name="WednesdayHours" Type="real" Nullable="false" />
+          <Property Name="ThursdayHours" Type="real" Nullable="false" />
+          <Property Name="FridayHours" Type="real" Nullable="false" />
+          <Property Name="SaturdayHours" Type="real" Nullable="false" />
+          <Property Name="JobCount" Type="int" />
+          <Property Name="Adjustment" Type="real" Nullable="false" />
+          <Property Name="AdjustmentReason" Type="varchar" MaxLength="50" />
+          <Property Name="CommissionRateHour" Type="real" Nullable="false" />
+          <Property Name="CommissionOTMultiplier" Type="float" />
+          <Property Name="OTAdditCommission" Type="real" />
+          <Property Name="GrossPay" Type="float" />
+          <Property Name="TimeStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="LockDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_PayrollSetup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_PayrollSetup">
+          <Key>
+            <PropertyRef Name="PayrollSetupID" />
+            <PropertyRef Name="FranchiseID" />
+            <PropertyRef Name="OvertimeStarts" />
+            <PropertyRef Name="OvertimeMethodID" />
+            <PropertyRef Name="OTMultiplier" />
+            <PropertyRef Name="OvertimeMethod" />
+          </Key>
+          <Property Name="PayrollSetupID" Type="int" Nullable="false" />
+          <Property Name="FranchiseID" Type="int" Nullable="false" />
+          <Property Name="OvertimeStarts" Type="real" Nullable="false" />
+          <Property Name="OvertimeMethodID" Type="int" Nullable="false" />
+          <Property Name="OTMultiplier" Type="real" Nullable="false" />
+          <Property Name="OvertimeMethod" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_PayrollSpiff' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_PayrollSpiff">
+          <Key>
+            <PropertyRef Name="PayrollSpiffID" />
+            <PropertyRef Name="PayrollSetupID" />
+            <PropertyRef Name="JobCodeID" />
+            <PropertyRef Name="ServiceProID" />
+            <PropertyRef Name="PayTypeID" />
+            <PropertyRef Name="PayType" />
+            <PropertyRef Name="Rate" />
+            <PropertyRef Name="AddonYN" />
+            <PropertyRef Name="ActiveYN" />
+          </Key>
+          <Property Name="PayrollSpiffID" Type="int" Nullable="false" />
+          <Property Name="PayrollSetupID" Type="int" Nullable="false" />
+          <Property Name="JobCodeID" Type="int" Nullable="false" />
+          <Property Name="JobCode" Type="varchar" MaxLength="10" />
+          <Property Name="JobCodeDescription" Type="varchar" MaxLength="100" />
+          <Property Name="ServiceProID" Type="int" Nullable="false" />
+          <Property Name="Employee" Type="varchar" MaxLength="50" />
+          <Property Name="PayTypeID" Type="int" Nullable="false" />
+          <Property Name="PayType" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Rate" Type="decimal" Nullable="false" Precision="10" Scale="6" />
+          <Property Name="DateExpires" Type="datetime" />
+          <Property Name="Comments" Type="text" />
+          <Property Name="AddonYN" Type="bit" Nullable="false" />
+          <Property Name="ActiveYN" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_SpiffPayType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_SpiffPayType">
+          <Key>
+            <PropertyRef Name="SpiffPayTypeID" />
+            <PropertyRef Name="SpiffPayType" />
+          </Key>
+          <Property Name="SpiffPayTypeID" Type="int" Nullable="false" />
+          <Property Name="SpiffPayType" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_WSR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_WSR">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+            <PropertyRef Name="StatusID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="TotalSales" />
+            <PropertyRef Name="TaxAmount" />
+            <PropertyRef Name="SubTotal" />
+            <PropertyRef Name="BusinessTypeID" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="JobPriorityID" />
+            <PropertyRef Name="ServiceProID" />
+            <PropertyRef Name="Balance" />
+          </Key>
+          <Property Name="WSRCompletedDate" Type="datetime" />
+          <Property Name="TicketNumber" Type="int" Nullable="false" />
+          <Property Name="CallCompleted" Type="datetime" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ServiceID" Type="int" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="50" />
+          <Property Name="TotalSales" Type="money" Nullable="false" />
+          <Property Name="TaxAmount" Type="money" Nullable="false" />
+          <Property Name="SubTotal" Type="money" Nullable="false" />
+          <Property Name="TaxDescription" Type="varchar" MaxLength="50" />
+          <Property Name="BusinessTypeID" Type="int" Nullable="false" />
+          <Property Name="BusinessType" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="103" />
+          <Property Name="JobAddress" Type="varchar" MaxLength="75" />
+          <Property Name="JobCity" Type="varchar" MaxLength="50" />
+          <Property Name="JobState" Type="varchar" MaxLength="2" />
+          <Property Name="JobPostalCode" Type="varchar" MaxLength="15" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="JobPriorityID" Type="int" Nullable="false" />
+          <Property Name="JobPriority" Type="varchar" MaxLength="50" />
+          <Property Name="ServiceProID" Type="int" Nullable="false" />
+          <Property Name="Balance" Type="money" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'EightHundred.dbo.vRpt_WSR_Dates' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vRpt_WSR_Dates">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="WSRCompletedDate" Type="datetime" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SiteBlue.Data.Reporting" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ReportingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="vRpt_JobDetails" EntityType="SiteBlue.Data.Reporting.vRpt_JobDetail" />
+          <EntitySet Name="vRpt_Jobs" EntityType="SiteBlue.Data.Reporting.vRpt_Job" />
+          <EntitySet Name="vRpt_Customer" EntityType="SiteBlue.Data.Reporting.vRpt_Customer" />
+          <EntitySet Name="vRpt_Payroll" EntityType="SiteBlue.Data.Reporting.vRpt_Payroll" />
+          <EntitySet Name="vRpt_PayrollDetail" EntityType="SiteBlue.Data.Reporting.vRpt_PayrollDetail" />
+          <EntitySet Name="vRpt_AccountingSummary" EntityType="SiteBlue.Data.Reporting.vRpt_AccountingSummary" />
+          <EntitySet Name="vRpt_PartUsagePerJob" EntityType="SiteBlue.Data.Reporting.vRpt_PartUsagePerJob" />
+          <EntitySet Name="vRPT_MembershipInfo" EntityType="SiteBlue.Data.Reporting.vRPT_MembershipInfo" />
+          <EntitySet Name="vRpt_PayrollSetup" EntityType="SiteBlue.Data.Reporting.vRpt_PayrollSetup" />
+          <EntitySet Name="vRpt_PayrollSpiff" EntityType="SiteBlue.Data.Reporting.vRpt_PayrollSpiff" />
+          <EntitySet Name="vRpt_OvertimeMethod" EntityType="SiteBlue.Data.Reporting.vRpt_OvertimeMethod" />
+          <EntitySet Name="vRpt_Employee" EntityType="SiteBlue.Data.Reporting.vRpt_Employee" />
+          <EntitySet Name="vRpt_JobCode" EntityType="SiteBlue.Data.Reporting.vRpt_JobCode" />
+          <EntitySet Name="vRpt_SpiffPayType" EntityType="SiteBlue.Data.Reporting.vRpt_SpiffPayType" />
+          <EntitySet Name="vRpt_AccountingDetail" EntityType="SiteBlue.Data.Reporting.vRpt_AccountingDetail" />
+          <EntitySet Name="vRpt_WSR" EntityType="SiteBlue.Data.Reporting.vRpt_WSR" />
+          <EntitySet Name="vRpt_WSR_Dates" EntityType="SiteBlue.Data.Reporting.vRpt_WSR_Dates" />
+          <EntitySet Name="vRpt_CustomerLedger" EntityType="SiteBlue.Data.Reporting.vRpt_CustomerLedger" />
+          <EntitySet Name="vRpt_CustomerLedgerSummary" EntityType="SiteBlue.Data.Reporting.vRpt_CustomerLedgerSummary" />
+        </EntityContainer>
+        <EntityType Name="vRpt_JobDetail">
+          <Key>
+            <PropertyRef Name="JobID" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="AccountCode" />
+            <PropertyRef Name="Rate" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="IsAddOn" />
+            <PropertyRef Name="JobTaskID" />
+          </Key>
+          <Property Type="Int32" Name="JobID" Nullable="false" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="String" Name="AccountCode" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="Rate" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Amount" Precision="19" Scale="4" Nullable="false" />
+          <Property Type="String" Name="JobCode" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobCodeDescription" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsAddOn" Nullable="false" />
+          <Property Type="Int32" Name="JobTaskID" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vRpt_Job">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+            <PropertyRef Name="StatusID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="TotalSales" />
+            <PropertyRef Name="TaxAmount" />
+            <PropertyRef Name="SubTotal" />
+            <PropertyRef Name="BusinessTypeID" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="JobPriorityID" />
+            <PropertyRef Name="ServiceProID" />
+            <PropertyRef Name="Balance" />
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Type="Int32" Name="TicketNumber" Nullable="false" />
+          <Property Type="DateTime" Name="CallCompleted" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ServiceID" />
+          <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="TotalSales" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="TaxAmount" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="SubTotal" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="String" Name="TaxDescription" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="BusinessTypeID" Nullable="false" />
+          <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CustomerName" MaxLength="103" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobCity" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobState" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="Int32" Name="JobPriorityID" Nullable="false" />
+          <Property Type="String" Name="JobPriority" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ServiceProID" Nullable="false" />
+          <Property Type="Decimal" Name="Balance" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="Int32" Name="ReferralID" />
+          <Property Type="String" Name="ReferralType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="EstimateDate" />
+        </EntityType>
+        <EntityType Name="vRpt_Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="LastVisit" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="JobCount" />
+            <PropertyRef Name="TotalSales" />
+            <PropertyRef Name="AverageJob" />
+            <PropertyRef Name="Payments" />
+            <PropertyRef Name="Balance" />
+          </Key>
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="String" Name="CustomerName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Email" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PrimaryPhone" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CellPhone" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToCity" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToState" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToCountry" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="LastVisit" Nullable="false" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="Int32" Name="JobCount" Nullable="false" />
+          <Property Type="Decimal" Name="TotalSales" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="AverageJob" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Payments" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Balance" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="vRpt_Payroll">
+          <Key>
+            <PropertyRef Name="PayrollID" />
+            <PropertyRef Name="FranchiseID" />
+            <PropertyRef Name="LockedYN" />
+          </Key>
+          <Property Type="Int32" Name="PayrollID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="FranchiseID" Nullable="false" />
+          <Property Type="DateTime" Name="PayrollDate" />
+          <Property Type="Boolean" Name="LockedYN" Nullable="false" />
+          <Property Type="Double" Name="GrossPay" />
+          <Property Type="DateTime" Name="LockDate" />
+        </EntityType>
+        <EntityType Name="vRpt_PayrollDetail">
+          <Key>
+            <PropertyRef Name="PayrollDetailID" />
+            <PropertyRef Name="PayrollID" />
+            <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="WeeklySalary" />
+            <PropertyRef Name="RegularHours" />
+            <PropertyRef Name="RegularRate" />
+            <PropertyRef Name="RegularPay" />
+            <PropertyRef Name="OTHours" />
+            <PropertyRef Name="OTRate" />
+            <PropertyRef Name="OTPay" />
+            <PropertyRef Name="CommissionParts" />
+            <PropertyRef Name="CommissionLabor" />
+            <PropertyRef Name="SundayHours" />
+            <PropertyRef Name="MondayHours" />
+            <PropertyRef Name="TuesdayHours" />
+            <PropertyRef Name="WednesdayHours" />
+            <PropertyRef Name="ThursdayHours" />
+            <PropertyRef Name="FridayHours" />
+            <PropertyRef Name="SaturdayHours" />
+            <PropertyRef Name="Adjustment" />
+            <PropertyRef Name="CommissionRateHour" />
+          </Key>
+          <Property Type="Int32" Name="PayrollDetailID" Nullable="false" />
+          <Property Type="Int32" Name="PayrollID" Nullable="false" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="Single" Name="WeeklySalary" Nullable="false" />
+          <Property Type="Single" Name="RegularHours" Nullable="false" />
+          <Property Type="Single" Name="RegularRate" Nullable="false" />
+          <Property Type="Single" Name="RegularPay" Nullable="false" />
+          <Property Type="Single" Name="OTHours" Nullable="false" />
+          <Property Type="Single" Name="OTRate" Nullable="false" />
+          <Property Type="Single" Name="OTPay" Nullable="false" />
+          <Property Type="Single" Name="CommissionParts" Nullable="false" />
+          <Property Type="Single" Name="CommissionLabor" Nullable="false" />
+          <Property Type="Double" Name="CommissionSpifs" />
+          <Property Type="Decimal" Name="TotalCommission" Precision="19" Scale="4" />
+          <Property Type="Single" Name="SundayHours" Nullable="false" />
+          <Property Type="Single" Name="MondayHours" Nullable="false" />
+          <Property Type="Single" Name="TuesdayHours" Nullable="false" />
+          <Property Type="Single" Name="WednesdayHours" Nullable="false" />
+          <Property Type="Single" Name="ThursdayHours" Nullable="false" />
+          <Property Type="Single" Name="FridayHours" Nullable="false" />
+          <Property Type="Single" Name="SaturdayHours" Nullable="false" />
+          <Property Type="Int32" Name="JobCount" />
+          <Property Type="Single" Name="Adjustment" Nullable="false" />
+          <Property Type="String" Name="AdjustmentReason" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Single" Name="CommissionRateHour" Nullable="false" />
+          <Property Type="Double" Name="CommissionOTMultiplier" />
+          <Property Type="Single" Name="OTAdditCommission" />
+          <Property Type="Double" Name="GrossPay" />
+          <Property Type="Binary" Name="TimeStamp" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Type="DateTime" Name="LockDate" />
+        </EntityType>
+        <EntityType Name="vRpt_AccountingSummary">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="uID" />
+          </Key>
+          <Property Type="Int64" Name="uID" Nullable="false" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="String" Name="AccountCode" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AccountName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="JOBCOUNT" />
+          <Property Type="Decimal" Name="TotalSales" Precision="19" Scale="4" />
+          <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="FirstJobDate" />
+          <Property Type="DateTime" Name="LastJobDate" />
+          <Property Type="DateTime" Name="WSRCompletedDate" />
+        </EntityType>
+        <EntityType Name="vRpt_PartUsagePerJob">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="TaskQty" />
+            <PropertyRef Name="PartQty" />
+            <PropertyRef Name="PartUnitPrice" />
+          </Key>
+          <Property Type="Int32" Name="TicketNumber" Nullable="false" />
+          <Property Type="DateTime" Name="CallCompleted" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CustomerName" MaxLength="105" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobCity" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobState" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="String" Name="JobCode" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="TaskQty" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="String" Name="PartCode" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PartName" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="PartQty" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="PartCost" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="PartTotalCost" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="PartUnitPrice" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="PartTotalPrice" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="vRPT_MembershipInfo">
+          <Key>
+            <PropertyRef Name="MembershipID" />
+            <PropertyRef Name="CustomerID" />
+            <PropertyRef Name="MemberTypeID" />
+            <PropertyRef Name="CountCustomerVisits" />
+            <PropertyRef Name="JobCount" />
+            <PropertyRef Name="TotalSales" />
+            <PropertyRef Name="AverageJob" />
+            <PropertyRef Name="Payments" />
+            <PropertyRef Name="Balance" />
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Type="Int32" Name="MembershipID" Nullable="false" />
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="String" Name="CustomerName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Email" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PrimaryPhone" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CellPhone" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToCity" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToState" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BillToCountry" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="MemberTypeID" Nullable="false" />
+          <Property Type="String" Name="MemberType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="MembershipStartDate" />
+          <Property Type="DateTime" Name="MembershipEndDate" />
+          <Property Type="Int32" Name="req_TotalInspectionsPerYear" />
+          <Property Type="Int32" Name="CountOfInspections" />
+          <Property Type="DateTime" Name="LastDateInspected" />
+          <Property Type="DateTime" Name="LastCustomerVisit" />
+          <Property Type="Int32" Name="CountCustomerVisits" Nullable="false" />
+          <Property Type="Int32" Name="JobCount" Nullable="false" />
+          <Property Type="Decimal" Name="TotalSales" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="AverageJob" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Payments" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Balance" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vRpt_PayrollSetup">
+          <Key>
+            <PropertyRef Name="PayrollSetupID" />
+            <PropertyRef Name="FranchiseID" />
+            <PropertyRef Name="OvertimeStarts" />
+            <PropertyRef Name="OvertimeMethodID" />
+            <PropertyRef Name="OTMultiplier" />
+            <PropertyRef Name="OvertimeMethod" />
+          </Key>
+          <Property Type="Int32" Name="PayrollSetupID" Nullable="false" />
+          <Property Type="Int32" Name="FranchiseID" Nullable="false" />
+          <Property Type="Single" Name="OvertimeStarts" Nullable="false" />
+          <Property Type="Int32" Name="OvertimeMethodID" Nullable="false" />
+          <Property Type="Single" Name="OTMultiplier" Nullable="false" />
+          <Property Type="String" Name="OvertimeMethod" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vRpt_PayrollSpiff">
+          <Key>
+            <PropertyRef Name="PayrollSpiffID" />
+            <PropertyRef Name="PayrollSetupID" />
+            <PropertyRef Name="JobCodeID" />
+            <PropertyRef Name="ServiceProID" />
+            <PropertyRef Name="PayTypeID" />
+            <PropertyRef Name="PayType" />
+            <PropertyRef Name="Rate" />
+            <PropertyRef Name="AddonYN" />
+            <PropertyRef Name="ActiveYN" />
+          </Key>
+          <Property Type="Int32" Name="PayrollSpiffID" Nullable="false" />
+          <Property Type="Int32" Name="PayrollSetupID" Nullable="false" />
+          <Property Type="Int32" Name="JobCodeID" Nullable="false" />
+          <Property Type="String" Name="JobCode" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobCodeDescription" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ServiceProID" Nullable="false" />
+          <Property Type="Int32" Name="PayTypeID" Nullable="false" />
+          <Property Type="String" Name="PayType" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="Rate" Nullable="false" Precision="10" Scale="6" />
+          <Property Type="DateTime" Name="DateExpires" />
+          <Property Type="String" Name="Comments" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="AddonYN" Nullable="false" />
+          <Property Type="Boolean" Name="ActiveYN" Nullable="false" />
+          <Property Type="String" Name="Employee" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vRpt_OvertimeMethod">
+          <Key>
+            <PropertyRef Name="OvertimeMethodID" />
+            <PropertyRef Name="OvertimeMethod" />
+          </Key>
+          <Property Type="Int32" Name="OvertimeMethodID" Nullable="false" />
+          <Property Type="String" Name="OvertimeMethod" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vRpt_Employee">
+          <Key>
+            <PropertyRef Name="FranchiseID" />
+            <PropertyRef Name="FranchiseLegalName" />
+          </Key>
+          <Property Type="Int32" Name="FranchiseID" Nullable="false" />
+          <Property Type="String" Name="FranchiseNUmber" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FranchiseLegalName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Type="String" Name="Employee" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="CommissionRate" Precision="7" Scale="4" Nullable="false" />
+          <Property Type="Boolean" Name="ServiceProYN" Nullable="false" />
+          <Property Type="Boolean" Name="ActiveYN" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vRpt_JobCode">
+          <Key>
+            <PropertyRef Name="PriceBookID" />
+            <PropertyRef Name="PriceBookActiveYN" />
+            <PropertyRef Name="FranchiseID" />
+          </Key>
+          <Property Type="Int32" Name="PriceBookID" Nullable="false" />
+          <Property Type="String" Name="PriceBookName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="PriceBookActiveYN" Nullable="false" />
+          <Property Type="Int32" Name="JobCodeID" Nullable="false" />
+          <Property Type="Boolean" Name="ActiveYN" Nullable="false" />
+          <Property Type="String" Name="JobCode" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobCodeDescription" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="FranchiseID" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vRpt_SpiffPayType">
+          <Key>
+            <PropertyRef Name="SpiffPayTypeID" />
+            <PropertyRef Name="SpiffPayType" />
+          </Key>
+          <Property Type="Int32" Name="SpiffPayTypeID" Nullable="false" />
+          <Property Type="String" Name="SpiffPayType" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vRpt_AccountingDetail">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="JOBCOUNT" />
+            <PropertyRef Name="uID" />
+          </Key>
+          <Property Type="Int64" Name="uID" Nullable="false" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="String" Name="AccountCode" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AccountName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="JOBCOUNT" Nullable="false" />
+          <Property Type="Decimal" Name="TotalSales" Precision="19" Scale="4" />
+          <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="JobDate" />
+          <Property Type="DateTime" Name="WSRCompletedDate" />
+        </EntityType>
+        <EntityType Name="vRpt_WSR">
+          <Key>
+            <PropertyRef Name="TicketNumber" />
+            <PropertyRef Name="StatusID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="TotalSales" />
+            <PropertyRef Name="TaxAmount" />
+            <PropertyRef Name="SubTotal" />
+            <PropertyRef Name="BusinessTypeID" />
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="JobPriorityID" />
+            <PropertyRef Name="ServiceProID" />
+            <PropertyRef Name="Balance" />
+          </Key>
+          <Property Type="DateTime" Name="WSRCompletedDate" />
+          <Property Type="Int32" Name="TicketNumber" Nullable="false" />
+          <Property Type="DateTime" Name="CallCompleted" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ServiceID" />
+          <Property Type="String" Name="ServiceName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="TotalSales" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="TaxAmount" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="SubTotal" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="String" Name="TaxDescription" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="BusinessTypeID" Nullable="false" />
+          <Property Type="String" Name="BusinessType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CustomerName" MaxLength="103" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobAddress" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobCity" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobState" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="JobPostalCode" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="Int32" Name="JobPriorityID" Nullable="false" />
+          <Property Type="String" Name="JobPriority" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ServiceProID" Nullable="false" />
+          <Property Type="Decimal" Name="Balance" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="vRpt_WSR_Dates">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Type="DateTime" Name="WSRCompletedDate" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vRpt_CustomerLedger">
+          <Key>
+            <PropertyRef Name="LineId" />
+            <PropertyRef Name="ReferenceId" />
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="StoredBalance" />
+          </Key>
+          <Property Type="Int64" Name="Sequence" />
+          <Property Type="Int32" Name="CustomerId" Nullable="false" />
+          <Property Type="Int32" Name="LineId" Nullable="false" />
+          <Property Type="Int32" Name="ReferenceId" Nullable="false" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="Amount" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="ActualBalance" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="StoredBalance" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="DateTime" Name="RecordedDate" />
+          <Property Type="Boolean" Name="IsOutstanding" />
+          <Property Type="Decimal" Name="RunningBalance" Precision="19" Scale="4" />
+          <Property Type="Int32" Name="ClientId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vRpt_CustomerLedgerSummary">
+          <Key>
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Type="Int32" Name="ClientId" Nullable="false" />
+          <Property Type="Int32" Name="CustomerId" Nullable="false" />
+          <Property Type="Decimal" Name="Invoices" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Payments" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="OutstandingBalance" Precision="19" Scale="4" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ReportingModelStoreContainer" CdmEntityContainer="ReportingEntities">
+          <EntitySetMapping Name="vRpt_JobDetails">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_JobDetail">
+              <MappingFragment StoreEntitySet="vRpt_JobDetail">
+                <ScalarProperty Name="JobTaskID" ColumnName="JobTaskID" />
+                <ScalarProperty Name="IsAddOn" ColumnName="IsAddOn" />
+                <ScalarProperty Name="JobCodeDescription" ColumnName="JobCodeDescription" />
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_Jobs">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_Job">
+              <MappingFragment StoreEntitySet="vRpt_Job">
+                <ScalarProperty Name="EstimateDate" ColumnName="EstimateDate" />
+                <ScalarProperty Name="ReferralType" ColumnName="ReferralType" />
+                <ScalarProperty Name="ReferralID" ColumnName="ReferralID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+                <ScalarProperty Name="JobPriority" ColumnName="JobPriority" />
+                <ScalarProperty Name="JobPriorityID" ColumnName="JobPriorityID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="JobPostalCode" ColumnName="JobPostalCode" />
+                <ScalarProperty Name="JobState" ColumnName="JobState" />
+                <ScalarProperty Name="JobCity" ColumnName="JobCity" />
+                <ScalarProperty Name="JobAddress" ColumnName="JobAddress" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+                <ScalarProperty Name="BusinessTypeID" ColumnName="BusinessTypeID" />
+                <ScalarProperty Name="TaxDescription" ColumnName="TaxDescription" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="CallCompleted" ColumnName="CallCompleted" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_Customer">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_Customer">
+              <MappingFragment StoreEntitySet="vRpt_Customer">
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Payments" ColumnName="Payments" />
+                <ScalarProperty Name="AverageJob" ColumnName="AverageJob" />
+                <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+                <ScalarProperty Name="JobCount" ColumnName="JobCount" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="LastVisit" ColumnName="LastVisit" />
+                <ScalarProperty Name="BillToCountry" ColumnName="BillToCountry" />
+                <ScalarProperty Name="BillToPostalCode" ColumnName="BillToPostalCode" />
+                <ScalarProperty Name="BillToState" ColumnName="BillToState" />
+                <ScalarProperty Name="BillToCity" ColumnName="BillToCity" />
+                <ScalarProperty Name="BillToAddress" ColumnName="BillToAddress" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="PrimaryPhone" ColumnName="PrimaryPhone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_Payroll">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_Payroll">
+              <MappingFragment StoreEntitySet="vRpt_Payroll">
+                <ScalarProperty Name="LockDate" ColumnName="LockDate" />
+                <ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+                <ScalarProperty Name="LockedYN" ColumnName="LockedYN" />
+                <ScalarProperty Name="PayrollDate" ColumnName="PayrollDate" />
+                <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+                <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_PayrollDetail">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_PayrollDetail">
+              <MappingFragment StoreEntitySet="vRpt_PayrollDetail">
+                <ScalarProperty Name="LockDate" ColumnName="LockDate" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+                <ScalarProperty Name="OTAdditCommission" ColumnName="OTAdditCommission" />
+                <ScalarProperty Name="CommissionOTMultiplier" ColumnName="CommissionOTMultiplier" />
+                <ScalarProperty Name="CommissionRateHour" ColumnName="CommissionRateHour" />
+                <ScalarProperty Name="AdjustmentReason" ColumnName="AdjustmentReason" />
+                <ScalarProperty Name="Adjustment" ColumnName="Adjustment" />
+                <ScalarProperty Name="JobCount" ColumnName="JobCount" />
+                <ScalarProperty Name="SaturdayHours" ColumnName="SaturdayHours" />
+                <ScalarProperty Name="FridayHours" ColumnName="FridayHours" />
+                <ScalarProperty Name="ThursdayHours" ColumnName="ThursdayHours" />
+                <ScalarProperty Name="WednesdayHours" ColumnName="WednesdayHours" />
+                <ScalarProperty Name="TuesdayHours" ColumnName="TuesdayHours" />
+                <ScalarProperty Name="MondayHours" ColumnName="MondayHours" />
+                <ScalarProperty Name="SundayHours" ColumnName="SundayHours" />
+                <ScalarProperty Name="TotalCommission" ColumnName="TotalCommission" />
+                <ScalarProperty Name="CommissionSpifs" ColumnName="CommissionSpifs" />
+                <ScalarProperty Name="CommissionLabor" ColumnName="CommissionLabor" />
+                <ScalarProperty Name="CommissionParts" ColumnName="CommissionParts" />
+                <ScalarProperty Name="OTPay" ColumnName="OTPay" />
+                <ScalarProperty Name="OTRate" ColumnName="OTRate" />
+                <ScalarProperty Name="OTHours" ColumnName="OTHours" />
+                <ScalarProperty Name="RegularPay" ColumnName="RegularPay" />
+                <ScalarProperty Name="RegularRate" ColumnName="RegularRate" />
+                <ScalarProperty Name="RegularHours" ColumnName="RegularHours" />
+                <ScalarProperty Name="WeeklySalary" ColumnName="WeeklySalary" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="PayrollID" ColumnName="PayrollID" />
+                <ScalarProperty Name="PayrollDetailID" ColumnName="PayrollDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_AccountingSummary">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_AccountingSummary">
+              <MappingFragment StoreEntitySet="vRpt_AccountingSummary">
+                <ScalarProperty Name="WSRCompletedDate" ColumnName="WSRCompletedDate" />
+                <ScalarProperty Name="LastJobDate" ColumnName="LastJobDate" />
+                <ScalarProperty Name="FirstJobDate" ColumnName="FirstJobDate" />
+                <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+                <ScalarProperty Name="JOBCOUNT" ColumnName="JOBCOUNT" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="uID" ColumnName="uID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_PartUsagePerJob">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_PartUsagePerJob">
+              <MappingFragment StoreEntitySet="vRpt_PartUsagePerJob">
+                <ScalarProperty Name="PartTotalPrice" ColumnName="PartTotalPrice" />
+                <ScalarProperty Name="PartUnitPrice" ColumnName="PartUnitPrice" />
+                <ScalarProperty Name="PartTotalCost" ColumnName="PartTotalCost" />
+                <ScalarProperty Name="PartCost" ColumnName="PartCost" />
+                <ScalarProperty Name="PartQty" ColumnName="PartQty" />
+                <ScalarProperty Name="PartName" ColumnName="PartName" />
+                <ScalarProperty Name="PartCode" ColumnName="PartCode" />
+                <ScalarProperty Name="TaskQty" ColumnName="TaskQty" />
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="JobPostalCode" ColumnName="JobPostalCode" />
+                <ScalarProperty Name="JobState" ColumnName="JobState" />
+                <ScalarProperty Name="JobCity" ColumnName="JobCity" />
+                <ScalarProperty Name="JobAddress" ColumnName="JobAddress" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CallCompleted" ColumnName="CallCompleted" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRPT_MembershipInfo">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRPT_MembershipInfo">
+              <MappingFragment StoreEntitySet="vRPT_MembershipInfo">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Payments" ColumnName="Payments" />
+                <ScalarProperty Name="AverageJob" ColumnName="AverageJob" />
+                <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+                <ScalarProperty Name="JobCount" ColumnName="JobCount" />
+                <ScalarProperty Name="CountCustomerVisits" ColumnName="CountCustomerVisits" />
+                <ScalarProperty Name="LastCustomerVisit" ColumnName="LastCustomerVisit" />
+                <ScalarProperty Name="LastDateInspected" ColumnName="LastDateInspected" />
+                <ScalarProperty Name="CountOfInspections" ColumnName="CountOfInspections" />
+                <ScalarProperty Name="req_TotalInspectionsPerYear" ColumnName="req_TotalInspectionsPerYear" />
+                <ScalarProperty Name="MembershipEndDate" ColumnName="MembershipEndDate" />
+                <ScalarProperty Name="MembershipStartDate" ColumnName="MembershipStartDate" />
+                <ScalarProperty Name="MemberType" ColumnName="MemberType" />
+                <ScalarProperty Name="MemberTypeID" ColumnName="MemberTypeID" />
+                <ScalarProperty Name="BillToCountry" ColumnName="BillToCountry" />
+                <ScalarProperty Name="BillToPostalCode" ColumnName="BillToPostalCode" />
+                <ScalarProperty Name="BillToState" ColumnName="BillToState" />
+                <ScalarProperty Name="BillToCity" ColumnName="BillToCity" />
+                <ScalarProperty Name="BillToAddress" ColumnName="BillToAddress" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="PrimaryPhone" ColumnName="PrimaryPhone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="MembershipID" ColumnName="MembershipID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_PayrollSetup">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_PayrollSetup">
+              <MappingFragment StoreEntitySet="vRpt_PayrollSetup">
+                <ScalarProperty Name="OvertimeMethod" ColumnName="OvertimeMethod" />
+                <ScalarProperty Name="OTMultiplier" ColumnName="OTMultiplier" />
+                <ScalarProperty Name="OvertimeMethodID" ColumnName="OvertimeMethodID" />
+                <ScalarProperty Name="OvertimeStarts" ColumnName="OvertimeStarts" />
+                <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+                <ScalarProperty Name="PayrollSetupID" ColumnName="PayrollSetupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_PayrollSpiff">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_PayrollSpiff">
+              <MappingFragment StoreEntitySet="vRpt_PayrollSpiff">
+                <ScalarProperty Name="Employee" ColumnName="Employee" />
+                <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+                <ScalarProperty Name="AddonYN" ColumnName="AddonYN" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="DateExpires" ColumnName="DateExpires" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="PayType" ColumnName="PayType" />
+                <ScalarProperty Name="PayTypeID" ColumnName="PayTypeID" />
+                <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+                <ScalarProperty Name="JobCodeDescription" ColumnName="JobCodeDescription" />
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+                <ScalarProperty Name="PayrollSetupID" ColumnName="PayrollSetupID" />
+                <ScalarProperty Name="PayrollSpiffID" ColumnName="PayrollSpiffID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_OvertimeMethod">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_OvertimeMethod">
+              <MappingFragment StoreEntitySet="vRpt_OvertimeMethod">
+                <ScalarProperty Name="OvertimeMethod" ColumnName="OvertimeMethod" />
+                <ScalarProperty Name="OvertimeMethodID" ColumnName="OvertimeMethodID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_Employee">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_Employee">
+              <MappingFragment StoreEntitySet="vRpt_Employee">
+                <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+                <ScalarProperty Name="ServiceProYN" ColumnName="ServiceProYN" />
+                <ScalarProperty Name="CommissionRate" ColumnName="CommissionRate" />
+                <ScalarProperty Name="Employee" ColumnName="Employee" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FranchiseLegalName" ColumnName="FranchiseLegalName" />
+                <ScalarProperty Name="FranchiseNUmber" ColumnName="FranchiseNUmber" />
+                <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_JobCode">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_JobCode">
+              <MappingFragment StoreEntitySet="vRpt_JobCode">
+                <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+                <ScalarProperty Name="JobCodeDescription" ColumnName="JobCodeDescription" />
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="ActiveYN" ColumnName="ActiveYN" />
+                <ScalarProperty Name="JobCodeID" ColumnName="JobCodeID" />
+                <ScalarProperty Name="PriceBookActiveYN" ColumnName="PriceBookActiveYN" />
+                <ScalarProperty Name="PriceBookName" ColumnName="PriceBookName" />
+                <ScalarProperty Name="PriceBookID" ColumnName="PriceBookID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_SpiffPayType">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_SpiffPayType">
+              <MappingFragment StoreEntitySet="vRpt_SpiffPayType">
+                <ScalarProperty Name="SpiffPayType" ColumnName="SpiffPayType" />
+                <ScalarProperty Name="SpiffPayTypeID" ColumnName="SpiffPayTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_AccountingDetail">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_AccountingDetail">
+              <MappingFragment StoreEntitySet="vRpt_AccountingDetail">
+                <ScalarProperty Name="WSRCompletedDate" ColumnName="WSRCompletedDate" />
+                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
+                <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+                <ScalarProperty Name="JOBCOUNT" ColumnName="JOBCOUNT" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="uID" ColumnName="uID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_WSR">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_WSR">
+              <MappingFragment StoreEntitySet="vRpt_WSR">
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="ServiceProID" ColumnName="ServiceProID" />
+                <ScalarProperty Name="JobPriority" ColumnName="JobPriority" />
+                <ScalarProperty Name="JobPriorityID" ColumnName="JobPriorityID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="JobPostalCode" ColumnName="JobPostalCode" />
+                <ScalarProperty Name="JobState" ColumnName="JobState" />
+                <ScalarProperty Name="JobCity" ColumnName="JobCity" />
+                <ScalarProperty Name="JobAddress" ColumnName="JobAddress" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="BusinessType" ColumnName="BusinessType" />
+                <ScalarProperty Name="BusinessTypeID" ColumnName="BusinessTypeID" />
+                <ScalarProperty Name="TaxDescription" ColumnName="TaxDescription" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="TotalSales" ColumnName="TotalSales" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="CallCompleted" ColumnName="CallCompleted" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="WSRCompletedDate" ColumnName="WSRCompletedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_WSR_Dates">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_WSR_Dates">
+              <MappingFragment StoreEntitySet="vRpt_WSR_Dates">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="WSRCompletedDate" ColumnName="WSRCompletedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_CustomerLedger">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_CustomerLedger">
+              <MappingFragment StoreEntitySet="vRpt_CustomerLedger">
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="RunningBalance" ColumnName="RunningBalance" />
+                <ScalarProperty Name="IsOutstanding" ColumnName="IsOutstanding" />
+                <ScalarProperty Name="RecordedDate" ColumnName="RecordedDate" />
+                <ScalarProperty Name="StoredBalance" ColumnName="StoredBalance" />
+                <ScalarProperty Name="ActualBalance" ColumnName="ActualBalance" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ReferenceId" ColumnName="ReferenceId" />
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vRpt_CustomerLedgerSummary">
+            <EntityTypeMapping TypeName="SiteBlue.Data.Reporting.vRpt_CustomerLedgerSummary">
+              <MappingFragment StoreEntitySet="vRpt_CustomerLedgerSummary">
+                <ScalarProperty Name="OutstandingBalance" ColumnName="OutstandingBalance" />
+                <ScalarProperty Name="Payments" ColumnName="Payments" />
+                <ScalarProperty Name="Invoices" ColumnName="Invoices" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ReportingEntities">
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_JobDetail" Width="1.5" PointX="2.25" PointY="0.5" Height="2.9417936197916674" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_Job" Width="1.5" PointX="4.375" PointY="0.75" Height="5.2494108072916674" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_Customer" Width="1.5" PointX="0.75" PointY="4.75" Height="4.2879036458333317" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_Payroll" Width="1.5" PointX="6.375" PointY="0.75" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_PayrollDetail" Width="1.5" PointX="6.375" PointY="2.875" Height="6.5955208333333317" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_Membership" Width="1.5" PointX="6.375" PointY="4.75" Height="4.2879036458333317" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_AccountingSummary" Width="1.5" PointX="8.75" PointY="0.875" Height="2.9417936197916665" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_PayrollDetail" Width="1.5" PointX="6.375" PointY="4.25" Height="6.5955208333333317" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_AccountingSummary" Width="1.5" PointX="6.375" PointY="0.75" Height="2.9417936197916665" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_PartUsagePerJob" Width="1.5" PointX="3.375" PointY="7.75" Height="4.8648079427083317" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRPT_MembershipInfo" Width="1.5" PointX="10.625" PointY="0.875" Height="6.0186165364583353" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_PayrollSetup" Width="1.5" PointX="8.75" PointY="4.25" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_PayrollSpiff" Width="1.5" PointX="8.375" PointY="7.75" Height="3.5186979166666674" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_OvertimeMethod" Width="1.5" PointX="0.75" PointY="10.75" Height="1.4033821614583353" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_Employee" Width="1.5" PointX="5.375" PointY="10.75" Height="2.5571907552083317" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_JobCode" Width="1.5" PointX="10.375" PointY="7.75" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_SpiffPayType" Width="1.5" PointX="10.375" PointY="11.75" Height="1.4033821614583388" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRPT_MembershipInfo" Width="1.5" PointX="8.375" PointY="0.75" Height="6.0186165364583353" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_AccountingDetail" Width="1.5" PointX="8.375" PointY="7.75" Height="2.9417936197916674" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_WSR" Width="1.5" PointX="12.375" PointY="7.75" Height="5.4417122395833246" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_WSR_Dates" Width="1.5" PointX="7.375" PointY="12.75" Height="1.4033821614583246" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_CustomerLedger" Width="1.5" PointX="13.375" PointY="0.75" Height="3.1340950520833388" />
+        <EntityTypeShape EntityType="SiteBlue.Data.Reporting.vRpt_CustomerLedgerSummary" Width="1.5" PointX="0.75" PointY="13.75" Height="1.9802864583333388" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

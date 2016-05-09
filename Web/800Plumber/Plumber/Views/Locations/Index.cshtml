@@ -1,0 +1,100 @@
+﻿@model List<Plumber.Models.Location>
+@{
+    ViewBag.Title = "Index";
+}
+@section Meta{
+    <title>Service Locations of 1-800-PLUMBER</title>
+    <meta name="description" content="1-800-PLUMBER provides plumbing services in Amarillo ,Augusta ,Dallas, Danbury, Greenville, Mesa, AZ Pearland and Stamford." />
+    <meta name="keywords" content="service locations of 1-800-PLUMBER" />
+}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="rowtitle">
+                Locations
+            </div>
+            <div class="shadeinnerpage">
+                <div class="maincontent">
+                    <p>
+                        1-800-PLUMBER® is here to serve you. With locations throughout the country, we have
+                        you covered when it comes to plumbing, drain cleaning, even heating and cooling
+                        services for both residential and commercial customers.
+                    </p>
+                    <p>
+                        Each 1-800-PLUMBER® location is locally owned and operated, so trust that you will
+                        receive prompt, courteous service from a skilled technician in your community.
+                    </p>
+                    <p>
+                        You can trust 1-800-PLUMBER® to give you superior service with no overtime charges
+                        and there are never extra charges for nights, weekends or holidays. We guarantee
+                        our work – from the technician that enters your home to work performed to the price
+                        you pay. @Html.ActionLink("Know that you can count on 1-800-PLUMBER when you need us most", "Index", "Guarantee", null, new { @class = "bluelinks" }).
+                    </p>
+                </div>
+                <div style="width: 330px; float: left; padding: 60px 0 0 0" class="servicemenu">
+                    <ul>
+                        @foreach (var item in Model)
+                        {
+                            <li>@Html.ActionLink(item.LocationName + ", " + item.State, "Special", "Locations", new { id = item.LocationId }, null)</li>
+                        }
+                    </ul>
+                </div>
+                @*<div class="side">
+                    <img src="@Url.Content("~/Content/images/logo.gif")"
+                        alt="Logo" width="162" height="42" /></div>*@
+                <div class="side">
+                    <p>
+                        Providing plumbing, drain cleaning, heating and cooling, and air quality service
+                        to residential and commercial customers.</p>
+                    <img src="@Url.Content("~/Content/Images/location-list.jpg")" alt="" />
+                </div>
+                @*<div class="side">
+                    <h2>
+                        We can install it, repair it, or replace it!</h2>*@
+                @*</div>*@
+            </div>
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+        <td width="260" align="right" valign="top">
+            <div class="col-right">
+                @Html.Partial("NearestLocation")
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/location-new.jpg")"
+                alt="Locations" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li class="highlight"><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}

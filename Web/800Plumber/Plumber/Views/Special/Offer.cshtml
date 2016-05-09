@@ -1,0 +1,76 @@
+﻿@model Plumber.Models.Offer
+@{
+    ViewBag.Title = "Offer";
+}
+@section Meta{
+    <title>Heating Air Conditioning, Emergency Plumbing Repair Service, Drain Cleaning</title>
+    <meta name="description" content="1-800-PLUMBER offers 24 hour emergency plumbing services, electrical repair, drain cleaning and heating air conditioning repairing service in United States and Canada." />
+    <meta name="keywords" content="plumbing services,heating air conditioning,emergency plumbing service,plumbing repair,drain cleaning,24 hour plumbing service,electrical repair" />
+}
+@Html.HiddenFor(model => model.OfferId)
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="left" valign="top">
+            <div class="shadeinnerpage">
+                <div class="greytitle">
+                    @Html.Raw(Model.Title)
+                    <br />
+                    <span class="frabchise-title-grey">
+                    @Html.Raw(Model.SubTitle)</span>
+                </div>
+                <div class="maincontent">
+                    @*Content*@
+                    @Html.Raw(Model.Content)
+                    @*End of content*@
+                </div>
+                <div class="maincontent">
+                    <div class="backbtn">
+                        @*@Html.ActionLink("Go back to Special Offer ", "Index", "Special")*@
+                        <a href="javascript:history.back(1)">Go back to Special Offer</a>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td width="10" align="left" valign="top">
+            &nbsp;
+        </td>
+        <td width="260" align="right" valign="top">
+            <div class="col-right">
+                @Html.Partial("NearestLocation")
+            </div>
+        </td>
+    </tr>
+</table>
+@section HeaderImage{
+    <div class="aboutus">
+        <img src="@Url.Content("~/Content/images/services-banner.jpg")" alt="Services" width="1004" height="187" /></div>
+}
+@section Navigation{
+    <div class="navigation">
+        <div class="menu bubplastic horizontal orange">
+            <ul>
+                <li><span class="menu_r"><a href="@Url.Content("~/")" title="1-800-PLUMBER"><span class="menu_ar">home</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/Locations")" title="Plumbing Services Locations">
+                    <span class="menu_ar">Locations</span></a></span></li>
+                <li class="highlight"><span class="menu_r"><a href="@Url.Content("~/Services")" title="Plumbing and Drain CleaningServices"><span class="menu_ar">
+                    Services</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/AboutUs")" title=" About 1-800-PLUMBER"><span class="menu_ar">About
+                    us </span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/TerritoryOwners")"><span
+                    class="menu_ar">Territory Owners</span></a></span></li>
+                <li><span class="menu_r"><a href="@Url.Content("~/ContactUs")" title="Contact for Plumbing and Heating air conditioning"><span class="menu_ar">
+                    Contact Us</span></a></span></li>
+                @if(Request.IsAuthenticated) {
+                    <li><span class="menu_r"><a href="@Url.Content("~/LandingPage/Dashboard")" title="1-800-PLUMBER Dashboard"><span class="menu_ar">
+                        Dashboard</span></a></span></li>
+                    <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOff")"><span class="menu_ar">Log Off </span></a></span></li>
+                }
+                else
+                {
+                 <li><span class="menu_r"><a href="@Url.Content("~/SGAccount/LogOn")"><span class="menu_ar">Log On </span></a></span></li>
+                }
+            </ul>
+            <br class="clearit" />
+        </div>
+    </div>
+}
